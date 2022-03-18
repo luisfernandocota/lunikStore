@@ -1,0 +1,89 @@
+{% load thumbnail %}
+{% load tags %}
+{% load humanize %}
+        <div class="cart-bar">          
+            <div class="control-your-long-honey">
+                <button class="btn btn-cart cartBarToggle mt-2 mb-2"><i class="bi bi-x" style="font-size: 25px;"></i></button>    
+                <h5>Carrito <i class="bi bi-bag"></i></h5>
+
+                {% if cart and cart.get_quantity_products > 0 %}
+                <ul class="list-group mt-3">
+                    {% for item in cart %}
+                    {% if forloop.counter <= 3 %}
+                    {% for key in item.variants.keys %}
+
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-3">
+                                {% with image=item.product.products_gallery.all.first.image %}
+                                {% thumbnail image '92x92' crop='center' as img %}
+                                <img src="{{image.url}}" class="w-100 cart-products d-block mx-auto"  alt="">
+                                {% endthumbnail %}
+                                {% endwith %}
+                            </div>
+                            <div class="col-9">
+                                <div class="d-flex justify-content-between cart-element">
+                                    <div>
+                                        <h6 style="cursor:pointer;" onclick="sendPage('{% url 'shop:product_detail' item.product.slug %}');">{{item.product}}</h6>
+                                        <p>
+                                        {% if item.product.is_sale %}
+										$ {{item.product.products_properties.sale_price}}
+										{% else %}
+										$ {{item.product.products_properties.sell_price}}
+										{% endif %}
+                                        </p>
+                                        {% comment %} <small>Descuento %10 | PROMO FEB2021</small> {% endcomment %}
+                                    </div>
+                                    <div>
+                                        <p class="text-center pb-0 mb-0">cant. {{key|get_quantity_cart:item}}</p>
+                                        <button class="btn btn-cart mt-2 mb-5 remove-cart-item" data-url="{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'shop:cart_remove' %}"
+                                                data-product="{{item.product.pk}}" data-size="{{key|get_sizes_cart:item}}"
+                                                data-checkout="0">
+                                            <i class="bi bi-trash" style="font-size: 18px;"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    {% endfor %}
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+                <div class="cart-bar-total-container">
+                    <div class="row pt-4">
+                        <div class="col">
+                            <h6>Envio:</h6>
+                            <p class="">
+                                Se mostrará en la sección del carrito
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row pt-4">
+                        <div class="col">
+                            <h6>Total:</h6>
+                            <h5 class="">$ {{cart.get_subtotal_products|intcomma}}</h5>
+                        </div>
+                        <div class="col">
+                        <button onclick="sendPage('{% url 'shop_cart:cart_detail' %}');" type="button" class="four-buttons d-block mx-auto">Ver carrito</button>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="empty-cart">
+                    <div>
+                        <p class="">Aún no tienes artículos en tu carrito. Está bien, pronto encontrarás lo que buscas. </p>
+                        <h6 class="">¡Continúa navegando!</h6>
+                    </div>
+                </div>
+                <div class="cart-bar-total-container">
+                    <div class="row">
+                        <div class="col">
+                            <button onclick="sendPage('{% url 'shop_cart:products_list' %}');" type="button" class="four-buttons">Ver catálogo de productos</button>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>

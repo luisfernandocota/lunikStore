@@ -1,0 +1,44 @@
+{% extends 'base_shop.html' %}
+
+{% load humanize %}
+{% load thumbnail %}
+{% block title %}{{store_instance.name}}{% endblock title %}
+
+{% block subtitle %} Error en el pago {% endblock subtitle %}
+{% block cart %}
+{% include 'shop/includes/partial_cart_detail.html' %}
+{% endblock cart %}
+{% block menu %}
+{% include 'shop/includes/partial_menu.html' %}
+{% endblock menu %}
+{% block cart_mobile %}
+{% include 'shop/includes/partial_cart_mobile_detail.html' %}
+{% endblock cart_mobile %}
+{% block content %}
+<div class="container-fluid mt-4 pt-4">
+  <div class="row mt-4">
+    <div class="col-md-12 col-lg-12 mb-4" style="margin-top: 3.5rem; text-align: center;">
+      <i class="far fa-times-circle fa-7x animated infinite heartBeat slow mt-2 pt-2" style="color:Lunik Diseño;"></i>
+      <p class="mt-4 textCompra">¡UPS! Algo salió mal...</p>
+      <p class="mb-0 desCompra">Tarjeta inválida</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <p class="text-center desCompra">Tenemos problemas para procesar su pago con su tarjeta de <span
+          style="color:Lunik Diseño">débito / crédito </span></p>
+    </div>
+    <div class="offset-md-4 col-md-4 col-lg-4">
+      <p class="folio mb-4" style="text-align: center;"><span class="font-weight-bold">FAVOR DE VERIFICARLA</span></p>
+    </div>
+  </div>
+  <div class="row" style="text-align: -webkit-center;">
+    <div class="col-md-12 col-lg-12">
+      <a class="btn btn-checkout d-flex justify-content-center align-items-center"
+        href="{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'shop_cart:cart_checkout' %}">
+        Reintentarlo
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock content %}

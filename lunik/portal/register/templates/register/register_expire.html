@@ -1,0 +1,54 @@
+{% extends 'base_shop.html' %}
+{% block title %}{{store_instance.name}}{% endblock title %}
+
+{% block subtitle %}¡Hemm...!{% endblock subtitle %}
+{% block menu %}
+{% include 'shop/includes/partial_menu.html' %}
+{% endblock menu %}
+{% block content %}
+<section class="bgwhite p-t-26 p-b-60">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 p-b-30">
+                <div class="hov-img-zoom text-center">
+                    {% if store_instance.store_meta.logo %}
+                    <img src="{{store_instance.store_meta.logo.url}}" alt="IMG-ABOUT" style="max-height: 300px; width: auto;">
+                    {% else %}
+                    <img src="{{STATIC_URL}}site/images/icons/4shop.svg" alt="IMG-ABOUT" style="max-height: 300px; width: auto;">
+          
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-6 p-b-30">
+                <h3 class="m-text26 p-t-15 p-b-16">
+                    ¡Hemm...!
+                </h3>
+
+                <p class="p-b-28">
+                    Esta cuenta ya ha sido activada anteriormente. <br>
+                    <a href="{% url 'password_reset' %}">¿Haz olvidado tu contraseña?</a>
+                </p>
+
+                <div class="bo13 p-l-29 m-l-9 p-b-10">
+
+                    <span class="s-text7">
+                        Bienvenido a <strong>{{store_instance.name}}</strong>
+                    </span>
+
+                </div>
+                <div class="p-b-10 p-t-20">
+                    <a href="{% url 'register:login' %}" class="flex-c-m size9 bg1 bo-rad-23 hov1 m-text3 trans-0-4">
+                        Iniciar sesión
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- /login card -->
+{% endblock content %}
+
+<!-- Form fields errors -->
+{% block docready %}
+{% include 'core/snippets/form_validation.html' %}
+{% endblock docready %}

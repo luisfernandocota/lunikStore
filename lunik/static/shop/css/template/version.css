@@ -1,0 +1,209 @@
+
+/* Configuraciones de diferentes versiones del template  */
+/* WHITE  */
+
+body.white{
+    background: white !important;
+}
+body.white section.template{
+    background-color: white;
+}
+body.white .color-text-carousel-item, body.white .color-text-category-item{
+    color: white;
+}
+body.white .brand-ribbon-text{
+    color: white;
+}
+body.white .mega-menu {
+    background: white !important;
+}
+body.white .mega-menu a{
+    color: black !important;
+}
+body.white .mega-menu a{
+    color: white !important;
+}
+body.white .principal-menu-container{
+    background-color: white; 
+    transition: .3s;
+}
+body.white .principal-menu-container a{
+    color: black; 
+}
+body.white .cart-bar, body.white .mobile-menu, body.white .mobile-user-menu {
+    background: white;
+}
+body.white .mobile-menu *
+{
+    color: black !important;
+}
+body.white h1, body.white h2, body.white h3, body.white h4, body.white h5,body.white h6,body.white a,body.white p, body.white div{
+    color: black;
+}
+body.white .btn-cart{
+    color: black;
+}
+body.white .icon-service-container {
+    background: black;
+}
+body.white .icon-service-container i{
+    color: white;
+}
+body.white .principal-menu-mobile *{
+    color: black !important;
+}
+body.white .post-footer {
+    background-color:white;
+}
+body.white .post-footer *{
+    color:black !important;
+}
+body.white .cartBarToggle{
+    color: black;
+}
+body.white .panelToggle{
+    color: black;
+}
+body.white .four-buttons{
+    background-color: black;
+    border: 1px solid transparent;
+    color: white;
+    transition: .5s;
+}
+body.white .four-buttons:hover{
+    background-color: white;
+    border: 1px solid black;
+    color: black;
+    transition: .2s;
+}
+
+body.white .card-body {
+    background: white;
+}
+body.white .modal-content{
+    background: white;
+}
+
+
+/* BLACK  */
+body.black .logo-brand-store{
+    filter: brightness(0) invert(1);
+}
+body.black{
+    background-color: #1c1c1c;
+}
+body.black section.template{
+    background-color: #1c1c1c;
+}
+body.black .color-text-carousel-item, body.black .color-text-category-item{
+    color: white;
+}
+body.white .brand-ribbon-text{
+    color: white;
+}
+body.black .mega-menu {
+    background: #1c1c1c !important;
+}
+body.black .mega-menu a{
+    color: white !important;
+}
+body.black .principal-menu-container{
+    background-color: #1c1c1c; 
+    transition: .3s;
+}
+body.black .principal-menu-container a{
+    color: white; 
+}
+body.black .cart-bar,body.black .mobile-menu, body.black .mobile-user-menu {
+    background: #1c1c1c;
+}
+body.black .mobile-menu *
+{
+    color: white !important;
+}
+body.black h1, body.black h2, body.black h3, body.black h4, body.black h5,body.black h6,body.black a,body.black p, body.black div{
+    color: white;
+}
+body.black .btn-cart{
+    color: white;
+}
+body.black .icon-service-container {
+    background: white;
+}
+body.black .icon-service-container i{
+    color: black;
+}
+body.black .principal-menu-mobile *{
+    color: white !important;
+}
+body.black .post-footer {
+    background-color: #171616;
+}
+body.black .post-footer *{
+    color:white !important;
+}
+body.black .cartBarToggle{
+    color: white;
+}
+body.black .panelToggle{
+    color: white;
+}
+body.black .four-buttons{
+    background-color: white;
+    border: 1px solid transparent;
+    color: black;
+    transition: .5s;
+}
+body.black .four-buttons:hover{
+    background-color: black;
+    border: 1px solid black;
+    color: white;
+    transition: .2s;
+}
+
+body.black .card-body {
+    background: black;
+}
+body.black .modal-content{
+    background: black;
+}
+
+
+
+
+ /* Para ambos  */
+body.black .counter-shop-products,
+body.white .counter-shop-products
+{
+    color: white !important;
+}
+
+.shopping-cart-container h1, 
+.shopping-cart-container h2, 
+.shopping-cart-container h3, 
+.shopping-cart-container h4, 
+.shopping-cart-container h5, 
+.shopping-cart-container h6, 
+.shopping-cart-container a, 
+.shopping-cart-container p, 
+.shopping-cart-container div,
+.panel-container div,
+.panel-container p,
+.panel-container h1, 
+.panel-container h2, 
+.panel-container h3, 
+.panel-container h4, 
+.panel-container h5, 
+.panel-container h6
+{
+    color: black !important;
+}
+
+body.white .panel-user-backoffice,body.black .panel-user-backoffice *{
+    color: initial;
+}
+
+/* ///// Configuraciones de diferentes versiones del template  */
+
+
+

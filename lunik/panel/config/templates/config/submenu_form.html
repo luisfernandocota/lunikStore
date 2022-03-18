@@ -1,0 +1,190 @@
+ {% extends 'base.html' %}
+ {% load thumbnail %}
+
+ {% block subtitle %}{% if submenu_obj %} Editar Submenú {% else %} Agregar Submenú {% endif %}{% endblock subtitle %}
+
+ {% block header %} Submenú{% endblock header %}
+
+ {% block subheader %}{% if submenu_obj %} Editar Submenú {% else %} Agregar Submenú {% endif %}{% endblock subheader %}
+
+ {% block customcss %}
+   <link href="{{STATIC_URL}}assets/css/plugins/touchspin/jquery.bootstrap-touchspin.min.css" rel="stylesheet">
+ {% endblock %}
+
+ {% block content %}
+   <!-- <div class="col-lg-12">
+     <div class="ibox float-e-margins">
+       <div class="ibox-title">
+         <h5>{% if submenu_obj %} Editar Submenú {% else %} Agregar Submenú {% endif %}</h5>
+       </div>
+       <div class="ibox-content">
+         <div class="row">
+           <div class="col-sm-12 b-r">
+             <form role="form" method="post" action="" enctype="multipart/form-data">
+               {% csrf_token %}
+               {% include 'core/snippets/form_messages.html' with form=submenu_form %}
+               <div class="col-sm-6">
+                 <div class="form-group">
+                   <label id="{{submenu_form.item.label}}">{{submenu_form.item.label}}</label>
+                   {{submenu_form.item}}
+                 </div>
+               </div>
+               <div class="col-sm-6">
+                 <div class="form-group">
+                 <label id="{{submenu_form.title.label}}">{{submenu_form.title.label}}</label>
+                  {{submenu_form.title}}
+                </div>
+               </div>
+               <div class="col-sm-4">
+                 <div class="form-group">
+                   <label id="{{menu_form.module.label}}">{{submenu_form.module.label}}</label>
+                   {{submenu_form.module}}
+                 </div>
+               </div>
+               <div class="col-sm-4">
+                 <div class="form-group">
+                   <label id="{{submenu_form.url.label}}">{{submenu_form.url.label}}</label>
+                   {{submenu_form.url}}
+                 </div>
+               </div>
+               <div class="col-sm-4">
+                 <div class="form-group">
+                   <label id="{{submenu_form.order.label}}">{{submenu_form.order.label}}</label>
+                   {{submenu_form.order}}
+                 </div>
+               </div>
+               <div class="col-sm-3">
+                 <div class="submenu_form-group">
+                   <label>{{submenu_form.is_store.label}}</label>
+                   <div class="i-checks">
+                     {{submenu_form.is_store}}
+                   </div>
+                </div>
+               </div>
+               <div class="form-group">
+                 <div class="col-sm-12">
+                   <a href="{% url 'config:submenu_list' %}" class="btn btn-white">Cancelar</a>
+                   <button class="btn btn-success" type="submit">Guardar</button>
+                 </div>
+               </div>
+             </form>
+           </div>
+       </div>
+     </div>
+   </div>
+ </div> -->
+ <div class="page-title">
+  <div class="row">
+      <div class="col-12 col-md-6 order-md-1 order-last">
+          <h3>Submenú</h3>
+          <p class="text-subtitle text-muted">{% if submenu_obj %} Editar Submenú {% else %} Agregar Submenú {% endif %}</p>
+      </div>
+      <div class="col-12 col-md-6 order-md-2 order-first">
+          <nav aria-label="breadcrumb" class='breadcrumb-header'>
+              <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a class="text-lunik" href="{% url 'config:menu_list' %}">Submenú</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">{% if submenu_obj %} Editar  {% else %} Agregar  {% endif %}</li>
+              </ol>
+          </nav>
+      </div>
+  </div>
+</div>
+ <!-- // Basic multiple Column Form section start -->
+<section id="multiple-column-form">
+  <div class="row match-height">
+      <div class="col-12">
+          <div class="card">
+              <!-- <div class="card-header">
+                  <h4 class="card-title">Nuevo menú</h4>
+              </div> -->
+              <div class="card-content">
+                  <div class="card-body">
+                    <form role="form" method="post" action="" enctype="multipart/form-data">
+                      {% csrf_token %}
+                        <div class="row">
+                              <div class="col-md-6 col-12">
+                                  <div class="form-group">
+                                      <label for="{{submenu_form.item.label}}">{{submenu_form.item.label}}</label>
+                                      {{submenu_form.item}}
+                                   </div>
+                              </div>
+                              <div class="col-md-6 col-12">
+                                  <div class="form-group">
+                                      <label for="{{submenu_form.title.label}}">{{submenu_form.title.label}}</label>
+                                      {{submenu_form.title}}
+                                  </div>
+                              </div>
+                              <div class="col-md-6 col-12">
+                                <div class="form-group">
+                                    <label for="{{submenu_form.module.label}}">{{submenu_form.module.label}}</label>
+                                    {{submenu_form.module}}
+                                </div>
+                              </div>
+                              <div class="col-md-6 col-12">
+                                <div class="form-group">
+                                    <label for="{{submenu_form.url.label}}">{{submenu_form.url.label}}</label>
+                                    {{submenu_form.url}}
+                                </div>
+                              </div>
+                              <div class="col-md-3 col-12">
+                                <div class="form-group">
+                                    <label for="{{submenu_form.icon.label}}">{{submenu_form.icon.label}}</label>
+                                    {{submenu_form.icon}}
+                                </div>
+                              </div>
+                              <div class="col-md-3 col-12">
+                                <div class="form-group">
+                                    <label for="{{submenu_form.order.label}}">{{submenu_form.order.label}}</label>
+                                    {{submenu_form.order}}
+                                </div>
+                              </div>
+                              <div class="col-md-2 col-12">
+                                <div class="form-group">
+                                  <div class='form-check'>
+                                    <div class="custom-control custom-checkbox">
+                                        {{submenu_form.is_store}}
+                                        <label class="form-check-label"
+                                            for="{{submenu_form.is_store.label}}">{{submenu_form.is_store.label}}</label>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="col-12 d-flex justify-content-end">
+                                  <button type="submit" class="btn btn-primary me-1 mb-1">Guardar</button>
+                                  {% if not submenu_obj %}
+                                  <button type="reset" class="btn btn-light-secondary me-1 mb-1">Limpiar</button>
+                                  {% endif %}
+                                  <a href="{% url 'config:submenu_list' %}"class="btn btn-light-secondary me-1 mb-1">Cancelar</a>
+                              </div>
+                          </div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
+<!-- // Basic multiple Column Form section end --> 
+ {% endblock content %}
+
+  {% block customjs %}
+    <!-- TouchSpin -->
+    <script src="{{STATIC_URL}}assets/js/plugins/touchspin/jquery.bootstrap-touchspin.min.js"></script>
+  {% endblock %}
+ <!-- validation form snippet -->
+ {% block docready %}
+   {% include 'core/snippets/form_validation.html' with form=subsubmenu_form %}
+   {% include 'core/snippets/messages_error.html' with form=subsubmenu_form %}
+
+     $(".touchspin").TouchSpin({
+      buttondown_class: 'btn btn-white',
+       buttonup_class: 'btn btn-white'
+    });
+
+    var elem2 = document.querySelector('.js-switch2');
+    var switchery = new Switchery(elem2, { color: '#1AB394' });
+
+    $(".select2").select2();
+
+{% endblock %}

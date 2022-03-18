@@ -1,0 +1,341 @@
+{% extends 'base.html' %}
+
+{% load thumbnail %}
+
+{% block subtitle %}{% if product_obj %} Editar producto {% else %} Agregar producto {% endif %}{% endblock subtitle %}
+
+{% block header %}Productos{% endblock header %}
+
+{% block subheader %}{% if product_obj %} Editar producto {% else %} Agregar producto {% endif %}{% endblock subheader %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{STATIC_URL}}assets/vendors/quill/quill.bubble.css">
+<link rel="stylesheet" href="{{STATIC_URL}}assets/vendors/quill/quill.snow.css">
+<link rel="stylesheet" href="{{STATIC_URL}}assets/vendors/choices.js/choices.min.css" />
+<style>
+    body {
+        background-color: #f8f8f8 !important;
+    }
+
+    .dz {
+        border: none !important;
+        background-color: #fff !important;
+        border-radius: 10px !important;
+    }
+</style>
+<link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+
+{% endblock styles %}
+{% block js %}
+<script src="{{STATIC_URL}}assets/vendors/quill/quill.min.js"></script>
+<script src="{{STATIC_URL}}assets/js/pages/form-editor.js"></script>
+<script src="{{STATIC_URL}}assets/vendors/choices.js/choices.min.js"></script>
+<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+<script>
+    Dropzone.autoDiscover = false;
+</script>
+
+{% endblock js %}
+
+{% block content %}
+<div class="page-title">
+    <div class="row">
+        <div class="col-12 col-md-6 order-md-1 order-last">
+            <h3>Productos</h3>
+            <p class="text-subtitle text-muted">{% if product_obj %} Editar producto {% else %} Agregar producto {% endif %}</p>
+        </div>
+        <div class="col-12 col-md-6 order-md-2 order-first">
+            <nav aria-label="breadcrumb" class='breadcrumb-header'>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a style="color: #914c54;"
+                            href="{% url 'products:products_list' %}">Productos</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{% if product_obj %} Editar {% else %} Agregar {% endif %}</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- // Basic multiple Column Form section start -->
+<section id="multiple-column-form">
+    <div class="row match-height">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header" style="padding: 2rem 1.7rem 0rem 1.7rem; !important">
+                    <h4 class="card-title">{% if product_obj %} Edita tu producto {% else %} Captura un nuevo producto
+                        {% endif %}</h4>
+                </div>
+                <div class="card-content">
+                    <div class="card-body cmodal">
+                        <form id="frmTarget" class=" dropzone dz" method="POST" action=""
+                            enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {% include 'core/snippets/form_messages.html' with form=product_form %}
+                            {% include 'core/snippets/form_messages.html' with form=product_properties_form %}
+
+                            <div class="col-12 d-flex justify-content-end "
+                                style="margin-top: -90px; margin-bottom: 40px; position: relative;">
+                                <button type="submit" id="submitButton"
+                                    class="btn btn-primary me-1 mb-1">Guardar</button>
+                                {% if not product_obj %}
+                                <button type="reset" class="btn btn-light-secondary me-1 mb-1">Limpiar</button>
+                                {% endif %}
+                                <a href="{% url 'products:products_list' %}"
+                                    class="btn btn-light-secondary me-1 mb-1">Cancelar</a>
+                            </div>
+
+
+                            <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link active" id="general-tab" data-bs-toggle="tab" href="#general"
+                                        role="tab" aria-controls="general" aria-selected="true">General</a>
+                                </li>
+                                {% if product_obj %}
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link" id="properties-tab" data-bs-toggle="tab" href="#properties"
+                                        role="tab" aria-controls="properties" aria-selected="false">Propiedades</a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="general" role="tabpanel"
+                                    aria-labelledby="general-tab">
+                                    <div class="row">
+                                        <div class="col-md-6 col-12">
+                                            <div class="row">
+                                                <div class="col-md-9 col-12">
+                                                    <div class="form-group has-icon-left">
+                                                        <label
+                                                            for="{{product_form.name.label}}">{{product_form.name.label}}</label>
+                                                        <div class="position-relative">
+                                                            {{product_form.name}}
+                                                            <div class="form-control-icon">
+                                                                <i data-feather="tag"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 col-12">
+                                                    <div class="form-group has-icon-left">
+                                                        <label
+                                                            for="{{product_form.price.label}}">{{product_form.price.label}}</label>
+                                                        <div class="position-relative">
+                                                            {{product_form.price}}
+                                                            <div class="form-control-icon">
+                                                                <i data-feather="dollar-sign"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group ">
+                                                        <label
+                                                            for="{{product_form.brand.label}}">{{product_form.brand.label}}</label>
+                                                        <div class="position-relative">
+                                                            {{product_form.brand}}
+                                                            <!-- <div class="form-control-icon">
+                                                                        <i data-feather="dollar-sign"></i>
+                                                                    </div> -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group ">
+                                                        <label
+                                                            for="{{product_form.model.label}}">{{product_form.model.label}}</label>
+                                                        <div class="position-relative">
+                                                            {{product_form.model}}
+                                                            <!-- <div class="form-control-icon">
+                                                                        <i data-feather="dollar-sign"></i>
+                                                                    </div> -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12 col-12">
+                                                    <div class="form-group">
+                                                        <label
+                                                            for="{{product_form.description.label}}">{{product_form.description.label}}</label>
+                                                        {{product_form.description}}
+                                                    </div>
+                                                </div>
+                                                {% if product_obj.products_gallery.exists %}
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label>Imagenes</label>
+                                                    </div>
+                                                    <div class="row">
+                                                        {% for image in product_obj.products_gallery.all %}
+                                                        <div class="col-xl-3 col-md-6 col-sm-12">
+                                                            <div class="card">
+                                                                <div class="card-content">
+                                                                    <img class="card-img img-fluid show-modal"
+                                                                        data-url="{% url 'products:delete_product_image' product_obj.slug image.pk %}"
+                                                                        src="{{image.image.url}}" alt="Card image">
+    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        {% endfor %}
+                                                    </div>
+    
+                                                </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-12">
+                                            <div class="row">
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                        <label
+                                                            for="{{product_form.sizes.label}}">{{product_form.sizes.label}}</label>
+                                                        <a style="position: absolute; margin-top: -10px; color:#914c54;"
+                                                            data-url="{% url 'products:add_size' %}"
+                                                            class="btn btn-light-secondary show-modal">Nuevo <i
+                                                                data-feather="plus"></i></a>
+                                                        {{product_form.sizes}}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                        <label
+                                                            for="{{product_form.hexacodes.label}}">{{product_form.hexacodes.label}}</label>
+                                                        <a style="position: absolute; margin-top: -10px; color:#914c54;"
+                                                            data-url="{% url 'products:add_hexacodes' %}"
+                                                            class="btn btn-light-secondary show-modal">Nuevo <i
+                                                                data-feather="plus"></i></a>
+                                                        {{product_form.hexacodes}}
+                                                    </div>
+                                                </div>
+    
+                                                <div class="col-md-12 col-12">
+                                                    <div class="form-group">
+                                                        <label
+                                                            for="{{product_form.aditional.label}}">{{product_form.aditional.label}}</label>
+                                                        {{product_form.aditional}}
+                                                    </div>
+                                                </div>
+    
+                                                <div class="form-group col-3">
+                                                    <div class='form-check'>
+                                                        <div class="custom-control custom-checkbox">
+                                                            {{product_form.available}}
+                                                            <label class="form-check-label"
+                                                                for="{{product_form.available.auto_id}}">{{product_form.available.label}}</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+    
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                {% if product_obj %}
+                                <div class="tab-pane fade" id="properties" role="tabpanel" aria-labelledby="properties-tab">
+                                    {% include 'products/includes/products_properties_form.html' %}
+                                </div>
+                                {% endif %}
+                            </div>
+
+
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- // Basic multiple Column Form section end -->
+{% endblock content %}
+
+{% block docready %}
+
+{% include 'core/snippets/form_validation.html' with form=product_form %}
+{% include 'core/snippets/messages_error.html' with form=product_form %}
+
+{% include 'core/snippets/form_validation.html' with form=product_properties_form %}
+{% include 'core/snippets/messages_error.html' with form=product_properties_form %}
+
+$('#properties-tab').on('click', function(){
+   $('.dz-default').css('display', 'none');   
+});
+$('#general-tab').on('click', function(){
+    $('.dz-default').css('display', 'block');
+ });
+
+//Properties script
+$('#id_is_sale').change(function(){
+    if ($('#id_is_sale').is(":checked")){
+      $('#id_sale_price').attr('readonly', false);
+    
+    } else {
+      $('#id_sale_price').attr('readonly', true);
+
+    }
+    }).trigger("change");
+
+    function getPercentageChange(oldNumber, newNumber) {
+        var decreaseValue = oldNumber - newNumber;
+
+        $('#id_gain').val(decreaseValue.toFixed(2))
+        $('#gain').val(decreaseValue.toFixed(2))
+        return (decreaseValue / oldNumber) * 100;
+    }
+    $('#id_sell_price').change(function(){
+        var sell_price = $('#id_sell_price').val();
+        var price_base = $('#id_price').val();
+
+        var margin = getPercentageChange(sell_price, price_base).toFixed(2);
+
+        $('#id_margin').val(margin)
+        $('#margin').val(margin)
+        $('#id_sell_price').val(sell_price);
+
+    }).trigger("change");
+
+    $('#id_shipping_free').change(function(){
+
+        if ($('#id_shipping_free').is(":checked")){
+
+            $('#id_shipping_price').attr('readonly', true);
+        } else {
+
+            $('#id_shipping_price').attr('readonly', false);
+
+        }
+    }).trigger("change");
+
+let myDropzone = new Dropzone("#frmTarget", {
+    autoProcessQueue: false,
+    uploadMultiple: true,
+    parallelUploads: 100,
+    maxFiles: 100,
+    url: '{% if product_obj %}{% url 'products:edit_product' product_obj.slug %}{% else %}{% url 'products:add_product' %}{% endif %}'
+});
+
+// Update selector to match your button
+$("#submitButton").click(function (e) {
+
+    myDropzone.processQueue();
+    //window.location.href = '{% url 'products:products_list' %}'
+});
+Dropzone.options.myDropzone = {
+    
+    init: function () {
+
+        
+
+        this.on('sending', function(file, xhr, formData) {
+            // Append all form inputs to the formData Dropzone will POST
+            var data = $('#frmTarget').serializeArray();
+            $.each(data, function(key, el) {
+                formData.append(el.name, el.value);
+            });
+        });
+        this.on("successmultiple", function(files, response) {
+            console.log('hola')
+          });
+    }
+}
+{% endblock docready %}

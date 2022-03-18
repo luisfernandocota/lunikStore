@@ -1,0 +1,33 @@
+{% extends 'base_auth.html' %}
+
+{% block subtitle %}¿Olvidaste tu tienda?{% endblock subtitle %}
+
+{% block content %}
+  <h4 class="p-t-35">¿Olvidaste tu tienda?</h4>
+  <p>Introduce tu dirección de correo electrónico para recuperar el nombre y la dirección de tu tienda</p>
+  <!-- START Login Form -->
+  <form id="form-login" method="POST" class="p-t-15" role="form" action="" novalidate>
+    {% csrf_token %}
+      <div class="form-group form-group-default">
+        {{form.email.label_tag}}
+        {{form.email}}
+      </div>
+    <div class="row">
+      <div class="col-sm-12 no-padding m-t-10">
+        <button class="btn btn-primary btn-cons m-t-10" style="color: white!important; background-color: #e44051 !important; border:#e44051"  type="submit">Enviar</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 no-padding  m-t-10">
+        <a href="{% url 'authorization:login' %}" class="text-info small">Iniciar sesión</a>
+      </div>
+    </div>
+  <!-- END Form Control-->
+  </form>
+  <!-- /login card -->
+{% endblock content %}
+
+<!-- Form fields errors -->
+{% block docready %}
+  {% include 'core/snippets/form_validation.html' %}
+{% endblock docready %}

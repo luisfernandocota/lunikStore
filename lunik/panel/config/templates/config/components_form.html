@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+
+{% block subtitle %}{% if panel_obj %} Editar Componente {% else %} Agregar Componente {% endif %}{% endblock subtitle %}
+
+{% block header %}Plantilla{% endblock header %}
+
+{% block subheader %}{% if panel_obj %} Editar Componente {% else %} Agregar Componente {% endif %}{% endblock subheader %}
+
+{% block customcss %}
+  <link href="{{STATIC_URL}}assets/css/plugins/blueimp/css/blueimp-gallery.min.css" rel="stylesheet">
+  <link href="{{STATIC_URL}}assets/css/plugins/codemirror/codemirror.css" rel="stylesheet">
+  <link href="{{STATIC_URL}}assets/css/plugins/codemirror/ambiance.css" rel="stylesheet">
+{% endblock customcss %}
+
+{% block content %}
+  <div class="col-lg-12">
+    <div class="ibox">
+      <div class="ibox-title">
+       <h5>{% if instance %} Editar Componente {% else %} Agregar Componente {% endif %}</h5>
+      </div>
+      <div class="ibox-content">
+        <div class="row">
+          <div class="col-sm-12 b-r">
+            <form role="form" method="post" action="" enctype="multipart/form-data">
+              {% csrf_token %}
+              {% include 'core/snippets/form_messages.html' with form=component_form %}
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label id="{{component_form.name.label}}">{{component_form.name.label}}</label> 
+                  {{component_form.name}}
+                </div>
+              </div>
+              <div class="col-sm-8">
+                <div class="form-group">
+                  <label>{{component_form.status.label}}</label>
+                  <div class="i-checks">
+                    {{component_form.status}}
+                  </div>
+               </div>
+             </div>
+              <div class="col-sm-12">
+                    <div class="ibox ">
+                        <div class="ibox-title">
+                            <h5>Codigo</h5>
+                        </div>
+                        <div class="ibox-content">
+                            {% if instance %}
+                            <textarea name="code" id="code1">{{instance.code}}</textarea>
+                            {% else %}
+                            <textarea name="code" id="code1"></textarea>
+                            {% endif %}
+                        </div>
+                    </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-12">
+                   <a href="{% url 'config:component_list' %}" class="btn btn-white">Cancelar</a>
+                  <button class="btn btn-success" type="submit">Guardar</button>
+                </div>
+              </div>
+            </form>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+ {% endblock content %}
+
+ {% block customjs %}
+   <!-- blueimp gallery -->
+   <script src="{{STATIC_URL}}assets/js/plugins/blueimp/jquery.blueimp-gallery.min.js"></script>
+       <!-- CodeMirror -->
+       <script src="{{STATIC_URL}}assets/js/plugins/codemirror/codemirror.js"></script>
+       <script src="{{STATIC_URL}}assets/js/plugins/codemirror/mode/javascript/javascript.js"></script>
+ {% endblock %}
+ 
+<!-- validation form snippet -->
+{% block docready %}
+    var elem = document.querySelector('.js-switch2');
+    var switchery = new Switchery(elem, { color: '#1AB394' });
+    var editor_one = CodeMirror.fromTextArea(document.getElementById("code1"), {
+        lineNumbers: true,
+        matchBrackets: true,
+        styleActiveLine: true,
+        theme:"ambiance"
+    });
+  {% include 'core/snippets/form_validation.html' with form=component_form %}
+  {% include 'core/snippets/messages_error.html' with form=component_form %}
+{% endblock %}

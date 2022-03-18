@@ -1,0 +1,470 @@
+#-*- coding: utf-8 -*-
+
+from decimal import Decimal
+from django.conf import settings
+import datetime
+
+from panel.products.models import Product
+
+class Cart(object):
+
+	#-- Init cart session
+	def __init__(self,request,campaign=None):
+		self.session = request.session
+
+		cart = self.session.get(settings.CART_COOKIE_NAME)
+
+		if not cart:
+			cart = self.session[settings.CART_COOKIE_NAME] = {'shop':{},'shipping':{}, 'address':{'order':{}, 'delivery': {}}}
+
+		self.cart = cart
+
+		self.save()
+
+	#-- Add or update cart session
+	def add(self,product,size,quantity,custom=None):
+		product_pk = str(product.pk)
+		product_size = str(size)
+		product_quantity = int(quantity)
+		if product_pk not in self.cart['shop']:
+			#self.cart['shop'][product_pk] = {'variants':{product_size:0},'price':str(design.product.price)}
+			if product.products_properties.is_sale:
+				self.cart['shop'][product_pk] = {'variants':{product_size:{}},'price':str(product.products_properties.sale_price)}
+			else:
+				self.cart['shop'][product_pk] = {'variants':{product_size:{}},'price':str(product.products_properties.sell_price)}
+		else:
+			if product_size not in self.cart['shop'][product_pk]['variants']:
+
+				#self.cart['shop'][product_pk]['variants'].update({product_size:0})
+				self.cart['shop'][product_pk]['variants'].update({product_size:{}})
+
+		#self.cart['shop'][product_pk]['variants'][product_size] = int(product_quantity)
+		self.cart['shop'][product_pk]['variants'][product_size]['quantity'] = int(product_quantity)
+		if custom:
+			self.cart['shop'][product_pk]['variants'][product_size]['name_personalization'] = custom
+		if product.products_properties.shipping_min is not None:
+			self.cart['shop'][product_pk]['variants'][product_size]['shipping_limit'] = int(product.products_properties.shipping_min)
+		else:
+			self.cart['shop'][product_pk]['variants'][product_size]['shipping_limit'] = 0
+		if product.products_properties.shipping_price is not None:
+			self.cart['shop'][product_pk]['variants'][product_size]['shipping'] = Decimal(product.products_properties.shipping_price)
+		else:
+			self.cart['shop'][product_pk]['variants'][product_size]['shipping'] = 0
+	
+		# if self.is_coupon_apply():
+		# 	for p in self.cart['coupon'].products_coupons.all():
+		# 		cp.append(str(p.product.pk))
+		# 	for key in self.cart['shop'].keys():
+		# 		keys.append(key)
+		# 	check_all = all(item in cp for item in keys)
+		# 	check_any =  any(item in cp for item in keys)
+		# 	if check_all:
+		# 		if self.cart.get('check_any', False):
+		# 			del self.cart['check_any']
+		# 	elif check_any:
+		# 		if self.cart.get('check_all', False):
+		# 			del self.cart['check_all']
+		self.save()
+
+	#-- Save cart session
+	def save(self):
+		self.session[settings.CART_COOKIE_NAME] = self.cart
+		self.session.modified = True
+
+	#-- Remove product from cart session
+	def remove(self,product,size):
+		product_pk = str(product.pk)
+
+		if product_pk in self.cart['shop']:
+			del self.cart['shop'][product_pk]['variants'][size]
+
+			if not self.cart['shop'][product_pk]['variants']:
+				del self.cart['shop'][product_pk]
+			if not self.is_products_in_coupon() or self.get_subtotal_products() < self.cart['coupon'].min_purchase:
+				if self.cart.get('coupon_apply', False):
+					del self.cart['coupon']
+					del self.cart['coupon_apply']
+					if self.cart.get('check_all', False):
+						del self.cart['check_all']
+					if self.cart.get('check_any', False):
+						del self.cart['check_any']
+			if not self.cart['shop']:
+				try:
+					# del self.cart['shipping']
+					self.cart['shipping'].clear()
+					self.cart['address']['order'].clear()
+					self.cart['address']['delivery'].clear()
+					if self.cart.get('coupon_apply', False):
+						del self.cart['coupon']
+						del self.cart['coupon_apply']
+						if self.cart.get('check_all', False):
+							del self.cart['check_all']
+						if self.cart.get('check_any', False):
+							del self.cart['check_any']
+				except KeyError:
+					pass
+			self.save()
+
+	#-- Iter products in cart session
+	def __iter__(self):
+		from django.db.models import Max
+		products_keys = self.cart['shop'].keys()
+
+ 		# get the product objects and add them to the cart
+		products = Product.objects.prefetch_related('products_properties').filter(pk__in=products_keys).order_by('-created')
+		#products = Product.objects.select_related('product').filter(pk__in=products_keys).order_by('order')
+
+		if self.cart.get('shipping'):
+			self.cart['shipping'].get('total', 0)
+		for item in products:
+			self.cart['shop'][str(item.pk)]['product'] = item
+			if item.products_properties.is_sale:
+				self.cart['shop'][str(item.pk)]['temp_charge'] = str(item.products_properties.sale_price)
+			else:
+				self.cart['shop'][str(item.pk)]['temp_charge'] = str(item.products_properties.sell_price)
+		for item in self.cart['shop'].values():
+			item['sizes'] = {}
+			item['totals'] = {}
+			item['price_charge'] = {}
+			item['price_custom'] = {}
+			# print(item['product'].pk)
+			#item['coupon'] = self.is_product_in_coupon(item['product'].pk)
+			variants_keys = item['variants'].keys()
+
+			for key in variants_keys:
+				item['variants'][key] = item['variants'][key]
+				item['sizes'][key] = key
+				item['price_custom'][key] = item['variants'][key].get('charge_custom',0.00)
+				item['price_charge'][key] = (Decimal(item['temp_charge']) + Decimal(item['variants'][key].get('charge_size',0.00)))
+				#item['totals'][key] = item['variants'][key] * Decimal(item['price'])
+				item['totals'][key] = (
+										item['variants'][key]['quantity'] * Decimal(item['price']) +
+										Decimal(item['variants'][key].get('charge_custom',0.00)) +
+										item['variants'][key]['quantity'] * Decimal(item['variants'][key].get('charge_size',0.00))
+									  )
+				# for obj in shipping_query:
+				# 	if item['variants'][key]['quantity'] >= obj.shipping_limit o:
+				# 		if self.cart['shipping']['total'] < 0:
+				# 			self.cart['shipping']['total'] = 0
+				# 			yield obj
+				# 	else:
+				# 		if obj.pk == item['product'].pk:
+				if self.cart.get('shipping'):
+					total = self.cart['shipping'].get('total')
+				else:
+					total = 0
+				if item['product'].products_properties.shipping_free:
+					# print('El producto esta en envio gratis, shipping 0')
+					if self.cart['shipping'].get('total') == 0:
+						total = 0
+					elif len(self.cart['shop'].values()) == 1:
+						total = 0
+				else:
+					# print('El producto no esta en envio gratis, shipping varia')
+					if item['variants'][key]['quantity'] >= item['variants'][key].get('shipping_limit',0):
+						if self.all_shipping_free(products_keys):
+							total = 0
+						# print('El producto esta en envio gratis por cantidad, shipping 0')
+					else:
+						# print('El producto tiene envio')
+						if item['variants'][key]['shipping'] > total:
+							total = Decimal(item['variants'][key]['shipping'])
+						else:
+							total = Decimal(item['variants'][key]['shipping'])
+							# self.cart['shipping']['total'] = Decimal(item['variants'][key]['shipping'])
+			# if self.cart.get('shipping'):
+			# 	if self.cart['shipping'].get('total'):
+			# 		print('hola')
+			if total > 0:
+				self.cart['shipping']['total'] = total
+			else:
+				self.cart['shipping']['total'] = 0
+			yield item
+
+
+	#-- Clear Session
+	def clear(self):
+		# remove cart from session
+		del self.session[settings.CART_COOKIE_NAME]
+		self.session.modified = True
+
+	#-- Quantity of products
+	def get_quantity_products(self):
+		total = 0
+		for item in self.cart['shop'].values():
+			for itemv in item['variants'].values():
+				total += itemv['quantity']
+			#total += sum(item for item in item['variants'].values())
+
+		return total
+
+
+	def all_shipping_free(self, products_keys):
+		total = 0
+		lenght = len(products_keys)
+		for item in self.cart['shop'].values():
+			variants_keys = item['variants'].keys()
+			for key in variants_keys:
+				if item['variants'][key]['quantity'] >= item['variants'][key].get('shipping_limit',0) or item['variants'][key].get('shipping_free',0):
+					total += 1
+		if total == lenght:
+			return True
+		else:
+			return False
+	#-- APPLY COUPON
+	def apply_coupon(self, coupon):
+		self.cart['coupon'] = coupon
+		coupon_apply = self.cart.get('coupon_apply', False)
+		# Program to check the list contains elements of another list
+		total = 0
+		keys = []
+		cp = []
+		# coupon_products = coupon.products_coupons.values_list('product__pk', flat=False)
+		if coupon.no_uses > coupon.uses and coupon.date_expiration > datetime.date.today() and self.get_subtotal_products() >= coupon.min_purchase or coupon.min_purchase == 0:
+			print(coupon.apply_all)
+			if  coupon.apply_all:
+				coupon_apply = True
+				self.cart['coupon_apply'] = coupon_apply
+				self.cart['check_all'] = True
+				return self.cart['coupon_apply']
+			else:
+				for p in coupon.products_coupons.all():
+					cp.append(str(p.product.pk))
+				# print(cp)
+				for key in self.cart['shop'].keys():
+					keys.append(key)
+				# print(keys)
+				check_all = all(item in keys for item in cp)
+				check_any =  any(item in keys for item in cp)
+				# print('all', check_all)
+				# print('any', check_any)
+				if check_all:
+					self.cart['check_all'] = True
+					coupon_apply = True
+					self.cart['coupon_apply'] = coupon_apply
+					return True
+
+				elif check_any:
+					self.cart['check_any'] = True
+
+					coupon_apply = True
+					self.cart['coupon_apply'] = coupon_apply
+					return True
+		else:
+			return False
+			# else:
+			# 	if check:
+			# 		print("The list {} contains SOME elements of the list {}".format(cp, keys))
+			# 		return True
+			# 	else:
+			# 		print("No, List1 doesn't have ANY elements of the List2.")
+			# 		return False
+
+	def is_coupon_apply(self):
+		if self.cart.get('coupon_apply', False):
+			return self.cart['coupon']
+
+	def get_subtotal_by_coupon(self):
+		total = 0
+		temp_total = 0
+		discount = 0
+		cp = []
+		print(self.cart.get('check_any'), self.cart.get('check_all'))
+		for item in self.cart['shop'].values():
+			item['coupon'] = {}
+			variants_keys = item['variants'].keys()
+			for key in variants_keys:
+				discount = self.cart['coupon'].discount
+				#total += item['variants'][key] * Decimal(item['price'])
+				total += (
+							item['variants'][key]['quantity'] * Decimal(item['price']) +
+							Decimal(item['variants'][key].get('charge_custom',0.00)) +
+							item['variants'][key]['quantity'] * Decimal(item['variants'][key].get('charge_size',0.00))
+						)
+		if self.cart.get('check_any', False) or self.is_products_in_coupon() != len(self.cart['shop'].values()):
+			for item in self.cart['shop'].values():
+				for p in self.cart['coupon'].products_coupons.filter(product=item['product']):
+					cp.append(str(p.product.pk))
+			products_store = Product.objects\
+									.filter(pk__in=cp).order_by('-created')
+			for product in products_store:
+				for item in self.cart['shop'].values():
+					variants_keys = item['variants'].keys()
+
+					for key in variants_keys:
+						if item['product'] == product:
+							if product.products_properties.is_sale:
+								temp_total += (
+												item['variants'][key]['quantity'] * Decimal(item['product'].products_properties.sale_price) +
+												Decimal(item['variants'][key].get('charge_custom',0.00)) +
+												item['variants'][key]['quantity'] * Decimal(item['variants'][key].get('charge_size',0.00))
+											)
+								# temp_total += product.sale_price
+							else:
+								temp_total += (
+												item['variants'][key]['quantity'] * Decimal(item['price']) +
+												Decimal(item['variants'][key].get('charge_custom',0.00)) +
+												item['variants'][key]['quantity'] * Decimal(item['variants'][key].get('charge_size',0.00))
+											)
+			# print('temp ',temp_total)
+			if self.cart['coupon'].discount_types == 'P':
+				if temp_total > 0:
+					# print(total)
+					# print(temp_total)
+					temp = total - Decimal(temp_total)
+					temp_subtotal = (100 - Decimal(discount))/100 * Decimal(temp_total)
+					# print(temp_subtotal)
+					total = Decimal(temp) + Decimal(temp_subtotal)
+					# print('total-p ', total)
+				else:
+					subtotal = Decimal(discount/100) * Decimal(total)
+					total = total - Decimal(subtotal)
+			elif self.cart['coupon'].discount_types == 'A':
+				if temp_total > 0:
+					temp = total - temp_total
+					temp_subtotal = temp_total - Decimal(discount)
+					dis = temp + temp_subtotal
+					# print('total-a ', dis)
+				else:
+					dis = total - Decimal(discount)
+				if dis < 0:
+					total = 0
+				else:
+					total = dis
+		elif self.cart.get('check_all', False):
+
+			if self.cart['coupon'].discount_types == 'P':
+				subtotal = (100 - Decimal(discount))/100 * Decimal(total)
+				# print(subtotal)
+				total = total - Decimal(subtotal)
+				# print(total)
+			elif self.cart['coupon'].discount_types == 'A':
+				dis = total - Decimal(discount)
+				if dis < 0:
+					total = 0
+				else:
+					total = dis
+		return total.__round__(2)
+
+	def is_products_in_coupon(self):
+		cp = []
+		if self.cart.get('coupon', False):
+			if not self.cart['coupon'].apply_all:
+				for item in self.cart['shop'].values():
+					cp.append(str(item['product'].pk))
+				exist = self.cart['coupon'].products_coupons.filter(product__pk__in=cp).count()
+				# print(exist)
+				# if exist:
+				# 	return exist
+				# else:
+				# 	return False
+				return exist
+			else:
+				#return True
+				return 0
+
+		#return False
+		return 0
+
+	def is_product_in_coupon(self, product_pk):
+		if self.cart.get('coupon', False):
+			exist = self.cart['coupon'].products_coupons.filter(product__pk=product_pk).exists()
+			if exist:
+				return self.cart['coupon']
+			else:
+				return False
+	def del_coupon(self):
+		if self.cart.get('coupon_apply', False):
+			del self.cart['coupon']
+			del self.cart['coupon_apply']
+			if self.cart.get('check_all', False):
+				del self.cart['check_all']
+			if self.cart.get('check_any', False):
+				del self.cart['check_any']
+			self.save()
+
+
+
+	#-- Total of products
+	def get_subtotal_products(self):
+		total = 0
+		if self.cart.get('coupon_apply', False):
+			total = self.get_subtotal_by_coupon()
+		else:
+			for item in self.cart['shop'].values():
+				variants_keys = item['variants'].keys()
+				for key in variants_keys:
+					#total += item['variants'][key] * Decimal(item['price'])
+					total += (
+								item['variants'][key]['quantity'] * Decimal(item['price']) +
+								Decimal(item['variants'][key].get('charge_custom',0.00)) +
+								item['variants'][key]['quantity'] * Decimal(item['variants'][key].get('charge_size',0.00))
+							)
+
+		return total
+
+	#-- Shipping cost of products
+	def get_shipping_cost(self):
+		if self.cart.get('shipping'):
+			return self.cart['shipping']['total']
+		else:
+			return 0
+
+	#-- Total of products
+	def get_total_products(self):
+		total = self.get_subtotal_products() + self.get_shipping_cost()
+
+		return total
+
+	#-- Total of products
+	def get_total_products_stripe(self):
+		if self.cart.get('shop'):
+			g = self.get_subtotal_products() + self.get_shipping_cost()
+			h = str(g).split('.')
+			total = h[0] + h[1]
+			return total
+
+	# Set address in cache cart
+	def add_address(self, *args,**kwargs):
+		order_form = kwargs.pop('order')
+		delivery_form = kwargs.pop('delivery')
+	
+		for field in order_form:
+			self.cart['address']['order'][field.name] = order_form.cleaned_data[field.name]
+		for field in delivery_form:
+			self.cart['address']['delivery'][field.name] = delivery_form.cleaned_data[field.name]
+
+
+	def get_address_order(self):
+		if self.cart.get('address'):
+			if self.cart['address'].get('order'):
+				return self.cart['address']['order']
+			else:
+				return False
+		else:
+			return False
+	def get_address_delivery(self):
+		if self.cart.get('address'):
+			if self.cart['address'].get('delivery'):
+				return self.cart['address']['delivery']
+			else:
+				return False
+		else:
+			return False
+	def get_email_by_address(self):
+		if self.cart['address']['order'].get('email'):
+			return '%s' % self.cart['address']['order']['email']
+		else:
+			return False
+	def get_street_by_address(self):
+		if self.cart['address']['delivery'].get('address') and \
+			self.cart['address']['delivery'].get('num_ext') and \
+			self.cart['address']['delivery'].get('city') and \
+			self.cart['address']['delivery'].get('state'):
+			return '%s #%s %s, %s' % (
+				self.cart['address']['delivery']['address'], 
+				self.cart['address']['delivery']['num_ext'], 
+				self.cart['address']['delivery']['city'],
+				self.cart['address']['delivery']['state'])
+		else:
+			return False

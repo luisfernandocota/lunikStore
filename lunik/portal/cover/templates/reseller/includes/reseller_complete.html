@@ -1,0 +1,9 @@
+                    <div class="item d-flex flex-column align-items-center justify-content-center h-100">
+                        <img src="{{STATIC_URL}}custom/imgs/logo_4shop.svg" class="imgLogin mb-4">
+                        <p class="textLogin  text-start mb-0 font-weight-light text-center" style="font-size: 25px;">¡TU REGISTRO DE RESELLER HA SIDO <br> REALIZADO <span class="font-weight-bold" style="color: #E51544;">EXITOSAMENTE!</span></p>
+                        <p class="subtextLogin mb-0 mt-3" >La información de tu registro ha sido enviada por e-mail</p>
+                        <p class="subtextLogin mt-0" >a nuestro director <span style="color: #E51544;">{{director.first_name}} {{director.last_name}}</span>.</span></p>
+                        <a id="text" class="w-100 mt-4 btnLogin d-flex align-items-center justify-content-center font-weight-bold" style="text-decoration: none;cursor: pointer;color:white!important;font-size: 20px;" onclick="copiarAlPortapapeles('code-txt')">CODIGO: <span id="code-txt">{{executive.code}}</span></a>
+                        <a class="subtextLogin mt-1" style="font-size: 9px;" onclick="copiarAlPortapapeles('code-txt')">Haz click al codigo para copiarlo</a>
+                        {% comment %} <a href="#" class="bottomsubregister mt-5" style="color: #E51544!important;">Iniciar sesión</a> {% endcomment %}
+                    </div>

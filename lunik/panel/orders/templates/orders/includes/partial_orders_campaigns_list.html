@@ -1,0 +1,32 @@
+{% load humanize %}
+
+{% for campaign in campaigns_list %}
+  <tr>
+    <td class="project-completion">
+      {{campaign.name}}<br>
+      <small><i class="fa fa-graduation-cap"></i>{{campaign.fundraiser.organization}}</small>
+    </td>
+    <td class="project-status">
+      <i class="fa fa-tachometer"></i> <b>{{campaign.total_products_sold}}</b> vendidos
+    </td>
+    <td class="project-status">
+      <small><i class="fa fa-money"></i></small>
+      <b>$ {{campaign.total_campaigns_earnings|intcomma}} </b><br>
+      <small>Total compras</small><br>
+    </td>
+    <td class="project-status">
+      <small><i class="fa fa-truck"></i></small>
+      <b>$ {{campaign.total_campaigns_shipping|intcomma}} </b><br>
+      <small>Total envios</small><br>
+    </td>
+    <td class="project-status">
+      <small><i class="fa fa-money"></i></small>
+      <b>$ {{campaign.total_campaigns_net|intcomma}} </b><br>
+      <small>Total</small><br>
+    </td>
+    <td class="project-actions">
+      <a href="{% url 'orders:orders_shop_list' campaign.pk %}" title="Ver ordenes"><button type="button" class="btn btn-white btn-sm"><i class="fa fa-shopping-cart"></i></button></a>
+      <a href="#" title="Correo de envio"><button type="button" class="btn btn-white btn-sm"><i class="fa fa-truck"></i></button></a>
+    </td>
+  </tr>
+{% endfor %}

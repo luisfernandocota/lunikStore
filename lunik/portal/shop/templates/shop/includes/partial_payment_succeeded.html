@@ -1,0 +1,37 @@
+{% block subtitle %} Compra: {{folio}} {% endblock subtitle %}
+
+<div class="container">
+    <div class="row">
+      <div class="col-md-4 p-b-30">
+        <div class="hov-img-zoom">
+          <img src="{{STATIC_URL}}assets/images/icons/LogoRosa.png" class="logo-brand-store md" alt="">
+        </div>
+      </div>
+
+      <div class="col-md-8 p-b-30">
+        <h3 class="m-text26 p-t-15 p-b-16">
+          Tu compra ha sido realizada.
+        </h3>
+
+        <p class="p-b-28">
+          La hemos enviado un email con el detalle de su compra al correo: <span
+        style="color:#da9fa6">{{email}}</span>
+        </p>
+
+        <div class="bo13 p-l-29 m-l-9 p-b-10">
+          <h4>Folio de compra: <strong>{{folio}}</strong></h4>
+          <p class="p-b-11">
+            Te estaremos avisando tu compra cuando haya sido enviada.
+          </p>
+
+          <span class="s-text7 aqui">
+            <span class="p-b-11">Si no ha te ha llegado ningún correo con el detalle de la compra, haz click </span><a class="js-send-shop"  style="color:#da9fa6">AQUÍ</a>
+          </span>
+          <br><br>
+          <a class="size2 m-text2 trans-0-4"
+          href="{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'shop_cart:shop_list' %}" data-dismiss="
+          modal"> VOLVER A LA TIENDA</a>
+        </div>
+        </div>
+    </div>
+  </div>

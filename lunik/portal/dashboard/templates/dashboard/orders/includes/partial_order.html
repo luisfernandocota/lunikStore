@@ -1,0 +1,96 @@
+{% load thumbnail %}
+<div class="p-r-50 p-r-0-lg">
+    <div class="p-b-40">
+        <div class="blog-detail-img wrap-pic-w">
+
+        </div>
+
+        <div class="blog-detail-txt p-t-33">
+            <h4 class="p-b-11 m-text24">
+                {% if order.order_payment.status == 'PE'%}Estamos validando tu pedido.
+                {% elif order.order_payment.status == 'EP'%}Tu pedido esta en
+                proceso.{% elif order.order_payment.status == 'EE' %}Tu pedido ha sido
+                enviado.{% elif order.order_payment.status == 'EN' %}Tu pedido ha sido entregado.{% endif %}
+            </h4>
+
+            <div class="s-text8 flex-w flex-m p-b-21">
+                <span>
+                    Realizado por {{customer.get_full_name}}
+                    <span class="m-l-3 m-r-6">|</span>
+                </span>
+
+                <span>
+                    {{order.created}}
+                    <span class="m-l-3 m-r-6">|</span>
+                </span>
+
+                <span>
+                    {{order.total_products}} Producto(s)
+                </span>
+            </div>
+
+            <div class="container">
+                {% for item in order.products_orders.all %}
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="m-b-10" style="width: 200px;">
+                            {% with image=item.product.product.products_gallery.all.first.image %}
+                            {% thumbnail image '200x200' crop='center' as img %}
+                            <img src="{{img.url}}">
+                            {% endthumbnail %}
+                            {% endwith %}
+                        </div>
+                    </div>
+
+                    <div class="col-md-8">
+                        <h4 class="m-text-24 p-b-11">{{item.product.product.name}}<span class="m-r-6"> |
+                                {{item.product.product.model}} </span></h4><br>
+                        <span class="m-r-6">{{item.quantity}} x $ {{item.price}} </span><br>
+                        <span class="m-r-6">Tamaño: {{item.size}} </span><br>
+                        <span class="m-r-6">Subtotal: $ {{order.subtotal_shopping}} </span><br>
+
+                        <div class="size12 trans-0-4 m-t-10 m-b-10 m-r-10">
+                            <!-- Button -->
+                            <a href="{% url 'shop:product_detail' item.pk %}"
+                                class="flex-c-m size2 bg4 bo-rad-23 hov1 m-text3 trans-0-4">
+                                Comprar de nuevo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+
+        </div>
+
+        <div class="container m-t-40">
+            <div class="row">
+        {% if order.order_payment.status == 'EE'%}
+                <div class="col-md-6">
+                    <h4 class="m-text-24 p-b-11">
+                        Seguimiento
+                    </h4>
+                    <br>
+                    <span class="m-r-6">El pedido se entregara entre el<strong> {{order.shop_order_delivery.range_date_start|date:"d"}} y {{order.shop_order_delivery.range_date_end|date:"d"}} de {{order.shop_order_delivery.range_date_end|date:"F"}}</strong></span><br>
+                    <span class="m-r-6">Se enviará por:<strong> {{order.shop_order_delivery.delivery_company}}
+                        #{{order.shop_order_delivery.tracking_number}}</strong></span><br>
+                </div>
+                {% endif %}
+                <div class="col-md-6">
+                    <h4 class="m-text-24 p-b-11">
+                        Datos de envio
+                    </h4>
+                    <br>
+                    <span class="m-r-6">El pedido se entregara a: <strong>{{order.name}}</strong></span><br>
+                    <span class="m-r-6">Se enviará a: {{order.order_delivery.address}}
+                        #{{order.order_delivery.num_ext}}</span><br>
+                    <span class="m-r-6">{{order.order_delivery.suburb}}, CP. {{order.order_delivery.zip_code}}</span>
+                    </span><br>
+                    <span class="m-r-6">{{order.order_delivery.city}}, {{order.order_delivery.state}}</span> </span><br>
+                </div>
+            </div>
+        </div>
+
+    </div>

@@ -1,0 +1,170 @@
+{% extends 'base_landing.html' %}
+
+{% load humanize %}
+
+{% block subtitle %}Inicio{% endblock subtitle %}
+{% block dark %}dark{% endblock dark %}
+{% block create_store %}
+<li class="menu-item"><a class="menu-link itemLink" href="#"><button class=" buttonColorTwo font-weight-normal text-capitalize button  button-large button-circle m-0 js-create-store" data-url="{% url 'cover:store' %}" data-toggle="modal" data-target=".bs-example-modal-lg">CREA TU TIENDA</button></a></li>
+{% endblock create_store %}
+{% block content %}
+		<section id="page-title" class="page-title-parallax include-header skrollable skrollable-between" style="background-image: url('{{STATIC_URL}}landing/one-page/images/7.png'); padding: 120px 0px; margin-top: -102px; background-position: 0px -102.964px;" data-bottom-top="background-position:0px 300px;" data-top-bottom="background-position:0px -300px;">
+			<div class="container clearfix start" style="text-transform: uppercase;">
+                <h1 data-animate="fadeInUp" class="fadeInUp animated" style="color: white;text-align: center;">PROGRAMA RESELLER EJECUTIVO DE 4SHOP</h1>    
+            </div>
+            <div class = "row center mt-4 w-100">
+                <div class="col">
+                     <!-- <button class="button button-small  button-light" >
+                       Registrate
+                     </button> -->
+                     <a href="{% url 'cover:reseller_form' %}" class="buttonColorTwo button button-3d button-xlarge button-rounded button-white" style="color: white!important;background-color: #e44051!important;">REGISTRATE</a>
+                     <a href="{% url 'authorization:access_reseller' %}" class="buttonColorTwo button button-3d button-xlarge button-rounded button-white " style="color: #e44051!important;background-color: white!important;">INICIAR SESION</a>
+
+                 </div>
+           </div>
+		</section>
+		<!-- Content-->
+		<section id="content">
+			<div class="content-wrap pt-0 pb-0" id="nosotros">
+				<div class="section m-0 p-0" id="pricing" ><!-- style="background: url('one-page/images/8.png') center center no-repeat; background-size: contain;" -->
+					<div class="section m-0 pt-4 pb-1" style="background: rgba(0,0,0,0.0);">
+						<div class="container clearfix">
+							<div class="heading-block  border-bottom-0 mb-0 ">
+								<h2 style="font-size: 40px;" class="nott font-weight-bold ls1 titlebottom" >Reseller Ejecutivo</h2>
+                            </div>
+                            <div class="item">
+                                <p class="mb-2">4shop es una plataforma de creación de tiendas en línea y su programa de reseller ejecutivo esta diseñado para que ganes dinero sin riesgo, solo por ayudarnos a difundir la plataforma.</p>
+                            </div>
+                            <div class="heading-block  border-bottom-0 mb-0 ">
+								<h2 style="font-size: 30px;" class="nott font-weight-bold ls1 titlebottom" >Beneficios</h2>
+                            </div>
+                            <div class="heading-block  border-bottom-0 mb-0 pl-3 ">
+								<h4 style="font-size: 20px;" class="nott font-weight-bold ls1 titlebottom" >Comisiones</h4>
+                            </div>
+                            <ul class="item pl-4">
+                                <li class="mb-2">Podrá recibir comisiones por bono de apertura una sola vez, correspondiente hasta el 80 % del primer mes pagado por la contratación de la tienda y hasta un máximo del 20% mensuales de comisiones por sus cuentas asignada o contratadas bajo la cuenta reseller ejecutivo, (ver tabla de comisiones).</li>
+                                
+                            </ul>
+                            <div class="heading-block  border-bottom-0 mb-0 pl-3 ">
+								<h4 style="font-size: 20px;" class="nott font-weight-bold ls1 titlebottom" >Entrenamiento</h4>
+                            </div>
+                            <ul class="item pl-4">
+                                <li class="mb-2">Recibirán entrenamiento y capacitación constante, al igual herramientas de promoción.</li>
+                            </ul>
+                            <div class="heading-block  border-bottom-0 mb-0 pl-3 ">
+								<h4 style="font-size: 20px;" class="nott font-weight-bold ls1 titlebottom" >Oficina Virtual</h4>
+                            </div>
+                            <ul class="item pl-4">
+                                <li class="mb-2">Podrán ver clientes y comisiones generadas.</li>
+                                <li class="mb-2">Acceso a material de marketing y promociones.</li>
+                            </ul>
+                            <div class="heading-block  border-bottom-0 mb-0 ">
+								<h2 style="font-size: 30px;" class="nott font-weight-bold ls1 titlebottom" >¿Qué tienes que hacer para ser un reseller ejecutivo?</h2>
+                            </div>
+                            <div class="heading-block  border-bottom-0 mb-0 pl-3 ">
+								<h4 style="font-size: 20px;" class="nott font-weight-bold ls1 titlebottom" >Crear una cuenta de reseller ejecutivo</h4>
+                            </div>
+                            <ul class="item pl-5">
+                                <p class="mb-2">Solo tienes llenar el formulario con la información que te solicita y registrarte</p>
+                                <li class="mb-2">Dirección de correo electrónico.</li>
+                                <li class="mb-2">Nombre y apellido.</li>
+                                <li class="mb-2">Número de teléfono.</li>
+                                <li class="mb-2">Fecha de nacimiento.</li>
+                                
+                            </ul>
+                            <div class="heading-block  border-bottom-0 mb-0 pl-3">
+								<h4 style="font-size: 20px;" class="nott font-weight-bold ls1 titlebottom" >Entrevistarte con el director del programa Reseller</h4>
+                            </div>
+                            <ul class="item pl-5">
+                                <li>El director reseller se contactará contigo para una entrevista y activar tu cuenta.</li>
+                            </ul>
+                            <div class="heading-block  border-bottom-0 mb-0 pl-3">
+								<h4 style="font-size: 20px;" class="nott font-weight-bold ls1 titlebottom" >Compartir la plataforma</h4>
+                            </div>
+                            <ul class="item pl-5">
+                                <li>Utiliza las herramientas de promoción para visitar a tu clientes.</li>
+                            </ul>
+						</div>  
+					</div>
+
+				</div>
+				
+			</div>
+        </section><!-- #content end -->
+        <div class="section dark m-0" style="background-color: #111; padding: 20px 0;background-image: url({{STATIC_URL}}landing/one-page/images/5.png);background-repeat: no-repeat;background-size: cover;">
+					<div class="container clearfix">
+
+						<div class="heading-block center bottommargin-sm border-bottom-0">
+							<h2 class=" titlebottom" style="font-size: 46px;">preguntas frecuentes</h2>
+						</div>
+
+						<div class="row col-mb-50 mb-0">
+							<div class="col-md-5 col-sm-6">
+
+								<div class="feature-box fbox-dark fbox-effect flex-md-row-reverse text-md-right mt-3" data-animate="fadeIn">
+									<div class="fbox-content" style="padding-right: .3rem;">
+										<h3 class="titleSection">Quién puede ser reseller ejecutivo?</h3>
+										<p class="textBottom mt-0" style="line-height:1.3;">Cualquiera que quiera ganar dinero, <br>y pase la evaluacion.</p>
+									</div>
+								</div>
+
+								<div class="feature-box fbox-dark fbox-effect flex-md-row-reverse text-md-right mt-3" data-animate="fadeIn" data-delay="200">
+									<div class="fbox-content" style="padding-right: .3rem;">
+										<h3 class="titleSection">comó activo mi cuenta de reseller ejecutivo?</h3>
+										<p class="textBottom mt-0" style="line-height:1.3;">Te llegará un correo con la activación<br>después de haber evaluado y aceptado tu cuenta.</p>
+									</div>
+								</div>
+
+								<div class="feature-box fbox-dark fbox-effect flex-md-row-reverse text-md-right mt-3" data-animate="fadeIn" data-delay="400">
+									<div class="fbox-content" style="padding-right: .3rem;">
+										<h3 class="titleSection">cuáles son mis obligaciones?</h3>
+										<p class="textBottom mt-0" style="line-height:1.3;">Mantenerte en entrenamiento <br>constante y promocionando 4Shop.</p>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-2 d-none d-md-block text-center imgNone" style="display: flex!important;align-items: center;">
+								<img src="{{STATIC_URL}}landing/one-page/images/diseño.png" alt="Workout" class=imgNone>
+							</div>
+							<div class="col-md-5 col-sm-6">
+								<div class="feature-box fbox-dark fbox-effect mt-3" data-animate="fadeIn">
+									<div class="fbox-content">
+										<h3 class="titleSection">el programa reseller tiene costo?</h3>
+										<p class="textBottom mt-0" style="line-height:1.3;">No, el programa no tiene costo, <br>es gratis.</p>
+									</div>
+								</div>
+
+								<div class="feature-box fbox-dark fbox-effect mt-3" data-animate="fadeIn" data-delay="200">
+									<div class="fbox-content" style="padding-right: .3rem;">
+										<h3 class="titleSection">cuantó puedo ganar?</h3>
+										<p class="textBottom mt-0" style="line-height:1.3;">Promocionando 4shop y atrayendo nuevos clientes. <br>Tan pronto como un usuario active su cuenta ganas la comisión.</p>
+									</div>
+								</div>
+
+								<div class="feature-box fbox-dark fbox-effect mt-3" data-animate="fadeIn" data-delay="400">
+									<div class="fbox-content" style="padding-right: .3rem;">
+										<h3 class="titleSection">Cómo me van a pagar?</h3>
+										<p class="textBottom mt-0" style="line-height:1.3;">Se te paga con una transferencia bancaria</p>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				
+			</div>
+		</section>
+        {% comment %} <section id="formulario" class="formulario well">
+            <div class="container-fluid clearfix " style=" background-color: #F5F5F5;">
+            {% include 'reseller/includes/reseller_form.html' with form=form %}
+            </div>
+        </section> {% endcomment %}
+{% endblock content %}
+
+{% block customjs %}
+<script type="text/javascript" src="{{STATIC_URL}}js/reseller.js"></script>
+{% endblock customjs %}
+
+{% block docready %}
+$("#id_phone").mask({"mask": "(999)-999-9999"});
+{% endblock docready %}

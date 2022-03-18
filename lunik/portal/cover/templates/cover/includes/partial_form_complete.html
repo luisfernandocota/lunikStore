@@ -1,0 +1,22 @@
+<div class="modal-header" style="align-self: center;">
+    <h3 class="modal-title" id="myModalLabel" >¡Enhorabuena!</h3>
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+</div>
+<div class="modal-body">
+
+      <div class="heading-block center bottommargin-sm border-bottom-0">
+        <h2 class=" titlebottom" style="font-size: 36px;">Tu tienda ha sido creada.</h2>
+    </div>
+    <p style="color: #777;" class="lead textBottom center">Te hemos enviado un email al correo: <br>
+        <div class="heading-block center bottommargin-sm border-bottom-0">
+            <h2 class=" titlebottom" style="font-size: 28px;">{{user_obj.email}}</h2>
+        </div>
+    </p>
+        <p style="color: #777;" class="lead textBottom center">Te hemos enviado un email al correo: <br>
+         para que finalices el proceso de activación de tu cuenta.
+    </p>
+
+</div>
+<a href="{% if request.is_secure %}https://{% else %}http://{% endif %}{{store.name}}.{{request.get_host}}/panel" class="text-center buttonColorTwo button button-3d button-xlarge button-rounded button-white "style="color: white!important;background-color: #e44051!important;">Empieza a vender hoy</a>
+
+<!-- <button type="button" class="text-center button button-3d button-xlarge button-rounded buttonColor close" data-dismiss="modal" aria-hidden="true">Aceptar</button> -->

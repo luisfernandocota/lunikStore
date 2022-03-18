@@ -1,0 +1,133 @@
+ {% extends 'base.html' %}
+ {% load thumbnail %}
+ 
+ {% block subtitle %}{% if instance %} Editar Dato {% else %} Agregar Dato {% endif %}{% endblock subtitle %}
+ 
+ {% block header %}Datos del Panel{% endblock header %}
+ 
+ {% block subheader %}{% if instance %} Editar Dato {% else %} Agregar Dato {% endif %}{% endblock subheader %}
+ 
+ {% block customcss %}
+   <link href="{{STATIC_URL}}assets/css/plugins/blueimp/css/blueimp-gallery.min.css" rel="stylesheet">
+ {% endblock customcss %}
+
+ {% block content %}
+   <div class="col-lg-12">
+     <div class="ibox">
+       <div class="ibox-title">
+        <h5>{% if instance %} Editar Dato {% else %} Agregar Dato {% endif %}</h5>
+       </div>
+       <div class="ibox-content">
+         <div class="row">
+           <div class="col-sm-12 b-r">
+             <form role="form" method="post" action="" enctype="multipart/form-data">
+               {% csrf_token %}
+               {% include 'core/snippets/form_messages.html' with form=form %}
+               <div class="col-sm-4">
+                 <div class="form-group">
+                   <label id="{{form.title.label}}">{{form.title.label}}</label> 
+                   {{form.title}}
+                 </div>
+               </div>
+               <div class="col-sm-4">
+                 <div class="form-group">
+                   <label id="{{form.url.label}}">{{form.url.label}}</label> 
+                   {{form.url}}
+                 </div>
+               </div>
+               <div class="col-sm-4">
+                 <div class="form-group">
+                   <label id="{{form.author.label}}">{{form.author.label}}</label> 
+                   {{form.author}}
+                 </div>
+               </div>
+               <div class="col-sm-4">
+                 <div class="form-group">
+                   <label for="{{profile_form.logo.label}}">{{form.logo.label}}</label>
+                   <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                     <div class="form-control" data-trigger="fileinput">
+                       <i class="glyphicon glyphicon-file fileinput-exists"></i>
+                       <span class="fileinput-filename"></span>
+                     </div>
+                     <span class="input-group-addon btn btn-default btn-file">
+                     <span class="fileinput-new">Selecccionar</span>
+                     <span class="fileinput-exists">Cambiar</span>
+                     {{form.logo}}
+                   </span>
+                   <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Eliminar</a>
+                 </div>
+               </div>
+                 {% if instance.logo %}
+                 <div class="file-box" style="float:none;">
+                   <div class="file">
+                     <a href="#">
+                       <span class="corner"></span>
+                       <div class="icon">
+                         {% thumbnail instance.logo '200x104' crop='center' as img %}
+                           <img src="{{img.url}}" class="img-responsive">
+                         {% endthumbnail %} 
+                       </div>
+                       <div class="file-name">{{instance.logo.url}}<br>
+                       </div>
+                     </a>
+                   </div>
+                 </div>
+               {% endif %} 
+               </div>
+               <div class="col-sm-4">
+                 <div class="form-group">
+                   <label for="{{profile_form.logo_menu.label}}">{{form.logo_menu.label}}</label>
+                   <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                     <div class="form-control" data-trigger="fileinput">
+                       <i class="glyphicon glyphicon-file fileinput-exists"></i>
+                       <span class="fileinput-filename"></span>
+                      </div>
+                      <span class="input-group-addon btn btn-default btn-file">
+                      <span class="fileinput-new">Selecccionar</span>
+                      <span class="fileinput-exists">Cambiar</span>
+                      {{form.logo_menu}}
+                      </span>
+                      <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Eliminar</a>
+                    </div> 
+                 </div>
+                 {% if instance.logo_menu %}
+                 <div class="file-box" style="float:none;">
+                   <div class="file">
+                     <a href="#">
+                       <span class="corner"></span>
+                       <div class="icon">
+                         {% thumbnail instance.logo_menu '200x104' crop='center' as img %}
+                           <img src="{{img.url}}" class="img-responsive">
+                         {% endthumbnail %} 
+                       </div>
+                       <div class="file-name">{{instance.logo_menu.url}}<br>
+                       </div>
+                     </a>
+                   </div>
+                 </div>
+               {% endif %}
+               </div>
+               <div class="form-group">
+                 <div class="col-sm-12">
+                    <a href="{% url 'config:panel_list' %}" class="btn btn-white">Cancelar</a>
+                   <button class="btn btn-success" type="submit">Guardar</button>
+                 </div>
+               </div>
+             </form>
+           </div>
+       </div>
+     </div>
+   </div>
+ </div>
+  {% endblock content %}
+
+  {% block customjs %}
+    <!-- blueimp gallery -->
+    <script src="{{STATIC_URL}}assets/js/plugins/blueimp/jquery.blueimp-gallery.min.js"></script>
+  {% endblock %}
+  
+ <!-- validation form snippet -->
+ {% block docready %}
+   {% include 'core/snippets/form_validation.html' with form=form %}
+   {% include 'core/snippets/messages_error.html' with form=form %}
+{% endblock %}

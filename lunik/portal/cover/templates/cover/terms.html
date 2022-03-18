@@ -1,0 +1,189 @@
+{% extends 'base_landing.html' %}
+
+{% load humanize %}
+
+{% block subtitle %}Términos y Condiciones{% endblock subtitle %}
+
+{% block price %}data-url="{% url 'cover:store' %}" data-toggle="modal" data-target=".bs-example-modal-lg"{% endblock price %}
+{% block price_href %}#{% endblock price_href %}
+{% block dark %}dark{% endblock dark %}
+{% block content %}
+
+<section id="page-title" class="page-title-parallax include-header skrollable skrollable-between" style="background-image: url(&quot;{{STATIC_URL}}landing/one-page/images/7.png&quot;); padding: 120px 0px; margin-top: -102px; background-position: 0px -102.964px;" data-bottom-top="background-position:0px 300px;" data-top-bottom="background-position:0px -300px;">
+    <div class="container clearfix start" style="text-transform: uppercase;">
+        <h1 data-animate="fadeInUp" class="fadeInUp animated" style="color: white;">TÉRMINOS DEL SERVICIO</h1>    
+    </div>
+</section>
+
+<!-- Content-->
+<section id="content">
+    <div class="content-wrap pt-0 pb-0" id="nosotros">
+        <div class="section m-0 p-0" id="pricing" ><!-- style="background: url('{{STATIC_URL}}landing/one-page/images/8.png') center center no-repeat; background-size: contain;" -->
+            <div class="section m-0 pt-4 pb-1" style="background: rgba(0,0,0,0.0);">
+                <div class="container clearfix">
+                    <!-- <div class="heading-block  border-bottom-0 mb-0 ">
+                        <h2 style="font-size: 40px;" class="nott font-weight-bold ls1 titlebottom" >Términos del Servicio</h2>
+                    </div> -->
+                    <div class="item">
+                        <p>4Shop es un producto de Fourtech Studio y al crear una cuenta de 4shop (según se define en la cláusula 1) o al utilizar cualquier Servicio de 4Shop esta utilizando los servicios Fourtech Studio (según se define a continuación), usted acepta regirse por los siguientes términos y condiciones (los "Términos del Servicio").
+                            Los servicios que ofrece 4Shop en virtud de los Términos del servicio incluyen varios productos y servicios para ayudarle a vender bienes y servicios a los compradores. Cualquiera de dichos servicios que ofrece 4Shop se refiere en los presentes Términos del servicio como los "Servicios". Las nuevas funciones o herramientas que se agreguen a los Servicios actuales también estarán sujetas a los Términos del servicio. Puede revisar la versión más reciente de los Términos del servicio en cualquier momento en <a href="https://4shop.mx/terminos_condiciones/" style="color: #e44051;">https://4shop.mx/terminos_condiciones/</a> Fourtech Studio se reserva el derecho de actualizar y modificar los Términos del servicio mediante la publicación de actualizaciones y cambios en el sitio web de 4Shop. Se recomienda que consulte los Términos del servicio periódicamente para que se mantenga informado sobre cualquier actualización o cambio que pueda afectarle. y en caso de que no acepte dichos cambios, debe dejar de usar los Servicios.</p>
+                    </div>
+                    <div class="heading-block  border-bottom-0 mb-0 ">
+                        <h2 style="font-size: 30px;" class="nott font-weight-bold ls1 titlebottom" >1. Términos de la Cuenta</h2>
+                    </div>
+                    <ul class="item pl-4">
+                        <li class="mb-2">Para acceder y utilizar los Servicios, debe registrarse para obtener una cuenta de 4Shop ("Cuenta") proporcionando su nombre legal completo, dirección actual, número de teléfono, una dirección de correo electrónico válida, y cualquier otra información que se indique según sea necesario. Fourtech Studio puede rechazar su solicitud de Cuenta o cancelar una Cuenta existente por cualquier motivo, a nuestra entera discreción.</li>
+                        <li class="mb-2">Usted debe ser mayor de 18 años o al menos tener la mayoría de edad en donde reside y desde donde utiliza los Servicios para abrir una Cuenta.</p>
+                        <li class="mb-2">Usted confirma que recibe cualquier Servicio provisto por 4Shop con el propósito de llevar a cabo una actividad comercial y no por un propósito personal o familiar.</p>
+                        <li class="mb-2">Usted acepta que 4Shop utilizará como método principal de comunicación entre ambos la dirección de correo electrónico que suministró durante el registro para obtener una Cuenta, o que ha actualizado ocasionalmente.</p>
+                        <li class="mb-2">Usted es responsable de mantener su contraseña segura. Fourtech Studio no puede ni se hará responsable por ninguna pérdida o daño que surja como resultado de su incapacidad para mantener la seguridad de su Cuenta y contraseña.</p>
+                        <li class="mb-2">Usted es responsable de toda actividad y contenido, como fotos, imágenes, videos, gráficos, contenido escrito, archivos de audio, código, información o datos cargados, recopilados, generados, almacenados, mostrados, distribuidos, transmitidos o exhibidos en o en conexión con su Cuenta ("Materiales").</p>
+                        <li >Un incumplimiento o violación de cualquier término en los Términos del Servicio, según se determine a la sola discreción de Fourtech Studio, puede resultar en la rescisión inmediata de sus Servicios.</p>
+                    </ul>
+                    <div class="heading-block  border-bottom-0 mb-0 ">
+                        <h2 style="font-size: 30px;" class="nott font-weight-bold ls1 titlebottom" >2. Activación de la Cuenta</h2>
+                    </div>
+                    <div class="heading-block  border-bottom-0 mb-0 pl-3 ">
+                        <h4 style="font-size: 20px;" class="nott font-weight-bold ls1 titlebottom" >2.1 Propietario de la Tienda</h4>
+                    </div>
+                    <ul class="item pl-5">
+                        <li class="mb-2">Conforme a la Cláusula 2.1(2), la persona que se registre en el Servicio al abrir una Cuenta será la parte contratante (en lo sucesivo "Propietario de la tienda") para los fines de nuestros Términos del Servicio y será la persona autorizada para usar cualquier Cuenta correspondiente que proporcionemos al Propietario de la Tienda en relación con el Servicio. Usted es responsable de garantizar que el nombre del Propietario de la Tienda (incluyendo la razón social de la empresa propietaria de la Tienda, si corresponde) esté visible claramente en el sitio web de la Tienda.</li>
+                        <li class="mb-2">Si usted se registra en los servicios en nombre de su empleador, su empleador será el Propietario de la Tienda. Si usted se registra en los Servicios en nombre de su empleador, debe usar la dirección de correo electrónico emitida por su empleador y declarar y certificar que tiene la autoridad para vincular a su empleador a nuestros Términos del Servicio.</li>
+                        <p>Su tienda 4Shop solo puede asociarse a un Propietario de la Tienda. Un Propietario de Tienda puede tener varias Tiendas de 4Shop. "Tienda" significa la tienda en línea. </p>
+                    </ul>
+                    <div class="heading-block  border-bottom-0 mb-0 pl-3">
+                        <h4 style="font-size: 20px;" class="nott font-weight-bold ls1 titlebottom" >2.2 Cuentas para empleados</h4>
+                    </div>
+                    <ul class="item pl-5">
+                        <li class="mb-2">Según su plan de precios de 4Shop, usted puede crear una o más cuentas para empleados (en lo sucesivo "Cuentas para empleados") que permiten que otras personas accedan a la Cuenta. Con las cuentas para empleados, el Propietario de la tienda puede establecer permisos y permitir que otras personas trabajen en su Cuenta y determinar el nivel de acceso de las Cuentas para empleados a información comercial específica (por ejemplo, puede limitar el acceso de las Cuentas para empleados a la información de ventas en la página Informes o impedir que las Cuentas para empleados cambien la configuración general de la tienda).</li>
+                        <li class="mb-2">El Propietario de la Tienda es responsable por los actos, omisiones o fallas que resulten del uso de las Cuentas para empleados en el cumplimiento de las obligaciones establecidas en estos Términos del servicio como si fueran actos, omisiones o fallas del Propietario de la Tienda.</li>
+                        <li>El Propietario de la Tienda y los usuarios de las Cuentas para empleados se conocen como un "Usuario de 4Shop". </li>
+                    </ul>
+                    <div class="heading-block  border-bottom-0 mb-0 pl-3">
+                        <h4 style="font-size: 20px;" class="nott font-weight-bold ls1 titlebottom" >2.3 Nombres de Dominio</h4>
+                    </div>
+                    <ul class="item pl-5">
+                        <li>Al comprar un nombre de dominio a través de Fourtech Studio, se establecerá de manera predeterminada la renovación automática anual del registro del dominio, siempre que su Cuenta de 4Shop permanezca activa. Usted reconoce que es su responsabilidad exclusiva la renovación si así lo desea.</li>
+                    </ul>
+                    <div class="heading-block  border-bottom-0 mb-0 ">
+                        <h4 style="font-size: 30px;" class="nott font-weight-bold ls1 titlebottom" >3. Condiciones Generales</h4>
+                    </div>
+                    <ul class="item pl-4">
+                        <li class="mb-2">Debe leer, estar de acuerdo y aceptar todos los términos y condiciones contenidos en los presentes Términos del Servicio.</li>
+                        <li class="mb-2">El servicio al cliente en relación con los Servicios solo se ofrece a los Usuarios de 4Shop.</li>
+                        <li class="mb-2">Los Términos del Servicio se regirán y se interpretarán de acuerdo con las leyes del estado de Sinaloa y las leyes de México aplicables, sin tener en cuenta los principios de conflicto de leyes.  </li>
+                        <li class="mb-2">Usted reconoce y acepta que Fourtech Studio puede enmendar los presentes Términos del Servicio en cualquier momento al publicar los correspondientes Términos del Servicio modificados y reformulados en el sitio web de 4Shop, disponible en https://4shop.mx/legal/terminos y que dichas enmiendas a los Términos del Servicio entrarán en vigencia a partir de la fecha de publicación. El uso continuo de los Servicios que haga después de la publicación de los Términos del servicio enmendados en el sitio web de 4Shop constituye su acuerdo y aceptación de los Términos del servicio enmendados. Si no acepta alguno de los cambios realizados a los Términos del servicio, no continúe usando el Servicio. </li>
+                        <li class="mb-2">No puede utilizar los Servicios de 4Shop para ningún propósito ilegal o no autorizado, ni puede, al hacer uso del Servicio, violar las leyes de su jurisdicción (incluyendo de manera enunciativa más no limitativa, las leyes de derechos de autor), las leyes que apliquen a usted en la jurisdicción de su cliente, o las leyes de México. Usted cumplirá con todas las leyes, normas y regulaciones aplicables al usar el Servicio y al cumplir con sus obligaciones según los Términos del servicio.  </li>
+                        <li class="mb-2">Usted acepta no reproducir, duplicar, copiar, vender, revender ni explotar ninguna parte del Servicio, uso de los Servicios o acceso a los Servicios sin el permiso expreso por escrito de Fourtech Studio.  </li>
+                        <li class="mb-2">No debe comprar palabras clave en motores de búsqueda u otras palabras de pago por clic (como Google AdWords) o nombres de dominio que utilicen 4Shop o las marcas comerciales de Fourtech Studio y/o sus variaciones o con otra ortografía similar.  </li>
+                        <li class="mb-2">Las preguntas sobre los Términos del Servicio se deben enviar a Servicio al cliente de 4Shop.  </li>
+                        <li class="mb-2">Usted entiende que sus Materiales (excluyendo la información de la tarjeta de crédito) pueden transferirse sin encriptar e involucrar transmisiones en varias redes; y cambios para cumplir y adaptarse a los requisitos técnicos de conexión de redes o dispositivos. La información de la tarjeta de crédito siempre se cifra durante la transferencia a través de las redes.  </li>
+                        <li class="mb-2">Todos los términos y disposiciones de los presentes Términos del servicio tendrán un carácter vinculante y beneficiarán a las partes firmantes de estos Términos y a sus respectivos legatarios, sucesores, causahabientes autorizados y representantes legales. 4Shop podrá ceder estos Términos del servicio sin su previo aviso o consentimiento. Usted no tendrá derecho a ceder o transferir estos Términos del servicio, o cualquiera de sus derechos u obligaciones en virtud de estos a terceras partes sin el consentimiento previo y por escrito de Fourtech Studio, el cual Fourtech Studio otorgará o rechazará a su propia discreción.  </li>
+                        <li>Si alguna disposición, o una parte de la misma, contemplada en estos Términos del servicio, por cualquier motivo, se considerase inválida, ilegal o inejecutable en cualquier aspecto, dicha nulidad, ilegalidad o inaplicabilidad no afectará a ninguna otra disposición (ni a la parte no afectada de la disposición) de los Términos del Servicio, y los Términos del servicio se interpretarán como si dicha disposición no válida, ilegal o no exigible, o parte de la disposición, nunca hubiera estado incluida en los Términos del Servicio. </li>
+
+                    </ul>
+                    <div class="heading-block  border-bottom-0 mb-0 ">
+                        <h4 style="font-size: 30px;" class="nott font-weight-bold ls1 titlebottom" >4. Derechos de 4Shop</h4>
+                    </div>
+                    <ul class="item pl-4">
+                        <li class="mb-2">Nos reservamos el derecho de modificar o de discontinuar los Servicios por cualquier motivo, sin previo aviso y en cualquier momento. No todos los Servicios y funciones están disponibles en todas las regiones y no estamos obligados a poner a disposición Servicios o funciones en ninguna región o país.</li>
+                        <li class="mb-2">Podemos, pero no tenemos la obligación de, eliminar Materiales y suspender o cancelar Cuentas si determinamos, a nuestro exclusivo criterio, que los bienes o servicios ofrecidos a través de una Tienda, o los Materiales subidos o publicados en una Tienda, infringen estos Términos del servicio.</li>
+                        <li class="mb-2">El abuso verbal o escrito de cualquier tipo (incluyendo amenazas de abuso o de retribución) de cualquier cliente de 4Shop, empleado, miembro o autoridad de 4Shop resultará en el cierre inmediato de la cuenta. </li>
+                        <li class="mb-2">4Shop no realiza una selección previa de los Materiales y somos libres de rechazar o eliminar cualquier Material del Servicio, incluyendo su Tienda. </li>
+                        <li class="mb-2">Nos reservamos el derecho de prestar nuestros servicios a su competencia y no prometemos la exclusividad de ningún segmento de mercado en particular. Además, usted reconoce y acepta que los empleados y contratistas de 4Shop también pueden ser clientes o comerciantes de 4Shop y que pueden competir con usted, aunque no pueden usar su Información confidencial para hacerlo. </li>
+                        <li class="mb-2">En el caso de una reclamo relacionado con la titularidad de la Cuenta, nos reservamos el derecho de solicitar la documentación para determinar o confirmar la propiedad de esta. La documentación puede incluir, de manera enunciativa más no limitativa, una copia escaneada de su licencia comercial, de un documento de identidad con foto emitido por un ente gubernamental, los últimos cuatro dígitos de la tarjeta de crédito registrada, etc. </li>
+                        <li >4Shop se reserva el derecho de determinar, a nuestro exclusivo juicio, la titularidad legítima de la Cuenta y transferir una Cuenta al Propietario legítimo de la tienda. Si no podemos determinar razonablemente el Propietario legítimo de la tienda, sin perjuicio de nuestros otros derechos y recursos, 4Shop se reserva el derecho de desactivar temporalmente una Cuenta hasta que se haya logrado una resolución entre las partes en conflicto. </li>
+                    </ul>
+                    <div class="heading-block  border-bottom-0 mb-0 ">
+                        <h4 style="font-size: 30px;" class="nott font-weight-bold ls1 titlebottom" >5. Confidencialidad</h4>
+                    </div>
+                    <ul class="item pl-4">
+                        <li class="mb-2">La "Información Confidencial" incluirá, de manera enunciativa mas no limitativa, toda la información relacionada con los negocios de una de las partes y que no sea de conocimiento público, incluida la información comercial específica, procesos técnicos y fórmulas, software, listas de clientes, listas de clientes potenciales, nombres, direcciones y otra información sobre clientes y posibles clientes, diseños de productos, ventas, costos (incluidas las comisiones de procesamiento pertinentes), listas de precios y otra información financiera no publicada, planes de negocio y datos de mercadotecnia, y cualquier otra información confidencial e información sujeta a derechos de propiedad, independientemente de que esté marcada como confidencial o patentada. La Información confidencial de 4Shop incluye toda la información que usted recibe en relación con nosotros o con los Servicios, que no conoce el público en general, incluida la información relacionada con nuestro programa y prácticas de seguridad.</li>
+                        <li>Cada parte acuerda usar la Información Confidencial de la otra parte únicamente cuando sea necesario para cumplir con sus obligaciones según lo previsto en estos Términos del servicio y de conformidad con cualquier otra obligación prevista en estos Términos del servicio, incluida la presente Cláusula. Cada parte acuerda que tomará todas las medidas razonables, al menos sustancialmente equivalentes a las medidas que toma para proteger su propia información patentada, a fin de evitar la copia, divulgación o uso de dicha Información Confidencial, que no sea por o mediante sus empleados, agentes y subcontratistas que deban tener acceso a dicha Información Confidencial para cumplir con las obligaciones de dicha parte previstas en los presentes, y que están sujetos a obligaciones de confidencialidad para dicha parte que sean al menos tan estrictas como las contenidas en este documento; o según lo exija cualquier ley, reglamento u orden de cualquier tribunal de jurisdicción apropiada sobre las partes y el asunto contenido en estos Términos del servicio, siempre que, si está legalmente permitido, la parte receptora notificará por escrito a la parte divulgadora y usará todos los esfuerzos comercialmente razonables para garantizar que dicha divulgación reciba un tratamiento confidencial. La Información Confidencial no incluirá ninguna información que la parte receptora pueda probar: (A) que ya fuese de conocimiento público, o que ya la parte receptora la conociese o estuviese en posesión de ella, al momento de la divulgación de dicha información; (B) información que sea desarrollada de manera independiente por la parte receptora sin el uso o referencia de la Información Confidencial de la otra parte, y que no incumpla ninguna disposición de estos Términos del servicio; o (C) si la parte receptora la obtuvo inmediatamente después de una fuente que no sea la parte divulgadora sin incumplir ninguna disposición de estos Términos del servicio.</li>
+                        
+                    </ul>
+                    <div class="heading-block  border-bottom-0 mb-0 ">
+                        <h4 style="font-size: 30px;" class="nott font-weight-bold ls1 titlebottom" >6. Limitación de Responsabilidad</h4>
+                    </div>
+                    <ul class="item pl-4">
+                        <li class="mb-2">Usted entiende y acepta expresamente que, en la medida en que lo permitan las leyes aplicables, 4Shop no será responsable de ningún daño directo, indirecto, incidental, especial, consecuente o ejemplar, incluidos, entre otros, los daños por pérdida de beneficios, clientela, uso, datos u otras pérdidas intangibles resultantes del uso o la imposibilidad de usar el Servicio.</li>
+                        <li class="mb-2">En la medida en que lo permitan las leyes aplicables, 4Shop o nuestros proveedores, no serán responsables en ningún caso por la pérdida de beneficios o cualquier daño especial, incidental o consecuente que surja de o que esté relacionado con nuestro sitio, nuestros Servicios o estos Términos del servicio (aunque surjan de la negligencia). Usted acepta indemnizarnos y mantenernos y (según corresponda) mantener a nuestra casa matriz, filiales, afiliados, Socios comerciales de 4Shop, autoridades, directores, agentes, empleados y proveedores indemnes de cualquier reclamo o demanda, incluidos los honorarios razonables de abogados, generados por un tercero debido al o que surjan del incumplimiento de estos Términos del servicio o de los documentos que incluye por referencia, o su violación de cualquier ley o de los derechos de un tercero.</li>
+                        <li class="mb-2">Su uso de los Servicios es a su riesgo. Los Servicios se proporcionan "tal cual" y "según disponibilidad" sin ninguna garantía o condición, expresa, implícita o legal. </li>
+                        <li class="mb-2">4Shop no garantiza que los Servicios serán ininterrumpidos, oportunos, seguros o sin errores. </li>
+                        <li class="mb-2">4Shop no garantiza que los resultados que se pueden obtener del uso de los Servicios sean precisos o confiables.</li>
+                        <li>4Shop no garantiza que la calidad de cualquier producto, servicio, información u otro material comprado u obtenido por usted a través de los Servicios satisfará sus expectativas, o que se corregirá cualquier error en los Servicios. </li>
+
+                    </ul>
+                    <div class="heading-block  border-bottom-0 mb-0 ">
+                        <h4 style="font-size: 30px;" class="nott font-weight-bold ls1 titlebottom" >7. Renuncia, divisibilidad y acuerdo completo</h4>
+                    </div>
+                    <ul class="item pl-4">
+                        <li class="mb-2">El hecho de que 4Shop no ejerza o haga valer cualquier derecho o disposición de los Términos del Servicio no constituirá una renuncia a tal derecho o disposición. Si un tribunal de jurisdicción competente considera que alguna disposición de los Términos del Servicio, incluidos todos los términos y condiciones y otros documentos que incorpore por referencia, es contraria a la ley, dicha disposición se modificará e interpretará de manera que se cumplan mejor los objetivos de la disposición original en la mayor medida que permita la ley, y la disposición restante de los Términos del Servicio permanecerá en pleno vigor y efecto.</li>
+                        <li>Los Términos del Servicio, incluidos los documentos que estos incorporan por referencia, constituyen el acuerdo completo entre usted y 4Shop y rigen el uso de los Servicios y su Cuenta, reemplazando cualquier acuerdo anterior entre usted y 4Shop (incluyendo, sin limitación, cualquier versión anterior de los Términos del Servicio).</li>
+                        
+                    </ul>
+                    <div class="heading-block  border-bottom-0 mb-0 ">
+                        <h4 style="font-size: 30px;" class="nott font-weight-bold ls1 titlebottom" >8. Propiedad intelectual y contenido generado por el usuario</h4>
+                    </div>
+                    <ul class="item pl-4">
+                        <li class="mb-2">No reclamamos ningún derecho de propiedad intelectual sobre los Materiales que usted proporcione al Servicio de 4Shop. Todos los Materiales que suba le pertenecen. Puede eliminar su tienda 4Shop en cualquier momento eliminando su Cuenta.</li>
+                        <li class="mb-2">Al subir Materiales, usted acepta: (a) permitir que otros usuarios de Internet vean los Materiales que publica públicamente en su Tienda; (b) permitir que 4Shop almacene, y en el caso de los Materiales que publica públicamente, muestre y utilice sus Materiales; y (c) que 4Shop puede, en cualquier momento, revisar y eliminar todos los Materiales enviados a su Servicio, aunque 4Shop no está obligado a hacerlo.</li>
+                        <li class="mb-2">Usted conserva la propiedad de todos los Materiales que suba a la Tienda; sin embargo, al hacer pública su Tienda, usted acepta permitir que otros vean los Materiales que publica públicamente en su Tienda. Usted es el único responsable de la conformidad de los Materiales con las leyes o regulaciones aplicables.</li>
+                        <li>4Shop tendrá el derecho y la licencia no exclusivos para usar los nombres, marcas comerciales, marcas de servicio y logos asociados a su Tienda para promover el Servicio.</li>
+                    </ul>
+                    <div class="heading-block  border-bottom-0 mb-0 ">
+                        <h4 style="font-size: 30px;" class="nott font-weight-bold ls1 titlebottom" >9. Pago de Cargos</h4>
+                    </div>
+                    <ul class="item pl-4">
+                        <li class="mb-2">Usted pagará los Cargos aplicables a su suscripción al Servicio en línea ("Cargos por suscripción") y cualquier otro cargo aplicable, incluidos, entre otros, los cargos relacionados con el valor de las ventas realizadas a través de su Tienda en línea cuando utilice cualquier proveedor de pago ("Cargo por transacción"), y cualquier cargo relacionado con su compra o uso de cualquier producto o servicio Conjuntamente, los Cargos por suscripción, los Cargos por transacción y los Cargos adicionales se conocen como los "Cargos".</li>
+                        <li class="mb-2">Debe mantener una forma de pago válida en nuestro archivo para pagar todos los Cargos incurridos y recurrentes. 4Shop cobrará los Cargos aplicables a cualquier forma de pago válida que usted autorice ("Forma de pago autorizada"), y 4Shop continuará cobrando a la forma de pago autorizada los Cargos aplicables hasta que se cancelen los Servicios, y que se hayan pagado por completo todos los Cargos pendientes. A menos que se indique lo contrario, todos los Cargos y otras comisiones se expresan en pesos mexicanos y todos los pagos se realizarán en la moneda mexicana.</li>
+                        <li class="mb-2">Los cargos por suscripción se pagan por adelantado y se facturarán en intervalos de 30 días (cada una de esas fechas se denomina una "Fecha de facturación"). Los Cargos por transacción y los Cargos adicionales se cobrarán de vez en cuando a discreción de 4Shop. Se le cobrará en cada Fecha de facturación todos los Cargos pendientes que no se hayan cobrado previamente. Los Cargos aparecerán en una factura, que se enviará al Propietario de la tienda a través del correo electrónico proporcionado. Además, una factura aparecerá en la página del panel de administración de su Tienda. Los usuarios tienen aproximadamente dos semanas para evocar y resolver cualquier problema relacionado con la facturación de los Cargos por suscripción.</li>
+                        <li class="mb-2">Si no podemos procesar el pago de los Cargos utilizando una forma de pago autorizada, haremos un segundo intento de procesar el pago utilizando cualquier forma de pago autorizada 2 días después. Si el segundo intento no tiene éxito, haremos un último intento 2 días después del segundo intento. Si nuestro último intento falla, podemos suspender y revocar el acceso a su Cuenta y a los Servicios. Su Cuenta se reactivará tras el pago de los Cargos pendientes, más los Cargos aplicables a su próximo ciclo de facturación. Es posible que no pueda acceder a su Cuenta o a su página principal de la tienda durante cualquier período de suspensión. Si los Cargos pendientes permanecen sin pagar durante 60 días después de la fecha de suspensión, 4Shop se reserva el derecho de cancelar su Cuenta.</li>
+                        <li class="mb-2">Usted es responsable de todos los Impuestos aplicables que surjan de o como resultado de su suscripción o compra de productos y servicios de 4Shop. En la medida en que 4Shop cobre estos Impuestos, estos se calculan utilizando las tasas impositivas que se aplican en función de la dirección de facturación que nos proporcione. Tales montos son adicionales a los Cargos por dichos productos y servicios y se facturarán a su forma de pago autorizada. Si está exento del pago de dichos Impuestos, debe proporcionarnos evidencia de su exención, que en algunas jurisdicciones incluye un certificado original que cumple con los requisitos legales aplicables que atestiguan el estado de exención de impuestos. La exención de impuestos solo se aplicará a partir de la fecha en que recibamos una evidencia que satisfaga a 4Shop de su exención. Si 4Shop no le cobra los Impuestos, usted es responsable de determinar si los Impuestos son pagaderos y, de ser así, remitir usted mismo los Impuestos a las autoridades fiscales correspondientes en su jurisdicción.</li>
+                        <li class="mb-2">Para evitar cualquier duda, todas las sumas pagaderas por usted a 4Shop bajo estos Términos del servicio se pagarán sin deducciones ni retenciones de ningún tipo. Aparte de los Impuestos que 4Shop le cobra a usted y que son remitidos en su nombre a las autoridades fiscales correspondientes, cualquier otra deducción o retención que exija la ley correrá a su cargo y se pagará por separado a la autoridad fiscal correspondiente. 4Shop tendrá derecho a cobrar el monto total de los Cargos estipulados en estos Términos del servicio a su forma de pago autorizado, ignorando cualquier deducción o retención que pueda ser necesaria.</li>
+                        <li class="mb-2">Debe mantener actualizada una ubicación precisa en el menú de administración de su tpanel de administración de 4Shop. Si cambia de region, debe actualizar rápidamente su ubicación en el menú de administración.</li>
+                        <li>4Shop no hace reembolsos.</li>
+                    </ul>
+                    <div class="heading-block  border-bottom-0 mb-0 ">
+                        <h4 style="font-size: 30px;" class="nott font-weight-bold ls1 titlebottom" >10. Cancelación y Recisión</h4>
+                    </div>
+                    <ul class="item pl-4">
+                        <li class="mb-2">Puede cancelar su Cuenta y rescindir los Términos del Servicio en cualquier momento enviando un correo electrónico a Atención al cliente de 4Shop y siguiendo las instrucciones específicas indicadas en la respuesta de 4Shop.</li>
+                        <li class="mb-2">Tras la rescisión de los Servicios por cualquiera de las partes por cualquier motivo:</li>
+                        <ul style="padding-left: 2rem;">
+                            <li><p class="mb-2">4Shop dejará de proporcionarle los Servicios y usted ya no podrá acceder a su Cuenta; a menos que se indique lo contrario en los Términos del Servicio, no tendrá derecho a ningún reembolso de ningún cargo, proporcional o de otro tipo;
+                            cualquier saldo pendiente adeudado a 4Shop por el uso de los servicios hasta la fecha de entrada en vigor de dicha rescisión será inmediatamente debido y pagadero en su totalidad; y el sitio web de tu Tienda se desconectará.</p></li>
+                        </ul>
+                        <li class="mb-2">Si adquirió un nombre de dominio a través de 4Shop, al cancelar su dominio ya no se renovará automáticamente. Después de la rescisión, será su responsabilidad exclusiva manejar todos los asuntos relacionados con su dominio con el proveedor del dominio.</li>
+                        <li class="mb-2">Si para la fecha de rescisión del Servicio, queda algún Cargo pendiente adeudado por usted, recibirá una factura final por correo electrónico. Una vez que la factura se haya pagado en su totalidad, no se le cobrará nuevamente. Nos reservamos el derecho de modificar o rescindir el Servicio de 4Shop, los Términos del Servicio y/o su Cuenta por cualquier motivo, sin previo aviso en cualquier momento (a menos que la ley estipule lo contrario). La rescisión de los Términos del servicio se realizará sin perjuicio de cualquier otro derecho u obligación que surja antes de la fecha de rescisión.</li>
+                        <li>Fraude: sin limitar ningún otro recurso, 4Shop puede suspender o rescindir su Cuenta si sospechamos que usted  ha participado en actividades fraudulentas relacionadas con el uso de los Servicios.</li>
+                        
+                    </ul>
+                    <div class="heading-block  border-bottom-0 mb-0 ">
+                        <h4 style="font-size: 30px;" class="nott font-weight-bold ls1 titlebottom" >11. Modificaciones al Servicio y Precios</h4>
+                    </div>
+                    <ul class="item pl-4">
+                        <li class="mb-2">Los precios para el uso de los Servicios están sujetos a cambio previo aviso de 4Shop con 30 días de antelación. Dicho aviso podrá darse en cualquier momento publicando los cambios en el Sitio Web de 4Shop (4Shop.mx) o en el panel de administración de su tienda 4Shop a través de un anuncio.</li>
+                        <li class="mb-2">4Shop se reserva el derecho de modificar o interrumpir los Servicios (o cualquier parte de los mismos) en cualquier momento y eventualmente, con o sin previo aviso (a menos que la ley aplicable exija lo contrario).</li>
+                        <li class="mb-2">4Shop no será responsable ante usted ni ante ningún tercero por ninguna modificación, cambio de precio, suspensión o interrupción del Servicio.</li>
+                    </ul>
+                    <div class="heading-block  border-bottom-0 mb-0 ">
+                        <h4 style="font-size: 30px;" class="nott font-weight-bold ls1 titlebottom" >12. Derechos de terceras partes</h4>
+                    </div>
+                    <ul class="item pl-4">
+                        <li>4Shop se compromete firmemente a proteger la privacidad de su información personal y la información personal de sus clientes. Al utilizar el Servicio, usted reconoce y acepta que la recopilación, el uso y la divulgación de dicha información personal por parte de 4Shop se rigen por nuestra <a href="#" style="color: #e44051;">Poliza de Privacidad.</a></li>
+                    </ul>
+                </div>  
+            </div>
+
+        </div>
+        
+    </div>
+</section><!-- #content end -->
+{% endblock content %}
+
+{% block customjs %}
+{% endblock customjs %}
+
+{% block docready %}
+{% endblock docready %}

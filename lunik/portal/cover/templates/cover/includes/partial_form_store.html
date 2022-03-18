@@ -1,0 +1,82 @@
+<div class="modal-header">
+    <h3 class="modal-title" id="myModalLabel">Empieza tu registro gratis</h3>
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+</div>
+<form role="form" class="js-form-store well" method="post" action="{% url 'cover:store' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+<div class="modal-body">
+    {% if error %}
+    <div class="alert alert-warning">
+        <button class="close" data-close="alert"></button><i class="icon fa fa-warning"></i>Hay algunos errores, revisalos y vuelve a intentarlo.
+        <div id="error-message" class="error-message"></div>
+      </div>
+      {% endif %}
+    <div class="form-group">
+        <!-- <label for="nombre">Nombre </label> -->
+        {{user.first_name}}
+    </div>
+    <div class="form-group">
+        <!-- <label for="nombre">Apellidos </label> -->
+        {{user.last_name}}
+    </div>
+    <div class="form-group">
+        <!-- <label for="exampleInputEmail1">Correo Electronico</label> -->
+        {{user.email}}
+    </div>
+    <div class="form-group">
+        <!-- <label for="pass">Contraseña </label> -->
+        <input type="password" name="password" class="form-control" id="pass" aria-describedby="pass" placeholder="Contraseña">
+    </div>
+    <div class="form-group">
+        <!-- <label for="name">Nombre de la tienda</label> -->
+        {{store_form.name}}
+    </div>
+    <div class="form-group">
+        <!-- <label for="pass">Contraseña </label> -->
+        <input type="hidden" name="reseller-code" class="form-control" id="reseller-code">
+    </div>
+</div>
+<button type="submit" class="button button-3d button-xlarge button-rounded buttonColor" style="background-color: #e44051 !important;">PRUEBA 15 DÍAS</button>
+</form>
+<script>
+    var i = 1;  
+    $("input#id_name_2").on('keyup', function (){
+        this.value = this.value.normalize('NFD').replace(/[\u0300-\u036f]/g, "")
+        if(this.value.length >= 30 && i == 1 || i == 0){
+            i++;
+            $("#id_name_2").parent().addClass('form-control.error');
+            $("#id_name_2").addClass('errormsg');
+            $("#id_name_2").after("<span id='s-err' class='help-block text-danger'>Máximo de carácteres permitidos</span>");
+        } else if (this.value.length < 30) {
+            i = 1;
+            $("#id_name_2").parent().removeClass('form-control.error');
+            $("#id_name_2").removeClass('errormsg');
+            $("#s-err").remove();
+        }
+      });
+      $("input#id_name_2").on({
+	keydown: function(e) {
+	  if (e.which === 32)
+		return false;
+	},
+	change: function() {
+	  this.value = this.value.replace(/\s/g, "");
+	}
+  });
+    {% if error %}
+    {% for field in store_form %}
+        {% for error in field.errors %}
+        $("#{{field.auto_id}}").parent().addClass('form-control.error');
+        $("#{{field.auto_id}}").addClass('errormsg');
+        $("#{{field.auto_id}}").after("<span class='help-block text-danger'>{{error}}</span>");
+        {% endfor %}
+    {% endfor %}
+    {% for field in user %}
+        {% for error in field.errors %}
+        $("#{{field.auto_id}}").parent().addClass('form-control.error');
+        $("#{{field.auto_id}}").addClass('errormsg');
+        $("#{{field.auto_id}}").after("<span class='help-block text-danger'>{{error}}</span>");
+        {% endfor %}
+    {% endfor %}
+    {% endif %}
+</script>

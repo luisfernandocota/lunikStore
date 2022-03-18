@@ -1,0 +1,142 @@
+{% extends 'base_shop.html' %}
+
+{% load humanize %}
+{% load thumbnail %}
+{% block title %}{{store_instance.name}}{% endblock title %}
+
+{% block subtitle %} {% if address_obj %}Editar{% else %}Agregar{% endif %} dirección {% endblock subtitle %}
+{% block cart %}
+{% include 'shop/includes/partial_cart_detail.html' %}
+{% endblock cart %}
+{% block menu %}
+{% include 'shop/includes/partial_menu.html' %}
+{% endblock menu %}
+{% block cart_mobile %}
+{% include 'shop/includes/partial_cart_mobile_detail.html' %}
+{% endblock cart_mobile %}
+
+{% block customcss %}
+<link href="{{STATIC_URL}}assets/css/plugins/switchery/switchery.css" rel="stylesheet">
+{% endblock customcss %}
+
+{% block content %}
+<section class="bgwhite p-t-66 p-b-60">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 p-b-30">
+                <div class="p-r-20 p-r-0-lg">
+                    <div class="item d-flex justify-content-between align-items-center flex-wrap">
+                        <h2 class="m-text26 p-b-0">
+                            {% if address_obj %}EDITAR{% else %}AGREGAR{% endif %} DIRECCIÓN
+                        </h2>
+                        {% if form.errors %}
+                        <h2 class="m-text26 p-b-0 text-danger">
+                            HAY ERRORRES, FAVOR DE VERIFICARLOS
+                        </h2>
+                        {% endif %}
+                        <a  href="{% url 'dashboard:address' %}" class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4 w-25 buttonMovil" style="background-color: {{store_instance.store_meta.header_color}};">
+                            MIS DIRECCIÓNES
+                        </a>
+                    </div>
+                   
+                </div>
+            </div>
+            <div class="col-md-12 p-b-30">
+                <form method="post" class="leave-comment w-75 m-auto">
+                    {% csrf_token %}
+                    <div class="form-group item d-flex justify-content-between">
+                        <div class="item w-100">
+                            <label for="">Nombre Completo <span class="text-danger">*</span></label>
+                            <div class="bo4 of-hidden size15 m-b-20">
+                                {{form.name}}
+                            </div>
+                        </div>
+                        <div class="item w-100 ml-3">
+                            <label for="">Dirección de la calle <span class="text-danger">*</span></label>
+                            <div class="bo4 of-hidden size15 m-b-20">
+                                {{form.address}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group item d-flex justify-content-between">
+                        <div class="item w-100">
+                            <label for="">Número Exterior <span class="text-danger">*</span></label>
+                            <div class="bo4 of-hidden size15 m-b-20">
+                                {{form.num_ext}}
+                            </div>
+                        </div>
+                        <div class="item w-100 ml-3">
+                            <label for="">Número Interior</label>
+                            <div class="bo4 of-hidden size15 m-b-20">
+                                {{form.num_int}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group item d-flex justify-content-between">
+                        <div class="item w-100">
+                            <label for="">Codigo Postal <span class="text-danger">*</span></label>
+                            <div class="bo4 of-hidden size15 m-b-20">
+                                {{form.zip_code}}
+                            </div>
+                        </div>
+                        <div class="item w-100 ml-3">
+                            <label for="">Colonia <span class="text-danger">*</span></label>
+                            <div class="bo4 of-hidden size15 m-b-20">
+                                {{form.suburb}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group item d-flex justify-content-between">
+                        <div class="item w-100">
+                            <label for="">Cuidad <span class="text-danger">*</span></label>
+                            <div class="bo4 of-hidden size15 m-b-20">
+                                {{form.city}}
+                            </div>
+                        </div>
+                        <div class="item w-100 ml-3">
+                            <label for="">Estado <span class="text-danger">*</span></label>
+                            <div class="bo4 of-hidden size15 m-b-20">
+                                {{form.state}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group item d-flex justify-content-between">
+                        <div class="item w-100">
+                            <label for="">Predeterminada <span class="text-danger">*</span></label>
+                            <div class="i-checks">
+                                {{form.default}}
+                              </div>
+                        </div>
+
+                    </div>
+                    
+                    <div class="w-size50">
+                        <button type="submit" class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4 w-50" style="background-color: {{store_instance.store_meta.header_color}};"              >
+                            {% if address_obj %}GUARDAR{% else %}AÑADIR{% endif %} DIRECCIÓN
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+
+{% block customjs %}
+<script src="{{STATIC_URL}}assets/js/plugins/switchery/switchery.js"></script>
+{% endblock customjs %}
+
+{% block docready %}
+{% for field in form %}
+  {% for error in field.errors %}
+    $("#{{field.auto_id}}").parent().addClass('text-danger');
+    $("#{{field.auto_id}}").addClass('text-danger');
+    $("#{{field.auto_id}}").after("<span class='text-danger'>{{error}}</span>");
+  {% endfor %}
+{% endfor %}
+
+var elem = document.querySelector('.js-switch');
+if (elem){
+var switchery = new Switchery(elem, { color: '#1AB394' });
+}
+{% endblock docready %}

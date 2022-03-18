@@ -1,0 +1,105 @@
+{% extends 'base_shop.html' %}
+
+
+{% load humanize %}
+{% block title %}{{store_instance.name}}{% endblock title %}
+{% block subtitle %} Editar perfil  {% endblock subtitle %}
+
+{% block menu %}
+{% include 'shop/includes/partial_menu.html' %}
+{% endblock menu %}
+{% block cart %}
+{% include 'shop/includes/partial_cart_detail.html' %}
+{% endblock cart %}
+
+{% block content %}
+	<!-- content page -->
+	<section class="bgwhite p-t-66 p-b-60">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 p-b-30">
+					<div class="p-r-20 p-r-0-lg">
+                        <div class="item d-flex justify-content-between align-items-center flex-wrap">
+                            <h2 class="m-text26 p-b-0">
+                                EDITAR PERFIL
+                            </h2>
+                            <a  href="{% url 'dashboard:profile' %}" class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4 w-25 mt-0 buttonMovil mt-0" style="background-color: {{store_instance.store_meta.header_color}};">
+								MI PERFIL
+							</a>
+                        </div>
+					   
+					</div>
+				</div>
+				<div class="col-md-12 p-b-30">
+                    <form role="form" method="post" enctype="multipart/form-data" class="leave-comment w-75 m-auto">
+                        {% csrf_token %}
+                        <div class="form-group item d-flex justify-content-between">
+                            <div class="item w-100">
+                                <label for="">Nombre</label>
+                                <div class="bo4 of-hidden size15 m-b-20">
+                                    {{form.first_name}}
+                                    <input class="sizefull s-text7 p-l-22 p-r-22" type="text" name="name" placeholder="Paul">
+                                </div>
+                            </div>
+                            <div class="item w-100 ml-3">
+                                <label for="">Apellidos</label>
+                                <div class="bo4 of-hidden size15 m-b-20">
+                                    {{form.last_name}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group item d-flex justify-content-between">
+                            <div class="item w-100">
+                                <label for="">Correo Electronico</label>
+                                <div class="bo4 of-hidden size15 m-b-20">
+                                    {{form.email}}
+                                </div>
+                            </div>
+                            <div class="item w-100 ml-3">
+                                <label for="">Telefono</label>
+                                <div class="bo4 of-hidden size15 m-b-20">
+                                    {{form.phone}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group item d-flex justify-content-between">
+                            <div class="item w-100">
+                                <label for="">Fecha de nacimiento</label>
+                                <div class="bo4 of-hidden size15 m-b-20">
+                                    {{form.birthday}}
+                                </div>
+                            </div>
+                            <div class="item w-100 ml-3">
+                                <label for="">Sexo</label>
+                                <div class="bo4 of-hidden size15 m-b-20">
+                                    {{form.gender}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group item d-flex justify-content-between">
+                            <div class="item w-100">
+                                <label for="">Facebook</label>
+                                <div class="bo4 of-hidden size15 m-b-20">
+                                    {{form.facebook}}
+                                </div>
+                            </div>
+                            <div class="item w-100 ml-3">
+                                <label for="">Twitter</label>
+                                <div class="bo4 of-hidden size15 m-b-20">
+                                    {{form.twitter}}
+                                </div>
+                            </div>
+                        </div>
+                        
+                
+						<div class="w-size50">
+							<button type="submit" class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4 " style="width: 40%; background-color: {{store_instance.store_meta.header_color}}">
+								GUARDAR
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock content %}

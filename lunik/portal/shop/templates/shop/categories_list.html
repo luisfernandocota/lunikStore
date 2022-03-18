@@ -1,0 +1,125 @@
+{% extends 'base_shop.html' %}
+
+{% load humanize %}
+{% load thumbnail %}
+{% block title %}{{store_instance.name}}{% endblock title %}
+
+{% block subtitle %} Categorías {% endblock subtitle %}
+
+{% block content %}
+
+            <section class="section-content medium products-page template">
+                <div class="container config-container">
+                    <h4 class="pt-4 pb-5">
+                        <strong>Nuestros categorías</strong>
+                    </h4>
+                    <div class="row categories-images justify-content-center">
+                        {% if store_instance and categories %}
+                        {% for category in categories %}
+                        {% if category.subcategories.all.first.products.all.first.products_gallery.all %}
+                        <div class="p-4 col-12 col-md-4">
+                            <div class="category d-flex justify-content-center align-items-center bground-config" 
+                            style="background-image: url('{{category.subcategories.all.first.products.all.first.products_gallery.first.image.url}}');">
+                                <div>
+                                    <h5 class="color-text-category-item">
+                                        <strong>{{category}}</strong>
+                                    </h5>
+                                    {% comment %} <p class="color-text-category-item">
+                                        Lorem ipsum dolor sit amet consectetur
+                                    </p> {% endcomment %}
+                                    <button type="button" onclick="sendPage('{% url 'shop:products_list' %}?categoria={{category.slug}}');" class="four-buttons">Conocer más</button>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+
+            </section>
+{% comment %} <!-- Title Page -->
+<section class="bg-title-page flex-col-c-m">
+    <h3 class="l-text2 t-center" style="color: #000">
+        CATEGORIAS
+    </h3>
+    <p class="m-text13 t-center">
+        Nuestro catálogo
+    </p>
+</section>
+
+	<div class="banner bgwhite p-t-40 p-b-40">
+		<div class="container">
+			<div class="row">
+				{% if store_instance and categories %}
+				{% for category in categories %}
+				{% if category.subcategories.all.first.products.all.first.products_gallery.all %}
+				<div class="col-sm-10 col-md-8 col-lg-4 m-l-r-auto widthProductMovil">
+					<!-- block1 -->
+					<div class="block1 hov-img-zoom pos-relative m-b-30">
+						<img src="{{category.subcategories.all.first.products.all.first.products_gallery.first.image.url}}" alt="IMG-BENNER">
+						<div class="block1-wrapbtn w-size2">
+							<!-- Button -->
+							<a href="{% url 'shop:product_filter' category.slug %}" class="flex-c-m size2 m-text2 bg3 hov1 trans-0-4">
+								{{category}}
+							</a>
+						</div>
+					</div>
+				</div>
+				{% endif %}
+				{% endfor %}
+				{% else %}
+				<div class="col-sm-10 col-md-8 col-lg-4 m-l-r-auto widthProductMovil">
+					<!-- block1 -->
+					<div class="block1 hov-img-zoom pos-relative m-b-30">
+						<img src="{{STATIC_URL}}site/images/imagesdefault/A-1.png" alt="IMG-BENNER">
+						
+						<div class="block1-wrapbtn w-size2">
+							<!-- Button -->
+							<a href="#" class="flex-c-m size2 m-text2 bg3 hov1 trans-0-4">
+								Categoría #1
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-10 col-md-8 col-lg-4 m-l-r-auto widthProductMovil">
+					<!-- block1 -->
+					<div class="block1 hov-img-zoom pos-relative m-b-30">
+						<img src="{{STATIC_URL}}site/images/imagesdefault/E-1.png" alt="IMG-BENNER">
+						
+						<div class="block1-wrapbtn w-size2">
+							<!-- Button -->
+							<a href="#" class="flex-c-m size2 m-text2 bg3 hov1 trans-0-4">
+								Categoría #2
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-10 col-md-8 col-lg-4 m-l-r-auto widthProductMovil">
+					<!-- block1 -->
+					<div class="block1 hov-img-zoom pos-relative m-b-30">
+						<img src="{{STATIC_URL}}site/images/imagesdefault/D-1.png" alt="IMG-BENNER">
+						
+						<div class="block1-wrapbtn w-size2">
+							<!-- Button -->
+							<a href="#" class="flex-c-m size2 m-text2 bg3 hov1 trans-0-4">
+								Categoría #3
+							</a>
+						</div>
+					</div>
+				</div>
+				{% endif %}
+			</div>
+		</div>
+	</div> {% endcomment %}
+{% endblock content %}
+{% block customjs %}
+<!-- Toastr -->
+<script src="{{STATIC_URL}}assets/js/plugins/toastr/toastr.min.js"></script>
+
+{% endblock customjs %}
+
+{% block docready %}
+
+
+{% endblock docready %}

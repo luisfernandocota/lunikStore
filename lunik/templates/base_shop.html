@@ -1,0 +1,923 @@
+
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Lunik | {% block subtitle %}{% endblock subtitle %}</title>
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{request.get_host}}">
+    <meta property="og:site_name" content="Lunik - Tienda en linea">
+    <meta property="og:title" content="Lunik">
+    <meta property="og:image" content="{{STATIC_URL}}assets/images/icons/LogoRosa.png">
+    <link rel="icon" type="image/png" href="{{STATIC_URL}}shop/resources/favicon.png">
+
+    <link rel="icon" type="image/png" href="{{STATIC_URL}}shop/resources/favicon.png">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="{{STATIC_URL}}shop/css/owl.carousel.css" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="{{STATIC_URL}}shop/css/owl.theme.default.css" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="{{STATIC_URL}}shop/css/base.css" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="{{STATIC_URL}}shop/css/template/version.css" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="{{STATIC_URL}}shop/css/template/fonts.css" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="{{STATIC_URL}}shop/css/template/base-template.css" />
+
+    <!-- Floating Whatsapp CSS -->
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="{{STATIC_URL}}site/css/floating-wpp.min.css" -->
+    <!-- Toastr style -->
+    <link href="{{STATIC_URL}}assets/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+
+<!-- Style con clases al final que faltaban -->
+
+<style>
+    :root {
+        --main-bg-color-branding: #da9fa6;
+        --main-bg-color-buy-button: #da9fa6;
+        --main-text-color-promotion-ribbon: white;
+        --main-text-color-carousel-item: white;
+        --main-text-color-category-item: white;
+        --main-background-color-template: white;
+        --main-text-color-template: black;
+        --main-bg-fourbutton-template: #da9fa6;
+        --main-bg-fourbutton-hover-template: white;
+    }
+</style>
+<style>
+    .dropdown-item.active, .dropdown-item:active {
+        color: #fff !important;
+        text-decoration: none;
+        background-color: var(--main-bg-color-branding) !important;
+    }
+    .counter-product-cart{
+        background-color: var(--main-bg-color-branding) !important;
+    }
+    .button-buy-product{
+        background-color: var(--main-bg-color-buy-button) !important;
+    }
+    body.custom{
+        background-color: var(--main-background-color-template) !important;
+    }
+    body.custom section.template{
+        background-color: var(--main-background-color-template) !important;
+    }
+
+    body.custom .color-text-carousel-item{
+        color: var(--main-text-color-carousel-item) !important;
+    }
+    body.custom .color-text-category-item{
+        color: var(--main-text-color-category-item) !important;
+    }
+    body.custom .mega-menu {
+        background: var(--main-background-color-template) !important;
+    }
+    body.custom .mega-menu a{
+        color: var(--main-text-color-template) !important;
+    }
+    body.custom .principal-menu-container{
+        background-color: var(--main-background-color-template) !important;
+        transition: .3s;
+    }
+    body.custom .principal-menu-container a{
+        color: var(--main-text-color-template) !important; 
+    }
+    body.custom .cart-bar,body.custom .mobile-menu, body.custom .mobile-user-menu {
+        background: var(--main-background-color-template) !important;
+    }
+    body.custom .mobile-menu *
+    {
+        color: var(--main-text-color-template) !important;
+    }
+    body.custom h1, body.custom h2, body.custom h3, body.custom h4, body.custom h5,body.custom h6,body.custom a,body.custom p, body.custom div{
+        color: var(--main-text-color-template) !important;
+    }
+    body.custom .btn-cart{
+        color: var(--main-text-color-template) !important;
+    }
+
+    body.custom .principal-menu-mobile *{
+        color: var(--main-text-color-template) !important;
+    }
+    body.custom .post-footer {
+        background-color: var(--main-background-color-template) !important;
+    }
+    body.custom .post-footer *{
+        color:var(--main-text-color-template) !important;
+    }
+    body.custom .cartBarToggle{
+        color: var(--main-text-color-template) !important;
+    }
+    body.custom .panelToggle{
+        color: var(--main-text-color-template) !important;
+    }
+    body.custom .card-body {
+        background: var(--main-background-color-template) !important;
+    }
+    body.custom .modal-content{
+        background: var(--main-background-color-template) !important;
+    }
+    body.custom .four-buttons{
+        background-color: var(--main-bg-fourbutton-template) !important;
+        border: 1px solid var(--main-bg-fourbutton-template) !important;
+        color: var(--main-bg-fourbutton-hover-template) !important;
+        transition: .5s;
+    }
+    body.custom .four-buttons:hover{
+        background-color: var(--main-bg-fourbutton-hover-template) !important;
+        border: 1px solid var(--main-bg-fourbutton-template) !important;
+        color: var(--main-bg-fourbutton-template) !important;
+        transition: .2s;
+    }
+    body.custom .brand-promotions-ribbon{
+        background-color: var(--main-bg-color-branding) !important;
+        font-size: 14px;
+        z-index: 1000;
+    }
+    body.custom .brand-promotions-ribbon a{
+        color: var(--main-text-color-promotion-ribbon) !important;
+    }
+    body.custom .brand-ribbon-text{
+        color: var(--main-text-color-promotion-ribbon) !important;
+    }
+    .param{
+        font-weight: bold;
+    }
+</style>
+
+    {% block customcss %}{% endblock customcss %}
+    <!-- Load Stripe.js on your website. -->
+    <script src="https://js.stripe.com/v3/"></script>
+
+    {% block google_ads %}{% endblock google_ads %}
+
+    <!--===============================================================================================-->
+
+</head>
+
+<body class="custom">
+
+    <div class="container-fluid p-0 m-0 base_shop">
+
+        {% include 'includes/partial_mobile_user_menu.html' %}
+
+        {% include 'includes/partial_cart.html' %}
+
+        {% include 'includes/partial_mobile_menu.html' with segm=1 %}
+
+        <div class="content">
+
+            <nav id="promotions-ribbon" class="navbar navbar-expand-lg promotions-ribbon brand-promotions-ribbon">
+
+                <div class="container-fluid d-flex justify-content-between">
+
+                    <div class="social-medias-buttons">
+                        <button type="button" class="btn btn-link  animate__animated animate__bounce"><i
+
+                                class="bi bi-facebook"></i></button>
+
+                        <button type="button" class="btn btn-link  animate__animated animate__bounce"><i
+
+                                class="bi bi-instagram"></i></button>
+
+                        <!-- <button type="button" class="btn btn-link  animate__animated animate__bounce"><i
+
+                                class="bi bi-youtube"></i></button> -->
+                    </div>
+
+                    <div class="brand-ribbon-text brand-promotions-ribbon">
+                            ¡Sueña, planea, agendalo! 
+                    </div>
+
+                    <div class="my-accont-email">
+
+                        <a class="navbar-brand text-center brand-promotions-ribbon " href="#">hola@lunik.com.mx</a>
+
+                    </div>
+
+                </div>
+
+            </nav>
+
+
+
+            <nav id="principal-menu-container"
+
+                class="navbar navbar-expand-lg d-flex justify-content-around principal-menu-container">
+
+                <div class="container-fluid principal-menu">
+
+                    <div>
+                        <a class="navbar-brand" href="#">
+                            
+                            <img src="{{STATIC_URL}}assets/images/icons/LogoRosa.png" class="logo-brand-store" alt="">
+
+                        </a>
+
+                    </div>
+
+                    <div>
+
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                            <li class="nav-item">
+
+                                <a class="nav-link principal-menu-option active" aria-current="page" href="{% url 'shop:shop_list' %}">Inicio</a>
+
+                            </li>
+
+                            <!-- <li class="nav-item position-relative mega-menu-trigger ">
+
+                                <a class="nav-link principal-menu-option">Productos <i class="bi bi-chevron-down"
+
+                                        style="font-size: 18px;"></i></a>
+
+                            </li> -->
+
+                            <li class="nav-item">
+
+                                <a class="nav-link principal-menu-option" href="#">Conócenos</a>
+
+                            </li>
+
+                            <li class="nav-item">
+
+                                <a class="nav-link principal-menu-option" href="#">Contacto</a>
+
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+                    <div>
+
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                            {% if request.user.is_authenticated and request.user.is_customer %}
+
+                            <li class="nav-item position-relative">
+
+                                <a class="nav-link secondary-menu-option" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
+
+                                    Hola Hugo <i class="bi bi-chevron-down" style="font-size: 18px;"></i>
+
+                                </a>
+
+                                <ul class="dropdown-menu" aria-labelledby="userMenu">
+
+                                    <li><a class="dropdown-item " href="#">Mi perfil</a></li>
+
+                                    <li><a class="dropdown-item " href="#">Configuración</a></li>
+
+                                    <li><a class="dropdown-item " href="#">Cerrar Sesión</a></li>
+
+                                </ul>
+
+                            </li>
+                            {% else %}
+
+                            <li class="nav-item">
+
+                                <div class="display-flex-center">
+
+                                    <a class="nav-link secondary-menu-option" href="">Registro</a> / <a
+
+                                        class="nav-link secondary-menu-option" href="">Entrar</a>
+
+                                </div>
+
+                            </li>
+                            {% endif %}
+
+                            <li class="nav-item">
+
+                                <a class="nav-link secondary-menu-option" data-bs-toggle="modal" data-bs-target="#searchProductsForm"><i class="bi bi-search"
+
+                                        style="font-size: 18px;"></i></a>
+
+                            </li>
+
+                            <li class="nav-item">
+
+                                <a class="nav-link secondary-menu-option cartBarToggle">
+
+                                    <div class="position-relative">
+
+                                        <i class="bi bi-handbag" style="font-size: 18px;"></i>
+                                        {% if cart.get_quantity_products >= 1 %}
+                                        <span class="badge rounded-pill counter-product-cart counter-shop-products">{{cart.get_quantity_products}}</span>
+                                        {% endif %}
+                                    </div>
+
+                                </a>
+
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- For mobile -->
+                
+                {% include 'includes/partial_mobile_menu.html' with segm=2 %}
+
+                <!-- /// For mobile -->
+
+
+
+                <div id="mega-menu" class="mega-menu">
+
+                    <div class="content">
+
+                        <div class="row justify-content-center">
+
+                            <div class="col-12 col-md-2">
+
+                                <div id="carouselPromotionsProducts" class="carousel slide mw-100" data-bs-ride="carousel">
+
+                                    <div class="carousel-inner">
+                                        {% for product in products_list %}
+                                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+
+                                            <img src="{{product.products_gallery.first.image.url}}" class="d-block mw-100" alt="{{product.name}}">
+
+                                            <h6 class="pt-2">{{product.name}}</h6>
+
+                                            <buttaon type="button" onclick="sendPage('{% url 'shop_cart:product_detail' product.slug %}');" class="four-buttons">Ver producto</button>
+
+                                        </div>
+                                        {% endfor %}
+
+
+                                        {% comment %} <div class="carousel-item">
+
+                                            <img src="{{STATIC_URL}}shop/resources/store/3-3.jpg" class="d-block mw-100" alt="...">
+
+                                            <h6 class="pt-2">Camisa Lancaster #23452</h6>
+
+                                            <a href="#">Ver producto</a>
+
+                                        </div>
+
+                                        <div class="carousel-item">
+
+                                            <img src="{{STATIC_URL}}shop/resources/store/8-1.jpg" class="d-block mw-100" alt="...">
+
+                                            <h6 class="pt-2">Camisa Lancaster #23452</h6>
+
+                                            <a href="#">Ver producto</a>
+
+                                        </div> {% endcomment %}
+
+                                    </div>
+
+                                </div>
+                                <hr>
+                                <button onclick="sendPage('{% url 'shop:products_list' %}');" type="button" class="four-buttons">Ver todos los productos</button>
+                            </div>
+                            {% for category in categories_list  %}
+                            <div class="col-12 col-md-2">
+
+                                <h6><a onclick="sendPage('{% url 'shop:products_list' %}?categoria={{category.slug}}')">{{category.name}}</a></h6>
+
+                                <ul class="list-group list-group-flush">
+                                    {% for subcategory in category.subcategories.all %}
+                                    <li class="list-group-item">
+
+                                        <a onclick="sendPage('{% url 'shop:products_list' %}?subcategoria={{subcategory.slug}}')">
+
+                                            {{subcategory.name}}
+
+                                        </a>
+
+                                    </li>
+                                    {% endfor %}
+
+                                </ul>
+
+                            </div>
+                            {% endfor %}
+
+
+                            <div class="col-12 col-md-2">
+
+                                <h6><a href="#">Mujer</a></h6>
+
+                                <ul class="list-group list-group-flush">
+
+                                    <li class="list-group-item">
+
+                                        <a href="#">
+
+                                            Calzado
+
+                                        </a>
+
+                                    </li>
+
+                                    <li class="list-group-item">
+
+                                        <a href="#">
+
+                                            Ropa
+
+                                        </a>
+
+                                    </li>
+
+                                    <li class="list-group-item">
+
+                                        <a href="#">
+
+                                            Entrenamiento
+
+                                        </a>
+
+                                    </li>
+
+                                    <li class="list-group-item">
+
+                                        <a href="#">
+
+                                            Accesorios
+
+                                        </a>
+
+                                    </li>
+
+                                    <li class="list-group-item">
+
+                                        <a href="#">
+
+                                            Calzado
+
+                                        </a>
+
+                                    </li>
+
+                                    <li class="list-group-item">
+
+                                        <a href="#">
+
+                                            Ropa
+
+                                        </a>
+
+                                    </li>
+
+                                    <li class="list-group-item">
+
+                                        <a href="#">
+
+                                            Entrenamiento
+
+                                        </a>
+
+                                    </li>
+
+                                </ul>
+
+                                <h6><a href="#">Mujer 2</a></h6>
+
+                                <ul class="list-group list-group-flush">
+
+                                    <li class="list-group-item">
+
+                                        <a href="#">
+
+                                            Calzado
+
+                                        </a>
+
+                                    </li>
+
+                                    <li class="list-group-item">
+
+                                        <a href="#">
+
+                                            Ropa
+
+                                        </a>
+
+                                    </li>
+
+                                    <li class="list-group-item">
+
+                                        <a href="#">
+
+                                            Entrenamiento
+
+                                        </a>
+
+                                    </li>
+
+                                </ul>
+
+                            </div>
+
+                            <div class="col-12 col-md-2">
+
+                                <h6><a href="#">Marcas</a></h6>
+
+                                <ul class="list-group list-group-flush">
+
+                                    <li class="list-group-item">
+
+                                        <a href="#">
+
+                                            Addidas
+
+                                        </a>
+
+                                    </li>
+
+                                    <li class="list-group-item">
+
+                                        <a href="#">
+
+                                            Nike
+
+                                        </a>
+
+                                    </li>
+
+                                    <li class="list-group-item">
+
+                                        <a href="#">
+
+                                            Runner
+
+                                        </a>
+
+                                    </li>
+
+                                    <li class="list-group-item">
+
+                                        <a href="#">
+
+                                            Charly
+
+                                        </a>
+
+                                    </li>
+
+                                </ul>
+
+                                <h6><a href="#">Marcas 2</a></h6>
+
+                                <ul class="list-group list-group-flush">
+
+                                    <li class="list-group-item">
+
+                                        <a href="#">
+
+                                            Addidas
+
+                                        </a>
+
+                                    </li>
+
+                                    <li class="list-group-item">
+
+                                        <a href="#">
+
+                                            Nike
+
+                                        </a>
+
+                                    </li>
+
+                                    <li class="list-group-item">
+
+                                        <a href="#">
+
+                                            Runner
+
+                                        </a>
+
+                                    </li>
+
+                                    <li class="list-group-item">
+
+                                        <a href="#">
+
+                                            Charly
+
+                                        </a>
+
+                                    </li>
+
+                                </ul>
+
+                            </div> 
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </nav>
+
+            {% block content %}
+            {% endblock content %}
+
+            <footer class="section-content small brand-promotions-ribbon">
+
+                <div class="row">
+
+                    <div class="col-12 col-md-3 col-lg-4">
+
+                        <small class=""><strong>Nuestra Tienda</strong></small>
+                        <img src="{{STATIC_URL}}assets/images/icons/LogoBlanco.png" class="logo-brand-store-footer d-block pt-2 pb-4" alt="">
+                        <p class="brand-ribbon-text">
+
+                            ¿Alguna pregunta? Llamanos al (668) 172 - 25 - 11 y con gusto te resolveremos tus dudas, o envianos un correo a hola@lunik.com.mx
+
+                        </p>
+
+                    </div>
+
+                    <div class="col-6 col-md-3 col-lg-2">
+
+                        <h6><a href="#">Mapa del sitio</a></h6>
+
+                        <ul class="list-group list-group-flush">
+
+                            <li class="list-group-item clean">
+
+                                <a href="{% url 'shop:products_list' %}">
+
+                                    Productos
+
+                                </a>
+
+                            </li>
+
+                            <li class="list-group-item clean">
+
+                                <a href="#">
+
+                                    Sobre nosotros
+
+                                </a>
+
+                            </li>
+
+                            <li class="list-group-item clean">
+
+                                <a href="#">
+
+                                    Contacto
+
+                                </a>
+
+                            </li>
+
+                            <li class="list-group-item clean">
+
+                                <a href="">
+
+                                    Inicia sesión
+
+                                </a>
+
+                            </li>
+
+                            <li class="list-group-item clean">
+
+                                <a href="">
+
+                                    Regístrate
+
+                                </a>
+
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+                    <div class="col-6 col-md-3 col-lg-2">
+
+                        <h6><a href="{% url 'shop:categories_list' %}">Categorías</a></h6>
+
+                        <ul class="list-group list-group-flush">
+                            {% for category in categories_list %}
+
+
+                            <li class="list-group-item clean">
+
+                                <a onclick="sendPage('{% url 'shop:products_list' %}?categoria={{category.slug}}')">
+
+                                    {{category.name}}
+
+                                </a>
+
+                            </li>
+                            {% endfor %}
+
+                            {% comment %} <li class="list-group-item clean">
+
+                                <a href="#">
+
+                                    Mujer
+
+                                </a>
+
+                            </li>
+
+                            <li class="list-group-item clean">
+
+                                <a href="#">
+
+                                    Futbol
+
+                                </a>
+
+                            </li>
+
+                            <li class="list-group-item clean">
+
+                                <a href="#">
+
+                                    Casual
+
+                                </a>
+
+                            </li>
+
+                            <li class="list-group-item clean">
+
+                                <a href="#">
+
+                                    Bebisbol
+
+                                </a>
+
+                            </li> {% endcomment %}
+
+                        </ul>
+
+                    </div>
+
+                    <div class="col-6 col-md-3 col-lg-2">
+
+                        <h6><a href="#">Enlaces</a></h6>
+
+                        <ul class="list-group list-group-flush">
+
+                            <li class="list-group-item clean">
+
+                                <a href="#">
+
+                                    Aviso de privacidad
+
+                                </a>
+
+                            </li>
+
+                            <li class="list-group-item clean">
+
+                                <a href="#">
+
+                                    Políticas de uso
+
+                                </a>
+
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+                </div>
+
+                
+
+            </footer>
+
+            <div class="w-100 post-footer">
+
+                <div>
+
+                    <p class="">Copyright © {% now 'Y' %} Todos los derechos reservados para Lunik</p>
+
+                </div>
+
+                <div class="d-flex">
+
+                    <img src="{{STATIC_URL}}shop/resources/visa.svg" alt="Visa" width="34" class="m-2">
+
+                    <img src="{{STATIC_URL}}shop/resources/mc.svg" alt="Visa" width="34" class="m-2">
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+    <!-- Modal -->
+
+<div class="modal fade" id="searchProductsForm" tabindex="1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+
+    <div class="modal-content">
+
+        <div class="modal-body">
+            <div class="form-floating">
+
+                <input type="text" class="form-control inputSearch" id="buscarModal" name="search" placeholder="¿Cuál será tu próxima compra?">
+
+                <label for="buscarModal">¿Cuál será tu próxima compra?</label>
+
+            </div>
+        </div>
+
+    </div>
+
+    </div>
+
+</div>
+
+
+
+</body>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script type="text/javascript" src="{{STATIC_URL}}shop/js/owl.carousel.js"></script>
+    
+    <script src="{{STATIC_URL}}js/shop.js"></script>
+
+    <!-- Floating Whatsapp js -->
+    <!-- <script type="text/javascript" src="{{STATIC_URL}}site/js/floating-wpp.js"></script> -->
+    <!-- Toastr -->
+    <script src="{{STATIC_URL}}assets/js/plugins/toastr/toastr.min.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}shop/js/template/main.js"></script>
+
+    {% block customjs %}
+    {% endblock customjs %}
+    {% if info.whatsapp %}
+    <script type="text/javascript">
+        $(function () {
+            $('#myDiv').floatingWhatsApp({
+                phone: '6681722511',
+                popupMessage: 'Hola, ¿En que podemos ayudarte?',
+                showPopup: true,
+                messenger: true,
+                position: 'right',
+                headerTitle: 'Lunik',
+                zIndex : 100
+            });
+        });
+    </script>
+    {% endif %}
+
+	<script type="text/javascript">
+    $(document).ready(function(){
+
+		{% include 'core/snippets/messages.html' %}
+
+		{% block docready %}
+
+		{% endblock docready %}
+
+    })
+	</script>
+
+</html>

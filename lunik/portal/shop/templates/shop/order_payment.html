@@ -1,0 +1,48 @@
+{% extends 'base_shop.html' %}
+  {% load humanize %}
+  {% load thumbnail %}
+
+  {% block title %}Lunik{% endblock title %}
+
+  {% block subtitle %} Compra: {{folio}} {% endblock subtitle %}
+  {% block menu %}
+    {% include 'shop/includes/partial_menu.html' %}
+  {% endblock menu %}
+  {% block cart_mobile %}
+    {% include 'shop/includes/partial_cart_mobile_detail.html' %}
+  {% endblock cart_mobile %}
+
+{% block content %}
+<section class="bg-title-page p-t-30 p-b-50 flex-col-c-m" style="margin:120px 0 35px 0; text-align: center;">
+  <h1 style="color: #da9fa6 !important">
+    ¡ Muchas gracias por su compra !
+  </h1>
+</section>
+<!-- content page -->
+<section id="section-payment" class="bgwhite p-b-38 " style="margin: 30px 0 100px 0;">
+  {% csrf_token %}
+</section>
+{% endblock content %}
+{% block customjs %}
+<!-- Toastr -->
+<script src="{{STATIC_URL}}assets/js/plugins/toastr/toastr.min.js"></script>
+
+<script src="{{STATIC_URL}}js/checkout.js"></script>
+
+{% endblock customjs %}
+{% block docready %}
+$(".aqui").on("click", ".js-send-shop", function () {
+  var btn = $(this);
+  console.log(btn)
+  $.ajax({
+    url: btn.attr('data-url'),
+    type: 'get',
+    dataType: 'json',
+    success: function (data) {
+      if (data.form_is_valid) {
+          toastr.warning("Envio del correo correcto");
+      }
+  }
+  });
+});
+{% endblock docready %}

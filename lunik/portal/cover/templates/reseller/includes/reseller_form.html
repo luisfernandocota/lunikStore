@@ -1,0 +1,47 @@
+                    <div class="div-form item d-flex flex-column align-items-start justify-content-center h-100">
+                        <img src="{{STATIC_URL}}custom/imgs/logo_4shop.svg" class="imgLogin mb-4">
+                        <p class="textLogin  text-start mb-0" >Ingresa tus datos</p>
+                        <p class="subtextLogin " >Para registrarte como Reseller Ejecutivo</p>
+                        <form id="formulario" action="{% url 'cover:reseller_form' %}" method="post" class="formLogin js-reseller-form well">
+                            {% csrf_token %}
+                            <div class="form-group w-100 d-flex" >
+                                {{form.first_name}}
+                                {{form.last_name}}
+                            </div>
+                            <div class="form-group w-100 d-flex">
+                                {{form.email}}
+                                {{form.phone}}
+                            </div>
+                            <div class="form-group w-100 mt-2">
+                                {{form.birthday}}
+                            </div>
+                            <div class="form-group w-100 mt-2 ">
+                                <input class="form-control w-100 inputLogin" type="text" id="code" name="code" value="RSLD-238569" aria-describedby="code" readonly="readonly" placeholder="Codigo Reseller" required>
+                            </div>
+                            <a  class="w-100 mt-4" style="text-decoration: none;cursor: pointer;"><button class="btnLogin" type="submit">REGISTRARME</button></a>
+                            <p class="terminos mt-2 ">Al aceptar usted acepta nuestros <span style="color: #E51544">terminos y condiciones</span></p>
+                        </form>
+                        <div class="item w-100  flex-column align-items-center mt-4 ">
+                            <p class="bottomregister mb-0">¿Eres Director de Reseller?</p>
+                            <a href="{% url 'authorization:access_reseller' %}" class="bottomsubregister mt-0">Haz click aquí</a>
+                        </div>
+
+                    </div>
+
+<script>
+function copiarAlPortapapeles(id_elemento) {
+    var aux = document.createElement("input");
+    aux.setAttribute("value", document.getElementById(id_elemento).innerHTML);
+    document.body.appendChild(aux);
+    aux.select();
+    document.execCommand("copy");
+    toastr.success('Copiado')
+    document.body.removeChild(aux);
+}
+{% for field in form %}
+    {% for error in field.errors %}
+    $("#{{field.auto_id}}").addClass('form-control-error');
+    toastr.error('{{error}}')
+    {% endfor %}
+{% endfor %}
+</script>

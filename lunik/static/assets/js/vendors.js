@@ -1,0 +1,6 @@
+
+// Simple Datatable
+$("#dataTable").DataTable({
+
+});
+

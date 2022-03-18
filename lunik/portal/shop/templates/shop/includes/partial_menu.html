@@ -1,0 +1,40 @@
+<div class="wrap_menu">
+	<nav class="menu">
+		<ul class="main_menu">
+			<!-- <li>
+				<a href="index.html">Home</a>
+				<ul class="sub_menu">
+					<li><a href="index.html">Homepage V1</a></li>
+					<li><a href="home-02.html">Homepage V2</a></li>
+					<li><a href="home-03.html">Homepage V3</a></li>
+				</ul>
+			</li> -->
+
+			<li>
+				<a href="{% url 'shop:shop_list' %}">Inicio</a>
+			</li>
+			{% if store_instance and categories_list %}
+				<li>
+					<a href="#">Productos</a>
+					<ul class="sub_menu" style="z-index: 2550;">
+						{% for category in categories_list %}
+							{% if forloop.counter <= 4 %}
+							<li><a href="{% url 'shop:product_filter' category.slug %}">{{category}}</a></li>
+							{% endif %}
+						{% endfor %}
+						<li><a href="{% url 'shop:categories_list' %}">Ver más categorias</a></li>
+						<li><a href="{% url 'shop:products_list' %}">Ver todos los productos</a></li>
+
+					</ul>
+				</li>
+			{% endif %}
+			<li>
+				<a href="{% url 'shop:info' %}">Conócenos</a>
+			</li>
+
+			<li>
+				<a href="{% url 'shop:contact' %}">Contacto</a>
+			</li>
+		</ul>
+	</nav>
+</div>

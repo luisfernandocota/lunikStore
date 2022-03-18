@@ -1,0 +1,30 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="myModalLabel33">{{name_form}}</h4>
+    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+        <i data-feather="x"></i>
+    </button>
+</div>
+<form action="{{url_post}}" class="submit-form" method="POST">
+    {% csrf_token %}
+    {% include 'core/snippets/form_messages.html' with form=slide_form %}
+    <div class="modal-body">
+        <label>{{slide_form.title.label}}</label>
+        <div class="form-group">
+            {{slide_form.title}}
+        </div>
+        <label>{{slide_form.url.label}}</label>
+        <div class="form-group">
+            {{slide_form.url}}
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+            <i class="bx bx-x d-block d-sm-none"></i>
+            <span class="d-none d-sm-block">Cancelar</span>
+        </button>
+        <button type="submit" class="btn btn-primary ml-1">
+            <i class="bx bx-check d-block d-sm-none"></i>
+            <span class="d-none d-sm-block">Guardar</span>
+        </button>
+    </div>
+</form>

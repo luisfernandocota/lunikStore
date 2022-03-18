@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% load thumbnail %}
+
+{% load humanize %}
+
+{% block subtitle %}Slides{% endblock subtitle %}
+
+{% block header %}Slides{% endblock header %}
+
+{% block subheader %}Lista de slides{% endblock subheader %}
+
+
+{% block styles %}
+{% endblock styles %}
+{% block js %}
+{% endblock js %}
+
+{% block content %}
+<div class="page-title">
+  <div class="row">
+    <div class="col-12 col-md-6 order-md-1 order-last">
+      <h3>Slides</h3>
+      <p class="text-subtitle text-muted">Listado de slides</p>
+    </div>
+    <div class="col-12 col-md-6 order-md-2 order-first">
+      <nav aria-label="breadcrumb" class='breadcrumb-header'>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item active"><a style="color: #914c54;">Slides</a></li>
+          <!-- <li class="breadcrumb-item active" aria-current="page">Menu</li> -->
+        </ol>
+      </nav>
+      <a href="{% url 'website:slides_add' %}" style="float: right;" class="btn btn-primary me-1 mb-1">Agregar <i
+          data-feather="plus"></i></a>
+    </div>
+  </div>
+</div>
+<section class="section">
+  {% if slides_list %}
+  <div class="card-header">
+
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <table class='table table-striped cmodal' id="dataTable">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Creado el</th>
+            <th>Imagen (Slide)</th>
+            <th>Titulo</th>
+            <th>Link (URL)</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for slide in slides_list %}
+          <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{slide.created|date:"l d F Y"}}</td>
+            <td>
+              <div class="avatar avatar-xl me-3">
+                {% thumbnail slide.image '80x80' crop='center' as img %}
+                <img src="{{img.url}}" alt="{{slide.title}}" srcset="">
+                {% endthumbnail %}
+
+              </div>
+            </td>
+            <td>
+              {% if not slide.title %}
+                <span class="badge bg-warning">Pendiente <i data-feather="alert-triangle"></i></span>
+              {% else %}
+                {{slide.title}}
+              {% endif %}
+            </td>
+            <td>
+              {% if not slide.url %}
+                <span class="badge bg-warning">Pendiente <i data-feather="alert-triangle"></i></span>
+              {% else %}
+                {{slide.url}}
+              {% endif %}
+            </td>
+
+            <td>
+              <a data-url="{% url 'website:slides_edit' slide.pk %}" class="badge bg-info show-modal"><i data-feather="edit"></i></a>
+              {% if slide.status %}
+
+              <a data-url="{% url 'website:slides_delete' slide.pk %}" class="badge bg-danger show-modal"><i
+                  data-feather="trash"></i></a>
+
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% else %}
+  <!-- Empty list users -->
+  <div class="row">
+    <div class="col-12 col-md-5 order-m-1 order-last" style="align-self: center; text-align: center;">
+      <h2 style="font-size:xxx-large;">¡Una imagen dice más que mil palabras!</h2>
+      <p class="text-subtitle text-muted" style="font-size: x-large;">Agrega diferentes imagenes(slides) donde puedes
+        poner promociones o productos especiales. Se mostrarán al inicio de tu página.</p>
+      <a href="{% url 'website:slides_add' %}" class="btn btn-lunik"><i class="fas fa-plus"></i> Agregar</a>
+    </div>
+    <div class="col-md-5 order-m-1 order-last">
+      <img src="{{STATIC_URL}}assets/images/ilustrations/slides.png" style="position: relative; max-width: 650px;"
+        alt="list-users">
+    </div>
+  </div>
+  <!-- END empty list users -->
+  {% endif %}
+</section>
+{% endblock content %}

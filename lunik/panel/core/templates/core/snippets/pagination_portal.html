@@ -1,0 +1,23 @@
+{% if obj_list.has_other_pages %}
+<div class="paginatoin-area">
+  <div class="row">
+    <div class="col-lg-6 col-md-6">
+      <p>Showing {{obj_list.start_index}}-{{obj_list.end_index}} of {{obj_list.paginator.count}} item(s)</p>
+    </div>
+    <div class="col-lg-6 col-md-6">
+      <ul class="pagination-box">
+        {% if obj_list.has_previous %}
+          <li><a href="?page=1" class="Previous"><span>&laquo;</span></a></li>
+          <li><a href="?page={{obj_list.previous_page_number}}">{{obj_list.previous_page_number}}</a></li>
+        {% endif %}
+        <li>{{obj_list.number}}</li>
+
+        {% if obj_list.has_next %}
+          <li><a href="?page={{obj_list.next_page_number}}">{{obj_list.next_page_number}}</a></li>
+          <li><a href="?page={{obj_list.paginator.num_pages}}" class="Previous"><span>&raquo;</span></a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</div>
+{% endif %}

@@ -1,0 +1,7 @@
+
+{% for field in form %}
+  {% for error in field.errors %}
+    $("#{{field.auto_id}}").addClass('is-invalid');
+    $("#{{field.auto_id}}").after('<div class="invalid-feedback"><i class="bx bx-radio-circle"></i>{{error}}</div>');
+  {% endfor %}
+{% endfor %}

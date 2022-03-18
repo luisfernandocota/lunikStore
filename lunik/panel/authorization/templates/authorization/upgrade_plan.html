@@ -1,0 +1,233 @@
+{% extends 'base.html'%}
+
+{% load i18n %}
+
+{% block subtitle %}Actualizar plan {% endblock subtitle %}
+
+{% block header %}Tienda: {{store_instance.name}} {% endblock header %}
+
+{% block customcss %}
+<link href="{{STATIC_URL}}assets/css/plugins/iCheck/custom.css" rel="stylesheet">
+{% endblock customcss %}
+
+{% block content %}
+<div class="col-lg-12">
+        <div class="ibox">
+            <div class="ibox-content">
+                <div class="row ">
+                    <div class="col-md-12">
+                        {% if store_instance.customer.stripe_customers.first.status == 'trialing' and trial_end %}
+                        <div class="alert alert-warning text-center">
+                            <button class="close" data-close="alert"></button><i class="icon fa fa-warning"></i> Tu periodo de prueba ha finalizado el <strong>{{trial_date|date:"d F Y"}}</strong>. Para continuar con los beneficios de 4Shop elige el plan que mas te convenga.
+                          </div>
+                        {% elif store_instance.customer.stripe_customers.first.status == 'trialing' %}
+                        <div class="alert alert-info text-center">
+                            <button class="close" data-close="alert"></button><i class="icon fa fa-info-circle"></i> Tu periodo de prueba finaliza el <strong>{{trial_date|date:"d F Y"}}</strong>. Sin embargo puedes elegir un plan si asi lo deseas. Tu periodo de prueba finalizará.
+                          </div>
+                        {% elif store_instance.customer.stripe_customers.first.status == 'active' %}
+                        <div class="alert alert-success text-center">
+                            <button class="close" data-close="alert"></button><i class="icon fa fa-info-circle"></i> Tu plan actualmente es: <strong><span class="plan-name"></span></strong>. Sin embargo puedes subir o bajar de plan si asi lo deseas.
+                        </div>
+                        {% endif %}
+                        <div class="text-center">
+                            <span id="interval_month" style="font-size:16px;"></span>
+                            <input type="checkbox" id="interval" class="js-switch"/>
+                            <span id="interval_year" style="font-size:16px;"></span>
+                        </div>
+                        <!-- <div class="text-center  m-t-lg">
+                            <h3 id="interval_date">Siguiente fecha de cobro: {{after_m}}
+                            </h3>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="row m-t-lg">
+                    <div class="col-md-4">
+                        <!-- <div class="text-center m-t-lg">
+                            <img src="img/angular_logo.png" alt="AngularJS">
+                        </div> -->
+                        <div class="text-center m-t-lg">
+                            <h1><strong>Basico</strong></h1>
+                            <!-- <small>Supported AngularJs version</small> -->
+                        </div>
+                        <div class="text-center m-t-lg">
+                            <h1><span class="text-navy" id="basic-price">$350</span></h1>
+                        </div>
+                        <div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="text-center p-m">
+                                <p style="font-size:12px; line-height:20px;">
+                                    <strong>5% costo por transacción</strong>.<br>
+                                    Tienda en linea.
+                                    <br>
+                                    <strong>Productos ilimitados</strong>
+                                    <br>
+                                    Ventas ilimitadas
+                                    <br>
+                                    Certificado SSL gratis
+                                </p>
+                                {% if store_instance.customer.stripe_customers.first.description != 'PLAN BASICO' %}
+                                <p class="text-center m-t-md">
+                                    <button id="basic-plan-btn-m" class="basic-plan btn btn-primary dim">Lo quiero</button>
+                                    <button id="basic-plan-btn-y" class="basic-plan btn btn-primary dim">Lo quiero</button>
+                                </p>
+                                {% else %}
+                                <p class="text-center m-t-md">
+                                    <button class="btn btn-primary dim" disabled="disabled">Lo tengo</button>
+
+                                </p>
+                                {% endif %}
+                            </div>
+                            <div>
+    
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 well">
+                        <!-- <div class="text-center m-t-lg">
+                            <img src="img/angular_logo.png" alt="AngularJS">
+                        </div> -->
+                        <div class="text-center m-t-lg">
+                            <h1><strong>Premium</strong></h1>
+                            <h1><span class="text-danger">Plan promocional</span></h1>
+                            <!-- <small>Supported AngularJs version</small> -->
+                        </div>
+                        <div class="text-center m-t-lg">
+                            <h1><span class="text-danger" id="premium-price" style="font-size: 60px;">$450</span></h1>
+                        </div>
+                        <div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="text-center p-m">
+                                <p style="font-size:12px; line-height:20px;">
+                                    <!-- <strong>3% costo por transacción</strong> -->
+                                    <strong>Plan pro +</strong>
+                                    <br>
+                                    Dominio personalizado
+                                    <br>
+                                    Gestión y estadisticas de la tienda
+                                    <br>
+                                    Ayuda personalizada
+                                </p>
+                                {% if store_instance.customer.stripe_customers.first.description != 'PLAN PREMIUM'%}
+                                <p class="text-center m-t-md">
+                                    <button id="premium-plan-btn-m" class="premium-plan btn btn-danger dim">Lo quiero</button>
+                                    <button id="premium-plan-btn-y" class="premium-plan btn btn-danger dim">Lo quiero</button>
+                                </p>
+                                {% else %}
+                                <p class="text-center m-t-md">
+                                    <button class="btn btn-danger dim" disabled="disabled">Lo tengo</button>
+
+                                </p>
+                                {% endif %}
+                            </div>
+                            <div>
+    
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <!-- <div class="text-center m-t-lg">
+                            <img src="img/angular_logo.png" alt="AngularJS">
+                        </div> -->
+                        <div class="text-center m-t-lg">
+                            <h1><strong>Pro</strong></h1>
+                            <!-- <small>Supported AngularJs version</small> -->
+                        </div>
+                        <div class="text-center m-t-lg">
+                            <h1><span class="text-navy" id="pro-price">$750</span></h1>
+                        </div>
+                        <div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="text-center p-m">
+                                <p style="font-size:12px; line-height:20px;">
+                                    <strong>3% costo por transacción</strong>
+                                    <br>
+                                    <strong>Plan Básico +</strong>
+                                    <br>
+                                    Chats de redes sociales
+                                    <br>
+                                    Integración con pasarelas de pago
+                                    <br>
+                                    Registro de clientes
+                                </p>
+    
+                                <p class="text-center m-t-md">
+                                    <button id="pro-plan-btn-m" class="pro-plan btn btn-primary dim" disabled="disabled">Proximamente</button>
+                                    <button id="pro-plan-btn-y" class="pro-plan btn btn-primary dim" disabled="disabled">Proximamente</button>
+                                </p>
+                            </div>
+                            <div>
+    
+    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+            </div>
+            <div class="ibox-footer">
+                Tienda ID {{store_instance.code}}
+            </div>
+        </div>
+    </div>
+
+
+{% endblock content %}
+
+{% block customjs %}
+<script src="{{STATIC_URL}}assets/js/plugins/iCheck/icheck.min.js"></script>
+<script src="{{STATIC_URL}}js/authorization.js"></script>
+{% endblock customjs %}
+{% block docready %}
+
+$('#interval').change(function(){
+    if ($('#interval').is(":checked")){
+        $('#interval_month').html('Mensual');
+        $('#interval_year').html('<strong>Anual</strong>');
+        $('#interval_date').text('Siguiente fecha de cobro: {{after_y}}');
+        //Set basic plan interval to year
+        $('#basic-price').text('$4,200');
+        $('#basic-plan-btn-m').hide();
+        $('#basic-plan-btn-y').show();
+
+        //Set premium plan interval to year
+        $('#premium-price').text('$5,400');
+        $('#premium-plan-btn-m').hide();
+        $('#premium-plan-btn-y').show();
+
+        //Set pro plan interval to year
+        $('#pro-price').text('$7,200');
+        $('#pro-plan-btn-m').hide();
+        $('#pro-plan-btn-y').show();
+    }else{
+        $('#interval_year').html('Anual');
+        $('#interval_month').html('<strong>Mensual</strong>');
+        $('#interval_txt').text('Mensual');
+        $('#interval_date').text('Siguiente fecha de cobro: {{after_m}}');
+
+        //Set basic plan interval to year
+        $('#basic-price').text('$350');
+        $('#basic-plan-btn-y').hide();
+        $('#basic-plan-btn-m').show();
+
+        //Set premium plan interval to year
+        $('#premium-price').text('$450');
+        $('#premium-plan-btn-y').hide();
+        $('#premium-plan-btn-m').show();
+
+        //Set pro plan interval to year
+        $('#pro-price').text('$750');
+        $('#pro-plan-btn-y').hide();
+        $('#pro-plan-btn-m').show();
+
+    }
+    }).trigger("change");
+
+  $('.i-checks').iCheck({
+  checkboxClass: 'icheckbox_square-green',
+  radioClass: 'iradio_square-green',
+  });
+  
+var elem = document.querySelector('.js-switch');
+var switchery = new Switchery(elem, { color: '#1AB394' });
+
+  {% endblock docready %}

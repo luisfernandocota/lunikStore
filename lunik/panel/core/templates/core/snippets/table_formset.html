@@ -1,0 +1,102 @@
+{% load thumbnail %}
+{% load tags %}
+
+<div id="tab-2" class="tab-pane">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel-body">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                {% for field in fields_formset.form.visible_fields %}
+                  <th>{{field.label}}</th>
+                {% endfor %}
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% if items_list.exists %}
+                {% for item in items_list.all %}
+                  <tr id="box_{{item.pk}}">
+                    {% for value in item|instance_form_field %}
+                      <td>{{value}}</td>
+                      {% if forloop.last %}
+                        <td class="text-center">
+                          <div class="list-icons">
+                            <div class="dropdown">
+                              <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                <i class="icon-menu9"></i>
+                              </a>
+                              <div class="dropdown-menu dropdown-menu-right">
+                                <button data-url="{{item.get_absolute_edit}}" class="dropdown-item js-view-edit">
+                                  <i class="icon-pencil"></i> Editar
+                                </button>
+                                <button data-url="{{item.get_absolute_url}}" class="dropdown-item js-item-delete">
+                                  <i class="icon-bin "></i> Eliminar
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      {% endif %}
+                    {% endfor %}
+                  </tr>
+                {% endfor %}
+              {% endif %}
+              {{ fields_formset.management_form}}
+              {% for form in fields_formset %}
+                <tr class="table-formset">
+                  {% for field in form.visible_fields %}
+                    <td>
+                      {% if field.field.widget.input_type == 'text' or field.field.widget.input_type == 'select' %}
+                        <div class="form-group">
+                          {{field}}
+                          {% if field.help_text %}
+                            <span class="form-text text-muted">{{field.help_text}}</span>
+                          {% endif %}
+                        </div>
+                      {% elif field.field.widget.input_type == 'checkbox' %}
+                        <div class="form-check form-check-switchery">  
+                          <label class="form-check-label">
+                            {{field}}
+                            {% if field.help_text %}
+                              <span class="form-text text-muted">{{field.help_text}}</span>
+                            {% endif %}
+                          </label>
+                          </div>       
+                        {% else %}
+                          <div class="form-group">
+                            {{field}}
+                            {% if field.help_text %}
+                              <span class="form-text text-muted">{{field.help_text}}</span>
+                            {% endif %}
+                          </div>
+                        {% endif %}
+                      </td>
+                      {% if forloop.last %}
+                        <td>
+                          <div class="list-icons">
+                            <div class="dropdown">
+                              <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                <i class="icon-menu9"></i>
+                              </a>
+                              <div class="dropdown-menu dropdown-menu-right">
+                                <button title="Eliminar" class="dropdown-item js-field-delete" type="button">
+                                  <i class="icon-bin "></i>Eliminar
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      {% endif %}
+                    {% endfor %}
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

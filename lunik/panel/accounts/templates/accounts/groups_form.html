@@ -1,0 +1,120 @@
+ {% extends 'base.html' %}
+ {% load thumbnail %}
+ 
+ {% block subtitle %}{% if instance.first %} Editar Grupo {% else %} Agregar Grupo {% endif %}{% endblock subtitle %}
+ 
+ {% block header %}Grupos de Usuarios{% endblock header %}
+ 
+ {% block subheader %}{% if instance.first %} Editar Grupo {% else %} Agregar Grupo {% endif %}{% endblock subheader %}
+
+ {% block customcss %}
+ <link href="{{STATIC_URL}}assets/css/plugins/dualListbox/bootstrap-duallistbox.min.css" rel="stylesheet">
+{% endblock customcss %}
+
+ {% block content %}
+   <div class="col-lg-12">
+     <div class="ibox">
+       <div class="ibox-title">
+        <h5>{% if instance.first %} Editar Grupo {% else %} Agregar Grupo {% endif %}</h5>
+       </div>
+       <div class="ibox-content">
+         <div class="row">
+           <div class="col-sm-12 b-r">
+             <form role="form" method="post" action="" enctype="multipart/form-data">
+               {% csrf_token %}
+               {% include 'core/snippets/form_messages.html' with form=form %}
+               <div class="col-sm-6">
+                 <div class="form-group">
+                   <label id="{{form.role.label}}">{{form.role.label}}</label> 
+                   {{form.role}}
+                 </div>
+               </div>
+               <div class="col-sm-12">
+                 <div class="form-group">
+                  <label>Permisos</label> 
+                  <select class="form-control dual_select" multiple name="modules_group">
+                    {% if not instance %}
+                      {% if request.user.is_superuser %}
+                        {% for item in menu_list %}
+                          {% if item.has_submenu == False %}
+                            <option value="{{item.pk}}|0">{{item.title}}</option>
+                          {% endif %}
+                          {% for subitem in item.subitems.all %}
+                            <option value="{{subitem.pk}}|1">{{item.title}} - {{subitem.title}}</option>
+                          {% endfor %}
+                        {% endfor %}
+                      {% else %}
+                        {% for item in request.user.user_permisssion.all %}
+                          {% if item.menu_item.has_submenu == False %}
+                            <option value="{{item.menu_item.pk}}|0">{{item.menu_item.title}}</option>
+                          {% else %}
+                            <option value="{{item.menu_subitems.pk}}|1">{{item.menu_item.title}} - {{item.menu_subitems.title}}</option>
+                          {% endif %}
+                        {% endfor %}
+                      {% endif %}
+                    {% endif %}
+                  </select>
+                </div>  
+              </div>
+               <div class="form-group">
+                 <div class="col-sm-12">
+                    <a href="{% url 'accounts:usergroups_list' %}" class="btn btn-white">Cancelar</a>
+                   <button class="btn btn-success" type="submit">Guardar</button>
+                 </div>
+               </div>
+             </form>
+           </div>
+       </div>
+     </div>
+   </div>
+ </div>
+  {% endblock content %}
+
+  {% block customjs %}
+ <!-- Dual Listbox -->
+ <script src="{{STATIC_URL}}assets/js/plugins/dualListbox/jquery.bootstrap-duallistbox.js"></script>
+{% endblock customjs %}
+
+  {% block docready %}
+  {% include 'core/snippets/form_validation.html' with form=group_form %}
+  {% include 'core/snippets/messages_error.html' with form=group_form %}
+
+  $('.dual_select').bootstrapDualListbox({
+    selectorMinimalHeight: 160
+  });
+
+  {% if instance.first %}
+      var menu_array = [];
+      var submenu_array = [];
+
+      {% for item in instance %}
+        {% if item.menu_item.is_menu == True %}
+          {% if item.menu_item.has_submenu == False %}
+            menu_array.push('{{item.menu_item.pk}}|0');
+            $('.dual_select').append('<option value="{{item.menu_item.pk}}|0" selected>{{item.menu_item.title}}</option>');       
+          {% endif %}   
+        {% endif %}
+        {% if item.menu_subitems.is_submenu == True %}
+          submenu_array.push('{{item.menu_subitems.pk}}|1');
+          $('.dual_select').append('<option value="{{item.menu_subitems.pk}}|1" selected>{{item.menu_item.title}} - {{item.menu_subitems.title}}</option>');
+        {% endif %}
+      {% endfor %} 
+
+      {% for item in menu_list %}
+        {% if item.has_submenu == False %}
+          if ($.inArray("{{item.pk}}|0", menu_array) == -1) {
+            $('.dual_select').append('<option value="{{item.pk}}|0">{{item.title}}</option>');
+          };
+        {% endif %}
+        {% for subitem in item.subitems.all %}
+          if ($.inArray("{{subitem.pk}}|1",submenu_array) == -1){
+            $('.dual_select').append('<option value="{{subitem.pk}}|1">{{item.title}} - {{subitem.title}}</option>');
+          }
+        {% endfor %}
+      {% endfor %}
+      $(".dual_select").bootstrapDualListbox('refresh', true);
+  {% endif %}
+
+  $(".select2").select2();
+
+{% endblock docready %}

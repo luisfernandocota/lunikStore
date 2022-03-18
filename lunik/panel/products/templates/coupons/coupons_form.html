@@ -1,0 +1,586 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+
+{% load humanize %}
+
+{% block subtitle %}{% if coupon_obj %} Editar Cupón {% else %} Agregar Cupón {% endif %}{% endblock subtitle %}
+
+{% block header %}Cupones {% endblock header %}
+
+{% block subheader %}{% if coupon_obj %} Editar Cupón{% else %} Agregar Cupón {% endif %}{% endblock subheader %}
+
+{% block styles %}
+<style>
+.well.sk-loading {
+    position: relative;
+}
+.well.sk-loading:after {
+    content: '';
+    background-color: rgba(255, 255, 255, 0.7);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+</style>
+  <!-- DatePicker -->
+  <link href="{{STATIC_URL}}assets/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+{% endblock styles %}
+{% block js %}
+<!-- Data picker -->
+<script src="{{STATIC_URL}}assets/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+{% endblock js %}
+
+
+
+{% block content %}
+<div class="page-title">
+    <div class="row">
+        <div class="col-12 col-md-6 order-md-1 order-last">
+            <h3>Cupones</h3>
+            <p class="text-subtitle text-muted">{% if coupon_obj %} Editar cupón {% else %} Agregar cupón {% endif %}</p>
+        </div>
+        <div class="col-12 col-md-6 order-md-2 order-first">
+            <nav aria-label="breadcrumb" class='breadcrumb-header'>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a style="color: #914c54;"
+                            href="{% url 'products:coupons_list' %}">Cupones</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{% if coupon_obj %} Editar {% else %} Agregar {% endif %}</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- // Basic multiple Column Form section start -->
+<section id="multiple-column-form">
+    <div class="row match-height">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header" style="padding: 2rem 1.7rem 0rem 1.7rem; !important">
+                    <h4 class="card-title">{% if coupon_obj %} Edita tu cupón {% else %} Captura un nuevo cupón
+                        {% endif %}</h4>
+                </div>
+                <div class="card-content">
+                    <div class="card-body cmodal">
+                        <form id="frmTarget" class=" dropzone dz" method="POST" action=""
+                            enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {% include 'core/snippets/form_messages.html' with form=coupon_form %}
+                            {% include 'core/snippets/form_messages.html' with form=coupon_product_form %}
+
+                            <div class="col-12 d-flex justify-content-end ">
+                                <button type="submit" id="submitButton"
+                                    class="btn btn-primary me-1 mb-1">Guardar</button>
+                                {% if not coupon_obj %}
+                                <button type="reset" class="btn btn-light-secondary me-1 mb-1">Limpiar</button>
+                                {% endif %}
+                                <a href="{% url 'products:coupons_list' %}"
+                                    class="btn btn-light-secondary me-1 mb-1">Cancelar</a>
+                            </div>
+
+
+                            <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link active" id="general-tab" data-bs-toggle="tab" href="#general"
+                                        role="tab" aria-controls="general" aria-selected="true">Información general</a>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link" id="products-tab" data-bs-toggle="tab" href="#products"
+                                        role="tab" aria-controls="products" aria-selected="false">Productos</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="general" role="tabpanel"
+                                    aria-labelledby="general-tab">
+
+                                        <div class="col-md-12 col-12">
+                                            <div class="row">
+                                                <div class="col-md-4 col-12">
+                                                    <div class="form-group has-icon-left">
+                                                        <label
+                                                            for="{{coupon_form.code.label}}">{{coupon_form.code.label}}
+                                                            <i data-feather="help-circle" data-toggle="tooltip" data-placement="top" title="{{coupon_form.code.help_text}}"></i>
+                                                        </label>
+                                                        <div class="position-relative">
+                                                            {{coupon_form.code}}
+                                                            <div class="form-control-icon">
+                                                                <i data-feather="tag"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2 col-6">
+                                                    <div class="form-group ">
+                                                        <label
+                                                            for="{{coupon_form.discount_types.label}}">{{coupon_form.discount_types.label}}</label>
+                                                        <div class="position-relative">
+                                                            {{coupon_form.discount_types}}
+                                                            <!-- <div class="form-control-icon">
+                                                                        <i data-feather="dollar-sign"></i>
+                                                                    </div> -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2 col-6">
+                                                    <div class="form-group has-icon-left">
+                                                        <label
+                                                            for="{{coupon_form.discount.label}}">{{coupon_form.discount.label}}</label>
+                                                        <div class="position-relative">
+                                                            {{coupon_form.discount}}
+                                                            <div class="form-control-icon span-type">
+                                                                <i data-feather="more-horizontal"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-2 col-12">
+                                                    <div class="form-group ">
+                                                        <label
+                                                            for="{{coupon_form.no_uses.label}}">{{coupon_form.no_uses.label}}</label>
+                                                        <div class="position-relative">
+                                                            {{coupon_form.no_uses}}
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2 col-12">
+                                                    <div class="form-group has-icon-left">
+                                                        <label
+                                                            for="{{coupon_form.min_purchase.label}}">{{coupon_form.min_purchase.label}}</label>
+                                                            <div class="position-relative">
+                                                                {{coupon_form.min_purchase}}
+                                                                <div class="form-control-icon">
+                                                                    <i data-feather="dollar-sign"></i>
+                                                                </div>
+                                                            </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group " id="data_3">
+                                                      <label class="font-normal">{{coupon_form.date_expiration.label}}</label>
+                                                      <div class="input-group date ">
+                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                        {{coupon_form.date_expiration}}
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                <div class="form-group col-md-1 col-6">
+                                                    <div class='form-check'>
+                                                        <div class="custom-control custom-checkbox">
+                                                            {{coupon_form.available}}
+                                                            <label class="form-check-label"
+                                                                for="{{coupon_form.available.auto_id}}">{{coupon_form.available.label}}</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                
+                                            </div>
+                                        </div>
+
+                                    
+                                </div>
+                                <div class="tab-pane fade" id="products" role="tabpanel" aria-labelledby="products-tab">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="form-group col-md-3 col-6">
+                                                        <div class='form-check'>
+                                                            <div class="custom-control custom-checkbox">
+                                                                {{coupon_form.apply_all}}
+                                                                <label class="form-check-label"
+                                                                    for="{{coupon_form.apply_all.auto_id}}">{{coupon_form.apply_all.label}} <i data-feather="help-circle" data-toggle="tooltip" data-placement="top" title="{{coupon_form.apply_all.help_text}}"></i> </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row well {% if not coupon_obj.apply_all %}sk-loading{% endif %}">
+                                                <div class="col-md-4 col-12 ">
+                                                   
+                                                    <div class="form-group ">
+                                                        <div class="position-relative">
+                                                            {{coupon_product_form.product}}
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 col-12">
+                                                    <a id="btn-add-product" class="btn btn-primary">Agregar <i data-feather="corner-right-down"></i></a>
+                                                </div>
+                                                <div class="col-12 ">
+                                                    <table class='table table-striped cmodal' id="dataTable">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>Producto</th>
+                                                            <th>Marca/Modelo</th>
+                                                            <th>Imagen</th>
+                                                            <th>Precio</th>
+                                                            <th>Acciones</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody id="tbody" class="table_body">
+                                                            {% if coupon_products_list %}
+                                                                {% for cp in coupon_products_list %}
+                                                                <tr class="odd gradeX">
+                                                                <td><input class="form-control" style="max-width: fit-content;"
+                                                                    name="PROD-{{cp.product.pk}}" value="{{cp.product}}" readonly></td>
+                                                                <td style="width: 30%;">{{cp.product.brand}},
+                                                                    {{cp.product.model}}</td>
+                                                                <td><img style="max-width:50px;"
+                                                                    src="{{cp.product.products_gallery.first.image.url}}"></td>
+                                                                <td>{{cp.product.products_properties.sell_price}}</td>
+                                                                <td><a data-url="{% url 'products:delete_coupon_product' cp.pk %}" title="Eliminar"
+                                                                    class="btn btn-white btn-sm js-view-delete">
+                                                                    <i class="fa fa-trash"></i></a></td>
+                                                                </tr>
+                                                                {% endfor %}
+                                                            {% endif %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+
+                                          
+                                        </div>
+                                      </div>
+                                </div>
+                            </div>
+
+
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% comment %}
+<div class="col-lg-12">
+  <div class="ibox float-e-margins">
+    <div class="ibox-title">
+      <h5>{% if coupon_obj %} Editar Cupón {% else %} Agregar Cupón {% endif %}</h5>
+    </div>
+    <div class="ibox-content">
+      <div class="row">
+        <div class="col-sm-12 b-r">
+          <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-edit"></i> Información</a></li>
+            <li class=""><a data-toggle="tab" href="#tab-2"><i class="fa fa-tags"></i> Productos</a></li>
+          </ul>
+          <form id="form" role="form" onsubmit="return isValidForm();" method="post" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% include 'core/snippets/form_messages.html' with form=form %}
+            <div class="tab-content">
+              <div id="tab-1" class="tab-pane active"><br>
+                <div class="col-sm-12">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <i class="fa fa-info-circle"></i> Información del Cupón
+                    </div>
+                    <div class="panel-body">
+                      <div class="col-sm-5">
+                        <div class="form-group">
+                          <label id="{{form.code.label}}">{{form.code.label}}</label>
+                          {{form.code}}
+                        </div>
+                      </div>
+
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label id="{{form.discount_types.label}}">{{form.discount_types.label}}</label>
+                          {{form.discount_types}}
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <div class="form-group">
+                          <label id="{{form.discount.label}}">{{form.discount.label}}</label>
+                          <div class="input-group m-b">
+                            <span class="input-group-addon span-type">
+                                <i data-feather="percent"></i>
+                            </span>
+                            {{form.discount}}
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <div class="form-group" id="data_3">
+                          <label class="font-normal">{{form.date_expiration.label}}</label>
+                          <div class="input-group date">
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            {{form.date_expiration}}
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label class="font-normal">{{form.min_purchase.label}} 
+                          </label>
+                          <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
+                            {{form.min_purchase}}
+                          </div>
+                          <span style="color: #96989a; position: fixed;">{{form.min_purchase.help_text}}</span>
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <div class="form-group">
+                          <label id="{{form.no_uses.label}}">{{form.no_uses.label}}</label>
+                          {{form.no_uses}}
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <div class="form-group">
+                          <label>{{form.available.label}}</label>
+                          <div class="i-checks">
+                            {{form.available}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="tab-2" class="tab-pane">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="form-group">
+                      <label>{{form.apply_all.label}}</label>
+                      <div class="i-checks">
+                        {{form.apply_all}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-3">
+                    <div class="ibox">
+                      <div class="ibox-title">
+                        <label id="{{coupon_coupon_form.product.label}}">{{coupon_coupon_form.product.label}}</label>
+                      </div>
+                      <div class="ibox-content {% if not coupon_obj.apply_all %}sk-loading{% endif %} content-table">
+                        {{coupon_coupon_form.product}}
+                            <a id="btn-add-product" class="btn btn-primary" style="margin-top:10px;">Agregar <i class="fa fa-arrow-right"></i></a>
+
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-9 animated fadeInRight">
+                    <div class="row"><br>
+                      <div class="col-lg-12">
+                        <div class="ibox ">
+                          <div class="ibox-title">
+                            <h5>Listado de productos</h5>
+                            <div class="ibox-tools">
+                              <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                              </a>
+                            </div>
+                          </div>
+                          <div id="box-content" class="ibox-content {% if not coupon_obj.apply_all %}sk-loading{% endif %} content-table">
+
+                            <table id="t" class="table">
+                              <thead>
+                                <tr>
+                                  <th>Producto</th>
+                                  <th>Categoría/Subcategoría</th>
+                                  <th>Imagen</th>
+                                  <th>Precio</th>
+                                  <th>Acciones</th>
+                                </tr>
+                              </thead>
+                              <tbody id="tbody" class="table_body">
+                                {% if coupon_products_list %}
+                                {% for cp in coupon_products_list %}
+                                <tr class="odd gradeX">
+                                  <td><input class="form-control" style="max-width: fit-content;"
+                                      name="PROD-{{cp.product.pk}}" value="{{cp.product}}" readonly></td>
+                                  <td style="width: 30%;">{{cp.product.product.subcategory}},
+                                    {{cp.product.product.subcategory.category}}</td>
+                                  <td><img style="max-width:50px;"
+                                      src="{{cp.product.product.products_gallery.first.image.url}}"></td>
+                                  <td>{{cp.product.price}}</td>
+                                  <td><a data-url="{% url 'products:delete_coupon_product' cp.pk %}" title="Eliminar"
+                                    class="btn btn-white btn-sm js-view-delete">
+                                    <i class="fa fa-trash"></i></a></td>
+                                </tr>
+                                {% endfor %}
+                                {% endif %}
+                              </tbody>
+                            </table>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+                  <div class="form-group">
+                    <div class="col-sm-12">
+                      <a href="{% url 'products:coupons_list' %}" class="btn btn-white">Cancelar</a>
+                      <button class="btn btn-success" type="submit">Guardar</button>
+                    </div>
+                  </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endcomment %}
+{% endblock content %}
+
+{% block docready %}
+{% include 'core/snippets/form_validation.html' with form=coupon_form %}
+{% include 'core/snippets/messages_error.html' with form=coupon_form %}
+
+{% include 'core/snippets/form_validation.html' with form=coupon_product_form %}
+{% include 'core/snippets/messages_error.html' with form=coupon_product_form %}
+
+    $("#id_discount").attr('readonly', true)
+    function simpleLoad(box, state) {
+        if (state) {
+            box.toggleClass('sk-loading');
+        } else {
+            box.toggleClass('sk-loading');
+            }
+        }
+    list = [];
+    var getProduct = function(product_pk,) {
+        list.push(product_pk);
+        simpleLoad($('#box-content'), true);
+        $('#box-content').prepend("<div class='sk-spinner sk-spinner-three-bounce'><div class='sk-bounce1'></div><div class='sk-bounce2'></div><div class='sk-bounce3'></div></div>");
+        $.ajax({
+            url: '/panel/products/coupons/get_product',
+            data: {'product_pk':product_pk},
+            type: 'post',
+            dataType: 'json',
+            success: function (data) {
+                simpleLoad($('#box-content'), false);
+                $('#tbody').append('<tr class="odd gradeX"><td><input class="form-control" style="max-width: fit-content;" name="PROD-'+data.product.pk +'" value="' + data.product.name + '" readonly></td><td style="width: 30%;">'+data.product.brandModel+'</td><td><img style="max-width:50px;" src="'+ data.product.image+'"></td><td>'+ data.product.price +'</td><td><a id="'+data.product.pk+'" title="Eliminar"class="btn btn-white btn-sm js-delete-add"><i class="fa fa-times"></i></a></td></tr>')
+            }
+          });
+    }
+    // console.log($('#id_product').val());
+    $('#btn-add-product').on("click", function() {
+        select = $('#id_product').val();
+        if(select != '' && !list.includes(select)){
+            getProduct(select);
+            // console.log($('#btn-add-product option[value="' + select + '"]'))
+            // $('#id_product').removeAttr('selected').find('option:first').attr('selected');
+            // $('#id_product option[value="'+select+'"]').attr("disabled", "disabled");
+        }
+        else {
+            toastr.warning('Este producto ya esta seleccionado');
+        }
+    })
+
+
+    var isValidForm = function(){
+        if(list.length > 0 || $('#id_apply_all').is(":checked")){
+            return true;
+        } else {
+            {% if coupon_products_list %}
+            return true;
+            {% else %}
+            toastr.warning('Falta agregar productos al cupón');
+            return false;
+            {% endif %}
+        }
+    }
+
+    $('#form').on('submit', function(){
+        return isValidForm();
+    });
+
+    $('.table_body').on('click', '.js-delete-add', function(e){
+        e.preventDefault();
+        var id = $(this).attr('id');
+        $(this).parent().parent().remove();
+        for( var i = 0; i < list.length; i++){ 
+                                   
+            if ( list[i] === id) { 
+                list.splice(i, 1); 
+                i--; 
+            }
+        }
+    });
+    {% if coupon_obj %}
+    var select = $("#id_discount_types").children("option:selected").val();
+    if(select == 'P'){
+        $('.span-type').html('<i data-feather="percent"></i>')
+
+        
+    } else if(select == 'A'){
+
+        $('.span-type').html('<i data-feather="dollar-sign"></i>')
+
+    } 
+    feather.replace();
+
+    {% endif %}
+
+$("#id_discount_types").change(function(){
+    var select = $(this).children("option:selected").val();
+
+    if(select == 'P'){
+        $('.span-type').html('<i data-feather="percent"></i>')
+        select = '';
+        $("#id_discount").attr('readonly', false);
+        
+    } else if(select == 'A'){
+        $("#id_discount").attr('readonly', false);
+        $('.span-type').html('<i data-feather="dollar-sign"></i>')
+        select = '';
+        $('#id_discount').val(0);
+    } else {
+        $("#id_discount").attr('readonly', true);
+        select = '';
+        $('#id_discount').val(0);
+        $('.span-type').html('<i data-feather="more-horizontal"></i>')
+
+    }
+    
+    feather.replace();
+});
+
+$('#id_discount').on('input', function (e) {
+    e.preventDefault();
+    var select = $("#id_discount_types").children("option:selected").val();
+    if(select == 'P'){
+        var value = $(this).val();
+        if ((value !== '') && (value.indexOf('.') === -1)) {
+    
+            $(this).val(Math.max(Math.min(value, 100), 1));
+        }
+    }
+});
+
+var mem = $('#data_3 .input-group.date').datepicker({
+    todayBtn: "linked",
+    keyboardNavigation: false,
+    forceParse: false,
+    calendarWeeks: true,
+    autoclose: true,
+    format: "yyyy-mm-dd"
+    });
+
+
+$('#id_apply_all').change(function(){
+
+if ($('#id_apply_all').is(":checked")){
+$('.well').toggleClass('sk-loading');
+}else {
+$('.well').toggleClass('sk-loading');
+
+}
+}).trigger("change");
+
+
+{% endblock %}

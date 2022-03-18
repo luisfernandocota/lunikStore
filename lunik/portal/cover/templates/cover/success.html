@@ -1,0 +1,33 @@
+{% extends 'base_landing.html' %}
+
+{% block dark %}not-dark{% endblock dark %}
+{% block subtitle %}Crea tu tienda{% endblock subtitle %}
+
+{% block content %}
+<section id="content">
+    <div class="content-wrap pt-0 pb-0">
+        <div id="congrats" class="section dark m-0 ibox-content" style="background-color: #111; padding: 20px 0;background-image: url({{STATIC_URL}}landing/one-page/images/5.png);background-repeat: no-repeat;background-size: cover;">
+            <div class="container clearfix">
+
+                <div class="heading-block center bottommargin-sm border-bottom-0">
+                    <h2 id="success" class=" titlebottom mt-3" style="font-size: 46px;"></h2>
+                </div>
+                <div class="heading-block center bottommargin-sm border-bottom-0">
+                    <p id="info1" style="color: #777;" class="lead textBottom"><p>
+                        <span id="email" style="font-size: 30px;" class="font-body titleSection"></span>
+                        <p id="info2" style="color: #777;" class="lead textBottom">
+                    </p>
+                </div>
+                <div class="d-flex justify-content-center align-items-center mx-auto categories-lists mt-4">
+                    <!-- <a href="#" class="button button-rounded button-large nott ml-4 align-self-center">SOLICITA TU DEMO</a> -->
+                    <a id="btn-store" class="button button-large button-circle  buttonColor text-capitalize ls0 ml-4"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+
+{% block customjs %}
+<script type="text/javascript" src="{{STATIC_URL}}js/c_success.js"></script>
+{% endblock customjs %}

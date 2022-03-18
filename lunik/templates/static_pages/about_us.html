@@ -1,0 +1,91 @@
+{% extends 'base_shop.html' %}
+
+{% block content %}
+<article class="acercade p-5">
+    <section class="container mb-5">
+        <div class="item d-flex justify-content-center flex-column align-items-center">
+            <h2 class="textAcerca mb-4">Acerca de</h2>
+            <p class="w-50 text-center descAcerca">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum ipsa reiciendis dignissimos repellendus sed suscipit nisi tenetur molestiae obcaecati aspernatur illum deleniti numquam explicabo consectetur laboriosam, quisquam fugit ab. Impedit?</p>
+        </div>
+        <div class="row mt-5">
+            <div class="col-lg-6 col-md-12 col-sm-12 d-flex justify-content-center align-items-center">
+                <img src="{{STATIC_URL}}site/custom/media/beneficio.jpg" class="img-fluid">
+            </div>
+            <div class="col-lg-6 col-md-12 col-sm-12 mt-3">
+                <ul class="listStylee" style="list-style: none;">
+                    <li class="d-flex mb-4"> <i class="fas fa-check-square mr-3 mt-1 fa-lg" style="color: #D7D7D7"></i> <p class="text-justify textViñeta ">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quia enim porro voluptate minus culpa facere eos, sequi deserunt ab cum, in nostrum, minima vel! Cupiditate harum rem in soluta fugiat.</p></li>
+                    <li class="d-flex mb-4"> <i class="fas fa-check-square mr-3 mt-1 fa-lg" style="color: #D7D7D7"></i> <p class="text-justify textViñeta">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Autem voluptate, fugit voluptatem repellat perferendis maiores animi quasi ipsum, ipsa ea accusamus. Error at in cupiditate ad, dolores sunt quisquam harum.</p></li>
+                    <li class="d-flex mb-4"> <i class="fas fa-check-square mr-3 mt-1 fa-lg" style="color: #D7D7D7"></i> <p class="text-justify textViñeta">Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni animi esse debitis laudantium quasi tempora quae repellat consectetur similique? Exercitationem provident aperiam cumque nobis voluptatem esse mollitia quas blanditiis pariatur.</p></li>
+                    <li class="d-flex mb-4"> <i class="fas fa-check-square mr-3 mt-1 fa-lg" style="color: #D7D7D7"></i> <p class="text-justify textViñeta">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Doloremque, vero! Saepe magni blanditiis quidem nostrum illum labore dignissimos repellat laboriosam praesentium? Tempore voluptatibus consectetur nihil, voluptates dolorum fugit maxime natus.</p></li>
+                    <li class="d-flex mb-4"> <i class="fas fa-check-square mr-3 mt-1 fa-lg" style="color: #D7D7D7"></i> <p class="text-justify textViñeta">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eligendi recusandae, culpa similique facilis nostrum dolorum incidunt, sunt excepturi, explicabo quasi amet harum totam labore delectus eveniet temporibus facere optio impedit!</p></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+</article>
+<article class="map mt-5" id="lugar">
+        <div id="mapid"></div>
+</article>
+
+{% endblock content %}
+
+{% block customjs %}
+    <!-- Mapa-->
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+    integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin="">
+    </script>
+{% endblock customjs %}
+
+{% block customscripts %}
+<script>
+    jQuery(document).ready(function($) {
+        var  tb = $('.scrollcolor');
+        tbs = "change-nav";
+        $(window).scroll(function() {
+        if($(this).scrollTop()) {
+            tb.addClass(tbs);
+            $('.menu.fixed-top').css('background-color','#d81c47');
+            $('.menu.fixed-top').css('border-top','0px solid transparent');
+            $('.img-top').css('display','block');
+
+        } else {
+            tb.removeClass(tbs);
+            $('.menu.fixed-top').css('background-color','transparent');
+            $('.menu.fixed-top').css('border-top','');
+            $('.img-top').css('display','none');
+
+        }
+        });
+    });
+</script>
+
+<script>
+    window.onload = function(){
+    var map = L.map('mapid').setView([25.785681, -108.993949], 16);
+    console.log("Pagina cargada")
+    var TitleStreets = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+        attribution: 'Map data',
+        maxZoom: 19,
+        minZoom:  10,
+        id: 'mapbox.streets',
+        accessToken: 'pk.eyJ1IjoicGF1bHNvdCIsImEiOiJjazZ0eWptd3cwNGNwM21wbmxjMXBnYmswIn0.2shi8UpIgxOx-U31RJme_g'
+    });
+    TitleStreets.addTo(map);
+    
+    var greenIcon = L.icon({
+        iconUrl:  'favicon/android-chrome-512x512.png',
+        iconSize: [50, 50],
+        iconAnchor: [35, 94],
+        popupAnchor: [-3, -76],
+        shadowSize: [68, 95],
+        shadowAnchor: [25, 94]
+    });
+
+    var marker = L.marker([25.785681, -108.993949], {icon: greenIcon}).addTo(map);
+    marker.bindPopup("<b>Ecommerce | Tienda</b><br>Rosendo G Castro<br># 185 Col. Centro<br> Los Mochis, Sinaloa, México.").openPopup();
+    var popup = L.popup();
+
+}
+</script>
+{% endblock customscripts %} 

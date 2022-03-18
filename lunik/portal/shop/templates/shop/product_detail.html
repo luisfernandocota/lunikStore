@@ -1,0 +1,743 @@
+{% extends 'base_shop.html' %}
+{% load humanize %}
+{% block title %}Lunik{% endblock title %}
+{% block subtitle %} {{product}} {% endblock subtitle %}
+
+
+{% block content %}
+
+<section class="section-content detai-product-page template">
+
+    <div class="container config-container">
+
+        <!-- Detalle del producto -->
+
+        <div class="row">
+
+            <div class="col-12 col-md-6">
+
+                <div class="product-gallery">
+
+                    <div class="product-principal-photo">
+                        {% for item in product.products_gallery.all %}
+                        <img src="{{item.image.url}}" id="photo_{{forloop.counter}}" class="product-preview photo_{{forloop.counter}} {% if forloop.first %}show{% endif %}" imgto="" alt="">
+                        {% endfor %}
+<!-- 
+                        <img src="{{STATIC_URL}}shop/resources/store/product/2-1.jpg" id="photo_2" class="product-preview photo_2" imgto="" alt="">
+
+                        <img src="{{STATIC_URL}}shop/resources/store/product/5-1.jpg" id="photo_3" class="product-preview photo_3" imgto="" alt="">
+
+                        <img src="{{STATIC_URL}}shop/resources/store/product/4-2.jpg" id="photo_4" class="product-preview photo_4" imgto="" alt=""> -->
+
+                        <div id="zoom" class="img-zoom-result"></div>
+
+                    </div>
+
+                    <div class="product-gallery-carousel">
+
+                        <ul>
+                            {% for item in product.products_gallery.all %}
+
+                            <li>
+
+                                <img src="{{item.image.url}}" class="mini-product-preview"         imgto="photo_{{forloop.counter}}" alt="">
+
+                            </li>
+                            {% endfor %}
+
+                            <!-- <li>
+
+                                <img src="{{STATIC_URL}}shop/resources/store/product/2-1.jpg" class="mini-product-preview"         imgto="photo_2" alt="">
+
+                            </li>
+
+                            <li>
+
+                                <img src="{{STATIC_URL}}shop/resources/store/product/5-1.jpg" class="mini-product-preview"         imgto="photo_3" alt="">
+
+                            </li>
+
+                            <li>
+
+                                <img src="{{STATIC_URL}}shop/resources/store/product/4-2.jpg" class="mini-product-preview"         imgto="photo_4" alt="">
+
+                            </li> -->
+
+                        </ul>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-12 col-md-6">
+
+                <!-- <small>SKU {{inventory.sku}}</small> -->
+
+                <h5 class="pt-2 pb-3">
+
+                    {{product.name}} <br>
+                    <p>Modelo:{{product.model}}</p> 
+                </h5>
+
+                <h2>
+                    {% if product.products_properties.is_sale %}
+                    $ {{product.products_properties.sale_price|intcomma}}
+                    {% else %}
+                    $ {{product.products_properties.sell_price|intcomma}}
+                    {% endif %}
+                </h2>
+
+                <p class="">
+                    {% if product.products_properties.shipping_price %}
+                    <strong>Envio: </strong>{% if product.products_properties.shipping_free %}¡Gratis!<i class="bi bi-bolt" style="color:#da9fa6"></i> {% else %}$ {{product.products_properties.shipping_price|intcomma}}{% endif %}
+                    {% endif %}
+                    <br>
+                    {% if product.products_properties.shipping_min %}
+                    <strong>Gratis al comprar: </strong> {{product.products_properties.shipping_min|floatformat:0}}
+                    {% endif %}
+                </p>
+
+                <p>
+
+                    {{product.description|safe}}
+
+                </p>
+
+                <div class="container-form cart-table">
+
+                    <form method="post"
+                    action="{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'shop_cart:product_detail' product.slug %}"
+                    class="js-product-form p-0 m-0">
+                    {% csrf_token %}
+                        <div class="pt-2 pb-2">
+
+                            <label for="size" class="form-label">{{form_product.sizes.label}}</label>
+                            {{form_product.sizes}}
+                            <!-- <select id="size" class="form-select" aria-label="Default select example">
+
+                                <option selected>Elija la talla de su preferencia</option>
+
+                                <option value="1">sm</option>
+
+                                <option value="2">md</option>
+
+                                <option value="3">xl</option>
+
+                            </select> -->
+
+                        </div>
+                        {% if product.products_properties.has_personalization %}
+                        <div class="pt-2 pb-2">
+
+                            <label for="size" class="form-label">{{form_product.name_personalization.label}}</label>
+                            {{form_product.name_personalization}}
+                            
+                            <small style="padding-top: 10px;">
+
+                                <strong style="font-weight: bolder;">Importante</strong>, escribe tu nombre exactamente como quieres que esté escrito en tu agenda. No olvides mayúsculas, minúsculas y acentos. No se realizarán cambios ni devoluciones a menos que la agenda tenga un error de fábrica.
+            
+                                <br>
+            
+                            </small>
+                        </div>
+                        {% else %}
+                        <small class="text-muted">
+
+                            <strong>Importante</strong>, este producto NO es personalizado, el texto que aparece en la portada son frases o es "Agenda"
+
+                            <br>
+        
+                        </small>
+                        {% endif %}
+                        
+                        {{form_product.product_pk}}
+                        <!-- <div class="pt-2 pb-2">
+
+                            <label for="colors" class="form-label">Color</label>        
+
+                            <select id="colors" class="form-select" aria-label="Default select example">
+
+                                <option selected>Elija el color de su preferencia</option>
+
+                                <option value="1">black</option>
+
+                                <option value="2">black</option>
+
+                                <option value="3">black</option>
+
+                            </select>
+
+                        </div> -->
+
+
+
+                        <div class="row pt-4">
+
+                            <div class="col-12">
+
+                                <label for="id_quantity" class="form-label d-block w-100">Piezas a comprar</label>
+
+                            </div>
+
+                            <div class="col-12 col-md-6">
+
+                                <div class="input-group mb-3">
+
+                                    <button class="btn four-buttons select-product-cant-buttons mt-0 mb-0 button-rest" type="button" id="button-rest"><i class="bi bi-dash"></i></button>
+                                    {{form_product.quantity}}
+
+                                    <!-- <input  id="{{form_product.quantity.pk}}" type="text" class="form-control text-center" value="1"> -->
+
+                                    <button class="btn four-buttons select-product-cant-buttons mt-0 mb-0 button-add" type="button" id="button-add"><i class="bi bi-plus"></i></button>
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-12 col-md-6">
+
+                                <div>
+
+                                    <button class="btn four-buttons button-buy-product mt-0 mb-0" type="submit" >Agregar al carrito <i class="bi bi-cart-plus"></i></button>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                    </form>
+
+                </div>
+                {% if product.aditional %}
+                <a class="w-100 text-left" data-bs-toggle="collapse" href="#aditionalInfo" role="button" >
+
+                    Información Adicional <i class="bi bi-info-circle-fill"></i>
+
+                </a>
+
+                <div class="collapse" id="aditionalInfo">
+
+                    <div class="card card-body">
+
+                      <p>{{product.aditional|safe}}</p>
+
+                    </div>
+
+                </div>
+
+                {% endif %}
+
+                  
+
+            </div>
+
+        </div>
+
+
+
+       
+
+    </div>
+
+
+
+
+
+</section>
+
+
+
+
+{% if related_products %}
+<section class="section-content template">
+
+    <!-- Recomendar productos relacionados para permitir flujo de consultas por parte del usuario -->
+
+    <div class="container config-container">
+
+        <h6 class="text-center">Resultados con base a tus búsquedas</h6>
+
+        <h4 class="text-center">
+
+            <strong>Quizá estos artículos sean de tu interés</strong>
+
+            <hr>
+
+        </h4>
+
+        <div class="row">
+            {% for item in related_products %}
+            <div class="col-6 col-md-4 col-lg-3 article-show pb-4">
+
+                <div class="carousel slide" data-bs-ride="false" id="itemname_{{forloop.counter}}">
+
+                    <button class="carousel-control-prev" type="button" data-bs-target="#itemname_{{forloop.counter}}"
+
+                        data-bs-slide="prev">
+
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+
+                        <span class="visually-hidden">Previous</span>
+
+                    </button>
+
+                    <button class="carousel-control-next" type="button" data-bs-target="#itemname_{{forloop.counter}}"
+
+                        data-bs-slide="next">
+
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+
+                        <span class="visually-hidden">Next</span>
+
+                    </button>
+
+                    <div class="carousel-inner">
+                        {% for image in item.product.products_gallery.all %}
+                        <div class="carousel-item carrousel-product-item {% if forloop.first %}active{% endif %} bground-config" 
+                        style="background-image: url('{{image.image.url}}');"></div>
+                        {% endfor %}
+                        <!-- <div class="carousel-item carrousel-product-item bground-config" style="background-image: url('{{STATIC_URL}}shop/resources/store/1-2.jpg');">
+
+                        </div> -->
+
+                    </div>
+
+                    <button type="button" onclick="sendPage('{% url 'shop:product_detail' item.product.slug %}');" class="four-buttons d-block mx-auto check-article-button">Ver
+
+                        artículo</button>
+
+                </div>
+
+                <div class="row pt-2 pb-2">
+
+                    <div class="col-10 col-md-9 col-lg-6">
+
+                        <p style="cursor:pointer;" onclick="sendPage('{% url 'shop:product_detail' item.product.slug %}');" class="text-grey pb-0 mb-2">
+
+                            <small>{{item.product.name}} {{item.product.subcategory}}</small>
+
+                        </p>
+
+                        <h6>
+                            {% if item.is_sale %}
+                                $ {{item.sale_price|intcomma}}
+                            {% else %}
+                                $ {{item.price|intcomma}}
+                            {% endif %}
+                        </h6>
+
+                    </div>
+
+
+
+                </div>
+
+            </div>
+            {% endfor %}
+            <!-- <div class="col-6 col-md-4 col-lg-3 article-show pb-4">
+
+                <div class="carousel slide" data-bs-ride="false" id="itemname_1">
+
+                    <button class="carousel-control-prev" type="button" data-bs-target="#itemname_1"
+
+                        data-bs-slide="prev">
+
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+
+                        <span class="visually-hidden">Previous</span>
+
+                    </button>
+
+                    <button class="carousel-control-next" type="button" data-bs-target="#itemname_1"
+
+                        data-bs-slide="next">
+
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+
+                        <span class="visually-hidden">Next</span>
+
+                    </button>
+
+                    <div class="carousel-inner">
+
+                        <div class="carousel-item carrousel-product-item active bground-config" style="background-image: url('{{STATIC_URL}}shop/resources/store/5-1.jpg');">
+
+                        </div>
+
+                        <div class="carousel-item carrousel-product-item bground-config" style="background-image: url('{{STATIC_URL}}shop/resources/store/5-2.jpg');">
+
+                        </div>
+
+                    </div>
+
+                    <button type="button" class="four-buttons d-block mx-auto check-article-button">Ver
+
+                        artículo</button>
+
+                </div>
+
+                <div class="row pt-2 pb-2">
+
+                    <div class="col-10 col-md-9 col-lg-6">
+
+                        <p class="text-grey pb-0 mb-2">
+
+                            <small>Tenis Nike #19328</small>
+
+                        </p>
+
+                        <h6>$ 50.00 USD</h6>
+
+                    </div>
+
+
+
+                </div>
+
+            </div>
+
+            <div class="col-6 col-md-4 col-lg-3 article-show pb-4">
+
+                <div class="carousel slide" data-bs-ride="false" id="itemname_2">
+
+                    <button class="carousel-control-prev" type="button" data-bs-target="#itemname_2"
+
+                        data-bs-slide="prev">
+
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+
+                        <span class="visually-hidden">Previous</span>
+
+                    </button>
+
+                    <button class="carousel-control-next" type="button" data-bs-target="#itemname_2"
+
+                        data-bs-slide="next">
+
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+
+                        <span class="visually-hidden">Next</span>
+
+                    </button>
+
+                    <div class="carousel-inner">
+
+                        <div class="carousel-item carrousel-product-item active bground-config" style="background-image: url('{{STATIC_URL}}shop/resources/store/3-1.jpg');">
+
+                        </div>
+
+                        <div class="carousel-item carrousel-product-item bground-config" style="background-image: url('{{STATIC_URL}}shop/resources/store/3-2.jpg');">
+
+                        </div>
+
+                        <div class="carousel-item carrousel-product-item bground-config" style="background-image: url('{{STATIC_URL}}shop/resources/store/3-3.jpg');">
+
+                        </div>
+
+                    </div>
+
+                    <button type="button" class="four-buttons d-block mx-auto check-article-button">Ver
+
+                        artículo</button>
+
+                </div>
+
+                <div class="row pt-2 pb-2">
+
+                    <div class="col-10 col-md-9 col-lg-6">
+
+                        <p class="text-grey pb-0 mb-2">
+
+                            <small>Tenis Nike #19328</small>
+
+                        </p>
+
+                        <h6>$ 50.00 USD</h6>
+
+                    </div>
+
+
+
+                </div>
+
+            </div>
+
+            <div class="col-6 col-md-4 col-lg-3 article-show pb-4">
+
+                <div class="carousel slide" data-bs-ride="false" id="itemname_3">
+
+                    <button class="carousel-control-prev" type="button" data-bs-target="#itemname_3"
+
+                        data-bs-slide="prev">
+
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+
+                        <span class="visually-hidden">Previous</span>
+
+                    </button>
+
+                    <button class="carousel-control-next" type="button" data-bs-target="#itemname_3"
+
+                        data-bs-slide="next">
+
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+
+                        <span class="visually-hidden">Next</span>
+
+                    </button>
+
+                    <div class="carousel-inner">
+
+                        <div class="carousel-item carrousel-product-item active bground-config" style="background-image: url('{{STATIC_URL}}shop/resources/store/4-1.jpg');">
+
+                        </div>
+
+                        <div class="carousel-item carrousel-product-item bground-config" style="background-image: url('{{STATIC_URL}}shop/resources/store/4-2.jpg');">
+
+                        </div>
+
+                    </div>
+
+                    <button type="button" class="four-buttons d-block mx-auto check-article-button">Ver
+
+                        artículo</button>
+
+                </div>
+
+                <div class="row pt-2 pb-2">
+
+                    <div class="col-10 col-md-9 col-lg-6">
+
+                        <p class="text-grey pb-0 mb-2">
+
+                            <small>Tenis Nike #19328</small>
+
+                        </p>
+
+                        <h6>$ 50.00 USD</h6>
+
+                    </div>
+
+
+
+                </div>
+
+            </div> -->
+
+        </div>
+
+    </div>
+
+</section>
+{% endif %}
+{% comment %}
+<!-- Product Detail -->
+<div class="container bgwhite p-t-35 p-b-10">
+    <div class="flex-w flex-sb d-flex justify-content-between flex-md-nowrap flex-wrap">
+
+        <div class="w-size13 p-t-30 respon5 "><!--  respon5 -->
+            <div class="wrap-slick3 flex-sb flex-w movilGaleria"> <!-- CLASE NUEVA -->
+                <!-- GALERIA & ZOOM -->
+				<img id="zoom_03" src="{{product.product.products_gallery.first.image.url}}"  data-zoom-image="{{product.product.products_gallery.first.image.url}}" style="max-height: 350px; width: auto !important"/>
+                <div id="gal1" class="mt-4 galleriaDetail"> <!-- CLASE NUEVA -->
+                {% for item in product.product.products_gallery.all %}
+                <a href="#" data-image="{{item.image.url}}"  data-zoom-image="{{item.image.url}}" style="padding-top: 1rem;">
+                    <img id="zoom_03" src="{{item.image.url}}" style="width:100px;height: 100px;" />
+                    </a>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+
+        <div class="w-size14 p-t-30 respon5">
+            <h4 class="product-detail-name m-text16 p-b-13">
+                {{product.product.name}}
+            </h4>
+            {% if product.is_sale %}
+            <span class="block2-newprice m-text14">
+                ${{product.sale_price|intcomma}}
+            </span>
+            <span class="block2-oldprice m-text7 p-r-5">
+                ${{product.price|intcomma}}
+            </span>
+
+
+            {% else %}
+            <span class="m-text17">
+                ${{product.price|intcomma}}
+            </span>
+            {% endif %}
+            {% if product.shipping_free %}
+            <p class="s-text18 p-t-10">
+                ¡Envío Gratis! <i class="fa fa-bolt" style="color:{{store_instance.store_meta.header_color}}"></i>
+            </p>
+            {% else %}
+                {% if product.shipping %}
+                <p class="s-text23 p-t-10">
+                    Envío ${{product.shipping|intcomma}}
+                </p>
+                {% endif %}
+                {% if product.shipping_limit %}
+                    <p class="s-text23 p-t-10">
+                    Al comprar {{product.shipping_limit|floatformat:0}} el envío es <strong>¡gratis!</strong> <i class="fa fa-bolt" style="color:{{store_instance.store_meta.header_color}}"></i>
+                    </p>
+                {% endif %}
+            {% endif %}
+
+            <p class="s-text8 p-t-10">
+                {{product.product.description|safe}}
+            </p>
+
+            <!--  -->
+            <div class="p-t-33 p-b-60">
+                <form method="post"
+                action="{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'shop_cart:product_detail' product.product.slug %}"
+                class="js-product-form">
+                {% csrf_token %}
+                <div class="flex-m flex-w">
+                    <div class="s-text15 w-size15 t-center">
+                        Tamaños
+                    </div>
+
+                    <div class="rs2-select2 rs3-select2 bo4 of-hidden w-size16">
+                        {{form_product.sizes}}
+                    </div>
+                    {{form_product.product_pk}}
+                </div>
+
+                <div class="flex-r-m flex-w p-t-10">
+                    <div class="w-size16 flex-m flex-w">
+                        <div class="flex-w bo5 of-hidden m-r-22 m-t-10 m-b-10">
+                            <button class="btn-num-product-down color1 flex-c-m size7 bg8 eff2">
+                                <i class="fs-12 fa fa-minus" aria-hidden="true"></i>
+                            </button>
+
+                            {{form_product.quantity}}
+
+                            <button class="btn-num-product-up color1 flex-c-m size7 bg8 eff2">
+                                <i class="fs-12 fa fa-plus" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        {% if store_instance.is_active and store_instance.customer.has_paid_for_current_month %}
+                        <div class="btn-addcart-product-detail size9 trans-0-4 m-t-10 m-b-10">
+                            <!-- Button -->
+                            <button type="submit"
+                                class="btn btn-flex-c-m bg1 bo-rad-23 hov1 s-text1 trans-0-4">
+                                Agregar al carrito
+                            </button>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                </form>
+            </div>
+
+            <div class="p-b-45">
+                <span class="s-text8 m-r-35">SKU: {{inventory.sku}}</span>
+                <span class="s-text8">Modelo: {{product.product.model}}</span>
+            </div>
+
+            {% if product.product.aditional %}
+            <div class="wrap-dropdown-content bo7 p-t-15 p-b-14">
+                <h5 class="js-toggle-dropdown-content flex-sb-m cs-pointer m-text19 color0-hov trans-0-4">
+                    Información adicional
+                    <i class="down-mark fs-12 color1 fa fa-minus dis-none" aria-hidden="true"></i>
+                    <i class="up-mark fs-12 color1 fa fa-plus" aria-hidden="true"></i>
+                </h5>
+                <div class="dropdown-content dis-none p-t-15 p-b-23">
+                    <p class="s-text8">
+                        {{product.product.aditional|safe}}
+                    </p>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+<!-- Relate Product -->
+{% if related_products%}
+<section class="relateproduct bgwhite p-t-45 p-b-138">
+    <div class="container">
+        <div class="sec-title p-b-60">
+            <h3 class="m-text5 t-center">
+                Te puede interesar
+            </h3>
+        </div>
+
+        <!-- Slide2 -->
+        <div class="wrap-slick2">
+            <div class="slick2">
+                {% for item in related_products %}
+                <div class="item-slick2 p-l-15 p-r-15">
+                    <!-- Block2 -->
+                    <div class="block2">
+                        <div class="block2-img wrap-pic-w of-hidden pos-relative {% if item.is_sale %}block2-labelsale{% endif %}">
+                            <img src="{{item.product.products_gallery.all.first.image.url}}" alt="IMG-PRODUCT">
+
+                            <div class="block2-overlay trans-0-4">
+                                <!-- <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
+                                    <i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
+                                    <i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
+                                </a> -->
+
+                                <div class="block2-btn-addcart w-size1 trans-0-4">
+                                    <!-- Button -->
+                                    <a href="{% url 'shop:product_detail' item.product.slug %}" class="flex-c-m size2 bg4 bo-rad-23 hov1 m-text3 trans-0-4">
+                                    Ver producto
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="block2-txt p-t-20">
+                            <a href="{% url 'shop:product_detail' item.product.slug %}" class="block2-name dis-block s-text3 p-b-5">
+                                {{item.product.name}}
+                            </a>
+
+                            {% if item.is_sale %}
+                            <span class="block2-newprice m-text14">
+                                ${{item.sale_price|intcomma}}
+                            </span>
+                            <span class="block2-oldprice m-text7 p-r-5">
+                                ${{item.price|intcomma}}
+                            </span>
+                            {% else %}
+                            <span class="block2-price m-text6 p-r-5">
+                                ${{item.price|intcomma}}
+                            </span>
+                            {% endif %}
+                        </div>
+                    </div>
+      </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+</section>
+{% endif %}
+<div id="dropDownSelect2"></div>
+{% endcomment %}
+{% endblock content %}
+
+{% block customjs %}
+<!-- Toastr -->
+<script src="{{STATIC_URL}}assets/js/plugins/toastr/toastr.min.js"></script>
+<script src="{{STATIC_URL}}js/shop.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}shop/js/zoomImage.js"></script>
+
+<script type="text/javascript" src="{{STATIC_URL}}shop/js/product_detail.js"></script>
+{% endblock customjs %}
+
+{% block docready %}
+imageZoom("photo_1", "zoom");
+
+{% endblock docready %}

@@ -1,0 +1,63 @@
+{% load humanize %}
+{% load thumbnail %}
+<div class="modal-header bg-primary">
+  <h5 class="modal-title white" id="myModalLabel120">{{product.name}} - ${{product.price|intcomma}}</h5>
+  <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+    <i data-feather="x"></i>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="card">
+    <div class="card-content">
+        <div class="card-body">
+
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+              <ol class="carousel-indicators">
+                  {% for i in product.products_gallery.all %}
+                <li data-target="#carouselExampleIndicators" data-slide-to="{{forloop.counter}}" {% if forloop.first %}class="active"{% endif %}></li>
+                {% endfor %}
+              </ol>
+              <div class="carousel-inner">
+                  {% for image in product.products_gallery.all %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                  {% thumbnail image.image '500x500' crop='center' as img  %}
+                  <img class="rounded mx-auto d-block" src="{{img.url}}" alt="First slide">
+                  {% endthumbnail %}
+                </div>
+                {% endfor %}
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+            <p class="card-text">
+              <h6 class="card-subtitle">{{product.brand}} - {{product.model}}</h6>
+              <small class="text-muted">Creado el {{product.created|date:"l d F Y"}}</small>
+
+                {{product.description|safe}}
+            </p>
+            <p class="card-text">
+                Gummies bonbon apple pie fruitcake icing biscuit apple pie jelly-o sweet roll. Toffee sugar
+                plum sugar
+                plum jelly-o jujubes bonbon dessert carrot cake.
+                Sweet pie candy jelly. Sesame snaps biscuit sugar plum. Sweet roll topping fruitcake.
+                Caramels liquorice
+                biscuit ice cream fruitcake cotton candy tart.
+            </p>
+        </div>
+    </div>
+</div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+    <i class="bx bx-x d-block d-sm-none"></i>
+    <span class="d-none d-sm-block">Cerrar</span>
+  </button>
+
+</div>
+

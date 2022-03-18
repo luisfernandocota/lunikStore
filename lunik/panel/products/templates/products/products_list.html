@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% load thumbnail %}
+
+{% load humanize %}
+
+{% block subtitle %}Productos{% endblock subtitle %}
+
+{% block header %}Productos{% endblock header %}
+
+{% block subheader %}Lista de productos{% endblock subheader %}
+
+
+{% block styles %}
+{% endblock styles %}
+{% block js %}
+{% endblock js %}
+
+{% block content %}
+<div class="page-title">
+  <div class="row">
+    <div class="col-12 col-md-6 order-md-1 order-last">
+      <h3>Productos</h3>
+      <p class="text-subtitle text-muted">Listado de productos</p>
+    </div>
+    <div class="col-12 col-md-6 order-md-2 order-first">
+      <nav aria-label="breadcrumb" class='breadcrumb-header'>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item active"><a style="color: #914c54;">Productos</a></li>
+          <!-- <li class="breadcrumb-item active" aria-current="page">Menu</li> -->
+        </ol>
+      </nav>
+      <a href="{% url 'products:add_product' %}" style="float: right;" class="btn btn-primary me-1 mb-1">Agregar <i data-feather="plus"></i></a>
+    </div>
+  </div>
+</div>
+<section class="section">
+  {% if products_list %}
+  <div class="card-header">
+    
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <table class='table table-striped cmodal' id="dataTable">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Marca</th>
+            <th>Modelo</th>
+            <th>Precio base</th>
+            <th>Disponible en tienda</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for product in products_list %}
+          <tr>
+            <td>{{product.name}}</td>
+            <td>{{product.brand}}</td>
+            <td>{{product.model}}</td>
+            <td>${{product.price|intcomma}}</td>
+            <td>
+              {% if product.available %}
+              <span class="badge bg-success"><i data-feather="check-circle"></i></span>
+              {% else %}
+              <span class="badge bg-danger"><i data-feather="x-circle"></i></span>
+              {% endif %}
+            </td>
+            <td>
+              <a href="{% url 'products:edit_product' product.slug %}" class="badge bg-info" data-toggle="tooltip" data-placement="top" title="Editar"><i data-feather="edit"></i></a>
+              <a data-url="{% url 'products:info_product' product.slug %}" style="cursor: pointer;" class="badge bg-light show-modal" data-toggle="tooltip" data-placement="top" title="Información"><i data-feather="info"></i></a>
+              {% if not product.available %}
+              <a href="#" class="badge bg-success" data-toggle="tooltip" data-placement="top" title="Activar"><i data-feather="power"></i></a>
+              <a data-url ="{% url 'products:delete_product' product.slug%}" class="badge bg-danger show-modal" data-toggle="tooltip" data-placement="top" title="Eliminar"><i data-feather="trash"></i></a>
+
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% else %}
+  <!-- Empty list users -->
+  <div class="row">
+    <div class="col-12 col-md-5 order-m-1 order-last" style="align-self: center; text-align: center;">
+      <h2 style="font-size:xxx-large;">¡Muestra lo que tienes!</h2>
+      <p class="text-subtitle text-muted" style="font-size: x-large;">Agrega tus diferentes productos con sus pequeñas o
+        grandes caracteristicas para que se vuelvan una venta.</p>
+      <a href="{% url 'products:add_product' %}" class="btn btn-lunik"><i class="fas fa-plus"></i> Agregar</a>
+    </div>
+    <div class="col-md-5 order-m-1 order-last">
+      <img src="{{STATIC_URL}}assets/images/ilustrations/products.png" style="position: relative; max-width: 650px;"
+        alt="list-users">
+    </div>
+  </div>
+  <!-- END empty list users -->
+  {% endif %}
+</section>
+{% endblock content %}

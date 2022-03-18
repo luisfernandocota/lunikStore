@@ -1,0 +1,98 @@
+{% extends 'base_shop.html' %}
+
+
+{% load humanize %}
+{% load thumbnail %}
+{% block title %}{{store_instance.name}}{% endblock title %}
+
+{% block subtitle %} Mis direcciones {% endblock subtitle %}
+
+{% block cart %}
+{% include 'shop/includes/partial_cart_detail.html' %}
+{% endblock cart %}
+{% block menu %}
+{% include 'shop/includes/partial_menu.html' %}
+{% endblock menu %}
+{% block cart_mobile %}
+{% include 'shop/includes/partial_cart_mobile_detail.html' %}
+{% endblock cart_mobile %}
+
+{% block customcss %}
+{% endblock customcss %}
+
+{% block content %}
+
+	<!-- content page -->
+	<section class="bgwhite p-t-66 p-b-60">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 p-b-30">
+					<div class="p-r-20 p-r-0-lg">
+                        <div class="item d-flex justify-content-between align-items-center flex-wrap">
+                            <h2 class="m-text26 p-b-0">
+                                LISTA DE DIRECCIONES
+                            </h2>
+                            <a  href="{% url 'dashboard:add_address' %}" class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4 w-25 buttonMovil" style="background-color: {{store_instance.store_meta.header_color}};">
+								AÑADIR DIRECCIÓN
+							</a>
+                        </div>
+                        {% if not addresses %}
+                        <h4 class="mt-5 text-center">USTED NO TIENE NINGUNA DIRECCIÓN REGISTRADA</h4><br>
+                        {% endif %}
+					    <div class="item d-flex flex-wrap justify-content-start ">
+                            {% for address in addresses %}
+                            <div class="item mr-4 p-3 mt-3"
+                                style="border: 1.5px solid #eaeaea;box-shadow: 0px 0px 6px 0px #eaeaea;width: 350px;">
+                                {% if address.default %}
+                                <p class="font-weight-bold">Predeterminada</p>
+                                {% endif %}
+                                <p class="font-weight-bold">{{address.name}}</p>
+                                <p class="font-weight-bold">{{address.address}} #{{address.num_ext}} {{address.num_int}}
+                                </p>
+                                <p class="font-weight-bold">{{address.suburb}}</p>
+                                <p class="font-weight-bold">{{address.city}}, {{address.state}}, CP {{address.zip_code}}
+                                </p>
+                                <div class="item d-flex w-100 justify-content-start mt-3 pt-4 "
+                                    style="border-top: 1px solid #eaeaea;">
+                                    <a href="{% url 'dashboard:edit_address' address.pk %}"
+                                        class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4 w-25 mr-2"
+                                        style="height: 30px;font-size: 12px; background-color: {{store_instance.store_meta.header_color}}">Editar</a>
+                                    <a href="#" class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4 w-25 mr-2"
+                                        style="height: 30px;font-size: 12px; background-color: {{store_instance.store_meta.header_color}}">Eliminar</a>
+                                </div>
+                            </div>
+                            {% endfor %}
+						</div> 
+					</div>
+				</div>
+
+				<!-- <div class="col-md-5 p-b-30">
+					<form class="leave-comment">
+						<h4 class="m-text26 p-b-36 p-t-15">
+							DIRECCIONES
+						</h4>
+						<div class="bo4 of-hidden size15 m-b-20">
+							<input class="sizefull s-text7 p-l-22 p-r-22" type="text" name="name" placeholder="Nombre Completo">
+						</div>
+
+						<div class="bo4 of-hidden size15 m-b-20">
+							<input class="sizefull s-text7 p-l-22 p-r-22" type="text" name="phone-number" placeholder="Telefono ">
+						</div>
+
+						<div class="bo4 of-hidden size15 m-b-20">
+							<input class="sizefull s-text7 p-l-22 p-r-22" type="text" name="email" placeholder="Correo electronico">
+						</div>
+
+						<textarea class="dis-block s-text7 size20 bo4 p-l-22 p-r-22 p-t-13 m-b-20" name="message" placeholder="Mensaje"></textarea>
+
+						<div class="w-size25">
+							<button class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4">
+								ENVIAR MENSAJE
+							</button>
+						</div>
+					</form>
+				</div> -->
+			</div>
+		</div>
+	</section>
+{% endblock content %}

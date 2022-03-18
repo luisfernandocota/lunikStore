@@ -1,0 +1,93 @@
+{% load humanize %}
+
+<!-- SHOPPING TOTALS -->
+  <div class="col-lg-3">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h5>Compras </h5>
+      </div>
+      <div class="ibox-content">
+        <h2 class="no-margins">
+          <img src="{{STATIC_URL}}assets/img/icons/cart.png" width="50">
+          <b>$ {{total_shoppings_stores|intcomma}} <small></small></b>
+        </h2>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h5>Envios</h5>
+      </div>
+      <div class="ibox-content">
+        <h2 class="no-margins">
+          <img src="{{STATIC_URL}}assets/img/icons/shipping.png" width="50">
+          <b>$ {{total_shipping_stores|intcomma}} <small></small></b>
+        </h2>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h5>Ingresos</h5>
+      </div>
+      <div class="ibox-content">
+        <h2 class="no-margins">
+          <img src="{{STATIC_URL}}assets/img/icons/dollar.png" width="25">
+          <b>{{total_earnings_stores|intcomma}} <small></small></b>
+        </h2>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h5>Productos vendidos</h5>
+      </div>
+      <div class="ibox-content">
+        <h2 class="no-margins">
+          <img src="{{STATIC_URL}}assets/img/icons/shirt.png" width="50">
+          <b>{{total_products_stores}}</b>
+        </h2>
+      </div>
+    </div>
+  </div>
+<div class="row>">
+  <div class="col-lg-6">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <span class="label label-success pull-right">Totales</span>
+        <h5>Compras recientes</h5>
+      </div>
+      <div class="ibox-content">
+        <table class="table table-hover margin bottom">
+          <thead>
+            <tr>
+              <th style="width: 1%" class="text-center">No.</th>
+              <th class="text-center">Fecha</th>
+              <th class="text-center">Nombre</th>
+              <th class="text-center">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for order in shop_orders %}
+            <tr>
+              <td class="text-center">{{forloop.counter}}</td>
+              <td class="text-center">{{order.created|date:"d F Y"}}</td>
+              <td class="text-center">{{order.name}}</td>
+              <td class="text-center">
+                <span class="label label-primary">$ {{order.total_shopping|intcomma}}</span>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <div>
+          <a href="{% url 'orders:orders_stores_list' %}"><button class="btn btn-success btn-block m-t">Ver
+              todas</button></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

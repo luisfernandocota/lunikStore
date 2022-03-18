@@ -1,0 +1,422 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+
+{% block subtitle %}{% if user_profile %} Editar Usuario {% else %} Agregar Usuario {% endif %}{% endblock subtitle %}
+
+{% block header %}Usuarios{% endblock header %}
+
+{% block subheader %}{% if user_profile %} Editar Usuario {% else %} Agregar Usuario {% endif %}{% endblock subheader %}
+
+{% block customcss %}
+  <link href="{{STATIC_URL}}assets/css/bootstrap-duallistbox.min.css" rel="stylesheet">
+{% endblock customcss %}
+
+{% block content %}
+<!-- <div class="col-lg-12">
+  <div class="ibox">
+    <div class="ibox-title">
+      <h5>{% if user_profile %} Editar Usuario {% else %} Agregar Usuario {% endif %}</h5>   
+      <div class="ibox-tools"><a href="{% url 'accounts:accounts_list' %}"><button type="button" class="btn btn-danger">Cancelar</button></a></div> 
+    </div>
+    <div class="ibox-content">
+      <form id="form_wizard" action="" method="post" class="wizard-big wizard clearfix" role="application" novalidate="novalidate">
+        {% csrf_token %}
+        {% include 'core/snippets/form_messages.html' with form=form %}
+        <input type="hidden" name="usertype_select" value="{{usertype_select}}" data-url="{% url 'accounts:accounts_role' %}">
+        <div id="wizard">
+          <h1>Acceso</h1>
+          <div class="step-content">
+            <div>
+              <h2>Acceso</h2>
+              <div class="row">
+                <div class="col-lg-8">
+                  <div class="form-group">
+                    <label>{{form.email.label}}</label>
+                    {{form.email}}
+                  </div>
+                  <div class="form-group">
+                    <label>{{form.role.label}}</label>
+                    {{form.role}}                
+                  </div> 
+                  {% if user_profile %}
+                    <div class="col-lg-2">       
+                      <div class="form-group">
+                        <label>{{form.is_active.label}}</label>
+                        <div class="i-checks">
+                          {{form.is_active}}
+                        </div>
+                      </div>
+                    </div>
+                  {% endif %}
+                  {% if request.user.is_superuser %}
+                    <div class="col-lg-2">   
+                      <div class="form-group">
+                        <label>{{form.is_superadmin.label}}</label>
+                        <div class="i-checks">
+                          {{form.is_superadmin}}
+                        </div>
+                      </div>
+                    </div>
+                  {% endif %}
+                </div>
+                <div class="col-lg-4">
+                  <div class="text-center">
+                    <div style="margin-top: 20px">
+                      <i class="fa fa-sign-in" style="font-size: 180px;color: #e5e5e5 "></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <h1>Perfil</h1>
+          <div class="step-content">
+            <div>
+              <h2>Perfil</h2>
+              <div class="row">
+                <div class="col-lg-8">
+                  <div class="form-group">
+                    <label>{{form.first_name.label}}</label>
+                    {{form.first_name}}
+                  </div>
+                  <div class="form-group">
+                    <label>{{form.last_name.label}}</label>
+                    {{form.last_name}}
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="text-center">
+                    <div style="margin-top: 20px">
+                      <i class="fa fa-sign-in" style="font-size: 180px;color: #e5e5e5 "></i>
+                    </div>
+                  </div>
+                </div>
+              </div>              
+            </div>
+          </div>
+          <h1>Permisos</h1>
+          <div class="step-content">
+            <div>
+              <h2>Permisos <small>Especifica los permisos del usuario</small></h2>
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="form-group" id="box-permissions-items">
+                    <select class="form-control dual_select" multiple name="modules_user">
+                      {% if not user_profile %}
+                        {% if request.user.is_superuser %}
+                          {% for item in menu_list %}
+                            {% if item.has_submenu == False %}
+                              <option value="{{item.pk}}|0">{{item.title}}</option>
+                            {% endif %}
+                            {% for subitem in item.subitems.all %}
+                              <option value="{{subitem.pk}}|1">{{item.title}} - {{subitem.title}}</option>
+                          {% endfor %}
+                          {% endfor %}
+                        {% else %}
+                          {% for item in request.user.user_permisssion.all %}
+                            {% if item.menu_item.has_submenu == False %}
+                              <option value="{{item.menu_item.pk}}|0">{{item.menu_item.title}}</option>
+                            {% else %}
+                              <option value="{{item.menu_subitems.pk}}|1">{{item.menu_item.title}} - {{item.menu_subitems.title}}</option>
+                            {% endif %}
+                          {% endfor %}
+                        {% endif %}
+                      {% endif %}
+                    </select>
+                  </div>
+                  <div class="form-group" id="box-permissions-group">
+                    <h3>El rol de usuario elegido pertenece a un grupo. No aplica permisos individuales</h3>
+                  </div>
+                </div>
+              </div> 
+            </div>
+          </div>
+          <h1>Finalizar</h1>
+          <div class="step-content">
+            <div>
+              <h2>Finalizar<small> Confirmar Información</small></h2>
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="ibox">
+                    <div class="ibox-content">
+                      <div class="row">
+                        <div class="col-lg-5">
+                          <dl class="dl-horizontal">
+                            <dt>Email:</dt><dd><span class="info_email"></span></dd>
+                            {% if not user_profile.role.is_group %}
+                              <dt>Tipo de usuario:</dt><dd><span class="info_type"></span></dd>
+                            {% else %}
+                              <dt>Tipo de usuario:</dt><dd><span>{{user_profile.role.name}}</span></dd>
+                            {% endif %}
+                            <dt>Nombre:</dt><dd><span class="info_name"></span></dd>
+                            <dt>Apellidos:</dt><dd><span class="info_last_name"></span></dd>
+                          </dl>
+                        </div>
+                        <div class="col-lg-7" id="cluster_info">
+                          <dl class="dl-horizontal">
+                            <dt>Permisos: </dt> 
+                            <div class="bootstrap-tagsinput info_rights"></div>
+                            <div class="bootstrap-tagsinputv info_group">
+                               Los permisos de este usuario han sido asignados al grupo
+                            </div>
+                          </dl>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div> 
+            </div>
+          </div>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div> -->
+  <div class="page-title">
+    <div class="row">
+        <div class="col-12 col-md-6 order-md-1 order-last">
+            <h3>Usuarios</h3>
+            <p class="text-subtitle text-muted">{% if user_profile %} Editar Usuario {% else %} Agregar Usuario {% endif %}</p>
+        </div>
+        <div class="col-12 col-md-6 order-md-2 order-first">
+            <nav aria-label="breadcrumb" class='breadcrumb-header'>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a class="text-lunik" href="#">Usuarios</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{% if user_profile %} Editar Usuario {% else %} Agregar Usuario {% endif %}</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+  </div>
+      <!-- // Basic multiple Column Form section start -->
+      <section id="multiple-column-form">
+        <div class="row match-height">
+            <div class="col-12">
+                <div class="card">
+                    <!-- <div class="card-header">
+                        <h4 class="card-title">Nuevo menú</h4>
+                    </div> -->
+                    <div class="card-content">
+                        <div class="card-body">
+                          <form role="form" method="post" action="" enctype="multipart/form-data">
+                            {% csrf_token %}
+                              <div class="row">
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group">
+                                            <label for="{{form.email.label}}">{{form.email.label}}</label>
+                                            {{form.email}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group">
+                                            <label for="{{form.role.label}}">{{form.role.label}}</label>
+                                            {{form.role}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-12">
+                                      <div class="form-group">
+                                        <div class='form-check'>
+                                          <div class="custom-control custom-checkbox">
+                                              {{form.is_active}}
+                                              <label class="form-check-label"
+                                                  for="{{form.is_active.label}}">{{form.is_active.label}}</label>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    {% if request.user.is_superuser %}
+                                    <div class="col-md-2 col-12">
+                                      <div class="form-group">
+                                        <div class='form-check'>
+                                          <div class="custom-control custom-checkbox">
+                                              {{form.is_superadmin}}
+                                              <label class="form-check-label"
+                                                  for="{{form.is_superadmin.label}}">{{form.is_superadmin.label}}</label>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    {% endif %}
+                                    <div class="col-md-6 col-12">
+                                      <div class="form-group">
+                                          <label for="{{form.first_name.label}}">{{form.first_name.label}}</label>
+                                          {{form.first_name}}
+                                      </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                      <div class="form-group">
+                                          <label for="{{form.last_name.label}}">{{form.last_name.label}}</label>
+                                          {{form.last_name}}
+                                      </div>
+                                    </div>
+                                    <div class="divider">
+                                      <div class="divider-text">Asignación de modulos</div>
+                                  </div>
+                                    <div class="col-md-12 col-12">
+                                      <div class="form group">
+                                        <select class="form-control dual_select" multiple name="modules_user">
+                                          {% if not user_profile %}
+                                            {% if request.user.is_superuser %}
+                                              {% for item in menu_list %}
+                                                {% if item.has_submenu == False %}
+                                                  <option value="{{item.pk}}|0">{{item.title}}</option>
+                                                {% endif %}
+                                                {% for subitem in item.subitems.all %}
+                                                  <option value="{{subitem.pk}}|1">{{item.title}} - {{subitem.title}}</option>
+                                              {% endfor %}
+                                              {% endfor %}
+                                            {% else %}
+                                              {% for item in request.user.user_permisssion.all %}
+                                                {% if item.menu_item.has_submenu == False %}
+                                                  <option value="{{item.menu_item.pk}}|0">{{item.menu_item.title}}</option>
+                                                {% else %}
+                                                  <option value="{{item.menu_subitems.pk}}|1">{{item.menu_item.title}} - {{item.menu_subitems.title}}</option>
+                                                {% endif %}
+                                              {% endfor %}
+                                            {% endif %}
+                                          {% endif %}
+                                        </select>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-3 col-12">
+                                      <div class="form-group">
+                                          <label for="{{form.icon.label}}">{{form.icon.label}}</label>
+                                          {{form.icon}}
+                                      </div>
+                                    </div>
+                                    <div class="col-md-3 col-12">
+                                      <div class="form-group">
+                                          <label for="{{form.order.label}}">{{form.order.label}}</label>
+                                          {{form.order}}
+                                      </div>
+                                    </div>
+                                    <div class="col-md-2 col-12">
+                                      <div class="form-group">
+                                        <div class='form-check'>
+                                          <div class="custom-control custom-checkbox">
+                                              {{form.has_submenu}}
+                                              <label class="form-check-label"
+                                                  for="{{form.has_submenu.label}}">{{form.has_submenu.label}}</label>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-2 col-12">
+                                      <div class="form-group">
+                                        <div class='form-check'>
+                                          <div class="custom-control custom-checkbox">
+                                              {{form.is_module}}
+                                              <label class="form-check-label"
+                                                  for="{{form.is_module.label}}">{{form.is_module.label}}</label>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-2 col-12">
+                                      <div class="form-group">
+                                        <div class='form-check'>
+                                          <div class="custom-control custom-checkbox">
+                                              {{form.is_store}}
+                                              <label class="form-check-label"
+                                                  for="{{form.is_store.label}}">{{form.is_store.label}}</label>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+  
+                                    <div class="col-12 d-flex justify-content-end">
+                                        <button type="submit" class="btn btn-primary me-1 mb-1">Guardar</button>
+                                        {% if not user_profile %}
+                                        <button type="reset" class="btn btn-light-secondary me-1 mb-1">Limpiar</button>
+                                        {% endif %}
+                                        <a href="{% url 'accounts:accounts_list' %}"class="btn btn-light-secondary me-1 mb-1">Cancelar</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- // Basic multiple Column Form section end -->
+  {% endblock content %}
+
+ {% block customjs %}
+  
+  <!-- Dual Listbox -->
+  <script src="{{STATIC_URL}}assets/js/jquery.bootstrap-duallistbox.js"></script>
+ {% endblock customjs %}
+
+{% block docready %}
+  {% include 'core/snippets/form_validation.html' with form=form %}
+  {% include 'core/snippets/messages_error.html' with form=form %}
+
+  $('.dual_select').bootstrapDualListbox({
+    selectorMinimalHeight: 160,
+    nonSelectedListLabel: 'Sin asignar',
+    selectedListLabel: 'Asignados',
+    preserveSelectionOnMove: 'moved',
+    moveOnSelect: false,
+  });
+
+  {% if user_profile %}
+    var menu_array = [];
+    var submenu_array = [];
+    
+    {% for item_user in user_profile.user_permisssion.all %}
+      {% if item_user.menu_item.is_menu == True %}
+        {% if item_user.menu_item.has_submenu == False %}
+          menu_array.push('{{item_user.menu_item.pk}}|0');
+          $('.dual_select').append('<option value="{{item_user.menu_item.pk}}|0" selected>{{item_user.menu_item.title}}</option>');       
+        {% endif %}   
+      {% endif %}
+      {% if item_user.menu_subitems.is_submenu == True %}
+        submenu_array.push('{{item_user.menu_subitems.pk}}|1');
+        $('.dual_select').append('<option value="{{item_user.menu_subitems.pk}}|1" selected>{{item_user.menu_item.title}} - {{item_user.menu_subitems.title}}</option>');
+      {% endif %}
+    {% endfor %} 
+    {% if request.user.is_superuser %}
+      {% for item in menu_list %}
+        {% if item.has_submenu == False %}
+          if ($.inArray("{{item.pk}}|0", menu_array) == -1) {
+            $('.dual_select').append('<option value="{{item.pk}}|0">{{item.title}}</option>');
+          };
+       {% endif %}
+       {% for subitem in item.subitems.all %}
+         if ($.inArray("{{subitem.pk}}|1",submenu_array) == -1){
+           $('.dual_select').append('<option value="{{subitem.pk}}|1">{{item.title}} - {{subitem.title}}</option>');
+         }
+       {% endfor %}
+      {% endfor %}
+    {% elif user_profile != request.user and not request.user.is_superuser %}
+      {% for item in request.user.user_permisssion.all %}
+        {% if item.menu_item.has_submenu == False %}
+          if ($.inArray("{{item.menu_item.pk}}|0", menu_array) == -1) {
+            $('.dual_select').append('<option value="{{item.menu_item.pk}}|0">{{item.menu_item.title}}</option>');
+          };
+        {% else %}
+          if ($.inArray("{{item.menu_subitems.pk}}|1",submenu_array) == -1){
+            $('.dual_select').append('<option value="{{item.menu_subitems.pk}}|1">{{item.menu_item.title}} - {{item.menu_subitems.title}}</option>');
+          }
+        {% endif %}
+      {% endfor %}
+    {% elif user_profile == request.user %}
+      {% for item in request.user.user_permisssion.all %}
+        {% if item.menu_item.has_submenu == False %}
+          if ($.inArray("{{item.menu_item.pk}}|0", menu_array) == -1) {
+            $('.dual_select').append('<option value="{{item.menu_item.pk}}|0">{{item.menu_item.title}}</option>');
+          };
+        {% else %}
+          if ($.inArray("{{item.menu_subitems.pk}}|1",submenu_array) == -1){
+            $('.dual_select').append('<option value="{{item.menu_subitems.pk}}|1">{{item.menu_item.title}} - {{item.menu_subitems.title}}</option>');
+          }
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+
+    $(".dual_select").bootstrapDualListbox('refresh', true);
+    {% endif %}
+
+{% endblock docready %}

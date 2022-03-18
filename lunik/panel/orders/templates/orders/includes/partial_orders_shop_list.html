@@ -1,0 +1,57 @@
+{% load humanize %}
+
+{% for order in orders_list %}
+  <tr>
+    <td class="project-status">
+      <small><i data-feather="shopping-cart"></i></small>
+      <b>{{order.folio}}</b><br>
+      <small>Folio compra</small><br>
+      <small data-toggle="tooltip" data-placement="top" title="Fecha de creación de orden"><b>{{order.created|date:"d F Y"}}</b></small>
+    </td>
+    <td class="project-title">
+      {{order.name}}<br>
+      <small><i data-feather="mail"></i> {{order.email}}</small><br>
+      <small data-toggle="tooltip" data-placement="top" title="Fecha de pago realizado"><i data-feather="calendar"></i> {{order.order_payment.date_payment|date:"d F Y"}}</small>
+    </td>
+    <td class="project-completion">
+      {{order.order_payment.payment_intent}}<br>
+      <small><i class="fa fa-cc-stripe"></i> Folio stripe</small>
+    </td>
+    <td class="project-status">
+      <small><i data-feather="dollar-sign"></i></small>
+      <b>$ {{order.total_shopping|intcomma}} </b><br>
+      <small><i data-feather="truck"></i></small>
+      <small>Envio ($ {{order.order_payment.shipping|intcomma}} )</small>
+    </td>
+    <td class="project-status text-center">
+      <small><i data-feather="tag"></i></small>
+      <b>{{order.total_products|intcomma}}</b><br>
+      <small>Productos</small><br>
+    </td>
+    <td class="project-status text-center">
+      {% if order.order_payment.status == 'PE' %}
+        <span class="label label-warning"><i data-feather="clock"></i> Pendiente</span>
+      {% elif order.order_payment.status == 'EP' %}
+      <span class="label label-success"><i data-feather="activity"></i> En proceso</span>
+      {% elif order.order_payment.status == 'EE' %}
+      <span class="label label-info"><i data-feather="truck"></i> Enviado</span>
+      {% elif order.order_payment.status == 'EN' %}
+      <span class="label label-primary" style="color: #914c54;"><i data-feather="check-circle"></i> Entregado</span>
+      {% endif %}
+
+    </td>
+    <td class="project-actions text-center">
+      {% if order.order_payment.status == 'PE' %}
+      <button data-url="{% url 'orders:orders_shop_sendmail' order.pk %}" data-toggle="tooltip" data-placement="top" title="Reenviar el correo al cliente" class="btn btn-white btn-sm js-send-shop">
+        <i data-feather="mail"></i>
+      </button>
+      {% endif %}
+      {% if order.order_payment.payment_intent and order.total_shopping%}
+        <a href="{% url 'orders:orders_shop_products' order.pk %}" data-toggle="tooltip" data-placement="top"  title="Ver detalle"><button type="button" class="btn btn-white btn-sm"><i data-feather="tag"></i></button></a>
+      {% endif %}
+      {% if not order.order_payment.payment_intent and not order.total_shopping %}
+      <a href="{% url 'orders:orders_shipping_status' order.pk %}" data-toggle="tooltip" data-placement="top" title="Ocultar orden"><button type="button" class="btn btn-white btn-sm"><i data-feather="eye-off"></i></button></a>
+      {% endif %}
+    </td>
+  </tr>
+{% endfor %}

@@ -1,0 +1,432 @@
+{% load humanize %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<style>
+		/* Set the size of the div element that contains the map */
+		#map {
+			height: 160px;
+			/* The height is 400 pixels */
+			width: 240px;
+			/* The width is the width of the web page */
+		}
+	</style>
+	<style type="text/css">
+		#outlook a {
+			padding: 0;
+		}
+
+		body {
+			width: 100% !important;
+			-webkit-text-size-adjust: 100%;
+			-ms-text-size-adjust: 100%;
+			margin: 0;
+			padding: 0;
+		}
+
+		.ExternalClass {
+			width: 100%;
+		}
+
+		.ExternalClass,
+		.ExternalClass p,
+		.ExternalClass span,
+		.ExternalClass font,
+		.ExternalClass td,
+		.ExternalClass div {
+			line-height: 100%;
+		}
+
+		#backgroundTable {
+			margin: 0;
+			padding: 0;
+			width: 100% !important;
+			line-height: 100% !important;
+		}
+
+		img {
+			outline: none;
+			text-decoration: none;
+			-ms-interpolation-mode: bicubic;
+		}
+
+		a img {
+			border: none;
+			display: inline-block;
+		}
+
+		.image_fix {
+			display: block;
+		}
+
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6 {
+			color: black !important;
+		}
+
+		h1 a,
+		h2 a,
+		h3 a,
+		h4 a,
+		h5 a,
+		h6 a {
+			color: blue !important;
+		}
+
+		h1 a:active,
+		h2 a:active,
+		h3 a:active,
+		h4 a:active,
+		h5 a:active,
+		h6 a:active {
+			color: red !important;
+		}
+
+		h1 a:visited,
+		h2 a:visited,
+		h3 a:visited,
+		h4 a:visited,
+		h5 a:visited,
+		h6 a:visited {
+			color: purple !important;
+		}
+
+		table td {
+			border-collapse: collapse;
+		}
+
+		table {
+			border-collapse: collapse;
+			mso-table-lspace: 0pt;
+			mso-table-rspace: 0pt;
+		}
+
+		a {
+			color: #000;
+		}
+
+		@media only screen and (max-device-width: 480px) {
+
+			a[href^="tel"],
+			a[href^="sms"] {
+				text-decoration: none;
+				color: black;
+				/* or whatever your want */
+				pointer-events: none;
+				cursor: default;
+			}
+
+			.mobile_link a[href^="tel"],
+			.mobile_link a[href^="sms"] {
+				text-decoration: default;
+				color: orange !important;
+				/* or whatever your want */
+				pointer-events: auto;
+				cursor: default;
+			}
+		}
+
+
+		@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+
+			a[href^="tel"],
+			a[href^="sms"] {
+				text-decoration: none;
+				color: blue;
+				/* or whatever your want */
+				pointer-events: none;
+				cursor: default;
+			}
+
+			.mobile_link a[href^="tel"],
+			.mobile_link a[href^="sms"] {
+				text-decoration: default;
+				color: orange !important;
+				pointer-events: auto;
+				cursor: default;
+			}
+		}
+
+		p {
+			margin: 0;
+			color: #555;
+			font-family: Helvetica, Arial, sans-serif;
+			font-size: 16px;
+			line-height: 160%;
+		}
+
+		a.link2 {
+			text-decoration: none;
+			font-family: Helvetica, Arial, sans-serif;
+			font-size: 16px;
+			color: #fff;
+			border-radius: 4px;
+		}
+
+		h2 {
+			color: #181818;
+			font-family: Helvetica, Arial, sans-serif;
+			font-size: 22px;
+			font-weight: normal;
+		}
+
+		.bgItem {
+			background: #112331;
+		}
+
+		.bgBody {
+			background: #ffffff;
+		}
+	</style>
+
+	<script type="colorScheme" class="swatch active">
+  {
+    "name":"Default",
+    "bgBody":"ffffff",
+    "link":"f2f2f2",
+    "color":"555555",
+    "bgItem":"F4A81C",
+    "title":"181818"
+  }
+</script>
+
+</head>
+
+<body>
+	<table cellpadding="0" width="100%" cellspacing="0" border="0" id="backgroundTable" class='bgBody'>
+		<tr>
+			<td>
+				<table cellpadding="0" cellspacing="0" border="0" align="center" width="100%"
+					style="border-collapse:collapse;">
+					<tr>
+						<td class='movableContentContainer'>
+
+							<div class='movableContent'>
+								<table cellpadding="0" cellspacing="0" border="0" align="center" width="600">
+									<tr height="40">
+										<td width="200">&nbsp;</td>
+										<td width="200">&nbsp;</td>
+										<td width="200">&nbsp;</td>
+									</tr>
+									<tr>
+										<td width="200" valign="top">&nbsp;</td>
+										<td class="grid__col" width="200" valign="top" align="center"
+											style="/*! font-family: 'Benton Sans', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica neue', Helvetica, Tahoma, Arial, sans-serif; */ padding: 32px 40px; background-color: #000;">
+											<div class="contentEditableContainer contentTextEditable">
+												<div class="contentEditable">
+													<img src="{% if request.is_secure %}https{% else %}http{% endif %}://{{request.META.HTTP_HOST}}/static/site/images/logo_yellow.png"
+														width="160" alt='Lunik Diseño' data-default="placeholder"
+														style="filter: drop-shadow(0px 1px 1px black);" />
+												</div>
+											</div>
+										</td>
+										<td width="200" valign="top">&nbsp;</td>
+									</tr>
+									<tr height="25">
+										<td width="200">&nbsp;</td>
+										<td width="200">&nbsp;</td>
+										<td width="200">&nbsp;</td>
+									</tr>
+								</table>
+							</div>
+
+							<div class='movableContent'>
+								<table cellpadding="0" cellspacing="0" border="0" align="center" width="600">
+									<tr>
+										<td width="100%" colspan="3" align="center"
+											style="padding-bottom:10px;padding-top:25px;">
+											<div class="contentEditableContainer contentTextEditable">
+												<div class="contentEditable">
+													<h2>Compra realizada</h2>
+												</div>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td width="100">&nbsp;</td>
+										<td width="400" align="center" style="padding-bottom:5px;">
+											<div class="contentEditableContainer contentTextEditable">
+												<div class="contentEditable">
+													<p>Correo de confirmación de su compra</p>
+												</div>
+											</div>
+										</td>
+										<td width="100">&nbsp;</td>
+									</tr>
+								</table>
+							</div>
+							<div class='movableContent'>
+								<table cellpadding="0" cellspacing="0" border="0" align="center" width="600">
+									<tr>
+										<td width="100">&nbsp;</td>
+										<td width="400" align="center" style="padding-top:25px;padding-bottom:55px;">
+											<table cellpadding="0" cellspacing="0" border="0" align="center" width="200"
+												height="50">
+												<tr>
+													<td bgcolor="#000" align="center" style="border-radius:4px;"
+														width="200" height="50">
+														<div class="contentEditableContainer contentTextEditable">
+															<div class="contentEditable">
+																<a target='_blank'
+																	href="http://{{request.META.HTTP_HOST}}{% url 'shop_cart:shop_list' %}"
+																	class='link2'>Ir a la tienda</a>
+															</div>
+														</div>
+
+													</td>
+												</tr>
+											</table>
+										</td>
+										<td width="100">&nbsp;</td>
+									</tr>
+									<tr>
+										<td width="100">&nbsp;</td>
+										<td class="grid__col"
+											style="/*! font-family: 'Benton Sans', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica neue', Helvetica, Tahoma, Arial, sans-serif; */ padding: 32px 40px; background-color: #ededed;">
+											<table style="width: 100%; margin-bottom: 12px;" class="no_text_resize"
+												cellspacing="0" cellpadding="0" border="0">
+												<tbody>
+													<tr>
+														<td style="border-bottom: 1px dashed #d3d3d3;">
+															<h2 style="color: #404040; font-weight: 300; margin: 0 0 12px 0; font-size: 24px; line-height: 30px; font-family: 'Benton Sans', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica neue', Helvetica, Tahoma, Arial, sans-serif; "
+																class="">Lista de productos</h2>
+														</td>
+														<td colspan="2"
+															style="text-align: right; border-bottom: 1px dashed #d3d3d3;">
+															<div style="color: #666666; font-weight: 400; font-size: 13px; line-height: 18px; font-family: 'Benton Sans', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica neue', Helvetica, Tahoma, Arial, sans-serif; "
+																class="">{{order.date_order}}</div>
+														</td>
+													</tr>
+													<tr>
+														<td colspan="3">
+															<p style="color: #666666; font-weight: 400; font-size: 15px; line-height: 21px; font-family: 'Benton Sans', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica neue', Helvetica, Tahoma, Arial, sans-serif; margin-bottom: 18px;"
+																class="">#{{order.folio}} </p>
+															<table style="width: 100%;" cellspacing="0" cellpadding="0"
+																border="0">
+																<thead>
+																	<tr>
+																		<th
+																			style="border-bottom: 1px dashed #d3d3d3; text-align: left; padding-bottom: 12px; padding-right: 12px">
+																			<div
+																				style="color: #666666; font-weight: 400; font-size: 15px; line-height: 21px; font-family: 'Benton Sans', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica neue', Helvetica, Tahoma, Arial, sans-serif; font-weight: 500; ">
+																				Producto</div>
+																		</th>
+																		<th
+																			style="border-bottom: 1px dashed #d3d3d3; text-align: left; padding-bottom: 12px; padding-right: 12px">
+																			<div
+																				style="color: #666666; font-weight: 400; font-size: 15px; line-height: 21px; font-family: 'Benton Sans', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica neue', Helvetica, Tahoma, Arial, sans-serif; font-weight: 500; ">
+																				Cantidad</div>
+																		</th>
+																		<th
+																			style="border-bottom: 1px dashed #d3d3d3; text-align: left; padding-bottom: 12px; padding-right: 12px">
+																			<div
+																				style="color: #666666; font-weight: 400; font-size: 15px; line-height: 21px; font-family: 'Benton Sans', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica neue', Helvetica, Tahoma, Arial, sans-serif; font-weight: 500; ">
+																				Talla</div>
+																		</th>
+																		<th
+																			style="border-bottom: 1px dashed #d3d3d3; text-align: left; padding-bottom: 12px; padding-right: 12px">
+																			<div
+																				style="color: #666666; font-weight: 400; font-size: 15px; line-height: 21px; font-family: 'Benton Sans', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica neue', Helvetica, Tahoma, Arial, sans-serif; font-weight: 500; ">
+																				Precio unitario</div>
+																		</th>
+																		<th
+																			style="border-bottom: 1px dashed #d3d3d3; text-align: left; padding-bottom: 12px; padding-right: 12px">
+																			<div
+																				style="color: #666666; font-weight: 400; font-size: 15px; line-height: 21px; font-family: 'Benton Sans', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica neue', Helvetica, Tahoma, Arial, sans-serif; font-weight: 500; ">
+																				Total</div>
+																		</th>
+																	</tr>
+																</thead>
+																<tbody>
+																	{% for item in order.products_orders.all %}
+																	<tr>
+																		<td style=" padding: 12px 0; padding-right:3px">
+																			<div
+																				style="color: #666666; font-weight: 400; font-size: 15px; line-height: 21px; font-family: 'Benton Sans', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica neue', Helvetica, Tahoma, Arial, sans-serif; ">
+																				{{item.product.product}}</div>
+																		</td>
+																		<td style=" padding: 12px 0; padding-right:3px">
+																			<div
+																				style="color: #666666; font-weight: 400; font-size: 15px; line-height: 21px; font-family: 'Benton Sans', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica neue', Helvetica, Tahoma, Arial, sans-serif; ">
+																				{{item.quantity}}</div>
+																		</td>
+																		<td style=" padding: 12px 0; padding-right:3px">
+																			<div
+																				style="color: #666666; font-weight: 400; font-size: 15px; line-height: 21px; font-family: 'Benton Sans', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica neue', Helvetica, Tahoma, Arial, sans-serif; ">
+																				{{item.size}}</div>
+																		</td>
+																		<td style=" padding: 12px 0; padding-right:3px">
+																			<div
+																				style="color: #666666; font-weight: 400; font-size: 15px; line-height: 21px; font-family: 'Benton Sans', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica neue', Helvetica, Tahoma, Arial, sans-serif; ">
+																				{{item.price}}</div>
+																		</td>
+																		<td style=" padding: 12px 0; padding-right:3px">
+																			<div
+																				style="color: #666666; font-weight: 400; font-size: 15px; line-height: 21px; font-family: 'Benton Sans', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica neue', Helvetica, Tahoma, Arial, sans-serif; ">
+																				$ {{item.total_products_price|intcomma}}
+																			</div>
+																		</td>
+																	</tr>
+																	{% endfor %}
+																</tbody>
+															</table>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</td>
+										<td width="100">&nbsp;</td>
+									</tr>
+									<tr>
+									</tr>
+								</table>
+						</td>
+					</tr>
+				</table>
+				</div>
+
+				<div class='movableContent'>
+					<table cellpadding="0" cellspacing="0" border="0" align="center" width="600">
+						<tr>
+							<td width="100%" colspan="2" style="padding-top:65px;">
+								<hr style="height:1px;border:none;color:#333;background-color:#ddd;" />
+							</td>
+						</tr>
+						<tr>
+							<td width="60%" height="70" valign="middle" style="padding-bottom:20px;">
+								<div class="contentEditableContainer contentTextEditable">
+									<div class="contentEditable">
+										<span
+											style="font-size:13px;color:#181818;font-family:Helvetica, Arial, sans-serif;line-height:200%;">{{order.campaign.name}}</span>
+										<br />
+										<span
+											style="font-size:11px;color:#555;font-family:Helvetica, Arial, sans-serif;line-height:200%;">Todos
+											los derechos reservados para Lunik Diseño {% now 'Y' %} &copy;<br> Politicas de
+											privacidad. Términos de uso.
+										</span>
+										<br />
+									</div>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+
+			</td>
+		</tr>
+	</table>
+	<!-- END BODY -->
+	</td>
+	</tr>
+	</table>
+	<!-- End of wrapper table -->
+</body>
+
+</html>

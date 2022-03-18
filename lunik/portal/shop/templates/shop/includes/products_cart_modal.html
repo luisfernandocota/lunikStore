@@ -1,0 +1,179 @@
+{% load humanize %}
+
+<div class="modal-header" style="border-bottom: 0px solid transparent;">
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <i class="hover-icon  fas fa-window-close d-flex align-items-center align-self-start fa-md mr-1"
+      style="cursor: pointer;color: #d81c47;"></i>
+  </button>
+</div>
+<div class="modal-body">
+  <form method="post"
+    action="{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'shop_cart:cart_add' %}"
+    class="js-product-form">
+    {% csrf_token %}
+    {% include 'core/snippets/form_messages_cart.html' with form=form_product %}
+    <div class="row">
+      <div class="col-sm-12 col-lg-6 col-md-12 col-xs-12">
+        <div id="owl-detalle" class="owl-carousel owl-theme">
+          {% for item in product.product.products_gallery.all %}
+          <div class="itemSlide" style="background-image: url({{item.image.url}});">
+          </div>
+          <!-- <h6 style="text-align: center;color: #1BB978;" class="product-selected product-selected-{{item.pk}}"></h6> -->
+          {% endfor %}
+        </div>
+        <div class="slider-for">
+          {% for item in product.product.products_gallery.all %}
+          <div class="positionImg">
+            <img src="{{item.image.url}}" class=" position-relative"
+              style="width: 346px;height: 430px;border:1px solid #d81c47;left: -4rem;">
+          </div>
+          {% endfor %}
+        </div>
+        <div class="slider-nav">
+          {% for item in product.product.products_gallery.all  %}
+          <div class="div">
+            <img src="{{item.image.url}}"
+              class=" positionNav {% if forloop.first %}sizeNav{% elif forloop.counter == 2%}sizeNavT{% else %}{% endif %}">
+          </div>
+          {% endfor %}
+        </div>
+        <div class="item d-flex justify-content-center w-100 ml-4">
+          {% regroup product.products_color by color.hexacode as colors %}
+          {% for item in colors %}
+          {% for idx in item.list %}
+          {% ifchanged %}
+          <label class="radioproduct">
+            <input type="radio" name="radio" id="desactive">
+            <span class="checkmark" style="background-color: {{idx.color.hexacode}}"></span>
+            <!-- <small>{{idx.color.hexacode.name}}</small> -->
+          </label>
+          {% endifchanged %}
+          {% endfor %}
+          {% endfor %}<br>
+        </div>
+        <!-- <ul class="cd-gallery">
+          <li>
+            <div class="cd-item-info">
+              {{form_product.product}}
+              {{form_product.product_pk}}
+              <button class="add-to-cart pick-product" type="button" data-product-selected="">Seleccionar
+                diseño</button><br>
+            </div>cd-item-info
+        </li> -->
+        <!-- other list items here -->
+        <!-- </ul> cd-gallery -->
+      </div>
+      <div class="col-lg-6 col-md-12 col-xs-12 d-flex ">
+        <div class="size">
+          <div class="item">
+            <p class="titleDescription mb-1">{{product.product.name}}</p>
+            <p class="textDescription mb-0">{{product.product.model}}</p>
+            <p class="priceDescription mt-1">${{product.price|intcomma}}</p>
+            <div class="item mt-1">
+              <p class="textDescription">Características</p>
+              {{product.product.description|safe}}
+            </div>
+          </div>
+          <div class="item  d-flex justify-content-between align-items-center">
+            <label class="mb-0 listDescription">Cantidad:</label>
+            {{form_product.quantity}}
+
+            <label class="mb-0 listDescription">Talla:</label>
+            {{form_product.sizes}}
+          </div>
+          {{form_product.product_pk}}
+        </div>
+      </div>
+      <div class="offset-md-3 col-md-9 offset-lg-6 col-lg-6 mt-1">
+        <div class="item d-flex justify-content-start flexBottones">
+          <button type="button" class="btn btn-cerrar mt-0 mr-3" data-dismiss="modal">CERRAR</button>
+          <button type="submit" class="btn btn-agregar ml-4 mt-0"> AGREGAR AL CARRITO</button>
+        </div>
+      </div>
+  </form>
+</div>
+<script src="{{STATIC_URL}}js/product_preview_slider.js"></script>
+
+<script>
+  $('.multiple-items').slick({
+    dots: true,
+    infinite: false,
+    speed: 300,
+    slidesToShow: 4,
+    slidesToScroll: 4,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          infinite: true,
+          dots: true
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ]
+  });
+  $('.slider-for').slick({
+    /*  slidesToShow: 2,
+     slidesToScroll: 2, */
+    arrows: false,
+    fade: true,
+    asNavFor: '.slider-nav'
+  });
+  $('.slider-nav').slick({
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    asNavFor: '.slider-for',
+    dots: false,
+    centerMode: false,
+    focusOnSelect: true,
+    arrows: false
+  });
+  /* CAROUSEL DETALLE */
+  $('#owl-detalle').owlCarousel({
+    navigation: true,
+    loop: true,
+    nav: true,
+    dots: false,
+    margin: 10,
+    responsiveClass: true,
+    animateOut: 'fadeOut',
+    animateIn: 'fadeIn',
+    smartSpeed: 450,
+    autoplay: false,
+    autoplaySpeed: 5000,
+    autoplayTimeout: 5000,
+    slideSpeed: 300,
+    paginationSpeed: 800,
+    rewindSpeed: 1000,
+    responsive: {
+      0: {
+        items: 1,
+        loop: true
+      },
+      600: {
+        items: 1,
+        loop: true
+      },
+      1000: {
+        items: 1,
+        nav: true,
+        loop: true
+      }
+    }
+  })
+</script>

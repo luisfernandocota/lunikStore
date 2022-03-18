@@ -1,0 +1,80 @@
+ {% extends 'base.html' %}
+
+  {% load tags %}
+  
+  {% block subtitle %} Proveedores {% endblock subtitle %}
+  
+  {% block header %} Proveedores {% endblock header %}
+  
+  {% block subheader %} Lista de productos {% endblock subheader %}
+  
+  {% block content %}
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Lista de productos - {{campaign.name}} | {{campaign.fundraiser.organization}}</small></h5>
+        </div>
+        <div class="ibox-content">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="table-responsive">
+                <table class="table table-striped table-bordered table-hover table_list" >
+                 <thead>
+                     <tr>
+                        <th> # </th> 
+                        <th> Marca </th>
+                        <th> Modelo </th>
+                        <th> Nombre </th>
+                        <th> Colores</th>
+                        <th> Talla</th>
+                        <th> Cantidad</th>
+                        <th> Total </th>
+                     </tr>
+                   </thead>
+                <tbody>
+                    {% for item in products_list %}
+                    <tr class="odd gradeX">
+                      <td>{{forloop.counter}}</td>
+                      <td>{{item.product__product__product__brand__name}}</td>
+                      <td>{{item.product__product__product__model}}</td>
+                      <td>{{item.product__product__product__name}}</td>
+                      <td>{{item.product__color__hexacode__name}}</td> 
+                      <td>{{item.size}}</td> 
+                      <td>{{item.total}}</td> 
+                      <td><b>$ {{item.cost}} </b></td>    
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+              <div class="form-group">
+                <div class="col-sm-12">
+                  <a href="{% url 'orders:suppliers_campaigns_list' %}" class="btn btn-success">Aceptar</a>
+                </div>
+              </div>
+           </div>
+        </div>
+      </div>
+    </div>
+   {% endblock content %}
+ 
+ {% block docready %}
+      $('.table_list').DataTable({
+        pageLength: 25,
+        responsive: true,
+        dom: '<"html5buttons"B>lTfgitp',
+        buttons: [
+            {extend: 'excel', title: 'Lista de productos - {{campaign.name}} | {{campaign.fundraiser.organization}}'},
+            {extend: 'pdf', title: 'Lista de productos - {{campaign.name}} | {{campaign.fundraiser.organization}}'},
+
+            {extend: 'print',
+            customize: function (win){
+                    $(win.document.body).addClass('white-bg');
+                    $(win.document.body).css('font-size', '10px');
+                    $(win.document.body).find('table')
+                            .addClass('compact')
+                            .css('font-size', 'inherit');
+            }
+            }
+        ]
+      });
+ {% endblock %}

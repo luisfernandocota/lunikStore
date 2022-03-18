@@ -1,0 +1,364 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% load tags %}
+
+{% block subtitle %}Ordenes{% endblock subtitle %}
+
+{% block header %}Ordenes{% endblock header %}
+
+{% block subheader %}Lista de productos{% endblock subheader %}
+
+{% block styles %}
+<link href="{{STATIC_URL}}assets/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+{% endblock styles %}
+
+{% block content %}
+<section class="section">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">
+            <a class="badge bg-primary" href="{% url 'orders:orders_list' %}" data-toggle="tooltip" data-placement="top"
+              title="Regresar">
+              <i class="feather-24" data-feather="arrow-left"></i>
+            </a> Folio de compra: <span style="color:#914c54">{{order.folio}} {% if order.order_payment.status == 'EP' %}<i data-feather="activity"></i> En proceso {% endif %}</span>
+          </h4>
+
+          {% if order.order_payment.status == 'PE' %}
+          <a href="{% url 'orders:orders_shipping_status' order.pk %}"
+            style="float:right; position: relative; margin-top: -40px;" class="btn btn-primary btn-sm"
+            data-toggle="tooltip" data-placement="top"
+            title="Al darle 'iniciar pedido' la orden cambiará de estatus y se le notificará al cliente que su pedido esta siendo realizado. ">
+            <i data-feather="play"></i></i>Iniciar pedido
+          </a>
+          {% elif order.order_payment.status == 'EE' %}
+          <a href="{% url 'orders:orders_shipping_status' order.pk %}"
+            style="float:right; position: relative; margin-top: -40px;" class="btn btn-primary btn-sm"
+            data-toggle="tooltip" data-placement="top" title="El pedido cambiará a estatus de finalizado ">
+            <i data-feather="target"></i></i>Finalizar pedido
+          </a>
+          {% elif order.order_payment.status == 'EN' %}
+          <a href="#"
+            style="float:right; position: relative; margin-top: -40px;" class="btn btn-primary btn-sm"
+            data-toggle="tooltip" data-placement="top" title="El pedido ha sido realizado y entregado ">
+            <i data-feather="check"></i></i>Pedido completado
+          </a>
+          {% endif %}
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-4 col-12">
+              <p><i data-feather="calendar"></i>Fecha de la compra: <span style="color:#914c54">{{order.created|date:"d F Y"}}</span></p>
+
+            </div>
+            <div class="col-md-3 col-12">
+              <i data-feather="truck"></i>Envio: <span
+                style="color:#914c54">${{order.order_payment.shipping|intcomma}}</span>
+              {% if order.order_payment.coupon %}
+              <i data-feather="tag"></i>Cupón: <span style="color:#914c54">{{order.order_payment.coupon.code}} - {% if order.order_payment.coupon.discount_types == 'P' %}{{order.order_payment.coupon.discount}}<i
+                  data-feather="percent"></i>{% elif order.order_payment.coupon.discount_types == 'A' %}<i
+                  data-feather="dollar-sign"></i>${{order.order_payment.coupon.discount}}{% endif %}</span>
+              {% endif %}
+              <i data-feather="dollar-sign"></i>Total: <span
+                style="color:#914c54">${{order.total_shopping|intcomma}}</span>
+            </div>
+            <div class="col-md-5 col-12">
+              <i data-feather="home"></i> Dirección de envió: <span
+                style="color:#914c54">{{order.order_delivery.address}} #{{order.order_delivery.num_ext}},
+                {{order.order_delivery.suburb}}, C.P: {{order.order_delivery.zip_code}} {{order.order_delivery.city}},
+                {{order.order_delivery.state}}</span>
+            </div>
+          </div>
+          <div class="row">
+            <code><hr></code>
+
+            <p style="font-size:larger;">
+              <i data-feather="user"></i>Cliente <span style="color:#914c54">{{order.name}}</span>
+              <i data-feather="phone"></i>Teléfono: <span style="color:#914c54">{{order.phone}}</span>
+              <i data-feather="mail"></i>Correo: <span style="color:#914c54">{{order.email}}</span><br>
+
+            </p>
+          </div>
+
+          {% if order.order_payment.status == 'EP' %}
+          <div class="row">
+            <code><hr></code>
+            <p style="font-size:larger;">Datos de envío</p>
+            <form role="form" id="delivery-form" action="" method="POST">
+              {% csrf_token %}
+              {% include 'core/snippets/form_messages.html' with form=delivery_form %}
+              <div class="row">
+                <div class="col-md-4 col-12">
+                <div class="form-group has-icon-left">
+                  <label for="{{delivery_form.delivery_company.label}}">{{delivery_form.delivery_company.label}}</label>
+                  <div class="position-relative">
+                    {{delivery_form.delivery_company}}
+                    <div class="form-control-icon">
+                      <i data-feather="truck"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 col-12">
+                <div class="form-group has-icon-left">
+                  <label for="{{delivery_form.tracking_number.label}}">{{delivery_form.tracking_number.label}}</label>
+                  <div class="position-relative">
+                    {{delivery_form.tracking_number}}
+                    <div class="form-control-icon">
+                      <i data-feather="package"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group" id="data_5">
+                  <label class="font-normal">Rango de fechas</label>
+                  <div class="input-daterange input-group" id="datepicker">
+                    {{delivery_form.range_date_start}}
+                    <span class="input-group-addon">a</span>
+                    {{delivery_form.range_date_end}}
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <button class="btn btn-primary btn-save" type="submit" data-toggle="tooltip" data-placement="top"
+                    title="Al dar click en enviar, se le mandará un correo al cliente con esta información y se cambiará el estatus a enviado."><i
+                      class="fa fa-truck"></i>
+                    Enviar</button>
+                </div>
+              </div>
+              </div>
+              
+            </form>
+          </div>
+
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="card-caps">
+  <div class="row">
+    {% for item in order.products_orders.all %}
+    <div class="col-xl-3 col-md-6 col-sm-12">
+      <div class="card">
+        <div class="card-content">
+          <img class="card-img img-fluid" src="{{item.product.products_gallery.first.image.url}}" alt="Card image">
+          <div class="card-img-overlay overlay-dark bg-overlay d-flex justify-content-between flex-column">
+            <div class="overlay-content">
+              <h4 class="card-title mb-50">{% if item.product.products_properties.has_personalization %}<i
+                  data-feather="aperture" data-toggle="tooltip" data-placement="top"
+                  title="Este producto será personalizado"></i>{% endif %}{{item.product}} ({{item.quantity}})</h4>
+              <p class="card-text text-ellipsis">
+                <small><b>{{item.size}}</b></small><br>
+              </p>
+              {% if item.product.products_properties.has_personalization and item.name_personalization %}
+              <p class="card-text text-ellipsis">
+                <small><b>Nombre personalizado: {{item.name_personalization}}</b></small><br>
+              </p>
+
+              {% endif %}
+            </div>
+            <div class="overlay-status">
+              <!-- <p class="mb-25"><small>Last updated 3 mins ago</small></p> -->
+              <a href="{% url 'products:edit_product' item.product.slug %}" class="btn btn-primary btn-sm">Ver producto
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% comment %}
+<div class="col-lg-12">
+  <div class="ibox float-e-margins">
+    <div class="ibox-title">
+      <h5>
+        <i class="fa fa-tag"></i> {{order.store.code}} | <i class="fa fa-trophy"></i> {{order.store.name}} | Fecha de
+        compra: <b>{{order.created|date:"d F Y"}}</b>
+
+      </h5>
+      <div class="ibox-tools">
+        <div class="form-group">
+          {% if order.order_payment.status == 'EN' %}
+          <a href=""><span><i class="fa fa-check" style="color: green;"></i> Pedido completado</span></a>
+          {% endif %}
+          <a href="{% url 'orders:orders_list' %}"><button class="btn btn-success btn-save">Regresar</button></a>
+          {% if order.order_payment.status == 'PE' %}
+          <a href="{% url 'orders:orders_shipping_status' order.pk %}"><button class="btn btn-success btn-save"
+              type="button"><i class="fa fa-play-circle"></i> Atender</button></a>
+          {% elif order.order_payment.status == 'EE' %}
+          <a href="{% url 'orders:orders_shipping_status' order.pk %}"><button class="btn btn-primary btn-save"
+              type="button"><i class="fa fa-check"></i> Finalizar</button></a>
+          {% endif %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="wrapper wrapper-content animated fadeInRight">
+    <div class="ibox-content m-b-sm border-bottom">
+      <div class="row">
+        <div class="col-sm-2">
+          <div class="form-group">
+            <label class="control-label" for="folio"><i class="fa fa-shopping-cart"></i> Folio compra</label>
+            <p><b>{{order.folio}}</b></p>
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <div class="form-group">
+            <label class="control-label" for="name"><i class="fa fa-user"></i> Nombre</label>
+            <p><b>{{order.name}}</b></p>
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <div class="form-group">
+            <label class="control-label" for="phone"><i class="fa fa-phone"></i> Teléfono</label>
+            <p><b>{{order.phone}}</b></p>
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <div class="form-group">
+            <label class="control-label" for="email"><i class="fa fa-envelope-open-o"></i> Email</label>
+            <p><b>{{order.email}}</b></p>
+          </div>
+        </div>
+        {% if order_delivery.delivery_company and order_delivery.tracking_number %}
+        <div class="col-sm-2">
+          <div class="form-group">
+            <label class="control-label" for="email"><i class="fa fa-truck"></i> Compañia </label>
+            <p><b>{{order.shop_order_delivery.delivery_company}}</b></p>
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <div class="form-group">
+            <label class="control-label" for="email"><i class="fa fa-hashtag"></i> Número de rastreo</label>
+            <p><b>{{order.shop_order_delivery.tracking_number}}</b></p>
+          </div>
+        </div>
+        {% endif %}
+        <div class="col-xs-2">
+          <div class=" m-l-md">
+            <small class="m-b block"><i class="fa fa-truck"></i> Costo envio</small>
+            <h4 class="m-t block text-green-success">$ {{order.order_payment.shipping|intcomma}} </h4>
+          </div>
+        </div>
+        <div class="col-xs-2">
+          <div class=" m-l-md">
+            <small class="m-b block"><i class="fa fa-money"></i> Total compra</small>
+            <h4 class="m-t block text-green-success">$ {{order.total_shopping|intcomma}} </h4>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% if order.order_payment.status == 'EP' %}
+    <div class="wrapper wrapper-content animated fadeInRight">
+      <div class="ibox-content m-b-sm border-bottom">
+        <div class="row">
+          <form role="form" id="delivery-form" action="" method="POST">
+            {% csrf_token %}
+            {% include 'core/snippets/form_messages.html' with form=delivery_form %}
+            <div class="col-sm-3">
+              <div class="form-group">
+                <label id="{{delivery_form.delivery_company.label}}">{{delivery_form.delivery_company.label}}</label>
+                {{delivery_form.delivery_company}}
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="form-group">
+                <label id="{{delivery_form.tracking_number.label}}">{{delivery_form.tracking_number.label}}</label>
+                {{delivery_form.tracking_number}}
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="form-group" id="data_5">
+                <label class="font-normal">Rango de fechas</label>
+                <div class="input-daterange input-group" id="datepicker">
+                  {{delivery_form.range_date_start}}
+                  <span class="input-group-addon">a</span>
+                  {{delivery_form.range_date_end}}
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="form-group">
+                <h5>* Al dar click en enviar, se le mandará un correo al cliente con esta información</h5>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="form-group">
+                <button class="btn btn-info btn-save" type="submit"><i class="fa fa-truck"></i>
+                  Enviar</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    <div class="row">
+      {% for item in order.products_orders.all %}
+      <div class="col-md-3">
+        <div class="ibox">
+          <div class="ibox-content product-box">
+            <div class="product-imitation"
+              style="{% if item.product.product.products_gallery %}background-image: url('{{item.product.product.products_gallery.first.image.url}}');{% else %}background-color:#f8f8f9{% endif %}">
+            </div>
+            <div class="product-desc">
+              <span class="product-price">{{item.quantity}} x $ {{item.price}} </span>
+              <small>{{item.product.product.brand}} | {{item.product.product.model}}
+                <span class="label label-primary"
+                  style="border:1px solid #ccc;background-color:{{item.product.product.hexacodes.all.first.hexacode}}"
+                  title="{{item.product.productcolor}}">&nbsp;</span></small>
+              {{item.product.product.hexacodes.all.first.name}}
+              <h4 class="product-name">{{item.product.product.name}}</h4>
+              <div class="m-t-xs">
+                <small class="text-muted">Talla: <b>{{item.size}}</b></small><br>
+                {% if item.name %}
+                <small class="text-muted">Nombre: <b>{{item.name}}</b></small><br>
+                {% endif %}
+                {% if item.number %}
+                <small class="text-muted">Número: <b>{{item.number}}</b></small><br>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% if forloop.counter|divisibleby:"4" %}
+    </div>
+    <div class="row">
+      {% endif %}
+      {% endfor %}
+    </div>
+
+    {% endcomment %}
+    {% endblock content %}
+
+    {% block js %}
+    <script src="{{STATIC_URL}}js/orders.js" type="text/javascript"></script>
+    <script src="{{STATIC_URL}}assets/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+    {% endblock js %}
+
+    {% block docready %}
+    {% include 'core/snippets/form_validation.html' with form=delivery_form %}
+    {% include 'core/snippets/messages_error.html' with form=delivery_form %}
+    var date = new Date();
+    date.setDate(date.getDate()-1);
+    $('#data_5 .input-daterange').datepicker({
+    keyboardNavigation: false,
+    autoclose: true,
+    todayBtn: "linked",
+    startDate: date,
+    keyboardNavigation: false,
+    forceParse: true,
+    calendarWeeks: true,
+    format : "yyyy-mm-dd",
+    language: 'es'
+    });
+    {% endblock docready %}

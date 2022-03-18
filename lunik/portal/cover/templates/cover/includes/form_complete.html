@@ -1,0 +1,11 @@
+<div class="topmargin-lg clearfix mb-0 pt-5 pb-3 text-center">
+    <div class="heading-block center bottommargin-sm border-bottom-0">
+        <h2 class=" titlebottom" style="font-size: 36px;">Tu tienda ha sido creada.</h2>
+    </div>
+    <p style="color: #777;" class="lead textBottom text-center">Te hemos enviado un email al correo: </p>
+        <h3 class="text-center"><strong>{{user.email.value}}</strong></h3>
+        <p style="color: #777;" class="lead textBottom text-center"> 
+         para que finalices el proceso de activación de tu cuenta.
+        </p>
+        <a href="{% if request.is_secure %}https://{% else %}http://{% endif %}{{store_form.name.value}}.{{request.get_host}}" class="text-center button button-3d button-xlarge button-rounded buttonColor">Ingresa a tu tienda</a>
+</div>

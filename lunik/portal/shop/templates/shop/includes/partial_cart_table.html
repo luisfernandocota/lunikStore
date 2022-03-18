@@ -1,0 +1,344 @@
+{% load humanize %}
+{% load thumbnail %}
+{% load tags %}
+<div class="col-12">
+
+    <div class="table-responsive">
+
+        <table class="table table-hover table-bordered my-shopping-cart-table">
+            <thead>
+
+                <tr>
+
+                    <th scope="col"></th>
+
+                    <th scope="col">Producto</th>
+
+                    <th scope="col">Precio</th>
+
+                    <th scope="col">Cantidad</th>
+
+                    <!-- <th scope="col">Envío</th> -->
+
+                    <th scope="col">Total</th>
+
+                    <th scope="col">Acciones</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+                {% if cart.get_quantity_products > 0 %}
+                {% for item in cart %}
+                {% for key in item.variants.keys %}
+                <tr>
+
+                    <th>
+
+                        <div>
+                        {% with image=item.product.products_gallery.all.first.image %}
+                            {% thumbnail image '100x100' crop='center' as img %}
+                            <img src="{{img.url}}"
+                                class="d-block w-100 shopping-cart-image-product" alt="...">
+                            {% endthumbnail %}
+                        {% endwith %}
+
+                        </div>
+
+                    </th>
+
+                    <td>
+
+                        <div>
+
+                            {{item.product}} <br>
+                            Nombre personalizado: "{{key|get_custom_name:item}}"
+
+                        </div>
+
+                    </td>
+
+                    <td>
+
+                        <div>
+                            
+                            ${{key|get_charge_price_cart:item|intcomma}}
+
+                        </div>
+
+                    </td>
+
+                    <td>
+
+                        <div>
+
+                            <div class="input-group mb-3" style="max-width:200px;">
+
+                                <button class="btn btn-light mt-0 mb-0 button-rest" type="button">
+                                    <i class="bi bi-dash "></i>
+                                </button>
+
+                                <input name="quantity" id="id_quantity" value="{{key|get_quantity_cart:item}}" maxlength="2"
+                                        class="form-control text-center" type="text">
+
+                                <button class="btn btn-light mt-0 mb-0 button-add" type="button">
+                                    <i class="bi bi-plus "></i>
+                                </button>
+
+                            </div>
+                            <button class="btn mb-3 btn-refresh" type="button" {% if key|get_custom_price_cart:item > 0 %}readonly=True{% else %}{% endif %}
+                                    data-url="{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'shop_cart:cart_update' %}"
+                                    data-product="{{item.product.pk}}"
+                                    data-size="{{key|get_sizes_cart:item}}">
+                                        <i class="bi bi-arrow-repeat bi-2x"></i>
+                            </button>
+
+                        </div>
+
+                    </td>
+
+                    <!-- <td>
+
+                        <div>
+
+                            {% if item.product.products_properties.shipping_free or key|get_quantity_cart:item >= item.product.products_properties.shipping_min or item.product.products_properties.shipping_price is None %}
+                            ¡Gratis! <i class="bi bi-lightning"></i>
+                            {% else %}
+                            $ {{item.product.products_properties.shipping_price|intcomma}}
+                            {% endif %}
+
+                        </div>
+
+                    </td> -->
+
+                    <td>
+
+                        <div>
+                            {% comment %}
+                            {% if cart.is_coupon_apply and item.product|coupon:cart.is_coupon_apply and not cart.is_coupon_apply.apply_all  %}
+                                <p class="fw-bold">
+                                    {% if item.product|coupon:cart.is_coupon_apply and not cart.is_coupon_apply.apply_all %}
+                                        <i class="bi bi-bullseye"></i>
+                                    {% endif %}
+                                    ${{key|get_total_cart:item|intcomma}} 
+                                </p>
+                                </br>
+                                <p class="fw-light text-decoration-line-through">
+                                    ${{key|get_price_after_discount:item|intcomma}}
+                                </p>
+                            {% else %}
+                                $ {{key|get_total_cart:item|intcomma}} 
+                            {% endif %}
+                            {% endcomment %}
+                            $ {{key|get_total_cart:item|intcomma}} 
+
+                        </div>
+
+                    </td>
+                    <td>
+                        <div>
+                            <div class="block">
+                                <button class="btn btn-cart remove-cart-item" 
+                                        data-url="{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'shop:cart_remove' %}"
+                                        data-product="{{item.product.pk}}" 
+                                        data-size="{{key|get_sizes_cart:item}}"
+                                        data-checkout="1">
+                                    <i class="bi bi-trash" style="font-size: 18px;"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+                {% endfor %}
+                {% endif %}
+                {% comment %} <tr>
+
+                    <th>
+
+                        <div>
+
+                            <img src="{{STATIC_URL}}shop/resources/store/product/1-1.jpg"
+
+                                class="d-block w-100 shopping-cart-image-product" alt="...">
+
+                        </div>
+
+                    </th>
+
+                    <td>
+
+                        <div>
+
+                            Tenis Nike #2312
+
+                        </div>
+
+                    </td>
+
+                    <td>
+
+                        <div>
+
+                            $ 62.00 USD
+
+                        </div>
+
+                    </td>
+
+                    <td>
+
+                        <div>
+
+                            <div class="input-group mb-3" style="max-width:200px;">
+
+                                <button class="btn btn-light mt-0 mb-0" type="button"
+
+                                    id="button-rest"><i
+
+                                        class="bi bi-dash "></i></button>
+
+                                <input id="" type="text"
+
+                                    class="form-control text-center" value="1">
+
+                                <button class="btn btn-light mt-0 mb-0" type="button"
+
+                                    id="button-add"><i
+
+                                        class="bi bi-plus "></i></button>
+
+                            </div>
+
+                        </div>
+
+                    </td>
+
+                    <td>
+
+                        <div>
+
+                            ¡Gratis!
+
+                        </div>
+
+                    </td>
+
+                    <td>
+
+                        <div>
+
+                            $ 62.00 USD
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>
+
+                        <div>
+
+                            <img src="{{STATIC_URL}}shop/resources/store/product/1-1.jpg"
+
+                                class="d-block w-100 shopping-cart-image-product" alt="...">
+
+                        </div>
+
+                    </th>
+
+                    <td>
+
+                        <div>
+
+                            Tenis Nike #2312
+
+                        </div>
+
+                    </td>
+
+                    <td>
+
+                        <div>
+
+                            $ 62.00 USD
+
+                        </div>
+
+                    </td>
+
+                    <td>
+
+                        <div>
+
+                            <div class="input-group mb-3" style="max-width:200px;">
+
+                                <button class="btn btn-light mt-0 mb-0" type="button"
+
+                                    id="button-rest"><i
+
+                                        class="bi bi-dash "></i></button>
+
+                                <input id="" type="text"
+
+                                    class="form-control text-center" value="1">
+
+                                <button class="btn btn-light mt-0 mb-0" type="button"
+
+                                    id="button-add"><i
+
+                                                class="bi bi-plus "></i></button>
+
+                            </div>
+
+                        </div>
+
+                    </td>
+
+                    <td>
+
+                        <div>
+
+                            ¡Gratis!
+
+                        </div>
+
+                    </td>
+
+                    <td>
+
+                        <div>
+
+                            $ 62.00 USD
+
+                        </div>
+
+                    </td>
+
+                </tr> {% endcomment %}
+
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+{% if cart.is_coupon_apply and not cart.is_coupon_apply.apply_all %}
+<div class="row justify-content-end" style="text-align: -webkit-right;">
+    <div class="col-4">
+        <i class="bi bi-bullseye"></i>
+        <span class="s-text5 w-size19 w-full-sm">
+            Producto aplicable al cupón
+        </span>
+    </div> 
+</div> 
+{% endif %}
+{% comment %} <div class="row justify-content-end" style="text-align: -webkit-right;">
+    <div class="col-4">
+        <button class="four-buttons" type="button"><i class="bi bi-arrow-repeat"> Actualizar</i></button>
+    </div> 
+</div>  {% endcomment %}

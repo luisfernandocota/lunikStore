@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>ACTIVACIÓN DE CUENTA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script> -->
+   <!--  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"> -->
+    <style type="text/css">
+        #table-principal{
+            border: 2px solid {{tenant.customers.stores.first.store_meta.header_color}};background-color:{{tenant.customers.stores.first.store_meta.header_color}};color:#FFFF;padding-bottom: 2rem;padding-top: 2rem;
+        }
+        #style-codigo{
+            padding:0%;border:1px solid #000000; background: #000000;width: 40%;margin-bottom: 1%;margin-left: auto;margin-right: auto;
+        }
+        #style-pc{
+            color: #FFFF;font-weight: 700;font-size: 17pt;margin-top:0%;text-shadow: 0px 0px 5px #FFFF!important;
+        }
+        #table-prod{
+            width:100%;text-align: center;padding-top: 0%;border-collapse: collapse;
+        }
+        #style-prod{
+            margin-bottom: 0%;margin-top: 0%;text-align: center;
+
+        }
+        .img-styleone{
+            width: 14rem;
+        }
+        #img-styleone{
+            width: 14rem;
+
+        }
+        .btn-back{
+            background:#000000;
+            border:3px solid #000000;
+            color:#FFFF;
+            font-size:10pt;
+            border-radius:50px;
+            font-weight:600;
+            margin-top: 1rem;
+            padding:2%;
+            transition: all .3s ease-in-out;
+            cursor:pointer;
+        }
+        .btn-back:hover{
+            background: {{tenant.customers.stores.first.store_meta.header_color}};
+            border:3px solid #000000;
+            color:#000000;
+        }
+        .style-subt{
+            border: 0px solid transparent; background: #b60073;color:#FFFF;font-size: 13pt;font-weight: 600;
+            text-align: center;
+        }
+        @media (max-width:500px){
+            #img-style{
+                display: none;
+            }
+            #img-styleone{
+                width: 60%;
+                margin: 0px auto;
+                display:block;
+                margin-bottom: 3%;
+            }
+            #style-codigo{
+                width: 70%;
+                margin-left: 15%;
+            }
+            .style-subt{
+                font-size: 7pt;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" style="padding: 5%;">
+            <!-- <table style="margin:auto;">
+                <tr style="margin:auto;text-align: center;">
+                    <td style="text-align:center;">
+                            <img src="LOGO BOX ROLL3.png" id="img-styleone" style="" class="img-styleone" height="auto">
+                    </td>
+                </tr>
+            </table> -->
+            <table style="width:100%;text-align: center;">
+                <tr>
+                    <td style="text-align:center;">
+                            {% if tenant.customers.stores.first.store_meta.logo %}
+                            <img src="{{tenant.customers.stores.first.store_meta.logo.url}}" id="img-styleone" style="" class="" height="auto">
+                            {% else %}
+                            <img src="{{STATIC_URL}}landing/one-page/images/logo_4shop.svg" id="img-styleone" style="" class="" height="auto">
+                            {% endif %}
+                    </td>
+                    <td id="table-principal" >
+                            <p style="font-weight:500;font-size: 15pt;margin-bottom: 4%;margin-top: 2%;">¡Gracias por registrarte con nosotros!</p>
+                            <div id="style-codigo" style="margin-bottom:40px;">
+                                <p style="font-weight:500;font-size:14pt;margin-bottom:0%;">Su usuario es</p> 
+                                <p id="style-pc" > {{email}}</p>
+                                {% if not own_password %}
+                                <p style="font-weight:500;font-size:14pt;margin-bottom:0%;">Contraseña</p> 
+                                <p id="style-pc" > {{password}}</p>
+                                {% endif %}
+                            </div>
+                            <a href="{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'accounts:accounts_activation' uidb64=uid token=token %}" class="btn-back">Activar Cuenta</a>
+                    </td>
+                </tr>     
+            </table>
+            <table style="width:100%;text-align: center;padding-top: 2%;padding-bottom:0%;">
+                <tr>
+                    <td>
+                        <p style="font-weight:500;font-size: 15pt;margin-bottom: 4%;margin-top: 2%;">O Copie y pegue el enlace en la barra de dirección de su navegador <br> <a href="{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'accounts:accounts_activation' uidb64=uid token=token %}" style="color:{{tenant.customers.stores.first.store_meta.header_color}}">{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'accounts:accounts_activation' uidb64=uid token=token %}</a></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}" class="btn-back" style="border-radius: 0px;">Volver a la Tienda</a>
+                    </td>
+                </tr> 
+            </table>
+<!--     
+            <table style="width:100%;text-align: center;padding-top: 0%;padding-bottom:0%;">
+                <hr style="margin-top:2%;">
+                <tr>
+                    <td style="text-align:left;width:50%;">
+                        <p style="font-weight:600;margin-bottom: 0rem;margin-top: 0rem;"> Av. Tecnologico 430. Granja, 84055 Nogales, Sonora.</p>
+                        <p style="font-weight:600;margin-bottom: 0rem;margin-top: 0rem;"> 01 631 319 2159</p>
+                    </td>
+                    
+                    <td style="text-align: right;">
+                        <p style="font-size:14pt;color: {{tenant.customers.stores.first.store_meta.header_color}};font-weight:700;margin-bottom:1%;margin-top: 0%;">Redes Sociales</p>
+                        <a href="#" style="text-decoration:none;">fb</a>
+                        <a href="#" style="text-decoration:none;">Insta</a>
+
+                    </td>
+                </tr>
+            </table> -->
+    </div>
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script> -->
+</body>
+
+</html>

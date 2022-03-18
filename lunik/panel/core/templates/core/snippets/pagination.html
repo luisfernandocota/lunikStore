@@ -1,0 +1,54 @@
+<!-- Pagination Bootstrap style -->
+<!-- usage example: -->
+{% if obj_list.has_other_pages %}
+<nav aria-label="Page navigation example">
+  <ul class="pagination pagination-primary  justify-content-center">
+    {% if obj_list.has_previous %}
+      <li class="page-item disabled">
+          <a class="page-link" href="#" tabindex="-1" aria-disabled="true">&larr; &nbsp;</a>
+      </li>
+      {% endif %}
+      {% for i in obj_list.paginator.page_range %}
+        {% if obj_list.number == i %}
+      <li class="page-item active"><a class="page-link" href="#">1</a></li>
+      {% elif i > obj_list.number|add:'-5' and i < obj_list.number|add:'5' %}
+      <li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+      {% endif %}
+      {% endfor %}
+      {% if obj_list.has_next %}
+      <li class="page-item">
+          <a class="page-link" href="#">&nbsp; &rarr;</a>
+      </li>
+      {% endif %}
+  </ul>
+</nav>
+{% endif %}
+{% comment %}{% include 'core/snippets/pagination.html' with obj_list=query_instance %}
+{% if obj_list.has_other_pages %}
+  <ul class="pagination pagination-flat align-self-center">
+    {% if obj_list.has_previous %}
+      <li class="page-item"><a href="?page={{obj_list.previous_page_number}}" class="page-link">&larr; &nbsp; Ant</a></li>
+    {% else %}
+      <li class="page-item disabled"><a href="#" class="page-link">&larr;</a></li>
+    {% endif %}
+    {% if obj_list.number|add:'-4' > 1 %}
+      <li><a href="?page={{ obj_list.number|add:'-5' }}">&hellip;</a></li>
+    {% endif %}
+    {% for i in obj_list.paginator.page_range %}
+      {% if obj_list.number == i %}
+        <li class="page-item active"><a href="#" class="page-link">{{i}}</a></li>
+      {% elif i > obj_list.number|add:'-5' and i < obj_list.number|add:'5' %}
+        <li class="page-item"><a href="?page={{i}}" class="page-link">{{i}}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if obj_list.paginator.num_pages > obj_list.number|add:'4' %}
+      <li><a href="?page={{ obj_list.number|add:'5' }}">&hellip;</a></li>
+    {% endif %}
+    {% if obj_list.has_next %}
+      <li class="page-item"><a href="?page={{obj_list.next_page_number}}" class="page-link">Sig &nbsp; &rarr;</a></li>
+    {% else %}
+      <li class="page-item disabled"><a href="#" class="page-link">&rarr;</a></li>
+    {% endif %}
+  </ul>
+{% endif %}
+{% endcomment %}

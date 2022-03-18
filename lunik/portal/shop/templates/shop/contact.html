@@ -1,0 +1,146 @@
+{% extends 'base_shop.html' %}
+
+{% load humanize %}
+{% load thumbnail %}
+{% block title %}{{store_instance.name}}{% endblock title %}
+
+{% block subtitle %} Conocenos {% endblock subtitle %}
+{% block cart %}
+{% include 'shop/includes/partial_cart_detail.html' %}
+{% endblock cart %}
+{% block menu %}
+{% include 'shop/includes/partial_menu.html' %}
+{% endblock menu %}
+{% block cart_mobile %}
+{% include 'shop/includes/partial_cart_mobile_detail.html' %}
+{% endblock cart_mobile %}
+{% block customcss %}
+	<!-- Leaflet-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+    integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+    crossorigin=""/>
+{% endblock customcss %}
+
+{% block content %}
+<section class="bg-title-page m-t-60 p-t-40 p-b-50 flex-col-c-m">
+    <h3 class="l-text2 t-center" style="color: {{store_instance.store_meta.header_color}}">
+        Contacto
+    </h3>
+</section>
+
+<!-- content page -->
+<section class="bgwhite p-b-60">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-7 p-b-30">
+                <div class="p-r-20 p-r-0-lg">
+                        <div class="item">
+                            <p>Queremos estar en contacto contigo y escucharte, es por eso que estamos a tus órdenes por medio de nuestro correo electrónico, te dejamos la información de cada medio para poder contactarnos.</p>
+                        </div>
+                        {% if offices_list %}
+                        <h2 class="mt-4">Nuestras sucursales</h2><br>
+                        <div class="item d-flex flex-wrap justify-content-start ">
+                            {% for office in offices_list %}
+                            <div class="item mr-4 pb-2 pt-2" style="border-bottom: 1px solid #eaeaea;">
+                                <p class="font-weight-bold">{{office.name}}</p>
+                                <p>{{office.address}}, {{office.city}}, {{office.state}}</p>
+                                <p>Telefono: {{office.phone}}</p>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        {% if info.email_store %}
+                        <h2 class="mt-4">Correo electrónico</h2>
+                        <p>Email: {{info.email_store}}</p>
+                        {% endif %}
+                        <!-- <h2 class="mt-4">Horarios de Atención</h2>
+                        <p>Lunes a Domingo:  9:00 a 22:00 hrs</p>
+                        <p>Horario centro del pais (CDMX)</p> -->
+                </div>
+            </div>
+
+            <div class="col-md-5 p-b-30">
+                <form method="post" class="leave-comment">
+                    {% csrf_token %}
+                    <h4 class="m-text26 p-b-36 p-t-15">
+                        CONTÁCTANOS
+                    </h4>
+                    {% if not form and success %}
+                    <h4 class="m-text26 p-b-36 p-t-15">
+                        CORREO ENVIADO
+                    </h4>
+                    {% else %}
+                    <div class="bo4 of-hidden size15 m-b-20">
+                        {{contact_form.name}}
+                    </div>
+
+                    <div class="bo4 of-hidden size15 m-b-20">
+                        {{contact_form.phone}}
+                    </div>
+
+                    <div class="bo4 of-hidden size15 m-b-20">
+                        {{contact_form.email}}
+                    </div>
+
+                    {{contact_form.comment}}
+                    <div class="w-size25">
+                        <!-- Button -->
+                        <button type="submit" class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4">
+                            ENVIAR MENSAJE
+                        </button>
+                    </div>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% if offices_list %}
+<section class="item map item2">
+    <div id="mapid" ></div>
+    
+</section>
+{% endif %}
+{% endblock content %}
+
+{% block customjs %}
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAKFWBqlKAGCeS1rMVoaNlwyayu0e0YRes"></script>
+<script src="{{STATIC_URL}}site/js/map-custom.js"></script>
+ <!-- Mapa-->
+ <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=true"></script>
+ <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+ integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin="">
+ </script>
+ 
+{% endblock customjs %}
+
+{% block docready %}
+window.onload = function(){
+    var map = L.map('mapid').setView([25.75578, -109.00357], 16);
+    var TitleStreets = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+        attribution: 'Map data',
+        maxZoom: 18,
+        minZoom:  10,
+        id: 'mapbox/streets-v11',
+        accessToken: 'sk.eyJ1IjoicGF1bHNvdCIsImEiOiJja2h4dmx4NTUwbmMwMnNuanZubThiNDY5In0.cRvBr3oVyUr_hF13kVcl0A',
+    });
+    TitleStreets.addTo(map);
+    
+    var greenIcon = L.icon({
+        /* AQUI SE INTEGRA LA PARTE DEL LOGO */
+        iconUrl: '{{STATIC_URL}}landing/one-page/images/logotipo.png',
+        iconSize: [80, 80],
+        iconAnchor: [65, 94],
+        popupAnchor: [-3, -76],
+        shadowSize: [68, 95],
+        shadowAnchor: [22, 94]
+    });
+
+    var marker = L.marker([25.75578, -109.00357], {icon: greenIcon}).addTo(map);
+    /* AQUI COLOCAS INFORMACION DE LA TIENDA */
+    marker.bindPopup("<b>LA TIENDA</b><br>Bvld 10 de mayo<br>Miguel Hidalgo<br>CP. 81210<br> Ahome, Sinaloa, México.").openPopup();
+    var popup = L.popup();
+
+}
+{% endblock docready %}

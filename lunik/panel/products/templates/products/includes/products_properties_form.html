@@ -1,0 +1,127 @@
+<div class="row">
+    <div class="col-md-6 col-12">
+        <div class="row">
+            <div class="col-md-4 col-12">
+                <div class="form-group has-icon-left">
+                    <label
+                        for="{{product_properties_form.sell_price.label}}">{{product_properties_form.sell_price.label}}</label>
+                    <div class="position-relative">
+                        {{product_properties_form.sell_price}}
+                        <div class="form-control-icon">
+                            <i data-feather="dollar-sign"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-12">
+                <div class="form-group has-icon-left">
+                    <label
+                        for="margin">Margén</label>
+                    <div class="position-relative">
+                        {{product_properties_form.margin}}
+                        <input id="margin" type="number" class="form-control" readonly value="0">
+                        <div class="form-control-icon">
+                            <i data-feather="percent"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-12">
+                <div class="form-group has-icon-left">
+                    <label
+                        for="gain">Ganacia</label>
+                    <div class="position-relative">
+                        {{product_properties_form.gain}}
+                        <input id="gain" type="number" class="form-control" readonly value="0">
+                        <div class="form-control-icon">
+                            <i data-feather="dollar-sign"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-md-2">
+                <div class='form-check'>
+                    <div class="custom-control custom-checkbox">
+                        {{product_properties_form.is_sale}}
+                        <label class="form-check-label"
+                            for="{{product_properties_form.is_sale.auto_id}}">{{product_properties_form.is_sale.label}}</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-12">
+                <div class="form-group has-icon-left">
+                    <label
+                        for="{{product_properties_form.sale_price.label}}">{{product_properties_form.sale_price.label}}</label>
+                    <div class="position-relative">
+                        {{product_properties_form.sale_price}}
+                        <div class="form-control-icon">
+                            <i data-feather="dollar-sign"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-md-3">
+                <div class='form-check'>
+                    <div class="custom-control custom-checkbox">
+                        {{product_properties_form.is_outstanding}}
+                        <label class="form-check-label"
+                            for="{{product_properties_form.is_outstanding.auto_id}}">{{product_properties_form.is_outstanding.label}}</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-md-4">
+                <div class='form-check'>
+                    <div class="custom-control custom-checkbox">
+                        {{product_properties_form.has_personalization}}
+                        <label class="form-check-label"
+                            for="{{product_properties_form.has_personalization.auto_id}}">{{product_properties_form.has_personalization.label}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-12">
+        <div class="row">
+            <div class="col-md-4 col-12">
+                <div class="form-group has-icon-left">
+                    <label
+                        for="{{product_properties_form.shipping_price.label}}">{{product_properties_form.shipping_price.label}}</label>
+                    <div class="position-relative">
+                        {{product_properties_form.shipping_price}}
+                        <div class="form-control-icon">
+                            <i data-feather="dollar-sign"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-12">
+                <div class="form-group">
+                    <label
+                        for="{{product_properties_form.shipping_min.label}}">{{product_properties_form.shipping_min.label}}</label>
+                    <div class="position-relative">
+                        {{product_properties_form.shipping_min}}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-3">
+                <div class='form-check'>
+                    <div class="custom-control custom-checkbox">
+                        {{product_properties_form.shipping_free}}
+                        <label class="form-check-label"
+                            for="{{product_properties_form.shipping_free.auto_id}}">{{product_properties_form.shipping_free.label}}</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-3">
+                <div class='form-check'>
+                    <div class="custom-control custom-checkbox">
+                        {{product_properties_form.status}}
+                        <label class="form-check-label"
+                            for="{{product_properties_form.status.auto_id}}">{{product_properties_form.status.label}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% load thumbnail %}
+
+{% block subtitle %}{% if slide_obj %} Editar slide {% else %} Agregar slide {% endif %}{% endblock subtitle %}
+
+{% block header %}Slides{% endblock header %}
+
+{% block subheader %}{% if slide_obj %} Editar slide {% else %} Agregar slide {% endif %}{% endblock subheader %}
+
+{% block styles %}
+<style>
+    body {
+        background-color: #f8f8f8 !important;
+    }
+
+    .dz {
+        border: none !important;
+        background-color: #fff !important;
+        border-radius: 10px !important;
+    }
+
+</style>
+<link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+
+{% endblock styles %}
+{% block js %}
+<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+<script>
+Dropzone.autoDiscover = false;
+</script>
+
+{% endblock js %}
+
+{% block content %}
+<div class="page-title">
+  <div class="row">
+    <div class="col-12 col-md-6 order-md-1 order-last">
+      <h3>Slides</h3>
+      <p class="text-subtitle text-muted">{% if slide_obj %} Editar slide {% else %} Agregar slide {% endif %}</p>
+    </div>
+    <div class="col-12 col-md-6 order-md-2 order-first">
+      <nav aria-label="breadcrumb" class='breadcrumb-header'>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a style="color: #914c54;" href="{% url 'products:products_list' %}">Slides</a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">{% if slide_obj %} Editar {% else %} Agregar {% endif %}</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<section id="multiple-column-form">
+  <div class="row match-height">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-body">
+            <h4 class="card-title" style="text-align: center;">¡ Solo arrastra las imagenes !</h4>
+
+            <form  id="frmTarget" class="form dropzone dz" action="" enctype="multipart/form-data" method="POST">
+              {% csrf_token %}
+              <div class="form-actions d-flex justify-content-end">
+                <button type="submit" id="submitButton" class="btn btn-primary me-1">Guardar</button>
+                <a href="{% url 'website:slides_list' %}"
+                                    class="btn btn-light-secondary me-1 mb-1">Cancelar</a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Logo -->
+
+{% endblock content %}
+
+{% block docready %}
+let myDropzone = new Dropzone("#frmTarget", { 
+    autoProcessQueue: false,
+    uploadMultiple: true,
+    parallelUploads: 100,
+    maxFiles: 100,
+    url: '{% if slide_obj %}{% url 'website:slides_edit' slide_obj.pk %}{% else %}{% url 'website:slides_add' %}{% endif %}'
+});
+// Update selector to match your button
+$("#submitButton").click(function (e) {
+    e.preventDefault();
+    myDropzone.processQueue();
+});
+Dropzone.options.myDropzone = {
+    
+    init: function () {
+
+        
+
+        this.on('sending', function(file, xhr, formData) {
+            // Append all form inputs to the formData Dropzone will POST
+            var data = $('#frmTarget').serializeArray();
+            $.each(data, function(key, el) {
+                formData.append(el.name, el.value);
+            });
+        });
+        this.on("successmultiple", function(files, response) {
+            console.log('hola')
+          });
+    }
+}
+{% endblock docready %}

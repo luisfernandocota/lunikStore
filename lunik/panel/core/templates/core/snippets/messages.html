@@ -1,0 +1,10 @@
+
+{% if messages %}
+  {% for message in messages %}
+      {% if message.level == 40 %}
+      toastr.error("{{message}}");
+      {% elif message.level == 25%}
+      toastr.success("{{message}}");
+      {% endif %}
+  {% endfor %}
+{% endif %}

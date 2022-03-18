@@ -1,0 +1,64 @@
+{% load humanize %}
+{% if not cart.is_coupon_apply %}
+<div class="row">
+
+    <div class="col-12 col-lg-6">
+
+        <h5>Cupón</h5>
+        {% comment %} 
+        <p>
+
+            Ingrese los datos de su domicilio para calcular el costo de envío
+
+        </p> {% endcomment %}
+
+    </div>
+
+</div>
+
+<div class="row pt-2 pb-2">
+
+    <div class="col-12 col-lg-3 pb-2">
+
+        {% comment %} <label for="postal_code" class="form-label">#<span
+
+                style="color: red !important;">*</span>:</label> {% endcomment %}
+
+        <input type="text"  id="coupon" name="coupon" class="form-control apply-coupon" placeholder="">
+
+    </div>
+
+    <div class="col-12 col-lg-9 pb-2">
+
+        <button type="button" data-url="{% url 'shop:apply_coupon' %}" class="four-buttons float-end apply-coupon">Aplicar cupón</button>
+
+    </div>
+
+</div>
+{% else %}
+<div class="row">
+
+    <div class="col-12 col-lg-6">
+
+        <h5>Cupón</h5>
+
+          {% comment %} <p>
+          <p> {% endcomment %}
+
+    </div>
+
+</div>
+<div class="row pt-2 pb-2">
+    <div class="col-12 col-lg-3 pb-2">
+
+            {{cart.is_coupon_apply.code}} - Descuento {% if cart.is_coupon_apply.discount_types == 'A'%}$<strong>{{cart.is_coupon_apply.discount|intcomma}}</strong>{% elif cart.is_coupon_apply.discount_types == 'P'%}<strong>{{cart.is_coupon_apply.discount}}</strong>%{% endif %}
+    
+    </div>
+    <div class="col-12 col-lg-9 pb-2">
+
+        <button type="button" class="four-buttons float-end del-coupon" data-url="{% url 'shop:del_coupon' %}"><i class="bi bi-trash"></i> Quitar cupón</button>
+
+    </div>
+
+</div>
+{% endif %}

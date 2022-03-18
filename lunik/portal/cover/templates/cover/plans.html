@@ -1,0 +1,438 @@
+{% extends 'base_landing.html' %}
+
+{% block subtitle %}Planes{% endblock subtitle %}
+
+{% block create_store %}
+<li class="menu-item"><a class="menu-link itemLink" href="#price"><button class=" buttonColorTwo font-weight-normal text-capitalize button  button-large button-circle m-0">CREA TU TIENDA</button></a></li>
+{% endblock create_store %}
+{% block dark %}dark{% endblock dark %}
+{% block customcss %}
+{% endblock customcss %}
+
+{% block content %}
+<section id="page-title" class="page-title-parallax include-header skrollable skrollable-between" style="background-image: url('{{STATIC_URL}}landing/one-page/images/7.png'); padding: 120px 0px; margin-top: -102px; background-position: 0px -102.964px; background-size:cover;" data-bottom-top="background-position:0px 300px;" data-top-bottom="background-position:0px -300px;">
+	<div class="container clearfix center">
+		<h1 data-animate="fadeInUp" class="fadeInUp animated" style="color: white;">Increible oferta que no puedes perderte</h1>
+		<h2 data-animate="fadeInUp" class="fadeInUp animated" style="color: white;">El plan premium a precio de locura. Solo <b>$450 pesos</b> mensuales el primer año, con todas sus características</h2>
+		{% comment %} <span data-animate="fadeInUp" class="fadeInUp animated" style="color: white;"> Promoción valida hasta el <b>31 de diciembre</b></span> {% endcomment %}
+	</div>
+</section>
+
+<!-- Content-->
+<section id="content">
+	<div class="content-wrap pt-0 pb-0" id="nosotros">
+		<!-- <div class="section m-0" style="padding: 80px 0;">
+			<div class="container clearfix">
+				<div class="row col-mb-50">
+
+					<div class="col-md-6">
+						<div class="emphasis-title bottommargin-sm">
+							<h2 style="font-size: 38px;" class="font-body font-weight-semibold">Contactanos y empieza a vender <br> en Línea</h2>
+						</div>
+						<p style="color: #777; margin-bottom: 25px;" class="lead">Muestra tu catalogo de productos tus clientes y empieza a recibir pedidos en tu celular.</p>
+						<a href="comienza.html" class="font-weight-normal text-capitalize button button-dark button-large button-circle m-0">REGISTRATE YA!</a>
+					</div>
+
+					<div class="col-md-6">
+							<img src="https://fakeimg.pl/620x410" alt="Image 1" />
+					</div>
+				</div>
+			</div>
+		</div> -->
+
+		<div class="section m-0 p-0" id="pricing" style="background: url('{{STATIC_URL}}landing/one-page/images/8.png') center center no-repeat; background-size: contain;">
+			<div class="section m-0 pt-4 pb-1" style="background: rgba(0,0,0,0.0);">
+				<div class="container clearfix">
+					<div class="heading-block  border-bottom-0 mb-0 center">
+						<h2 style="font-size: 40px;" class="nott font-weight-bold ls1 titlebottom" >NUESTROS PLANES</h2>
+					</div>
+				</div>
+			</div>
+
+			<div class="section m-0 bg-transparent">
+				<div class="container clearfix">
+					<div class="svg-discount"></div>
+					<div class="pricing-tenure-switcher row align-items-center justify-content-center mb-4" data-container="#pricing-switch">
+						<span class="pts-left font-weight-bold text-dark" style="color: white;">MENSUAL</span>
+						<div class="pts-switcher mx-2">
+							<div class="switch">
+								<input id="switch-toggle-pricing-tenure" class="switch-toggle switch-toggle-round" type="checkbox" disabled>
+								<label for="switch-toggle-pricing-tenure" class="mb-0"></label>
+							</div>
+						</div>
+						<!-- <span class="pts-right font-weight-bold text-dark" style="color: white;">ANUAL</span> -->
+					</div>
+
+					<div id="pricing-switch" class="pricing row col-mb-30">
+						<div class="col-lg-4 col-md-6">
+							<div class="pricing-box text-center">
+								<div class="pricing-title">
+									<h1>BÁSICO</h1>
+								</div>
+								<!-- <p class="nodisponible">NO DISPONIBLE</p> -->
+								<div class="pricing-price">
+									<div class="pts-switch-content-left"><span class="price-unit">&dollar;</span>350<span class="price-tenure">Mensual</span></div>
+									<div class="pts-switch-content-right"><span class="price-unit">&dollar;</span>4,200<span class="price-tenure">Anual</span>
+									</div>
+								</div>
+								<div class="pricing-features border-0 bg-transparent">
+									<ul>
+										<li><strong>3% Costo por transacción</strong></li>
+										<li><strong></strong>Tienda en linea</li>
+										<li><strong></strong>Productos ilimitados</li>
+										<li><strong></strong>Ventas ilimitadas</li>
+										<li><strong></strong>Certificado SSL gratis</li>
+									</ul>
+								</div>
+								<!-- <div class="pts-switch-content-left">
+									<a href="#price" id="basic-btn-m"  style="color: white!important; background-color: #e44051 !important;" data-pricing-plan="Business Monthly Plan" class="button button-large button-circle  buttonColor text-capitalize ls0 itemLink">LO QUIERO</a></div>
+								<div class="pts-switch-content-right">
+									<a href="#price" id="basic-btn-y"  style="color: white!important; background-color: #e44051 !important;" data-pricing-plan="Business Yearly Plan" class="button button-large button-circle  buttonColor text-capitalize ls0 itemLink">LO QUIERO</a></div> -->
+							</div>
+
+						</div>
+						<div class="col-lg-4 col-md-6">
+							<div class="pricing-box text-center">
+								<div class="price-label">
+									<span style="padding-left: 5px;">Promoción</span>
+								</div>
+								<div class="pricing-title">
+									<h1>PREMIUM</h1>
+									<span class="price-tenure">Plan promocional</span>
+								</div>
+								<div class="pricing-price">
+									<div class="pts-switch-content-left" style="color: #EF4368;"><span class="price-unit">&dollar;</span>450<span class="price-tenure">Mensual</span></div>
+									<div class="pts-switch-content-left" style="text-decoration: line-through;"><span class="price-unit">&dollar;</span>1,300</div>
+									<div class="pts-switch-content-right" style="color: #EF4368;"><span class="price-unit">&dollar;</span>5,400<span class="price-tenure">Anual</span> <span class="price-tenure">Ahorro más de un 70%</span></div>
+									<div class="pts-switch-content-right" style="text-decoration: line-through;"><span class="price-unit">&dollar;</span>14,480</div>
+								</div>
+								<div class="pricing-features border-0 bg-transparent">
+									<ul>
+										<li><strong>Sin costo por transacción</strong></li>
+										<li class="pts-switch-content-left"><strong></strong>Plan PRO +</li>
+										<li class="pts-switch-content-right"><strong></strong>Plan PRO +</li>
+										<!-- <li><strong></strong>Dominio personalizado</li> -->
+										<li><strong></strong>Gestión y estadisticas de la tienda</li>
+										<li><strong></strong>Ayuda personalizada</li>
+									</ul>
+								</div>
+								<!-- <div class="pricing-action">
+									<div class="pts-switch-content-left">
+										<a href="#price" id="premium-btn-m"  style="color: white!important; background-color: #e44051 !important;" data-pricing-plan="Business Monthly Plan" class="button button-large button-circle  buttonColor text-capitalize ls0 itemLink">LO QUIERO</a></div>
+									<div class="pts-switch-content-right">
+										<a href="#price" id="premium-btn-y"  style="color: white!important; background-color: #e44051 !important;" data-pricing-plan="Business Yearly Plan" class="button button-large button-circle  buttonColor text-capitalize ls0 itemLink">LO QUIERO</a></div>
+								</div> -->
+							</div>
+
+
+						</div>
+
+						<div class="col-lg-4 col-md-6 offset-lg-0 offset-md-3">
+
+							<div class="pricing-box price-best text-center" style="position: relative;">
+
+								<div class="pricing-title">
+									<h1>PRO</h1>
+								</div>
+								<p class="nodisponible">PRÓXIMAMENTE</p>
+								<div class="pricing-price">
+									<div class="pts-switch-content-left"><span class="price-unit">&dollar;</span>750<span class="price-tenure">Mensual</span></div>
+									<div class="pts-switch-content-right"><span class="price-unit">&dollar;</span>7,200<span class="price-tenure">Anual</span></div>
+								</div>
+								<div class="pricing-features border-0 bg-transparent">
+									<ul>
+										<li><strong>Sin costo por transacción</strong></li>
+										<li class="pts-switch-content-left"><strong></strong>Plan BÁSICO + </li>
+										<li class="pts-switch-content-right"><strong></strong>Plan BÁSICO +</li>
+										<li><strong></strong>Chats de redes sociales</li>
+										<li><strong></strong>Integración con pasarelas de pago</li>
+										<li><strong></strong>Registro de clientes</li>
+									</ul>
+								</div>
+								<!-- <div class="pricing-action">
+									<div class="pts-switch-content-left"><a href="#" data-pricing-plan="Professional Monthly Plan"  style="color: white!important; background-color: #e44051 !important;" class="button button-large button-circle buttonColor text-capitalize ls0">SOLICITA YA</a></div>
+									<div class="pts-switch-content-right"><a href="#" data-pricing-plan="Professional Yearly Plan"  style="color: white!important; background-color: #e44051 !important;" class="button button-large button-circle buttonColor text-capitalize ls0">SOLICITA YA</a></div>
+								</div> -->
+							</div>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<h1 class="fontSubtext mb-4 mt-4 text-center font-weight-light sizeTitle">Compara los planes <br> <span class="fontTitle font-weight-bold"> y elige el que mejor se adapte a tus necesidades</span></h1>
+			<div class="srolll pb-4 mb-2">
+				<table class="pb-1 mb-1" style="margin-bottom: -1rem;margin: auto;">
+					<tbody><tr>
+						<th style="border-top: 1px solid transparent;border-left: 1px solid transparent;"></th>
+						<th class="fontTitle flexCenterTwo" style="width: 15%;">BÁSICO</th>
+						<th class="fontTitle flexCenterTwo" style="width: 15%;">PRO</th>
+						<th class="fontTitle flexCenterTwo" style="width: 15%;">PREMIUM</th>
+					</tr>
+					<tr>
+						<th class="fontTitle">TIENDA EN LÍNEA</th>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="fontSubtext">Tienda personalizable con tu marca</td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+					</tr>
+					<tr>
+						<td class="fontSubtext">Productos ilimitados</td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+
+					</tr>
+					<tr>
+						<td class="fontSubtext">Visitas Ilimitadas</td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+
+					</tr>
+					<tr>
+						<td class="fontSubtext">Ventas ilimitadas</td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+
+					</tr>
+					<tr>
+						<td class="fontSubtext">Filtros por producto</td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+
+					</tr>
+					<tr>
+						<td class="fontSubtext">Certificado SSL gratis</td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+					</tr>
+					<tr>
+						<th class="fontTitle">PAGOS</th>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="fontSubtext">Carrito de compras</td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+					</tr>
+					<tr>
+						<td class="fontSubtext">Integración con pasarela de pago</td>
+						<td class="flexCenterTwo"><i class="fas fa-times"></i></td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+					</tr>
+					<tr>
+						<td class="fontSubtext">Cargos por transacción</td>
+						<td class="flexCenterTwo">3%<
+						<td class="flexCenterTwo">0%<
+						<td class="flexCenterTwo">0%<
+					</tr>
+					<tr>
+						<td class="fontSubtext">Registro de clientes</td>
+						<td class="flexCenterTwo"><i class="fas fa-times"></i></td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+					</tr>
+					<tr>
+						<th class="fontTitle">REDES SOCIALES</th>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="fontSubtext">Chat de messenger</td>
+						<td class="flexCenterTwo"><i class="fas fa-times"></i></td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+					</tr>
+					<tr>
+						<td class="fontSubtext">Chat de whatsapp</td>
+						<td class="flexCenterTwo"><i class="fas fa-times"></i></td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+					</tr>
+					<tr>
+						<td class="fontSubtext">Pixel para campañas publicitarias</td>
+						<td class="flexCenterTwo"><i class="fas fa-times"></i></td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+					</tr>
+					<tr>
+						<th class="fontTitle">Configuración y administración</th>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="fontSubtext">Cuentas para empleados</td>
+						<td class="flexCenterTwo"><i class="fas fa-times"></i></td>
+						<td class="flexCenterTwo"><i class="fas fa-times"></i></td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+					</tr>
+					<tr>
+						<td class="fontSubtext">Cupones de descuento</td>
+						<td class="flexCenterTwo"><i class="fas fa-times"></i></td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+					</tr>
+					<tr>
+						<td class="fontSubtext">Gestion de productos </td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+					</tr>
+					<tr>
+						<td class="fontSubtext">Variantes del producto</td>
+						<td class="flexCenterTwo"><i class="fas fa-times"></i></td>
+						<td class="flexCenterTwo"><i class="fas fa-times"></i></td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+					</tr>
+					<tr>
+						<td class="fontSubtext">Manejo de stock</td>
+						<td class="flexCenterTwo"><i class="fas fa-times"></i></td>
+						<td class="flexCenterTwo"><i class="fas fa-times"></i></td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+					</tr>
+					<tr>
+						<td class="fontSubtext">Estadísticas de ventas</td>
+						<td class="flexCenterTwo"><i class="fas fa-times"></i></td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+					</tr>
+					<tr>
+						<td class="fontSubtext">Envio de correo personalizado</td>
+						<td class="flexCenterTwo"><i class="fas fa-times"></i></td>
+						<td class="flexCenterTwo"><i class="fas fa-times"></i></td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+					</tr>
+					<!-- <tr>
+						<td class="fontSubtext">Dominio propio</td>
+						<td class="flexCenterTwo"><i class="fas fa-times"></i></td>
+						<td class="flexCenterTwo"><i class="fas fa-times"></i></td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+					</tr> -->
+
+					<tr>
+						<th class="fontTitle">SOPORTE TÉCNICO</th>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="fontSubtext">Asistencia por correo</td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+					</tr>
+					<tr>
+						<td class="fontSubtext">Asistencia telefónica</td>
+						<td class="flexCenterTwo"><i class="fas fa-times"></i></td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+					</tr>
+					<tr>
+						<td class="fontSubtext">Asistencia personalizada</td>
+						<td class="flexCenterTwo"><i class="fas fa-times"></i></td>
+						<td class="flexCenterTwo"><i class="fas fa-times"></i></td>
+						<td class="flexCenterTwo"><i class="i-plain icon-check check"></i></td>
+					</tr>
+
+				</tbody></table>
+			</div>
+			<div id="price" class="container-fluid clearfix form-store ibox-content" style="padding:50px; background-color: #F5F5F5;">
+				<h2 class="text-center w-100 mb-1">Oferta que no puedes dejar pasar <br> crea tu tienda y comienza a vender en línea</h2>
+				<form id="form-price-store" method="post" action="{% url 'cover:store' %}" class="row clearfix mb-0 pb-3 js-form-store ibox-content" autocomplete="off">
+					{% csrf_token %}
+					<div id="error-message" class="error-message"></div>
+					<div class="container item d-flex flex-md-row flex-column w-100 justify-content-between pt-4 pb-4 ">
+						<div class="form-group">
+							{{user.first_name}}
+						</div>
+						<div class="form-group">
+							{{user.last_name}}
+						</div>
+						<div class="form-group">
+							{{user.email}}
+						</div>
+						<div class="form-group">
+							<input type="password" name="password" class="form-control" id="pass" aria-describedby="pass" placeholder="Contraseña" required>
+						</div>
+						<div class="form-group">
+							{{store_form.name}}
+						</div>
+						<!-- <button type="submit" href="#" class="button button-3d button-xlarge button-rounded buttonColor">PRUEBA 15 DÍAS</button> -->
+					</div>
+					<button type="submit" style="color: white!important; background-color: #e44051 !important;" class="button button-3d button-xlarge button-rounded buttonColor text-center m-auto">PRUEBA 15 DÍAS</button>
+					<!-- <button type="submit" id="basic-plan-btn-y"  style="color: white!important; background-color: #e44051 !important;" class="button button-3d button-xlarge button-rounded buttonColor text-center m-auto">PRUEBA 15 DÍAS</button>
+					<button type="submit" id="premium-plan-btn-m"  style="color: white!important; background-color: #e44051 !important;" class="button button-3d button-xlarge button-rounded buttonColor text-center m-auto">PRUEBA 15 DÍAS</button>
+					<button type="submit" id="premium-plan-btn-y"  style="color: white!important; background-color: #e44051 !important;" class="button button-3d button-xlarge button-rounded buttonColor text-center m-auto">PRUEBA 15 DÍAS</button>				 -->
+						<p class="text-center w-100 mt-2">Al registrarme declaro que acepto los términos y condiciones y el aviso de privacidad.</p>
+				</form>
+				<!-- <div id="warning" class="text-center w-100 mb-1">
+						<div class="d-flex  mx-auto categories-lists mt-4 not-dark text-center" style="justify-content: center;">
+							<a href="#pricing-switch" class="buttonColorTwo button button-3d button-xlarge button-rounded button-white " style="color: white!important; background-color: #e44051 !important;">Selecciona un plan</a>
+					</div>
+				</div> -->
+			</div>
+		</div>
+	</div>
+</section><!-- #content end -->
+
+{% endblock content %}
+{% block docready %}
+
+
+$("input#id_name").on({
+	keydown: function(e) {
+	  if (e.which === 32)
+		return false;
+	},
+	change: function() {
+	  this.value = this.value.replace(/\s/g, "");
+	}
+  });
+    {% for field in store_form %}
+        {% for error in field.errors %}
+        $("#{{field.auto_id}}").parent().addClass('form-control.error');
+        $("#{{field.auto_id}}").addClass('errormsg');
+        $("#{{field.auto_id}}").after("<span class='help-block text-danger'>{{error}}</span>");
+        {% endfor %}
+    {% endfor %}
+    {% for field in user %}
+        {% for error in field.errors %}
+        $("#{{field.auto_id}}").parent().addClass('form-control.error');
+        $("#{{field.auto_id}}").addClass('errormsg');
+        $("#{{field.auto_id}}").after("<span class='help-block text-danger'>{{error}}</span>");
+        {% endfor %}
+	{% endfor %}
+
+
+	jQuery(document).ready(function($) {
+		var  tb = $('.scrollcolor');
+		tbs = "change-nav";
+		$(window).scroll(function() {
+		if($(this).scrollTop()) {
+			tb.addClass(tbs);
+			$('.logo').css('height','85px');
+
+		} else {
+			tb.removeClass(tbs);
+			$('.menu.fixed-top').css('height','');
+
+		}
+		});
+	});
+{% endblock docready %}

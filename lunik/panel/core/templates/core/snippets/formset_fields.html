@@ -1,0 +1,105 @@
+{% load tags %}
+
+<form role="form" method="post" action="" enctype="multipart/form-data" novalidate>
+  {% csrf_token %}
+  <div class="row">
+    <div class="col-md-12">
+      {% for hidden_field in form.hidden_fields %}
+        <div class="form-group">
+          {{hidden_field}}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <fieldset>
+        <legend class="font-weight-semibold"><i class="icon-file-text2 mr-2"></i> Información</legend>
+        <div class="row">
+          {% for field in form.visible_fields %}
+            {% if field.field.widget.input_type == 'text' or field.field.widget.input_type == 'select' and not field.field.widget.attrs.class == 'wysiwyg' %}
+              <div class="col-md-4">
+                <div class="form-group">
+                  {{field.label_tag}}{% if field.field.required %}<span class="text-danger">*</span>{% endif %}
+                  {% if field.field.widget.attrs.data_group %}
+                  <div class="input-group">
+                    <span class="input-group-prepend">
+                      <span class="input-group-text">{{field.field.widget.attrs.data_group}}</span>
+                    </span>
+                    {{field}}
+                  </div>
+                  {% else %}
+                    {{field}}
+                  {% endif %}
+                  {% if field.help_text %}
+                    <span class="form-text text-muted">{{field.help_text}}</span>
+                  {% endif %}
+                </div>
+              </div>
+            {% elif field.field.widget.input_type == 'checkbox' %}
+              <div class="col-md-2">
+                <br>
+                {{field.label}}
+                <div class="form-check form-check-switchery">
+                  <label class="form-check-label">
+                    {{field}}
+                    {% if field.help_text %}
+                      <span class="form-text text-muted">{{field.help_text}}</span>
+                    {% endif %}
+                  </label>
+                </div>
+              </div>
+              {% elif field.field.widget.attrs.class == 'wysiwyg' %}
+              <div class="col-md-12">
+                <div class="form-group">
+                  {{field.label_tag}}
+                  {{field}}
+                  {% if field.help_text %}
+                    <span class="form-text text-muted">{{field.help_text}}</span>
+                  {% endif %}
+                </div>
+              </div>
+              {% else %}
+                <div class="col-md-4">
+                  <div class="form-group">
+                    {{field.label_tag}}
+                    {{field}}
+                    {% if field.help_text %}
+                      <span class="form-text text-muted">{{field.help_text}}</span>
+                    {% endif %}
+                  </div>
+                </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+        {% if instance %}
+          {% if instance|instance_file_field %}
+            <div class="row">
+              {% for item in instance|instance_file_field %}
+                <div class="col-md-3">
+                  <div class="card">
+                    <div class="card-img-actions mx-1 mt-1">
+                      <img class="card-img img-fluid" src="{{MEDIA_URL}}{{item}}" alt="">
+                      <div class="card-img-actions-overlay card-img">
+                        <a href="{{MEDIA_URL}}{{item}}"target="_blank" class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round" data-popup="lightbox" rel="group">
+                          <i class="icon-zoomin3"></i>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <span class="text-muted">{{item.field.verbose_name}}</span>
+						       	</div>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endif %}
+      </fieldset>
+      <div class="text-right">
+        <a class="btn btn-link" href="#" onclick="history.back()"><i class="icon-cross2 font-size-base mr-1"></i> Cancelar</a>
+        <button type="submit" class="btn btn-primary">Guardar <i class="icon-paperplane ml-2"></i></button>
+      </div>
+    </div>
+  </div>
+</form>

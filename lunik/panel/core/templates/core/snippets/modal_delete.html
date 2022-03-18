@@ -1,0 +1,26 @@
+<form id="form_delete" method="post" action="{{url_post}}{{obj_delete.pk}}" class="confirm-form">
+  {% csrf_token %}
+  <div class="modal-header bg-danger">
+    <h5 class="modal-title white" id="myModalLabel120">Confirmación</h5>
+    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+      <i data-feather="x"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <h5>¿ Está seguro que desea eliminar el registro ?</h5>
+    <div class="alert alert-danger alert-styled-left alert-dismissible">
+      El registro se eliminará permanentemente
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+      <i class="bx bx-x d-block d-sm-none"></i>
+      <span class="d-none d-sm-block">Cerrar</span>
+    </button>
+    <button type="submit" class="btn btn-danger ml-1">
+      <i class="bx bx-check d-block d-sm-none"></i>
+      <span class="d-none d-sm-block">Aceptar</span>
+    </button>
+  </div>
+
+</form>

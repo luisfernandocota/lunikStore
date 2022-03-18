@@ -1,0 +1,31 @@
+{% load humanize%}
+<div class="row pt-2 pb-2">
+    <div class="col-3" style="text-align: center;align-self: center">
+        <h4 class="">Subtotal</h4>
+
+        <h6 class="">${{cart.get_subtotal_products|intcomma}}</h6>
+    </div>
+    <div class="col-2" style="text-align: center;align-self: center">
+        <i class="bi bi-bag-plus" style="font-size: 2rem;"></i>
+    </div>
+    <div class="col-2" style="text-align: center;align-self: center">
+        {% if cart.get_shipping_cost > 0 %}
+        <h4 class="">Envio</h4>
+
+        <h6 class="">${{cart.get_shipping_cost|intcomma}}</h6>
+        {% else %}
+        <h4 class="">Envio</h4>
+
+        <h6 class="">¡Gratis <i class="bi bi-lightning" style="color:{{store_instance.store_meta.header_color}}"></i>!</h6>
+        {% endif %}
+    </div>
+    <div class="col-2" style="text-align: center;align-self: center">
+        <i class="bi bi-chevron-double-right" style="font-size: 2rem;"></i>
+    </div>
+    <div class="col-3" style="text-align: center;align-self: center">
+        <h4 class="">Total</h4>
+
+        <h6 class="">${{cart.get_total_products|intcomma}}</h6>
+    </div>
+
+</div>

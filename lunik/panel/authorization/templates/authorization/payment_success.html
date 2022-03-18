@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+
+{% block subtitle %}¡Enhorabuena!{% endblock subtitle %}
+
+
+{% block customcss %}
+{% endblock customcss %}
+
+{% block content %}
+<div class="col-lg-6 col-md-offset-3">
+    <div class="ibox text-center ">
+        <div class="ibox-title text-center" style="padding-left: 210px;">
+            <h5>¡Enhorabuena!</h5>
+        </div>
+        <div class="ibox-content">
+            <div class="sk-spinner sk-spinner-three-bounce">
+                <div class="sk-bounce1"></div>
+                <div class="sk-bounce2"></div>
+                <div class="sk-bounce3"></div>
+            </div>
+            <div class="row justify-content-md-center">
+                <div class="col-md-12">
+                    <i style="color: #1ab394;" class="fa fa-check fa-5x" aria-hidden="true"></i>
+                    <h2>
+                        Tu <span class="plan-name" style="color: #1ab394;"></span> ha sido aplicado.<br>
+                    </h2>
+                    <div class="hr-line-dashed"></div>
+
+                    <div class="form-group">
+                        <strong>Tu pago</strong><br>
+                        <span id="amount" style="font-size: 36px;color: #1ab394;"></span><br>
+                        <span style="color: #96989a;">Siguiente fecha de cobro {% if store_instance.stripe_customers.first.interval == 'month' %}mensual{% else %}anual{% endif %}: <strong>
+                            {{store_instance.customer.paid_until}}</strong></span>
+                        <!-- <div class="i-checks month">
+                            <label id="month">
+                                <input type="radio" value="350" name="abc">
+                                <i></i> 
+
+                            </label>
+                        </div> -->
+                        <!-- <div class="hr-line-dashed"></div> -->
+                        <!-- <div class="i-checks year">
+                            <label id="year">
+                                <input type="radio"  value="4200" name="abc">
+                                <i></i>
+                                <strong>Plan anual</strong><br>
+                                $4,200.00 MXN facturados anualmente <br>
+                                <span style="color: #96989a;">Siguiente fecha de cobro anual: <strong>26, NOV
+                                        2021</strong></span>
+                            </label>
+                        </div> -->
+                    </div>
+
+                    </p>
+                    <!-- <button class="btn btn-info  dim btn-large-dim btn-outline" type="button"><i class="fa fa-cc-stripe"></i></button> -->
+                    <a href="{% url 'authorization:dashboard' %}"><button class="btn btn-primary dim"  style="font-size: 12px;">IR AL DASHBOARD</button></a>
+                </div>
+            </div>
+        </div>
+        <div class="ibox-footer">
+            Tienda ID {{store_instance.code}}
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block customjs %}
+<script src="https://js.stripe.com/v3"></script>
+<script src="{{STATIC_URL}}js/success.js"></script>
+{% endblock customjs %}
+
+{% block docready %}
+
+{% endblock docready %}

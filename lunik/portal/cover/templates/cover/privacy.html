@@ -1,0 +1,243 @@
+{% extends 'base_landing.html' %}
+
+{% load humanize %}
+
+{% block subtitle %}Aviso de privacidad{% endblock subtitle %}
+{% block dark %}dark{% endblock dark %}
+{% block price %}data-url="{% url 'cover:store' %}" data-toggle="modal" data-target=".bs-example-modal-lg"{% endblock price %}
+{% block price_href %}#{% endblock price_href %}
+{% block content %}
+
+<section id="page-title" class="page-title-parallax include-header skrollable skrollable-between" style="background-image: url(&quot;{{STATIC_URL}}landing/one-page/images/7.png&quot;); padding: 120px 0px; margin-top: -102px; background-position: 0px -102.964px;" data-bottom-top="background-position:0px 300px;" data-top-bottom="background-position:0px -300px;">
+    <div class="container clearfix start" style="text-transform: uppercase;">
+        <h1 data-animate="fadeInUp" class="fadeInUp animated" style="color: white;">AVISO DE PRIVACIDAD</h1>    
+    </div>
+</section>
+<section id="content">
+    <div class="content-wrap pt-0 pb-0" id="nosotros">
+        <div class="section m-0 p-0" id="pricing" ><!-- style="background: url('{{STATIC_URL}}landing/one-page/images/8.png') center center no-repeat; background-size: contain;" -->
+            <div class="section m-0 pt-4 pb-1" style="background: rgba(0,0,0,0.0);">
+                <div class="container clearfix">
+                    <!-- <div class="heading-block  border-bottom-0 mb-0 ">
+                        <h2 style="font-size: 40px;" class="nott font-weight-bold ls1 titlebottom" >Términos del Servicio</h2>
+                    </div> -->
+                    <div class="item">
+                        <p class="mb-2">Esta Política de Privacidad describe Nuestras políticas y procedimientos sobre la recopilación, uso y divulgación de Su información cuando utiliza el Servicio y le informa sobre Sus derechos de privacidad y cómo la ley lo protege.</p>
+                        <p class="mb-2">En esta Política de Privacidad describimos cómo recopilamos sus datos personales y por qué los recogemos, qué hacemos con ellos, con quién los compartimos, cómo los protegemos y sus opciones en cuanto al tratamiento de sus datos personales.</p>
+                        <p class="mb-2">Utilizamos Sus datos personales para proporcionar y mejorar el Servicio. Al utilizar el Servicio, Usted acepta la recopilación y el uso de información de acuerdo con esta Política de Privacidad.</p>
+                        <p class="mb-2">La presente Política de Privacidad (en adelante “Política de Privacidad”) se integra con los Términos y Condiciones disponibles en <a href="http://4shop.mx/aviso_privacidad/" style="color: #e44051;">http://4shop.mx/aviso_privacidad/</a> y se aplicarán a los Usuarios del Sitio, estén o no registrados. Las definiciones usadas en los Términos y Condiciones subsistirán y serán aplicable en las presente Política de Privacidad.</p>
+                        <p class="mb-2">Esta política de privacidad aplica a todos los servicio de Fourtech Studio y 4shop</p>
+                    </div>
+                    <div class="heading-block  border-bottom-0 mb-0 ">
+                        <h2 style="font-size: 30px;" class="nott font-weight-bold ls1 titlebottom" >Principios clave</h2>
+                    </div>
+                    <p class="mb-2">Siempre hemos estado comprometidos con prestar nuestros servicios con el más alto grado de calidad, lo que incluye tratar sus datos con seguridad y transparencia. Nuestros principios son:</p>
+                    <ul class="item pl-4">
+                        <li class="mb-2">Legalidad: Solo recopilaremos sus Datos personales para fines específicos, explícitos y legítimos.</li>
+                        <li class="mb-2">Minimización de datos: Limitamos la recogida de datos de carácter personal a lo que es estrictamente relevante y necesario para los fines para los que se han recopilado.</p>
+                        <li class="mb-2">Limitación de la Finalidad: Solo recogeremos sus datos personales para los fines declarados y solo según sus deseos.</li>
+                        <li class="mb-2">Precisión: Mantendremos sus datos personales exactos y actualizados.</li>
+                        <li class="mb-2">Seguridad de los Datos: Aplicamos las medidas técnicas y organizativas adecuadas y proporcionales a los riesgos para garantizar que sus datos no sufran daños, tales como divulgación o acceso no autorizado, la destrucción accidental o ilícita o su pérdida accidental o alteración y cualquier otra forma de tratamiento ilícito.</p>
+                        <li class="mb-2">Acceso y Rectificación: Disponemos de medios para que acceda o rectifique sus datos cuando lo considere oportuno.</li>
+                        <li class="mb-2">Conservación: Conservamos sus datos personales de manera legal y apropiada y solo mientras es necesario para los fines para los que se han recopilado.</li>
+                        <li class="mb-2">Las transferencias internacionales: cuando se dé el caso de que sus datos vayan a ser transferidos fuera de México se protegerán adecuadamente.</li>
+                        <li class="mb-2">Terceros: El acceso y transferencia de datos personales a terceros se llevan a cabo de acuerdo con las leyes y reglamentos aplicables y con las garantías contractuales adecuadas.</li>
+                        <li class="mb-2">Marketing Directo y cookies: Cumplimos con la legislación aplicable en materia de publicidad y cookies.</li>
+                    </ul>
+                    <div class="heading-block  border-bottom-0 mb-0 ">
+                        <h2 style="font-size: 30px;" class="nott font-weight-bold ls1 titlebottom" >Interpretación y definiciones</h2>
+                    </div>
+                    <div class="heading-block  border-bottom-0 mb-0 pl-3 ">
+                        <h4 style="font-size: 20px;" class="nott font-weight-bold ls1 titlebottom" >Interpretación</h4>
+                    </div>
+                    <p>Las palabras de las que se pone en mayúsculas la letra inicial tienen significados definidos en las siguientes condiciones. Las siguientes definiciones tendrán el mismo significado, independientemente de si aparecen en singular o en plural.</p>
+                    <div class="heading-block  border-bottom-0 mb-0 pl-3">
+                        <h4 style="font-size: 20px;" class="nott font-weight-bold ls1 titlebottom" >Definiciones</h4>
+                    </div>
+                    <p class="mb-2">A los efectos de esta Política de Privacidad:</p>
+                    <ul class="item pl-5">
+                        <li class="mb-2">Cuenta significa una cuenta única creada para que Usted acceda a nuestro Servicio o a partes de nuestro Servicio.</li>
+                        <li class="mb-2">La Compañía (denominada "la Compañía", "Nosotros", "Nosotros" o "Nuestro") se refiere a 4shop y Fourtech Studio SA de CV.</li>
+                        <li class="mb-2">Las cookies son pequeños archivos que un sitio web coloca en su ordenador, dispositivo móvil o cualquier otro dispositivo, que contiene los detalles de su historial de navegación en ese sitio web entre sus muchos usos. </li>
+                        <li class="mb-2">País se refiere a: México</li>
+                        <li class="mb-2">Dispositivo significa cualquier dispositivo que pueda acceder al Servicio, como una computadora, un teléfono celular o una tableta digital.</li>
+                        <li class="mb-2">Los Datos personales son cualquier información que se relaciona con una persona identificada o identificable.</li>
+                        <li class="mb-2">El servicio se refiere al sitio web.</li>
+                        <li class="mb-2">Proveedor de servicios se refiere a cualquier persona física o jurídica que procese los datos en nombre de la Compañía. Se refiere a terceras empresas o individuos empleados por la Compañía para facilitar el Servicio, para proporcionar el Servicio en nombre de la Compañía, para realizar servicios relacionados con el Servicio o para ayudar a la Compañía en el análisis de cómo se utiliza el Servicio.</li>
+                        <li class="mb-2">El Servicio de Medios Sociales de terceros se refiere a cualquier sitio web o cualquier sitio web de redes sociales a través del cual un Usuario pueda iniciar sesión o crear una cuenta para utilizar el Servicio.</li>
+                        <li class="mb-2">Los datos de uso se refieren a los datos recopilados automáticamente, generados por el uso del Servicio o desde la propia infraestructura del Servicio (por ejemplo, la duración de una visita a la página).</li>
+                        <li class="mb-2">Sitio web se refiere a 4Shop, accesible desde <a href="{% url 'cover:index' %}" style="color: #e44051;"> https://4shop.mx/inicio/</a></li>
+                        <li class="mb-2">Usted se refiere a la persona que accede o utiliza el Servicio, o la empresa u otra entidad jurídica en nombre de la cual dicha persona está accediendo o utilizando el Servicio, según corresponda.</li>
+                    </ul>
+                    <div class="heading-block  border-bottom-0 mb-0 pl-3">
+                        <h4 style="font-size: 20px;" class="nott font-weight-bold ls1 titlebottom" >Recopilación y uso de sus datos personales</h4>
+                    </div>
+                    <ul class="item pl-5">
+                        <li>El Usuario reconoce y acepta que Fourtech Studio pueda recolectar información acerca de los Usuarios al momento de registrarse en el Sitio, tales como su nombre, apellido y correo electrónico, como así también de aquellas personas que escriban a hola@4shop.mx.Los Datos serán almacenados en una base de datos de propiedad de la Empresa y será tratada en forma confidencial y con las debidas medidas de seguridad que se detallarán más adelante.</li>
+                        <li>Fourtech Studio no almacenará ni recopilará la información y datos de los métodos de pago de los Usuarios como pueden ser los números de las tarjetas de crédito o cuentas bancarias, etc. Dicha información será almacenada y/o recopilada por proveedores de pago externos provistos por otras compañías, de acuerdo con lo establecido en los Términos y Condiciones, no teniendo la Empresa acceso a la misma o a dichos servidores en donde se encuentran almacenados. En tal sentido, la Empresa no se hace responsable de ningún daño o perjuicio que pueda ocurrir al momento de realizar pagos o transacciones a través de dichos proveedores.</li>
+                    </ul>
+                    <div class="heading-block  border-bottom-0 mb-0 ">
+                        <h4 style="font-size: 30px;" class="nott font-weight-bold ls1 titlebottom" >Tipos de datos recopilados</h4>
+                    </div>
+                    <div class="heading-block  border-bottom-0 mb-0 pl-3 ">
+                        <h4 style="font-size: 20px;" class="nott font-weight-bold ls1 titlebottom" >Datos personales</h4>
+                    </div>
+                    <p class="mb-2 pl-4"> Durante el uso de Nuestro Servicio, es posible que le pidamos que nos proporcione cierta información de identificación personal que se puede utilizar para contactarle o identificarlo. La información de identificación personal puede incluir, pero no se limita a:</p>
+
+                    <ul class="item pl-4">
+                        <li class="mb-2">Dirección de correo electrónico.</li>
+                        <li class="mb-2">Nombre y apellido.</li>
+                        <li class="mb-2">Número de teléfono</li>
+                        <li class="mb-2">Datos de uso</li>
+                    </ul>
+                    <div class="heading-block  border-bottom-0 mb-0 pl-3 ">
+                        <h4 style="font-size: 20px;" class="nott font-weight-bold ls1 titlebottom" >Datos de uso</h4>
+                    </div>
+                    <ul class="item pl-4">
+                        <li class="mb-2">Los Datos de uso se recopilan automáticamente al utilizar el Servicio.</li>
+                        <li class="mb-2">Los Datos de uso pueden incluir información como la dirección del Protocolo de Internet de su dispositivo (por ejemplo, dirección IP), tipo de navegador, versión del navegador, las páginas de nuestro Servicio que visita, la hora y fecha de su visita, el tiempo dedicado a esas páginas, identificadores únicos de dispositivos y otros datos de diagnóstico.</li>
+                        <li class="mb-2">Cuando accede al Servicio por o a través de un dispositivo móvil, podemos recopilar cierta información automáticamente, incluyendo, pero no limitado a, el tipo de dispositivo móvil que utiliza, Su ID único de dispositivo móvil, la dirección IP de su dispositivo móvil, Su sistema operativo móvil, el tipo de navegador de Internet móvil que utiliza, identificadores de dispositivo únicos y otros datos de diagnóstico. </li>
+                        <li class="mb-2">También podemos recopilar información que Su navegador envía cada vez que visita nuestro Servicio o cuando accede al Servicio por o a través de un dispositivo móvil. </li>
+                    </ul>
+                    <div class="heading-block  border-bottom-0 mb-0 pl-3 ">
+                        <h4 style="font-size: 20px;" class="nott font-weight-bold ls1 titlebottom" >Tecnologías de seguimiento y cookies</h4>
+                    </div>
+                    <p class="mb-2 pl-4">Utilizamos cookies y tecnologías de seguimiento similares para realizar un seguimiento de la actividad en nuestro Servicio y almacenar cierta información. Las tecnologías de seguimiento utilizadas son balizas, etiquetas y scripts para recopilar y realizar un seguimiento de la información y mejorar y analizar Nuestro Servicio. Las tecnologías que utilizamos pueden incluir:</p>
+                    <ul class="item pl-4">
+                        <li class="mb-2">Cookies o cookies del navegador.  Una cookie es un pequeño archivo colocado en su dispositivo. Puede indicar a su navegador que rechace todas las cookies o que indique cuándo se envía una cookie. Sin embargo, si no acepta Las Cookies, es posible que no pueda utilizar algunas partes de nuestro Servicio. A menos que haya ajustado la configuración de su navegador para que rechace las cookies, nuestro Servicio puede utilizar Cookies.</li>
+                        <li class="mb-2">Cookies Flash. Ciertas características de nuestro Servicio pueden utilizar objetos almacenados locales (o Cookies Flash) para recopilar y almacenar información sobre Sus preferencias o Su actividad en nuestro Servicio. Las cookies Flash no se gestionan mediante la misma configuración del navegador que las utilizadas para las cookies del navegador. Para obtener más información sobre cómo puede eliminar las cookies de Flash, lea "¿Dónde puedo cambiar la configuración para deshabilitar o eliminar objetos compartidos locales?" disponible en  https://helpx.adobe.com/flash-player/kb/disable-local-shared-objects-flash.html#main_Where_can_I_change_the_settings_for_disabling__or_deleting_local_shared_objects_.</li>
+                        <li class="mb-2">Web Beacons.  Ciertas secciones de nuestro Servicio y nuestros correos electrónicos pueden contener pequeños archivos electrónicos conocidos como balizas web (también conocidas como gifs transparentes, etiquetas de píxeles y gifs de un solo píxel) que permiten a la Compañía, por ejemplo, contar los usuarios que han visitado esas páginas o abierto un correo electrónico y otras estadísticas relacionadas con el sitio web (por ejemplo, registrar la popularidad de una determinada sección y verificar la integridad del sistema y del servidor).</li>
+                    </ul>
+                    <p class="mb-2 pl-4">Las cookies pueden ser "Persistentes" o "Sesiones". Las cookies persistentes permanecen en su ordenador personal o dispositivo móvil cuando se desconecta, mientras que las cookies de sesión se eliminan tan pronto como cierra su navegador web. Más información sobre las cookies: ¿Qué son las cookies? .</p>
+                    <p class="mb-2 pl-4">Utilizamos cookies de sesión y persistentes para los fines que se indican a continuación:</p>
+                    <ul class="item pl-4">
+                        <li class="mb-2">Cookies necesarias / esenciales</li>
+                        <p class="mb-2">Tipo: Cookies de sesión.</p>
+                        <p class="mb-2">Administrado por: Nosotros </p>
+                        <p class="mb-2">Finalidad: Estas Cookies son esenciales para proporcionarle los servicios disponibles a través del Sitio Web y para permitirle utilizar algunas de sus funciones. Ayudan a autenticar a los usuarios y evitar el uso fraudulento de cuentas de usuario. Sin estas Cookies, no se pueden proporcionar los servicios que usted ha solicitado, y solo utilizamos estas Cookies para proporcionarle dichos servicios. </p>
+                    </ul>
+                    <ul class="item pl-4">
+                        <li class="mb-2">Política de Cookies / Cookies de Aceptación de Avisos</li>
+                        <p class="mb-2">Tipo: Cookies persistentes</p>
+                        <p class="mb-2">Administrado por: Nosotros</p>
+                        <p class="mb-2">Finalidad: Estas Cookies identifican si los usuarios han aceptado el uso de cookies en el Sitio Web.</p>
+                    </ul>
+                    <ul class="item pl-4">
+                        <li class="mb-2">Cookies de funcionalidad</li>
+                        <p class="mb-2">Tipo: Cookies persistentes</p>
+                        <p class="mb-2">Administrado por: Nosotros</p>
+                        <p class="mb-2">Finalidad: Estas cookies nos permiten recordar las elecciones que realiza cuando utiliza el Sitio web, como recordar sus datos de inicio de sesión o preferencia de idioma. El propósito de estas Cookies es proporcionarle una experiencia más personal y evitar que tenga que volver a introducir sus preferencias cada vez que utilice el Sitio web.</p>
+                    </ul>
+                    <p class="mb-2">Para obtener más información sobre las cookies que utilizamos y sus opciones con respecto a las cookies, visite nuestra Política de cookies o la sección Cookies de nuestra Política de privacidad.</p>
+                    <div class="heading-block  border-bottom-0 mb-0 ">
+                        <h4 style="font-size: 30px;" class="nott font-weight-bold ls1 titlebottom" >Finalidad de Datos</h4>
+                    </div>
+                    <p class="mb-2">Los Datos suministrados por el Usuario y recolectados de conformidad con lo establecido en la presente Política de Privacidad serán usados con la siguiente finalidad:    </p>
+                    <ul class="item pl-4">
+                        <li class="mb-2">Identificación del Usuario;</li>
+                        <li class="mb-2">Facturación y cobro del servicio contratado;</li>
+                        <li class="mb-2">Posibilidad de dar acceso al Servicio;</li>
+                        <li class="mb-2">Poder contar con un teléfono o dirección de correo electrónico para contactarse con el Usuario con motivo del uso de los Servicios;</li>
+                        <li class="mb-2">Envío de información promocional de productos o servicios de la Empresa, a través del envío de Newsletters. En dicho caso, si el Usuario lo deseara, podrá solicitar que se lo elimine de las listas para el envío de información promocional o publicitaria;</li>
+                    </ul>
+                    <p class="mb-2">Adicionalmente, la información que provea el Usuario y que 4Shop recolecte directamente en nombre de dicho Usuario, podrá ser usada por 4Shop para el intercambio de datos entre clientes del Usuario y otros Usuarios a los fines de brindar los Servicios con una mayor eficacia.</p>
+                    <p class="mb-2">Como parte del proceso de venta a través de la Tienda, los Usuarios recibirán información de sus clientes. Al registrarse en el Sitio y aceptar los Términos y Condiciones, los Usuarios estarán prestando su consentimiento expreso para que la información brindada por 4Shop a los Usuarios sea únicamente usada con el fin de ofrecer sus productos o servicios a sus clientes y a otros Usuarios.</p>
+                    <p class="mb-2">4Shop podrá compartir la información con otras empresas de servicios o sitios de internet dedicados a la evaluación de las conductas de los Usuarios de internet o similares a los fines de mejorar la calidad de los servicios de la Empresa. Generalmente dichas empresas o sitios de internet poseen sus propias Anuncio de privacidad de datos a los fines de su protección. De todas maneras, 4shop empeñará sus mejores esfuerzos en que la privacidad de la información compartida sea protegida de la mejor manera posible. Sin perjuicio de ello, la Empresa no será responsable por los daños provocados por tales empresas y/o sitios de internet en cuanto a su deber de protección, confidencialidad y privacidad de los datos que ellas manejan. </p>
+                    <p class="mb-2">4Shop podrá mas no esta obligado compartir Su información personal en las siguientes situaciones:</p>
+                    <ul class="item pl-4">
+                        <li class="mb-2">Con los Proveedores de Servicios: Podemos compartir Su información personal con los Proveedores de Servicios para monitorear y analizar el uso de nuestro Servicio, para contactar con Usted.</li>
+                        <li class="mb-2">Para transferencias comerciales: Podemos compartir o transferir Su información personal en relación con, o durante las negociaciones de, cualquier fusión, venta de activos de la Compañía, financiamiento o adquisición de la totalidad o una parte de Nuestro negocio a otra compañía.</li>
+                        <li class="mb-2">Con afiliados: Podemos compartir Su información con Nuestros afiliados, en cuyo caso exigiremos que esos afiliados respeten esta Política de Privacidad. Los afiliados incluyen Nuestra empresa matriz y cualquier otra subsidiaria, socios de empresas conjuntas u otras compañías que controlemos o que estén bajo control común con Nosotros.</li>
+                        <li class="mb-2">Con socios comerciales: Podemos compartir Su información con nuestros socios comerciales para ofrecerle ciertos productos, servicios o promociones.</li>
+                        <li class="mb-2">Con otros usuarios: cuando comparte información personal o interactúa en las áreas públicas con otros usuarios, dicha información puede ser vista por todos los usuarios y puede ser distribuida públicamente fuera. Si interactúa con otros usuarios o se registra a través de un Servicio de Redes Sociales de Terceros, Sus contactos en el Servicio de Medios Sociales de Terceros pueden ver Su nombre, perfil, imágenes y descripción de Su actividad. Del mismo modo, otros usuarios podrán ver descripciones de Su actividad, comunicarse con Usted y ver Su perfil.</li>
+                        <li class="mb-2">Con su consentimiento: Podemos divulgar Su información personal para cualquier otro propósito con su consentimiento.</li>
+                    </ul>
+                    <p class="mb-2">4Shop usará los Datos provistos por el Usuario, y la recolectada por la Empresa conforme a lo establecido en el Aviso de Privacidad, y no la divulgará salvo que sea solicitada por tribunales, u organismos estatales nacionales o internacionales que así lo requieran y lo soliciten en la forma correspondiente.</p>
+                    <p class="mb-2">4Shop o Fourtech Studio no estarán obligados a retener la información durante ningún plazo establecido y dispondrá la eliminación de esta cuando lo juzgue conveniente.</p>
+                    <p class="mb-2">4Shop podrá contener enlaces a otros sitios de internet que no sean propiedad de la Empresa. En consecuencia, la Empresa no será responsable por el actuar de dichos sitios de internet, a los cuales no se aplicará la presente Política de Privacidad. Recomendamos examinar el aviso de privacidad detallado en aquellos sitios de internet para entender los procedimientos de recolección de información que usan y como protegen sus datos personales.</p>
+                    <p class="mb-2">Fourtech Studio es propietaria de todas las bases de datos y dispositivos de almacenamiento, así como también del software que desarrolla. Sin embargo, Fourtech Studio ni 4Shop son dueños de la información que los Usuarios almacenan en su Sitio y/o que reciben como parte de sus ventas. Los Usuarios tienen todos los derechos sobre dicha información.</p>
+
+                    <div class="heading-block  border-bottom-0 mb-0 ">
+                        <h4 style="font-size: 30px;" class="nott font-weight-bold ls1 titlebottom" >Retención de sus datos personales</h4>
+                    </div>
+                    <ul class="item pl-4">
+                        <li class="mb-2">La Compañía conservará Sus Datos Personales solo durante el tiempo que sea necesario para los fines establecidos en esta Política de Privacidad. Conservaremos y utilizaremos Sus Datos personales en la medida necesaria para cumplir con nuestras obligaciones legales (por ejemplo, si estamos obligados a conservar sus datos para cumplir con las leyes aplicables), resolver disputas y hacer cumplir nuestros acuerdos y políticas legales.</li>
+                        <li class="mb-2">La Compañía también conservará los Datos de Uso para fines de análisis interno. Los Datos de Uso generalmente se conservan por un período de tiempo más corto, excepto cuando estos datos se utilizan para fortalecer la seguridad o para mejorar la funcionalidad de Nuestro Servicio, o estamos legalmente obligados a conservar estos datos durante períodos de tiempo más largos.</li>                                
+                    </ul>
+                    <div class="heading-block  border-bottom-0 mb-0 ">
+                        <h4 style="font-size: 30px;" class="nott font-weight-bold ls1 titlebottom" >Transferencia de sus datos personales</h4>
+                    </div>
+                    <ul class="item pl-4">
+                        <li class="mb-2">Su información, incluidos los Datos personales, se procesa en las oficinas operativas de la Compañía y en cualquier otro lugar donde se encuentren las partes involucradas en el procesamiento. Esto significa que esta información puede transferirse y mantenerse en computadoras ubicadas fuera de Su estado, provincia, país u otra jurisdicción gubernamental donde las leyes de protección de datos pueden diferir de las de Su jurisdicción.</li>
+                        <li class="mb-2">Su consentimiento a esta Política de Privacidad seguido de Su envío de dicha información representa Su aceptación de dicha transferencia.                             </li>
+                        <li class="mb-2">La Compañía tomará todas las medidas razonablemente necesarias para garantizar que Sus datos sean tratados de forma segura y de acuerdo con esta Política de Privacidad y no se realizará ninguna transferencia de Sus Datos Personales a una organización o un país a menos que existan controles adecuados, incluida la seguridad de Sus datos y otra información personal.</li>
+                        <li class="mb-2">La Empresa no venderá, alquilará ni compartirá los Datos de los Usuarios salvo aquellos casos expresamente previstos en el Aviso de Privacidad. No obstante, ello, el Usuario presta su expresa conformidad para que la Empresa transfiera total o parcialmente los datos del Usuario a cualquiera de sus sociedades controladas, controlantes y/o vinculadas con la Empresa.</li>
+                    </ul>
+                    <div class="heading-block  border-bottom-0 mb-0 ">
+                        <h4 style="font-size: 30px;" class="nott font-weight-bold ls1 titlebottom" >Divulgación de sus datos personales</h4>
+                    </div>
+                    <div class="heading-block  border-bottom-0 mb-0 pl-3 ">
+                        <h4 style="font-size: 20px;" class="nott font-weight-bold ls1 titlebottom" >Transacciones comerciales</h4>
+                    </div>
+                    <ul class="item pl-4">
+                        <li>Si la Compañía está involucrada en una fusión, adquisición o venta de activos, Sus Datos Personales pueden ser transferidos. Le notificaremos antes de que sus datos personales se transfieran y estén sujetos a una Política de privacidad diferente.</li>
+                    </ul>
+                    <div class="heading-block  border-bottom-0 mb-0 pl-3 ">
+                        <h4 style="font-size: 20px;" class="nott font-weight-bold ls1 titlebottom" >Aplicación de la ley</h4>
+                    </div>
+                    <ul class="item pl-4">
+                        <li>Bajo ciertas circunstancias, la Compañía puede estar obligada a divulgar Sus Datos Personales si así lo requiere la ley o en respuesta a solicitudes válidas de las autoridades (por ejemplo, un tribunal o una agencia gubernamental).</li>
+                    </ul>
+                    <div class="heading-block  border-bottom-0 mb-0 pl-3 ">
+                        <h4 style="font-size: 20px;" class="nott font-weight-bold ls1 titlebottom" >Otros requisitos legales</h4>
+                    </div>
+                    <p class="mb-2">La Compañía puede divulgar Sus Datos Personales en la creencia de buena fe de que dicha acción es necesaria para:</p>
+                    <ul class="item pl-4">
+                        <li>Cumplir con una obligación legal</li>
+                        <li>Proteger y defender los derechos o la propiedad de la Compañía</li>
+                        <li>Prevenir o investigar posibles irregularidades en relación con el Servicio</li>
+                        <li>Proteger la seguridad personal de los Usuarios del Servicio o del público</li>
+                        <li>Proteger contra la responsabilidad legal</li>
+                    </ul>
+                    <div class="heading-block  border-bottom-0 mb-0 ">
+                        <h4 style="font-size: 30px;" class="nott font-weight-bold ls1 titlebottom" >Seguridad de sus datos personales</h4>
+                    </div>
+                    <ul class="item pl-4">
+                        <li>La seguridad de Sus Datos Personales es importante para Nosotros, pero recuerde que ningún método de transmisión a través de Internet, o método de almacenamiento electrónico es 100% seguro. Aunque nos esforzamos por utilizar medios comercialmente aceptables para proteger Sus Datos personales, no podemos garantizar su seguridad absoluta.</li>
+                        <li>La Empresa ha adoptado medidas de seguridad razonables para proteger la información de los Usuarios, e impedir el acceso no autorizado a sus datos o cualquier modificación, divulgación o destrucción no autorizada de los mismos. La información recolectada por la Empresa será mantenida de manera estrictamente confidencial. El acceso a los datos personales está restringido a aquellos empleados, contratistas y representantes de la Empresa que necesitan conocer tales datos para desempeñar sus funciones y desarrollar o mejorar nuestros servicios. La Empresa exige a sus proveedores los mismos estándares de confidencialidad. La Empresa no permite el acceso a esta información a terceros ajenos a la Empresa, a excepción de un pedido expreso del Usuario</li>
+                    </ul>
+                    <div class="heading-block  border-bottom-0 mb-0 ">
+                        <h4 style="font-size: 30px;" class="nott font-weight-bold ls1 titlebottom" >Enlaces a otros sitios web</h4>
+                    </div>
+                    <ul class="item pl-4">
+                        <li>Nuestro Servicio puede contener enlaces a otros sitios web que no son operados por Nosotros. Si hace clic en un enlace de terceros, se le dirigirá al sitio de ese tercero. Le recomendamos encarecidamente que revise la Política de privacidad de cada sitio que visite.</li>
+                        <li>No tenemos control ni asumimos ninguna responsabilidad por el contenido, las políticas de privacidad o las prácticas de los sitios o servicios de terceros.</li>
+                    </ul>
+                    <div class="heading-block  border-bottom-0 mb-0 ">
+                        <h4 style="font-size: 30px;" class="nott font-weight-bold ls1 titlebottom" >Cambios en esta Política de Privacidad</h4>
+                    </div>
+                    <ul class="item pl-4">
+                        <li>La Empresa podrá modificar el Aviso de Privacidad en cualquier momento. Las nuevas versiones del Aviso de Privacidad serán notificadas previamente a su entrada en vigencia mediante publicación de dicha nueva versión en http://4shop.mx/legal/legal/politicadeprivacidad, y/o por mensaje de correo electrónico dirigido al Usuario con un enlace a http://4shop.mx/legal/legal/politicadeprivacidad.</li>
+                        <li>El Usuario acepta que será dado por notificado de cualquier modificación a la Aviso de Privacidad una vez que la 4shop hubiera publicado las mismas en http://4shop.mx/legal/legal/politicadeprivacidad, y que la continuación del Usuario en el uso de los Servicios una vez publicada dicha nueva versión se considerará como aceptación de dichas modificaciones a la Política de Privacidad. En consecuencia, el Usuario acepta: (i) chequear http://4shop.mx/legal/legal/politicadeprivacidad periódicamente; y (ii) leer cualquier mensaje de correo electrónico que sea enviado por la Empresa con cualquier modificación o nueva versión.</li>
+                    </ul>
+                    <div class="heading-block  border-bottom-0 mb-0 ">
+                        <h4 style="font-size: 30px;" class="nott font-weight-bold ls1 titlebottom" >Contáctenos</h4>
+                    </div>
+                    <p class="mb-2">  Si tiene alguna pregunta sobre esta Política de privacidad, puede ponerse en contacto con nosotros:</p>
+                    <ul class="item pl-4">
+                        <li>Por correo electrónico: hola@4shop.mx.</li>
+                    </ul>
+                </div>  
+            </div>
+
+        </div>
+        
+    </div>
+</section><!-- #content end -->
+{% endblock content %}
+
+{% block customjs %}
+{% endblock customjs %}
+
+{% block docready %}
+{% endblock docready %}

@@ -1,0 +1,131 @@
+{% load thumbnail %}
+{% load tags %}
+{% load humanize %}
+<div class="btn-show-menu">
+	<!-- Header Icon mobile -->
+	<div class="header-icons-mobile">
+        <span class="linedivide2"></span>
+        {% if request.user.is_authenticated and request.user.is_customer %}
+		<div class="header-wrapicon2">
+
+                {% if request.user.avatar %}
+                <img src="{{request.user.avatar.url}}" class="header-icon1 js-show-header-dropdown" alt="ICON">
+                {% else %}
+                <img src="{{STATIC_URL}}site/images/icons/icon-header-01.png" class="header-icon1 js-show-header-dropdown" alt="ICON">
+                {% endif %}
+
+
+			<!-- Header cart noti -->
+			<div class="header-cart header-dropdown">
+				<ul class="header-cart-wrapitem">
+                    <li class="header-cart-item">
+                        <a href="{% url 'dashboard:profile' %}">Mi perfil</a>
+                    </li>
+                    <li class="header-cart-item">
+                        <a href="{% url 'dashboard:password_edit' %}">Cambiar contraseña</a>
+                    </li>
+				</ul>
+
+				<div class="header-cart-buttons">
+                    <div class="header-cart-wrapbtn">
+                        <!-- Button -->
+                        <a href="{% url 'authorization:logout' %}" class="flex-c-m size4 bg1 bo-rad-20 hov1 s-text5 trans-0-4">
+                            Cerrar sesión
+                        </a>
+                    </div>
+				</div>
+			</div>
+        </div>
+        {% else %}
+        <div class="header-wrapicon2">
+            <img src="{{STATIC_URL}}site/images/icons/icon-header-01.png" class="header-icon1 js-show-header-dropdown" alt="ICON">
+        <!-- Header cart noti -->
+        <div class="header-cart header-dropdown">
+            <div class="header-cart-buttons">
+                <div class="header-cart-wrapbtn">
+                    <!-- Button -->
+                    <a href="" class="flex-c-m size4 bg1 bo-rad-20 hov1 s-text14 trans-0-4">
+                        Iniciar sesión
+                    </a>
+                </div>
+                <div class="header-cart-wrapbtn">
+                    <!-- Button -->
+                    <a href="" class="flex-c-m size4 bg1 bo-rad-20 hov1 s-text14 trans-0-4">
+                        Registrarse
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+        {% endif %}
+		<span class="linedivide2"></span>
+
+		<div class="header-wrapicon2">
+			<img src="{{STATIC_URL}}site/images/icons/icon-header-02.png"
+				class="header-icon1 js-show-header-dropdown" alt="ICON">
+			<span class="header-icons-noti">{{cart.get_quantity_products}}</span>
+
+			<!-- Header cart noti -->
+			<div class="header-cart header-dropdown">
+				<ul class="header-cart-wrapitem">
+                    {% for item in cart %}
+                    {% if forloop.counter <= 3 %}
+                    {% for key in item.variants.keys %}
+                                    <li class="header-cart-item">
+                                        <div class="header-cart-item-img remove-cart-item" data-url="{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'shop:cart_remove' %}"
+                      data-product="{{item.product.pk}}" data-size="{{key|get_sizes_cart:item}}"
+                      data-checkout="0">
+                        {% with image=item.product.product.products_gallery.all.first.image %}
+                        {% thumbnail image '92x92' crop='center' as img %}
+                        <img src="{{img.url}}" alt="IMG">
+                        {% endthumbnail %}
+                        {% endwith %}
+                                        </div>
+    
+                                        <div class="header-cart-item-txt">
+                                            <a href="#" class="header-cart-item-name">
+                                                {{item.product.product}}
+                                            </a>
+    
+                                            <span class="header-cart-item-info">
+                                                {% if item.product.is_sale %}
+                                                {{key|get_quantity_cart:item}} x ${{item.product.sale_price}}
+                                                {% else %}
+                                                {{key|get_quantity_cart:item}} x ${{item.product.price}}
+                                                {% endif %}
+                                            </span>
+                                        </div>
+                    </li>
+                    {% endfor %}
+                    {% endif %}
+                    {% endfor %}
+				</ul>
+				<div class="header-cart-total">
+                    {% if cart.get_shipping_cost > 0 %}
+					Envío: ${{cart.get_subtotal_products|intcomma}}
+                    {% else %}
+                    ¡Envío Gratis! <i class="fa fa-bolt" style="color:{{store_instance.store_meta.header_color}}"></i>
+                    {% endif %}
+				</div>
+				<div class="header-cart-total">
+					Total: ${{cart.get_subtotal_products|intcomma}}
+				</div>
+
+				<div class="header-cart-buttons">
+                    <div class="header-cart-wrapbtn">
+                        <!-- Button -->
+                        <a href="{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'shop:cart_checkout' %}" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+                            Ver carrito
+                        </a>
+                    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="btn-show-menu-mobile hamburger hamburger--squeeze">
+		<span class="hamburger-box">
+			<span class="hamburger-inner"></span>
+		</span>
+	</div>
+</div>

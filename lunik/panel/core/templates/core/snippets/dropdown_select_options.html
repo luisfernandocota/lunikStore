@@ -1,0 +1,4 @@
+<option value="">Seleccione-</option>
+{% for item in queryset_list %}
+    <option value="{{item.pk}}">{{item}}</option>
+{% endfor %}

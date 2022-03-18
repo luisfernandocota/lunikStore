@@ -1,0 +1,95 @@
+{% load thumbnail %}
+{% load humanize %}
+{% load tags %}
+<div class="bo9 p-l-40 p-r-40 p-t-30 p-b-38 m-t-30 m-r-0 m-l-auto p-lr-15-sm">
+    <h5 class="m-text20 p-b-24">
+      Información de envio
+      {% if request.user.address and not request.user.is_superuser and not request.user.is_anonymous and request.user.is_customer %}
+      <span class="help-block text-muted s-text7"> Tu información fue completada, si deseas cambiar algún dato da click <a href="{% url 'dashboard:address' %}">aqui</a></span>
+      {% else %}
+      <span class="help-block text-muted s-text7"> Para pagar, llena tu información</span>
+      {% endif %}
+    </h5>
+    <div class="bo10 p-t-15 p-b-20">
+      <span class="s-text18 w-size19 w-full-sm">
+        ¿Quién recibe?
+      </span>
+      <div class=" w-full-sm m-b-15">
+        <div class="row">
+          <div class="col-md-4">
+            <label class="control-label mb-0">{{form_order.name.label}}</label>
+            <div class=" bo4 m-b-12" style="height:40px">
+              {{form_order.name}}
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label class="control-label mb-0">{{form_order.email.label}}</label>
+            <div class=" bo4 m-b-12" style="height:40px">
+              {{form_order.email}}
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label class="control-label mb-0">{{form_order.phone.label}}</label>
+            <div class=" bo4 m-b-12" style="height:40px">
+              {{form_order.phone}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <span class="s-text18 w-size19 w-full-sm m-t-10">
+        ¿A dónde vamos?
+      </span>
+      <div class="w-size10 w-full-sm">
+        <div class="row">
+          <p class="single-form-row" style="display:none;">
+            <label class="control-label" id="is_invoice">{{form_delivery.has_delivery.label}}</label><br>
+            {{form_delivery.has_delivery}}
+          </p>
+          <div class="col-md-6">
+            <label class="control-label">{{form_delivery.address.label}}</label>
+            <div class=" bo4 m-b-12" style="height:40px">
+              {{form_delivery.address}}
+            </div>
+          </div>
+          <div class="col-md-3">
+            <label class="control-label">{{form_delivery.num_ext.label}}</label>
+            <div class=" bo4 m-b-12" style="height:40px">
+              {{form_delivery.num_ext}}
+            </div>
+          </div>
+          <div class="col-md-3">
+            <label class="control-label">{{form_delivery.num_int.label}} <span
+                class="help-block text-muted s-text7">{{form_delivery.num_int.help_text}}</span></label>
+            <div class=" bo4 m-b-12" style="height:40px">
+              {{form_delivery.num_int}}
+
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label class="control-label">{{form_delivery.suburb.label}}</label>
+            <div class=" bo4 m-b-12" style="height:40px">
+              {{form_delivery.suburb}}
+            </div>
+          </div>
+          <div class="col-md-2">
+            <label class="control-label">{{form_delivery.zip_code.label}}</label>
+            <div class=" bo4 m-b-12" style="height:40px">
+              {{form_delivery.zip_code}}
+            </div>
+          </div>
+          <div class="col-md-3">
+            <label class="control-label">{{form_delivery.city.label}}</label>
+            <div class=" bo4 m-b-12" style="height:40px">
+              {{form_delivery.city}}
+            </div>
+          </div>
+          <div class="col-md-3">
+            <label class="control-label">{{form_delivery.state.label}}</label>
+            <div class=" bo4 m-b-12" style="height:40px">
+              {{form_delivery.state}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

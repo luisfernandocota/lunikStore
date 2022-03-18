@@ -1,0 +1,31 @@
+{% if step == 'informacion' %}
+<div>
+
+    <a  class="text-primary" onclick="sendPage('{% url 'shop:cart_detail' %}');">Regresar atrás</a>
+
+</div>
+
+<div>
+
+    <button class="four-buttons" onclick="sendFormData();">Continuar al envio</button>
+
+</div>
+{% elif step == 'envio' %}
+<div>
+
+    <a  class="text-primary" data-url="{% url 'shop:cart_checkout' %}?step=informacion" onclick="goStep($(this));">Regresar atrás</a>
+
+</div>
+
+<div>
+
+    <button class="four-buttons" data-url="{% url 'shop:cart_checkout' %}?step=pago" onclick="goStep($(this));">Continuar al pago</button>
+
+</div>
+{% elif step == 'pago' %}
+<div>
+
+    <a  class="text-primary" data-url="{% url 'shop:cart_checkout' %}?step=envio" onclick="goStep($(this));">Regresar atrás</a>
+
+</div>
+{% endif %}

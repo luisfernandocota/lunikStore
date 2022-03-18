@@ -1,0 +1,89 @@
+{% extends 'base_shop.html' %}
+
+{% load humanize %}
+{% load thumbnail %}
+{% block title %}{{store_instance.name}}{% endblock title %}
+{% block subtitle %} Mis pedidos {% endblock subtitle %}
+
+{% block menu %}
+{% include 'shop/includes/partial_menu.html' %}
+{% endblock menu %}
+{% block cart %}
+{% include 'shop/includes/partial_cart_detail.html' %}
+{% endblock cart %}
+
+{% block content %}
+	<!-- content page -->
+	<section class="bgwhite p-t-66 p-b-60">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 p-b-30">
+					<div class="p-r-20 p-r-0-lg">
+                        <div class="item d-flex justify-content-between align-items-center flex-wrap">
+                            <h2 class="m-text26 p-b-0">
+                                LISTA DE PEDIDOS
+                            </h2>
+                            <a  href="{% url 'shop:products_list' %}" class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4 w-25 buttonMovil"  style="background-color: {{store_instance.store_meta.header_color}};">
+								SEGUIR COMPRANDO
+							</a>
+						</div>
+						{% if orders %}
+						<div class="item d-flex flex-wrap justify-content-start ">
+							{% for order in orders %}
+                            <div class="item mr-4 p-3 mt-3" style="border: 1.5px solid #eaeaea;box-shadow: 0px 0px 6px 0px #eaeaea;width: 350px;">
+                                <div class="item d-flex justify-content-between w-100">
+                                    {% for item in order.products_orders.all %}
+                                    {% with image=item.product.product.products_gallery.all.first.image %}
+                                    {% thumbnail image '240x240' crop='center' as img %}
+                                    {% if forloop.first %}
+                                    <img src="{{img.url}}" class="img-fluid" style="width: 5rem;">
+                                    {% endif %}
+                                    {% endthumbnail %}
+                                    {% endwith %}
+                                    {% endfor %}
+                                    <div class="item">
+                                        <p class="font-weight-bold">PEDIDO NO. {{order.folio}}</p>
+                                        <p class="font-weight-bold">Comprado el {{order.created|date:"d/m/y"}}</p>
+                                        <p class="font-weight-bold">Total : ${{order.order_payment.total|intcomma}}</p>
+                                        <p class="font-weight-bold">
+                                            {% for product in order.products_orders.all %}
+                                            {{product.product}}{% if not forloop.last %},{% endif %}
+                                            {% endfor %}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="item d-flex w-100 justify-content-start mt-3 pt-4 " style="border-top: 1px solid #eaeaea;">
+                                    <a  href="" class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4 w-50 mr-2" style="height: 30px;font-size: 12px; background-color: {{store_instance.store_meta.header_color}}">Ver Detalles</a>
+                                </div>
+                            </div>
+                            {% endfor %}
+					</div> 
+					{% else %}
+						<h4 class="mt-5 text-center">USTED NO TIENE NINGUN PEDIDO REALIZADO</h4><br>
+					{% endif %}
+					</div>
+				</div>
+			</div>
+			{% if orders.has_other_pages %}
+			<div class="pagination flex-m flex-w p-t-26">
+				{% if orders.has_previous %}
+				<a href="?page={{orders.previous_page_number}}"
+					class="item-pagination flex-c-m trans-0-4" style="background-color: {{store_instance.store_meta.header_color}};"><i class="fa fa-chevron-left"></i></a>
+				{% endif %}
+				{% for i in orders.paginator.page_range %}
+				<a href="?page={{i}}"
+					class="item-pagination flex-c-m trans-0-4 {% ifequal i orders.number %}active-pagination{% endifequal %}" style="background-color: {{store_instance.store_meta.header_color}};">{{i}}</a>
+				{% endfor %}
+				{% if orders.has_next %}
+				<a href="?page={{orders.next_page_number}}" class="item-pagination flex-c-m trans-0-4"><i
+						class="fa fa-chevron-right" style="background-color: {{store_instance.store_meta.header_color}};"></i></a>
+				{% endif %}
+			</div>
+			{% endif %}
+		</div>
+	</section>
+{% endblock content %}
+
+{% block customjs %}
+<script src="{{STATIC_URL}}js/shop.js"></script>
+{% endblock customjs %}

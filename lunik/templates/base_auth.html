@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar sesión - Lunik </title>
+    <link rel="stylesheet" href="{{STATIC_URL}}assets/css/bootstrap.css">
+
+    <link rel="shortcut icon" href="{{STATIC_URL}}assets/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="{{STATIC_URL}}assets/css/app.css">
+    <script src="https://kit.fontawesome.com/05f3fd1a17.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <div id="background"class="background-img">
+    <img src="{{STATIC_URL}}assets/images/background/backgroud-auth.jpg" alt="Lunik">
+  </div>
+    <div id="auth">
+        <div class="container">
+            {% block content %}
+            {% endblock content %}
+        </div>
+
+    </div>
+    <script src="{{STATIC_URL}}assets/js/feather-icons/feather.min.js"></script>
+    <script src="{{STATIC_URL}}assets/js/app.js"></script>
+
+    <script src="{{STATIC_URL}}assets/js/main.js"></script>
+</body>
+
+</html>
