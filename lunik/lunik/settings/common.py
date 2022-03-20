@@ -17,7 +17,7 @@ from django.urls import reverse_lazy
 from django.contrib.messages import constants as messages
 import dj_database_url
 from decouple import config, Csv
-import django_heroku
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -281,5 +281,3 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'compressor.finders.CompressorFinder'
 )
-
-django_heroku.settings(locals())

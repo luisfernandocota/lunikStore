@@ -2,9 +2,9 @@
 import os
 from datetime import datetime
 
-import xlwt
-import weasyprint
-import magic
+
+#import weasyprint
+
 import stripe 
 import logging  
 from django.conf import settings
@@ -43,21 +43,21 @@ def sendmail(subject, html_content, from_email, to_email):
     return True
 
 #-- Sendmail with html template and attachments
-def sendmail_attachs(subject, html_content, from_email, to_email, files):
-    #-- Sendmail: (Subjetc, body, email user, email host, False)
-    try:
-        files_list = []
+# def sendmail_attachs(subject, html_content, from_email, to_email, files):
+#     #-- Sendmail: (Subjetc, body, email user, email host, False)
+#     try:
+#         files_list = []
 
-        for k, f in files.items():
+#         for k, f in files.items():
 
-            files_list.append((f.name,f.read(),magic.from_buffer(f.read(), mime=True)))
+#             files_list.append((f.name,f.read(),magic.from_buffer(f.read(), mime=True)))
 
-        msg = EmailMessage(subject, html_content, from_email, [to_email],attachments=files_list)
-        msg.content_subtype = "html"  # Main content is now text/html
-        msg.send(fail_silently=True)
-    except BadHeaderError:
-        return HttpResponse('Error al enviar el correo')
-    return True
+#         msg = EmailMessage(subject, html_content, from_email, [to_email],attachments=files_list)
+#         msg.content_subtype = "html"  # Main content is now text/html
+#         msg.send(fail_silently=True)
+#     except BadHeaderError:
+#         return HttpResponse('Error al enviar el correo')
+#     return True
 
 def pagination(instance, page, num):
     paginator = Paginator(instance, num)
@@ -186,46 +186,37 @@ def delete_item_store(request,instance,namespace,message):
 
     return data
 
-def export_xls_file(filename,sheet,headers,qs):
-    response = HttpResponse(content_type='application/ms-excel')
-    #-- File name
-    response['Content-Disposition'] = 'attachment; filename="%s.xls"' % (filename)
-    #-- Add Workbook and sheet
-    wb = xlwt.Workbook(encoding='utf-8')
-    ws = wb.add_sheet(sheet)
+# def export_xls_file(filename,sheet,headers,qs):
+#     response = HttpResponse(content_type='application/ms-excel')
+#     #-- File name
+#     response['Content-Disposition'] = 'attachment; filename="%s.xls"' % (filename)
+#     #-- Add Workbook and sheet
+#     wb = xlwt.Workbook(encoding='utf-8')
+#     ws = wb.add_sheet(sheet)
 
-    # Sheet header, first row
-    row_num = 0
-    #-- Headers Style
-    font_style = xlwt.XFStyle()
-    font_style.font.bold = True
+#     # Sheet header, first row
+#     row_num = 0
+#     #-- Headers Style
+#     font_style = xlwt.XFStyle()
+#     font_style.font.bold = True
 
-    #-- Header in the first row
-    columns = headers
+#     #-- Header in the first row
+#     columns = headers
 
-    #-- Create Headers
-    for col_num in range(len(columns)):
-        ws.write(row_num, col_num, columns[col_num], font_style)
+#     #-- Create Headers
+#     for col_num in range(len(columns)):
+#         ws.write(row_num, col_num, columns[col_num], font_style)
 
-    font_style = xlwt.XFStyle()
+#     font_style = xlwt.XFStyle()
 
-    #-- Set Queryset to rows
-    rows = qs
-    for row in rows:
-        row_num += 1
-        for col_num in range(len(row)):
-            ws.write(row_num, col_num, row[col_num], font_style)
+#     #-- Set Queryset to rows
+#     rows = qs
+#     for row in rows:
+#         row_num += 1
+#         for col_num in range(len(row)):
+#             ws.write(row_num, col_num, row[col_num], font_style)
 
-    wb.save(response)
+#     wb.save(response)
 
-    return response
+#     return response
 
-def export_pdf_file(request,html_template,context,filename):
-
-    html = render_to_string(html_template, context)
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'filename="{0}.pdf"'.format(filename)
-
-    weasyprint.HTML(string=html, base_url=request.build_absolute_uri('/')[:-1]).write_pdf(response)
-
-    return response

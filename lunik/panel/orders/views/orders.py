@@ -12,7 +12,7 @@ from django.template.loader import render_to_string
 from django.utils import timezone,formats
 from django.contrib import messages
 
-from panel.core.utils import delete_record, pagination,user_logs,export_xls_file, sendmail
+from panel.core.utils import pagination, sendmail
 
 from panel.orders.forms import SearchOrderForm,SearchStoreForm, OrderDeliveryForm
 from panel.orders.models import OrderDelivery
