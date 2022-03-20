@@ -250,7 +250,7 @@
 
                         </li> -->
 
-
+                        {% if request.user.is_superuser %}
                         <li class='sidebar-title'><i class="fas fa-cogs"></i> Configuración</li>
 
 
@@ -278,11 +278,12 @@
                             </ul>
 
                         </li>
+                        {% endif %}
 
 
 
 
-                        <li class="sidebar-item  has-sub">
+                        <!-- <li class="sidebar-item  has-sub">
                             <a href="#" class='sidebar-link'>
                                 <i data-feather="alert-circle" width="20"></i>
                                 <span>Errors</span>
@@ -304,7 +305,7 @@
 
                             </ul>
 
-                        </li>
+                        </li> -->
 
 
 

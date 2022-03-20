@@ -20,7 +20,7 @@ $(document).ready(function() {
           feather.replace();
 
         }else{
-          $(".orders_list").empty();
+          toastr.error(data.message);
         }
       }
     });

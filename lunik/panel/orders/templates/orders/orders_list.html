@@ -16,16 +16,17 @@
             <h4 class="card-title">Ordenes</h4>
             <div class="d-flex ">
               <form action="{% url 'orders:orders_list' %}" method="GET" class="js-search-form">
-                <div class="col-md-12 mb-1">
+                <div class="col-12 mb-1">
                   <div class="input-group mb-3">
-                      <span class="input-group-text" id="basic-addon1"><i data-feather="search"></i></span>
+                      <span class="input-group-text" id="basic-addon1"><i data-feather="search" data-toggle="tooltip" data-placement="top"
+                        title="Se puede buscar por Folio, Cliente, Folio Stripe, Rastreo"></i></span>
                       {{form_search.query}}
 
                       <button class="btn btn-outline-primary" type="submit" id="button-addon2">Buscar</button>
                   </div>
               </div>
               </form>
-                <i data-feather="download"></i>
+                <!-- <i data-feather="download"></i> -->
             </div>
         </div>
         <div class="card-body px-0 pb-0">

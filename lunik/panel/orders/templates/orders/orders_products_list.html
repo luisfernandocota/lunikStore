@@ -22,7 +22,16 @@
             <a class="badge bg-primary" href="{% url 'orders:orders_list' %}" data-toggle="tooltip" data-placement="top"
               title="Regresar">
               <i class="feather-24" data-feather="arrow-left"></i>
-            </a> Folio de compra: <span style="color:#914c54">{{order.folio}} {% if order.order_payment.status == 'EP' %}<i data-feather="activity"></i> En proceso {% endif %}</span>
+            </a> Folio de compra: <span style="color:#914c54">{{order.folio}} 
+              {% if order.order_payment.status == 'PE' %}
+              <span class="label label-warning"><i data-feather="clock"></i> Pendiente</span>
+              {% elif order.order_payment.status == 'EP' %}
+              <span class="label label-success"><i data-feather="activity"></i> En proceso</span>
+              {% elif order.order_payment.status == 'EE' %}
+              <span class="label label-info"><i data-feather="truck"></i> Enviado</span>
+              {% elif order.order_payment.status == 'EN' %}
+              <span class="label label-primary" style="color: #914c54;"><i data-feather="check-circle"></i> Entregado</span>
+              {% endif %}</span>
           </h4>
 
           {% if order.order_payment.status == 'PE' %}
@@ -133,7 +142,17 @@
               
             </form>
           </div>
+          {% elif order.shop_order_delivery %}
+          <div class="row">
+            <code><hr></code>
+            <p style="font-size:larger;">Datos de envío</p>
+            <p style="font-size:larger;">
+              <i data-feather="truck"></i>Paqueteria: <span style="color:#914c54">{{order.shop_order_delivery.delivery_company}}</span>
+              <i data-feather="phone"></i>Rastreo: <span style="color:#914c54">{{order.shop_order_delivery.tracking_number}}</span>
+              <i data-feather="mail"></i>Fecha de entrega: <span style="color:#914c54">{{order.shop_order_delivery.range_date_start|date:"d b"}} al {{order.shop_order_delivery.range_date_end|date:"d b"}}</span><br>
 
+            </p>
+          </div>
           {% endif %}
         </div>
       </div>

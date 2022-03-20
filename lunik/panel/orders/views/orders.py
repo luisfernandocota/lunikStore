@@ -34,7 +34,7 @@ def orders_list(request):
 			query = context['form_search'].cleaned_data['query']
 			if query is not None:
 				if query:
-					lookups = Q(name__icontains=query)|Q(folio__icontains=query)|Q(order_payment__payment_intent__icontains=query)
+					lookups = Q(name__icontains=query)|Q(folio__icontains=query)|Q(order_payment__payment_intent__icontains=query)|Q(shop_order_delivery__tracking_number__icontains=query)
 					context['orders_list'] = ShopOrder.objects.select_related('order_payment').filter(lookups)\
 															.order_by('-created')
 				else:
