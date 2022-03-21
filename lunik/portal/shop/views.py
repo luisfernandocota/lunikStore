@@ -26,6 +26,8 @@ from panel.core.utils import pagination
 from .forms import ProductShopCart,ShopOrderForm,ShopOrderDeliveryForm, ContactForm
 from .cart import Cart
 from .models import ShopOrder,ShopOrderProduct,ShopOrderPayment
+from portal.dashboard.models import Address
+
 # Create your views here.
 
 stripe.api_key = 'sk_test_51H5LaSIKF8Hi9Jx6yW3RzsyKlJDSLAcxolhL6C7g4G1PqjXUTdRfuhmnPap94WJn0q908PqVauxGBh3EHWykv90t00UkIeOM2P'
@@ -471,8 +473,10 @@ def retrievePayment(request):
 		if body['paymentIntent']['status'] == 'succeeded':
 			if form_order.is_valid() and form_delivery.is_valid():
 				#-- Save order in DB
-				order = form_order.save()
-
+				order = form_order.save(commit=False)
+				if not request.user.is_superuser and not request.user.is_anonymous and request.user.is_customer:
+					order.customer = request.user
+				order.save()
 				delivery = form_delivery.save(commit=False)
 				delivery.order = order
 				delivery.save()

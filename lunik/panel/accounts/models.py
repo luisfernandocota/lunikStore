@@ -58,13 +58,10 @@ class User(AbstractBaseUser, PermissionsMixin, TimeStampedModel):
     gender = models.CharField(max_length=2, choices=GENDER, verbose_name='Gender', null=True, blank=True)
     birthday = models.DateField(verbose_name="Birth Day", null=True, blank=True)
     avatar = models.ImageField(upload_to=get_avatar,validators=[validate_file_extension],verbose_name='Avatar', blank=True)
-    facebook = models.CharField(max_length=120, verbose_name='Facebook', blank=True, help_text='Nombre de usuario')
-    twitter = models.CharField(max_length=120, verbose_name='Twitter', blank=True, help_text='@su_nick')
     role = models.ForeignKey(Role, related_name='users', verbose_name='Rol de Usuario', null=True,on_delete=models.CASCADE)
     is_active = models.BooleanField(verbose_name='Activo', default=False)
     is_superadmin = models.BooleanField(verbose_name='Superadmin', default=False)
     is_customer = models.BooleanField(verbose_name='Es cliente?', default=False)
-    is_client = models.BooleanField(verbose_name='Es cliente 4shop?', default=False)
     status = models.BooleanField(verbose_name='Status', default=True)
 
     objects = UserManager()

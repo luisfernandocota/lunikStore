@@ -4,17 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar sesión - Lunik </title>
+    <title>{% block title %}{% endblock title %} - Lunik </title>
     <link rel="stylesheet" href="{{STATIC_URL}}assets/css/bootstrap.css">
 
     <link rel="shortcut icon" href="{{STATIC_URL}}assets/images/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="{{STATIC_URL}}assets/css/app.css">
+    <link href="{{STATIC_URL}}assets/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+
+
     <script src="https://kit.fontawesome.com/05f3fd1a17.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
   <div id="background"class="background-img">
-    <img src="{{STATIC_URL}}assets/images/background/backgroud-auth.jpg" alt="Lunik">
+    <img src="{% block background %}{% endblock background %}" alt="Lunik">
   </div>
     <div id="auth">
         <div class="container">
@@ -23,10 +26,26 @@
         </div>
 
     </div>
+
+    <script src="{{STATIC_URL}}assets/js/jquery-3.1.1.min.js"></script>
+    <script src="{{STATIC_URL}}assets/js/bootstrap.min.js"></script>
     <script src="{{STATIC_URL}}assets/js/feather-icons/feather.min.js"></script>
     <script src="{{STATIC_URL}}assets/js/app.js"></script>
 
     <script src="{{STATIC_URL}}assets/js/main.js"></script>
+    <script src="{{STATIC_URL}}assets/js/plugins/toastr/toastr.min.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+  
+      {% include 'core/snippets/messages.html' %}
+  
+      {% block docready %}
+  
+      {% endblock docready %}
+  
+      })
+    </script>
 </body>
 
 </html>

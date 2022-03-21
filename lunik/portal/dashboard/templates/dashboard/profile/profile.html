@@ -3,22 +3,16 @@
 
 {% load thumbnail %}
 {% load humanize %}
-{% block title %}{{store_instance.name}}{% endblock title %}
 
 {% block subtitle %} Mi Perfil {% endblock subtitle %}
-{% block menu %}
-{% include 'shop/includes/partial_menu.html' %}
-{% endblock menu %}
-{% block cart %}
-{% include 'shop/includes/partial_cart_detail.html' %}
-{% endblock cart %}
+
 {% block content %}
 <!-- Title Page -->
-<!-- <section class="bg-title-page flex-col-c-m" >
+<section class="bg-title-page flex-col-c-m" >
 		<h2 class="l-text2 t-center" style="color: #000">
 			MI PERFIL
 		</h2>
-	</section> -->
+	</section>
 
 <!-- content page -->
 <section class="bgwhite p-t-66 p-b-60">
@@ -131,10 +125,10 @@
                             style="border: 1.5px solid #eaeaea;box-shadow: 0px 0px 6px 0px #eaeaea;width: 350px;">
                             <div class="item d-flex justify-content-between w-100">
                                 {% for item in order.products_orders.all %}
-                                {% with image=item.product.product.products_gallery.all.first.image %}
+                                {% with image=item.product.products_gallery.all.first.image %}
                                 {% thumbnail image '240x240' crop='center' as img %}
                                 {% if forloop.first %}
-                                <img src="{{img.url}}" class="img-fluid" style="width: 5rem;">
+                                <img src="{{img.url}}" class="img-fluid" style="width: 8rem;">
                                 {% endif %}
                                 {% endthumbnail %}
                                 {% endwith %}

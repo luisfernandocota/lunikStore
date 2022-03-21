@@ -7,9 +7,9 @@ class EmailAuthBackend:
 	"""
 	Authenticate using e-mail account.
 	"""
-	def authenticate(self, request,email=None, password=None):
+	def authenticate(self, request,email=None, password=None, is_customer=False,):
 		try:
-			user = User.objects.get(email=email)
+			user = User.objects.get(email=email, is_customer=is_customer)
 			if user:
 				if user.check_password(password):
 					return user

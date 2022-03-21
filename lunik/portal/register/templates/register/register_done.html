@@ -1,11 +1,37 @@
-{% extends 'base_shop.html' %}
-{% block title %}{{store_instance.name}}{% endblock title %}
+{% extends 'base_auth.html' %}
+{% block title %}Cuenta creada{% endblock title %}
 
 {% block subtitle %}Enhorabuena{% endblock subtitle %}
-{% block menu %}
-{% include 'shop/includes/partial_menu.html' %}
-{% endblock menu %}
+{% block background %}{{STATIC_URL}}assets/images/background/backgroud-auth-3.jpg{% endblock background %}
+
 {% block content %}
+<div class="row">
+    <div class="col-md-5 col-sm-12 mx-auto">
+        <div class="card pt-4">
+            <div class="card-body">
+                <div class="text-center mb-3">
+                    <img src="{{STATIC_URL}}assets/images/icons/logoRosa.png" class='mb-4 logoLunik'>
+                    <h3>Cuenta creada</h3>
+                    <h3 class="m-text26 p-t-15 p-b-16">
+                        ¡Bienvenido <strong>{{user.get_short_name}}!</strong>
+                    </h3>
+                    <p class="p-b-28">
+                        Nos da mucho gusto que seas parte de esta gran familia, solo nos falta un pequeño paso.
+                        Te hemos enviado un correo electrónico a <strong>{{user.email}}</strong> para que actives tu cuenta y puedas
+                        finalizar el proceso, dentro el correo vendrán instrucciones que podrás seguir.
+                    </p>
+                    <p class="p-b-28">
+                        Si ya haz activado tu cuenta presiona el boton para iniciar sesión.
+                    </p>
+                    <div class="clearfix text-center">
+                        <a href="{% url 'register:login' %}" class="btn btn-lunik">Iniciar sesión</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    {% comment %}
 <section class="bgwhite p-t-26 p-b-60">
     <div class="container">
         <div class="row">
@@ -47,6 +73,8 @@
         </div>
     </div>
 </section>
+{% endcomment %}
+
 <!-- /login card -->
 {% endblock content %}
 

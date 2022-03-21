@@ -278,17 +278,17 @@
 
                                 <a class="nav-link secondary-menu-option" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
 
-                                    Hola Hugo <i class="bi bi-chevron-down" style="font-size: 18px;"></i>
+                                    Hola {{request.user.get_short_name}} <i class="bi bi-chevron-down" style="font-size: 18px;"></i>
 
                                 </a>
 
                                 <ul class="dropdown-menu" aria-labelledby="userMenu">
 
-                                    <li><a class="dropdown-item " href="#">Mi perfil</a></li>
+                                    <li><a class="dropdown-item " href="{% url 'dashboard:profile' %}">Mi perfil</a></li>
 
                                     <li><a class="dropdown-item " href="#">Configuración</a></li>
 
-                                    <li><a class="dropdown-item " href="#">Cerrar Sesión</a></li>
+                                    <li><a class="dropdown-item " href="{% url 'register:logout' %}">Cerrar Sesión</a></li>
 
                                 </ul>
 
@@ -299,9 +299,9 @@
 
                                 <div class="display-flex-center">
 
-                                    <a class="nav-link secondary-menu-option" href="">Registro</a> / <a
+                                    <a class="nav-link secondary-menu-option" href="{% url 'register:add' %}">Registro</a> / <a
 
-                                        class="nav-link secondary-menu-option" href="">Entrar</a>
+                                        class="nav-link secondary-menu-option" href="{% url 'register:login' %}">Entrar</a>
 
                                 </div>
 

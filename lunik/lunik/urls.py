@@ -44,6 +44,8 @@ urlpatterns = [
     #-- Shop urls
 
     path('', include(('portal.shop.urls','shop'), namespace='shop_cart')),
+    path('cuenta/', include(('portal.register.urls','register'), namespace='register')),
+    path('dashboard/', include(('portal.dashboard.urls','dashboard'), namespace='dashboard')),
 
 ]
 #-- Static files * ONLY IN DEVELOP *

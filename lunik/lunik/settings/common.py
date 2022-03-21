@@ -78,8 +78,9 @@ PANEL_APPS = [
 ]
 
 PORTAL_APPS = [
-    'portal.cover',
-    'portal.shop'
+    'portal.shop',
+    'portal.register',
+    'portal.dashboard'
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + PANEL_APPS + PORTAL_APPS
@@ -157,6 +158,8 @@ LOGIN_EXEMPT_URLS = (
     r'carrito/',
     r'cart/',
     r'detalle/',
+    r'cuenta/',
+    r'dashboard/',
     r'productos/',
 )
 # Database

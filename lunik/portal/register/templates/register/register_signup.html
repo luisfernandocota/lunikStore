@@ -1,420 +1,96 @@
-{% extends 'base_shop_auth.html' %}
+{% extends 'base_auth.html' %}
 
 {% load humanize %}
-{% block title %}{{store_instance.name}}{% endblock title %}
 
-{% block page %}register{% endblock page %}
+{% block title %}Registro{% endblock title %}
 
-{% block subtitle %}Registro{% endblock subtitle %}
+{% block background %}{{STATIC_URL}}assets/images/background/backgroud-auth-2.jpg{% endblock background %}
 
 {% block content %}
-                    <div class="col-12 col-md-6 col-lg-5 d-flex justify-content-center align-items-center login-form-container">
 
-                        <div class="animate__animated  animate__fadeIn">
-
-                            <img src="{{STATIC_URL}}shop/resources/logo_4shop_positive.svg" class="logo-brand-store md pb-4" alt="">
-
-                            <h4 class="" style="text-transform: none;">Bien, antes de comenzar a comprar debemos saber algunos datos sobre ti</h4>
-
-                            <form class="pb-2 pt-2 row g-0">
-
-                                <div class="col-6 p-2">
-
-                                    <div class="form-floating">
-
-                                        {{register_form.first_name}}
-
-                                        <label for="{{register_form.first_name.label}}">{{register_form.first_name.label}}</label>
-
-                                    </div>
-
-                                </div>
-
-                                <div class="col-6 p-2">
-
-                                    <div class="form-floating">
-
-                                        {{register_form.last_name}}
-
-                                        <label for="{{register_form.last_name.label}}">{{register_form.last_name.label}}</label>
-
-                                    </div>
-
-                                </div>
-
-                                <div class="col-12 col-md-6 p-2">
-
-                                    <div class="form-floating">
-
-                                        {{register_form.email}}
-
-                                        <label for="{{register_form.email.label}}">{{register_form.email.label}}</label>
-
-                                    </div>
-
-                                </div>
-
-                                <div class="col-12 col-md-6 p-2">
-
-                                    <div class="form-floating">
-
-                                        {{register_form.birthday}}
-
-                                        <label for="{{register_form.birthday.label}}">{{register_form.birthday.label}}</label>
-
-                                    </div>
-
-                                </div>
-
-                                <div class="col-12 col-md-6 p-2">
-
-                                    <div class="form-floating">
-
-                                        {{register_form.password}}
-
-                                        <label for="{{register_form.password.label}}">{{register_form.password.label}}</label>
-
-                                    </div>
-
-                                </div>
-
-                                <div class="col-12 col-md-6 p-2">
-
-                                    <div class="form-floating">
-
-                                        <input type="password" class="form-control form-control-sm" id="confirm_password" placeholder="Password">
-
-                                        <label for="confirm_password">Confirmar contraseña</label>
-
-                                    </div>
-
-                                </div>
-
-                                <div class="col-12 col-md-6 p-2">
-
-                                    <div>
-
-                                        <p class=" mb-2">{{register_form.gender.label}}:</p>
-
-                                        <div class="form-check">
-
-                                            {% comment %} <input class="form-check-input" type="radio" name="gender" id="female" checked>
-
-                                            <label class="form-check-label " for="female">
-
-                                                Femenino
-
-                                            </label> {% endcomment %}
-
-                                        </div>
-
-                                        {% comment %} <div class="form-check">
-
-                                            <input class="form-check-input" type="radio" name="gender" id="male">
-
-                                            <label class="form-check-label " for="male">
-
-                                                Masculino
-
-                                            </label>
-
-                                        </div>
-
-                                        <div class="form-check">
-
-                                            <input class="form-check-input" type="radio" name="gender" id="none">
-
-                                            <label class="form-check-label " for="none">
-
-                                                No binario
-
-                                            </label>
-
-                                        </div> {% endcomment %}
-
-                                    </div>
-
-                                </div>
-
-                                <div class="col-12 col-md-6 p-2">
-
-                                    <div class="row g-0 pt-4">
-
-                                        <div class="col-12">
-
-                                            <button type="submit" class="four-buttons login-button mb-2">¡Quiero comenzar a comprar!</button>
-
-                                        </div>
-
-                                        <div class="col-12">
-
-                                            <div>
-
-                                                <p class="text-center  ">
-
-                                                    ¿Ya tienes una cuenta? <a href="{% url 'register:login' %}" class="btn btn-link  ">Iniciar sesión</a>
-
-                                                </p>
-
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                            </form>
-
-                        </div>
-
-                    </div>
-
-                    <div class="col-12 col-md-6 col-lg-7 d-none d-md-flex justify-content-center align-items-center large bg-light">
-
-
-
-
-
-                        <div class="owl-carousel owl-theme top-products-carousel">
-							{% for product in store_instance.store_products.all  %}
-							{% if product.status %}
-							<div class="item p-2">
-
-                                <div class="article-result show">
-
-                                    <div class="carousel slide" data-bs-ride="false" id="{{product.product.slug}}">
-
-                                        <div class="carousel-inner">
-
-                                            <div class="carousel-item carrousel-product-item active bground-config"
-
-                                                style="background-image: url('{{product.product.products_gallery.all.first.image.url}}');">
-
-                                            </div>
-
-                                        </div>
-
-                                        <button type="button" onclick="sendPage('{% url 'shop:product_detail' product.product.slug %}');" class="four-buttons d-block mx-auto check-article-button">Ver artículo</button>
-
-                                    </div>
-
-                                    <div class="row pt-2 pb-2">
-
-                                        <div class="col-10 col-md-9 col-lg-6">
-
-                                            <p class="text-grey pb-0 mb-2">
-
-                                                <small>{{product.product.name}} {{product.product.subcategory}}</small>
-
-                                            </p>
-
-                                            <h6>
-											{% if product.is_sale %}
-												$ {{product.sale_price|intcomma}}
-											{% else %}
-												$ {{product.price|intcomma}}
-											{% endif %}
-											</h6>
-
-                                        </div>
-
-                                        <div class="col-2 col-md-3 col-lg-6 d-flex justify-content-end">
-
-                                            <button type="button" class="btn btn-link like-heart-button d-block">
-
-                                                <i class="bi bi-heart"></i>
-
-                                            </button>
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-							{% endif %}
-							{% endfor %}
-
-                            
-
-                            {% comment %} <div class="item p-2">
-
-                                <div class="article-result show">
-
-                                    <div class="carousel slide" data-bs-ride="false" id="itemname_0">
-
-                                        <div class="carousel-inner">
-
-                                            <div class="carousel-item carrousel-product-item active bground-config"
-
-                                                style="background-image: url('{{STATIC_URL}}shop/resources/store/5-1.jpg');">
-
-                                            </div>
-
-                                        </div>
-
-                                        <button type="button" class="four-buttons d-block mx-auto check-article-button">Ver artículo</button>
-
-                                    </div>
-
-                                    <div class="row pt-2 pb-2">
-
-                                        <div class="col-10 col-md-9 col-lg-6">
-
-                                            <p class="text-grey pb-0 mb-2">
-
-                                                <small>Tenis Nike #19328</small>
-
-                                            </p>
-
-                                            <h6>$ 50.00 USD</h6>
-
-                                        </div>
-
-                                        <div class="col-2 col-md-3 col-lg-6 d-flex justify-content-end">
-
-                                            <button type="button" class="btn btn-link like-heart-button d-block">
-
-                                                <i class="bi bi-heart"></i>
-
-                                            </button>
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                            <div class="item p-2">
-
-                                <div class="article-result show">
-
-                                    <div class="carousel slide" data-bs-ride="false" id="itemname_0">
-
-                                        <div class="carousel-inner">
-
-                                            <div class="carousel-item carrousel-product-item active bground-config"
-
-                                                style="background-image: url('{{STATIC_URL}}shop/resources/store/3-1.jpg');">
-
-                                            </div>
-
-                                        </div>
-
-                                        <button type="button" class="four-buttons d-block mx-auto check-article-button">Ver artículo</button>
-
-                                    </div>
-
-                                    <div class="row pt-2 pb-2">
-
-                                        <div class="col-10 col-md-9 col-lg-6">
-
-                                            <p class="text-grey pb-0 mb-2">
-
-                                                <small>Tenis Nike #19328</small>
-
-                                            </p>
-
-                                            <h6>$ 50.00 USD</h6>
-
-                                        </div>
-
-                                        <div class="col-2 col-md-3 col-lg-6 d-flex justify-content-end">
-
-                                            <button type="button" class="btn btn-link like-heart-button d-block">
-
-                                                <i class="bi bi-heart"></i>
-
-                                            </button>
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                            </div> {% endcomment %}
-
-                        </div>
-
-
-
-                    </div>
-  {% comment %} <section class="bgwhite p-t-26 p-b-60">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-3 p-b-30">
-				</div>
-				<div class="col-md-6 p-b-30">
-          <form id="form-login" method="POST" class="p-t-15 leave-comment d-flex flex-column align-items-center justify-content-center" role="form" action="" style="text-align: -webkit-center;" novalidate>
-            {% csrf_token %}
-            <h4 class="m-text26 p-b-20 p-t-15">
-							Crea tu cuenta
-						</h4><br>
-						{% if captcha_error %}
-						<p class="m-text6 text-danger p-b-16">
-							reCAPTCHA Invalido. Intenta otra vez.
-						</p>
-						{% endif %}
-						<span>
-							{% include 'core/snippets/form_messages.html' with form=register_form %}
-						</span>
-
-						<div class="bo4 of-hidden size25 m-b-20">
-							{{register_form.email}}
-						</div>
-
-						<div class="bo4 of-hidden size25 m-b-20">
-							{{register_form.password}}
-						</div>
-
-						<div class="bo4 of-hidden size25 m-b-20">
-							{{register_form.first_name}}
-						</div>
-
-						<div class="bo4 of-hidden size25 m-b-20">
-							{{register_form.last_name}}
+<div class="row">
+<div class="col-md-5 col-sm-12 mx-auto">
+    <div class="card pt-4">
+        <div class="card-body">
+            <div class="text-center mb-3">
+                <img src="{{STATIC_URL}}assets/images/icons/logoRosa.png" class='mb-4 logoLunik'>
+                <h3>Registro</h3>
+                <span>Ingresa tus datos</span>
             </div>
-            <div class="t-center" style="width: 17rem;">
-              <script src='https://www.google.com/recaptcha/api.js'></script>
-              <div class="m-b-20 t-center">
-                <div class="g-recaptcha" data-sitekey="6Lesb8sZAAAAAJYAS17_YBoy5aGOPMuy76g-HiH8"
-                  style="transform:scale(0.9);transform-origin:0 0"></div>
-              </div>
-
-            </div>
-            <div class="w-full p-b-36 t-center">
-							<!-- Button -->
-                            <a href="{% url 'register:login' %}" class="s-text7 p-b-36 p-t-15">
-                                ¿Ya tienes una cuenta? Ingresa aqui
-                            </a>
-						</div>
-						<div class="w-size25">
-							<!-- Button -->
-							<button type="submit" class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4">
-								Crear cuenta
-							</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</section>
-  <!-- /login card --> {% endcomment %}
+            <form method="POST" role="form">
+              {% csrf_token %}
+              {% include 'core/snippets/form_messages.html' with form=register_form %}
+                <div class="row">
+                    <div class="col-md-6 col-12">
+                        <div class="form-group position-relative has-icon-left">
+                            <label for="username">Nombre(s)</label>
+                            <div class="position-relative">
+                                {{register_form.first_name}}
+                                <div class="form-control-icon">
+                                    <i data-feather="user"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group position-relative has-icon-left">
+                            <label for="username">Apellidos</label>
+                            <div class="position-relative">
+                                {{register_form.last_name}}
+                                <div class="form-control-icon">
+                                    <i data-feather="user"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group position-relative has-icon-left">
+                            <label for="username">Correo electrónico</label>
+                            <div class="position-relative">
+                                {{register_form.email}}
+                                <div class="form-control-icon">
+                                    <i data-feather="at-sign"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group position-relative has-icon-left">
+                            <div class="clearfix">
+                                <label for="password">Contraseña</label>
+                            </div>
+                            <div class="position-relative">
+                                {{register_form.password}}
+                                <div class="form-control-icon">
+                                    <i data-feather="lock"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </diV>
+                <div class="clearfix text-center">
+                    <button class="btn btn-lunik">Registrame</button>
+                </div>
+                <div class="divider">
+                    <div class="divider-text">O</div>
+                </div>
+                <div class="row">
+                    <div class="text-center mb-3">
+                        <span>¿Ya tienes una cuenta?</span>
+                    </div>
+                    <div class="clearfix text-center">
+                        <a href="{% url 'register:login' %}" class="btn btn-lunik">Iniciar sesión</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
 {% endblock content %}
 
 <!-- Form fields errors -->
 {% block docready %}
-{% for field in register_form %}
-  {% for error in field.errors %}
-    $("#{{field.auto_id}}").parent().addClass('has-error');
-    $("#{{field.auto_id}}").addClass('has-error');
-    $("#{{field.auto_id}}").after("<span class='help-block help-block-error'>{{error}}</span>");
-  {% endfor %}
-{% endfor %}
+{% include 'core/snippets/form_validation.html' with form=register_form %}
 {% include 'core/snippets/messages_error.html' with form=register_form %}
 {% endblock docready %}
