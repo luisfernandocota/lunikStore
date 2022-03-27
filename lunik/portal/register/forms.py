@@ -51,7 +51,7 @@ class RegisterForm(forms.ModelForm):
 	)
 	birthday = forms.DateField(
 		label = 'Fecha de nacimiento',
-		error_messages = {'required': 'Debe de capturar su fecha de nacimiento'},
+		required = False,
 		widget = forms.DateInput(
 			attrs = {
 				'class' : 'form-control form-control-sm',
@@ -60,6 +60,7 @@ class RegisterForm(forms.ModelForm):
 	)
 	gender = forms.CharField(
 		label = 'Género',
+		required = False,
 		widget = forms.RadioSelect(
 			choices = User.GENDER,
 			attrs = {
@@ -69,11 +70,10 @@ class RegisterForm(forms.ModelForm):
 	)
 	def __init__(self, *args, **kwargs):
 		self.user = kwargs.pop('user')
-		self.customer = kwargs.pop('customer')
 		super(RegisterForm, self).__init__(*args, **kwargs)
 	def clean_email(self):
 		cd = self.cleaned_data
-		email = User.objects.filter(email__iexact=cd['email'], is_customer=True, customer=self.customer).exclude(pk=self.user.id).exists()
+		email = User.objects.filter(email__iexact=cd['email'], is_customer=True).exclude(pk=self.user.id).exists()
 		if email:
 			raise forms.ValidationError('Este correo ya ha sido registrado')
 

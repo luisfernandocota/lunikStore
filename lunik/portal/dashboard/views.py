@@ -1,29 +1,29 @@
 # -*- coding: utf-8 -*-
+import json
+import os
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
 from django.template.loader import render_to_string
 from django.http import JsonResponse
 
+import pgeocode
+
 from panel.core.decorators import access_for_customer
-from panel.core.utils import user_logs, pagination, tenant_from_request
-from panel.accounts.models import User, Customer
-from panel.website.models import StoreMeta
+from panel.core.utils import user_logs, pagination
+from panel.accounts.models import User
 from portal.dashboard.forms import UserProfileForm, ChangePasswordForm
 from portal.shop.models import ShopOrder
 from portal.dashboard.models import Address
 from portal.dashboard.forms import AddressForm
 # Create your views here.
-@access_for_customer
 def profile(request):
 	context = {}
-	tenant = tenant_from_request(request)
 	context['orders'] = ShopOrder.objects.filter(customer=request.user).select_related('order_payment', 'shop_order_delivery').order_by('-created')[:3]
 	context['count_orders'] = ShopOrder.objects.filter(customer=request.user)
-	context['addresses'] = Address.objects.filter(user=request.user, store_meta__store__customer__tenant=tenant).order_by('-default')[:3]
+	context['addresses'] = Address.objects.filter(user=request.user).order_by('-default')[:3]
 	return render(request, 'dashboard/profile/profile.html', context)
 
-@access_for_customer
 def edit_profile(request):
 	context = {}
 
@@ -46,7 +46,6 @@ def edit_profile(request):
 
 	return render(request, 'dashboard/profile/edit_profile.html', context)
 
-@access_for_customer
 def orders(request):
 	context = {}
 	orders = ShopOrder.objects.filter(customer=request.user).select_related('order_payment', 'shop_order_delivery').order_by('-created')
@@ -59,8 +58,7 @@ def get_order(request, pk):
 	data = {}
 
 	context['order'] = get_object_or_404(ShopOrder, pk=pk)
-	customer = get_object_or_404(Customer.objects.prefetch_related('shop_orders'), shop_orders=context['order'])
-	context['customer'] = get_object_or_404(User, email=request.user.email, customer__pk=customer.pk, is_customer=True)
+	context['customer'] = get_object_or_404(User, email=request.user.email, is_customer=True)
 	if request.is_ajax() and request.method == 'GET':
 		data['html_order'] = render_to_string('dashboard/orders/includes/partial_order.html',context, request=request)
 	else:
@@ -68,7 +66,6 @@ def get_order(request, pk):
 
 	return JsonResponse(data)
 
-@access_for_customer
 def password_edit(request):
 	context = {}
 
@@ -96,25 +93,20 @@ def password_edit(request):
 
 	return render(request, 'dashboard/profile/password_form.html', context)
 
-@access_for_customer
 def address(request):
 	context = {}
-	tenant = tenant_from_request(request)
-	context['addresses'] = Address.objects.filter(user=request.user, store_meta__store__customer__tenant=tenant)
+	context['addresses'] = Address.objects.filter(user=request.user)
 	return render(request, 'dashboard/address/list.html', context)
 
 
-@access_for_customer
 def add_address(request):
 	context = {}
-	tenant = tenant_from_request(request)
-	store_meta = get_object_or_404(StoreMeta, store__customer__tenant=tenant)
 	if request.method == 'POST':
 		context['form'] = AddressForm(request.POST, request=request)
 		if context['form'].is_valid():
 			if context['form'].cleaned_data['default']:
 				try:
-					obj = Address.objects.get(default=True, user=request.user, store_meta__store__customer__tenant=tenant)
+					obj = Address.objects.get(default=True, user=request.user)
 					obj.default = False
 					obj.save()
 				except Address.DoesNotExist:
@@ -122,7 +114,6 @@ def add_address(request):
 
 			form = context['form'].save(commit=False)
 			form.user = request.user
-			form.store_meta = store_meta
 			form.save()
 			return redirect('dashboard:address')
 	else:
@@ -130,16 +121,14 @@ def add_address(request):
 	return render(request, 'dashboard/address/form.html', context)
 
 
-@access_for_customer
 def edit_address(request, pk):
 	context = {}
-	tenant = tenant_from_request(request)
 	context['address_obj'] = get_object_or_404(Address, pk=pk)
 	if request.method == 'POST':
 		context['form'] = AddressForm(request.POST, instance=context['address_obj'], request=request)
 		if context['form'].is_valid():
 			if context['form'].cleaned_data['default']:
-				obj = Address.objects.get(default=True, user=request.user, store_meta__store__customer__tenant=tenant)
+				obj = Address.objects.get(default=True, user=request.user)
 				obj.default = False
 				obj.save()
 			form = context['form'].save()
@@ -147,3 +136,20 @@ def edit_address(request, pk):
 	else:
 		context['form'] = AddressForm(instance=context['address_obj'], request=request)
 	return render(request, 'dashboard/address/form.html', context)
+
+def get_zip_code(request):
+	data = {}
+
+	data = {'state':'', 'county':'', 'community':'', 'suburbs':{}}
+	pgeocode.DOWNLOAD_URL = [os.environ.get("PGEOCODEURLS")]
+	geocode = pgeocode.Nominatim('mx')
+	addressInfo = geocode.query_postal_code(request.GET.get("zipcode"))
+	data['state'] = addressInfo.state_name
+	data['county'] = addressInfo.county_name
+	data['community'] = addressInfo.community_name
+
+	list_address = [i.lstrip() for i in str(addressInfo.place_name).split(',')]
+	print(list_address)
+	data['suburbs'] = list_address
+
+	return JsonResponse(data)

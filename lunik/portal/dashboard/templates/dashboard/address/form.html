@@ -20,7 +20,7 @@
 {% endblock customcss %}
 
 {% block content %}
-<section class="bgwhite p-t-66 p-b-60">
+<section class="bgwhite"style="margin-top: 100px;">
     <div class="container">
         <div class="row">
             <div class="col-md-12 p-b-30">
@@ -34,7 +34,7 @@
                             HAY ERRORRES, FAVOR DE VERIFICARLOS
                         </h2>
                         {% endif %}
-                        <a  href="{% url 'dashboard:address' %}" class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4 w-25 buttonMovil" style="background-color: {{store_instance.store_meta.header_color}};">
+                        <a  href="{% url 'dashboard:address' %}" class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4 w-25 buttonMovil">
                             MIS DIRECCIÓNES
                         </a>
                     </div>
@@ -42,76 +42,74 @@
                 </div>
             </div>
             <div class="col-md-12 p-b-30">
-                <form method="post" class="leave-comment w-75 m-auto">
+                <form  autocomplete="off" rol="form" method='POST' id="form-info" class="row g-0 js-form-info">
+
                     {% csrf_token %}
-                    <div class="form-group item d-flex justify-content-between">
-                        <div class="item w-100">
-                            <label for="">Nombre Completo <span class="text-danger">*</span></label>
-                            <div class="bo4 of-hidden size15 m-b-20">
-                                {{form.name}}
-                            </div>
-                        </div>
-                        <div class="item w-100 ml-3">
-                            <label for="">Dirección de la calle <span class="text-danger">*</span></label>
-                            <div class="bo4 of-hidden size15 m-b-20">
-                                {{form.address}}
-                            </div>
-                        </div>
+                    <div class="form-floating mb-3 col-12 col-md-4">
+
+                        {{form.name}}
+        
+                        <label for="{{form.name.auto_id}}">{{form.name.label}}</label>
+        
                     </div>
-                    <div class="form-group item d-flex justify-content-between">
-                        <div class="item w-100">
-                            <label for="">Número Exterior <span class="text-danger">*</span></label>
-                            <div class="bo4 of-hidden size15 m-b-20">
-                                {{form.num_ext}}
-                            </div>
-                        </div>
-                        <div class="item w-100 ml-3">
-                            <label for="">Número Interior</label>
-                            <div class="bo4 of-hidden size15 m-b-20">
-                                {{form.num_int}}
-                            </div>
-                        </div>
+                    <div class="form-floating mb-3 col-12 col-md-6">
+
+                        {{form.address}}
+        
+                        <label for="{{form.address.auto_id}}">{{form.address.label}}</label>
+        
                     </div>
-                    <div class="form-group item d-flex justify-content-between">
-                        <div class="item w-100">
-                            <label for="">Codigo Postal <span class="text-danger">*</span></label>
-                            <div class="bo4 of-hidden size15 m-b-20">
-                                {{form.zip_code}}
-                            </div>
-                        </div>
-                        <div class="item w-100 ml-3">
-                            <label for="">Colonia <span class="text-danger">*</span></label>
-                            <div class="bo4 of-hidden size15 m-b-20">
-                                {{form.suburb}}
-                            </div>
-                        </div>
+                    <div class="form-floating mb-3 col-12 col-md-1">
+
+                        {{form.num_ext}}
+        
+                        <label for="{{form.num_ext.auto_id}}">{{form.num_ext.label}}</label>
+        
                     </div>
-                    <div class="form-group item d-flex justify-content-between">
-                        <div class="item w-100">
-                            <label for="">Cuidad <span class="text-danger">*</span></label>
-                            <div class="bo4 of-hidden size15 m-b-20">
-                                {{form.city}}
-                            </div>
-                        </div>
-                        <div class="item w-100 ml-3">
-                            <label for="">Estado <span class="text-danger">*</span></label>
-                            <div class="bo4 of-hidden size15 m-b-20">
-                                {{form.state}}
-                            </div>
-                        </div>
+                    <div class="form-floating mb-3 col-12 col-md-1">
+
+                        {{form.num_int}}
+        
+                        <label for="{{form.num_int.auto_id}}">{{form.num_int.label}}</label>
+        
                     </div>
-                    <div class="form-group item d-flex justify-content-between">
-                        <div class="item w-100">
-                            <label for="">Predeterminada <span class="text-danger">*</span></label>
-                            <div class="i-checks">
-                                {{form.default}}
-                              </div>
-                        </div>
+                    <div class="form-floating mb-3 col-12 col-md-1">
+
+                        {{form.zip_code}}
+        
+                        <label for="{{form.zip_code.auto_id}}">{{form.zip_code.label}}</label>
+        
+                    </div>
+                    <div class="form-floating mb-3 col-12 col-md-3">
+
+                        {{form.suburb}}
+        
+                        <label for="{{form.suburb.auto_id}}">{{form.suburb.label}}</label>
+        
+                    </div>
+                    <div class="form-floating mb-3 col-12 col-md-3">
+
+                        {{form.city}}
+        
+                        <label for="{{form.city.auto_id}}">{{form.city.label}}</label>
+        
+                    </div>
+                    <div class="form-floating mb-3 col-12 col-md-3">
+
+                        {{form.state}}
+        
+                        <label for="{{form.state.auto_id}}">{{form.state.label}}</label>
+        
+                    </div>
+                    <div class="mb-3 col-12 col-md-2">
+                        {{form.default}}
+        
+                        <label for="{{form.default.auto_id}}">{{form.default.label}}</label>
 
                     </div>
                     
-                    <div class="w-size50">
-                        <button type="submit" class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4 w-50" style="background-color: {{store_instance.store_meta.header_color}};"              >
+                    <div class="w-size50 align-items-center">
+                        <button type="submit" class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 four-buttons trans-0-4 " >
                             {% if address_obj %}GUARDAR{% else %}AÑADIR{% endif %} DIRECCIÓN
                         </button>
                     </div>
@@ -127,6 +125,58 @@
 {% endblock customjs %}
 
 {% block docready %}
+{% if address_obj %}
+var zipcode = $('#id_zip_code').val();
+
+$.ajax({
+    url: '{% url 'dashboard:zipcode' %}',
+    data: {'zipcode':zipcode},
+    type: 'GET',
+    dataType: 'json',
+    success: function (data) {
+        if(data){
+            $('#id_city').val(data.community);
+            $('#id_state').val(data.state);
+            $.each(data.suburbs, function (i, item) {
+                $('#id_suburb').append($('<option>', { 
+                    value: item,
+                    text : item 
+                }));
+            });
+            $('#id_suburb').val('{{address_obj.suburb}}')
+
+        }
+    }
+  });
+
+{% endif %}
+
+$('#id_zip_code').blur(function() {
+    var zipcode = $('#id_zip_code').val();
+    console.log(zipcode)
+    $.ajax({
+        url: '{% url 'dashboard:zipcode' %}',
+        data: {'zipcode':zipcode},
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            if(data){
+                console.log(data)
+                $('#id_city').val(data.community);
+                $('#id_state').val(data.state);
+                if( $('#id_suburb').has('option').length == 0 ) {
+                    $.each(data.suburbs, function (i, item) {
+                        $('#id_suburb').append($('<option>', { 
+                            value: item,
+                            text : item 
+                        }));
+                    });
+                }
+            }
+        }
+      });
+  });
+
 {% for field in form %}
   {% for error in field.errors %}
     $("#{{field.auto_id}}").parent().addClass('text-danger');

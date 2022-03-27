@@ -1,155 +1,83 @@
-{% extends 'base_shop_auth.html' %}
-{% block title %}{{store_instance.name}}{% endblock title %}
+{% extends 'base_auth.html' %}
+{% block title %}Ingresar{% endblock title %}
 
 {% block subtitle %}Ingresar{% endblock subtitle %}
 
-{% block page %}login{% endblock page %}
+{% block background %}{{STATIC_URL}}assets/images/background/backgroud-auth-0.jpg{% endblock background %}
 
 {% block content %}
-	<div class="col-12 col-md-6 col-lg-3 d-flex justify-content-center align-items-center login-form-container">
 
-		<div class="animate__animated  animate__fadeIn">
-
-			<img src="{{STATIC_URL}}shop/resources/logo_4shop_positive.svg" class="logo-brand-store md pb-4" alt="">
-
-			<h4 class="" style="text-transform: none;">¡Bienvenido! Siempre es un gusto tenerte de nuevo con nosotros.</h4>
-
-			<p class="pb-2 pt-2 ">¡Inicia sesión y comienza a comprar!</p>
-
-			<form class="pb-2">
-
-				<div class="form-floating mb-3">
-
-					<input type="email" class="form-control" id="email" placeholder="name@example.com">
-
-					<label for="email">Email</label>
-
-				</div>
-
-				<div class="form-floating">
-
-					<input type="password" class="form-control" id="password" placeholder="Password">
-
-					<label for="password">Contraseña</label>
-
-				</div>
-
-				<div class="mb-3 form-check pt-2">
-
-				<input type="checkbox" class="form-check-input" id="exampleCheck1">
-
-				<label class="form-check-label " for="exampleCheck1">Mantener sesión activa</label>
-
-				</div>
-
-				<div class="row">
-
-					<div class="col-12">
-
-						<button type="submit" class="four-buttons login-button mb-2">Ingresar a mi tienda</button>
-
-					</div>
-
-					<div class="col-12">
-
-						<button onclick="sendPage('{% url 'register:add' %}');" class="btn btn-link pt-2 recover-password" style="text-decoration: none;">Quiero registrarme a esta tienda</button>
-
-					</div>
-
-					<div class="col-12">
-
-						<button class="btn btn-link pt-2 recover-password">¿Olvidó su contraseña?</button>
-
-					</div>
-
-				</div>
-
-			</form>
-
-		</div>
-
-	</div>
-
-	<div class="col-12 col-md-6 col-lg-9 d-none d-md-block">
-
-		<div class="owl-carousel owl-theme one-more-carousel carousel-clean-one large">
-
-			<div class="item bground-config" style="background-image: url('{{STATIC_URL}}shop/resources/img/pexels-kindel-media-6994168.jpg');"></div>
-
-			<div class="item bground-config" style="background-image: url('{{STATIC_URL}}shop/resources/img/pexels-kindel-media-6994194.jpg');"></div>
-
-		</div>
-
-	</div>
-
-  {% comment %} <section class="bgwhite p-t-26 p-b-60">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-3 p-b-30">
-				</div>
-				<div class="col-md-6 p-b-30">
-          <form id="form-login" method="POST" class="p-t-15 leave-comment d-flex flex-column align-items-center justify-content-center" role="form" action="" style="text-align: -webkit-center;" novalidate>
-            {% csrf_token %}
-            <h4 class="m-text26 p-b-16 p-t-15">
-							Ingresar
-						</h4>
-						{% for field in form %}
-						{% for error in field.errors %}
-						<p class="m-text6 text-danger p-b-16">
-							{{error}}
-						</p>
-						{% endfor %}
-					  {% endfor %}
-						{% if not_user %}
-						<p class="m-text6 text-danger p-b-16">
-							{{not_user}}
-						</p>
-						{% endif %}
-						<div class="bo4 of-hidden size25 m-b-20">
-							{{form.email}}
-						</div>
-
-						<div class="bo4 of-hidden size25 m-b-20">
-							{{form.password}}
+<div class="row">
+<div class="col-md-5 col-sm-12 mx-auto">
+    <div class="card pt-4">
+        <div class="card-body">
+            <div class="text-center mb-3">
+                <img src="{{STATIC_URL}}assets/images/icons/logoRosa.png" class='mb-4 logoLunik'>
+                <h3>Ingresar</h3>
+                <span>Ingresa tus datos</span>
+				{% if not_user %}<p><span style="color: brown;">{{not_user}}</span></p>{% endif %}
+            </div>
+            <form method="POST" role="form">
+              {% csrf_token %}
+              {% include 'core/snippets/form_messages.html' with form=form %}
+                <div class="row">
+                    <div class="col-md-6 col-12">
+                        <div class="form-group position-relative has-icon-left">
+                            <label for="username">Correo electrónico</label>
+                            <div class="position-relative">
+                                {{form.email}}
+                                <div class="form-control-icon">
+                                    <i data-feather="at-sign"></i>
+                                </div>
+                            </div>
                         </div>
-                        <div class="w-full p-b-16 t-center">
-							<!-- Button -->
-                            <a href="{% url 'password_reset' %}" class="s-text7 p-b-36 p-t-15">
-                                ¿Olvidaste tu contraseña?
-                            </a>
-						</div>
-                        <div class="w-full p-b-36 t-center">
-							<!-- Button -->
-                            <a href="{% url 'register:add' %}" class="s-text7 p-b-36 p-t-15">
-                                ¿No tienes cuenta? Regístrate
-                            </a>
-						</div>
-						<div class="w-size25">
-							<!-- Button -->
-							<button type="submit" class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4">
-								Entrar
-							</button>
-						</div>
-					</form>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group position-relative has-icon-left">
+                            <div class="clearfix">
+                                <label for="password">Contraseña</label>
+                            </div>
+                            <div class="position-relative">
+                                {{form.password}}
+                                <div class="form-control-icon">
+                                    <i data-feather="lock"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </diV>
+                <div class="clearfix text-center">
+                    <button class="btn btn-lunik">Iniciar sesión</button>
+                </div>
+                <div class="divider">
+                    <div class="divider-text">O</div>
+                </div>
+                <div class="row">
+                    <div class="text-center mb-3">
+                        <span>¿Aún no tienes una cuenta?</span>
+                    </div>
+                    <div class="clearfix text-center mb-4">
+                        <a href="{% url 'register:add' %}" class="btn btn-lunik">Registrate aqui</a>
+                    </div>
+                </div>
+				<div class="row">
+					<div class="clearfix text-center">
+                        <a href="{% url 'shop:shop_list' %}" style="color: brown;">Volver a la tienda</a>
+                    </div>
 				</div>
-			</div>
-		</div>
-	</section>
-  <!-- /login card --> {% endcomment %}
+            </form>
+        </div>
+    </div>
+</div>
+</div>
 {% endblock content %}
 
 <!-- Form fields errors -->
 {% block docready %}
 {% if not_user %}
-$("#id_email").parent().addClass('help-block-error');
-$("#id_email").addClass('help-block-error');
+	$("#id_email").addClass('is-invalid');
 
-$("#id_password").parent().addClass('help-block-error');
-$("#id_password").addClass('help-block-error');
+	$("#id_password").addClass('is-invalid');
+
 {% endif %}
-
-  $("#id_email").addClass("size25 s-text7 p-l-22 p-r-22 t-center");
-  $("#id_password").addClass("size25 s-text7 p-l-22 p-r-22 t-center");
-  $("#id_email"). attr("placeholder", "Correo electrónico");
-  $("#id_password"). attr("placeholder", "Contraseña");
 {% endblock docready %}

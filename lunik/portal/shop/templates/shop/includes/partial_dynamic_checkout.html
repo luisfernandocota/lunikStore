@@ -72,7 +72,7 @@
         <form rol="form" method='POST' action="{% url 'shop:cart_address' %}" id="form-info" class="row g-0 js-form-info">
         {% csrf_token %}
             <input type="hidden" name="step" value="envio">
-            <div class="form-floating mb-3 col-12 col-lg-6">
+            <div class="form-floating mb-3 col-12 ">
 
                 {{form_order.name}}
 
@@ -80,14 +80,14 @@
 
             </div>
 
-            <div class="form-floating mb-3 col-12 col-lg-6">
+            <div class="form-floating mb-3 col-12 col-lg-7">
 
                 {{form_order.email}}
 
                 <label for="last_name">Correo</label>
 
             </div>
-            <div class="form-floating mb-3 col-12">
+            <div class="form-floating mb-3 col-12 col-lg-5">
 
                 {{form_order.phone}}
 
@@ -122,14 +122,14 @@
                 <label for="additional_information">Información adicional</label>
 
             </div> {% endcomment %}
-            <div class="form-floating mb-3 col-12 col-lg-9">
+            <div class="form-floating mb-3 col-12 col-lg-8">
 
                 {{form_delivery.suburb}}
 
                 <label for="suburb">Colonia</label>
 
             </div>
-            <div class="form-floating mb-3 col-12 col-lg-3">
+            <div class="form-floating mb-3 col-12 col-lg-4">
 
                 {{form_delivery.zip_code}}
 
