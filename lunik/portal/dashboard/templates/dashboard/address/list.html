@@ -23,7 +23,7 @@
 {% block content %}
 
 	<!-- content page -->
-	<section class="bgwhite p-t-66 p-b-60">
+	<section class="bgwhite p-t-66 p-b-60" style="margin-top: 100px; margin-bottom: 50px;">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12 p-b-30">
@@ -32,7 +32,7 @@
                             <h2 class="m-text26 p-b-0">
                                 LISTA DE DIRECCIONES
                             </h2>
-                            <a  href="{% url 'dashboard:add_address' %}" class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4 w-25 buttonMovil" style="background-color: {{store_instance.store_meta.header_color}};">
+                            <a  href="{% url 'dashboard:add_address' %}" class="flex-c-m size1 bg1 bo-rad-23 hov1 m-text3 trans-0-4 w-25 four-buttons mt-0 text-center">
 								AÑADIR DIRECCIÓN
 							</a>
                         </div>
@@ -53,13 +53,13 @@
                                 <p class="font-weight-bold">{{address.city}}, {{address.state}}, CP {{address.zip_code}}
                                 </p>
                                 <div class="item d-flex w-100 justify-content-start mt-3 pt-4 "
-                                    style="border-top: 1px solid #eaeaea;">
-                                    <a href="{% url 'dashboard:edit_address' address.pk %}"
-                                        class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4 w-25 mr-2"
-                                        style="height: 30px;font-size: 12px; background-color: {{store_instance.store_meta.header_color}}">Editar</a>
-                                    <a href="#" class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4 w-25 mr-2"
-                                        style="height: 30px;font-size: 12px; background-color: {{store_instance.store_meta.header_color}}">Eliminar</a>
-                                </div>
+                                                    style="border-top: 1px solid #eaeaea; ">
+                                                    <a href="{% url 'dashboard:edit_address' address.pk %}"
+                                                        class="four-buttons text-center"
+                                                        style="font-size: 12px; margin-inline: 10px;">Editar</a>
+                                                    <a href="#" class="flex-c-m four-buttons text-center"
+                                                        style="font-size: 12px; ">Eliminar</a>
+                                                </div>
                             </div>
                             {% endfor %}
 						</div> 

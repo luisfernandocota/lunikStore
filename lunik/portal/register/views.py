@@ -68,6 +68,7 @@ def register_login(request):
 							password=request.POST.get('password',None), \
 							is_customer=True
 						)
+		print(user.is_active)
 		if user and not user.is_superuser:
 			context['form'] = LoginForm(request.POST,user=user)
 			if context['form'].is_valid():

@@ -67,6 +67,6 @@ django-compressor = "==2.2"
 pyphen = "==0.9.4"
 weasyprint = "*"
 Pillow = "*"
-
+pgeocode = "==0.3.0"
 [requires]
 python_version = "3.8"

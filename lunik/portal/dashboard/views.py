@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
+import json
+import os
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
 from django.template.loader import render_to_string
 from django.http import JsonResponse
+
+import pgeocode
 
 from panel.core.decorators import access_for_customer
 from panel.core.utils import user_logs, pagination
@@ -20,7 +24,6 @@ def profile(request):
 	context['addresses'] = Address.objects.filter(user=request.user).order_by('-default')[:3]
 	return render(request, 'dashboard/profile/profile.html', context)
 
-@access_for_customer
 def edit_profile(request):
 	context = {}
 
@@ -133,3 +136,20 @@ def edit_address(request, pk):
 	else:
 		context['form'] = AddressForm(instance=context['address_obj'], request=request)
 	return render(request, 'dashboard/address/form.html', context)
+
+def get_zip_code(request):
+	data = {}
+
+	data = {'state':'', 'county':'', 'community':'', 'suburbs':{}}
+	pgeocode.DOWNLOAD_URL = [os.environ.get("PGEOCODEURLS")]
+	geocode = pgeocode.Nominatim('mx')
+	addressInfo = geocode.query_postal_code(request.GET.get("zipcode"))
+	data['state'] = addressInfo.state_name
+	data['county'] = addressInfo.county_name
+	data['community'] = addressInfo.community_name
+
+	list_address = [i.lstrip() for i in str(addressInfo.place_name).split(',')]
+	print(list_address)
+	data['suburbs'] = list_address
+
+	return JsonResponse(data)

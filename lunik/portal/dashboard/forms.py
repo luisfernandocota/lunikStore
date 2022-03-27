@@ -11,7 +11,7 @@ class UserProfileForm(forms.ModelForm):
         error_messages = {'required': 'Debe capturar el Email'},
         widget = forms.EmailInput(
             attrs = {
-                'class': 'sizefull s-text7 p-l-22 p-r-22',
+                'class': 'form-control',
                 'readonly': 'readonly',
             }
         )
@@ -21,7 +21,7 @@ class UserProfileForm(forms.ModelForm):
         error_messages = {'required': 'Debe capturar el nombre'},
         widget = forms.TextInput(
             attrs = {
-                'class': 'sizefull s-text7 p-l-22 p-r-22'
+                'class': 'form-control'
             }
         )
     )
@@ -30,7 +30,7 @@ class UserProfileForm(forms.ModelForm):
         error_messages = {'required': 'Debe capturar los apellidos'},
         widget = forms.TextInput(
             attrs = {
-                'class': 'sizefull s-text7 p-l-22 p-r-22'
+                'class': 'form-control'
             }
         )
     )
@@ -39,27 +39,7 @@ class UserProfileForm(forms.ModelForm):
         required = False,
         widget = forms.TextInput(
             attrs = {
-                'class': 'sizefull s-text7 p-l-22 p-r-22'
-            }
-        )
-    )
-    facebook = forms.CharField(
-        label = 'Facebook',
-        help_text = 'Nombre de usuario',
-        required = False,
-        widget = forms.TextInput(
-            attrs = {
-                'class': 'sizefull s-text7 p-l-22 p-r-22'
-            }
-        )
-    )
-    twitter = forms.CharField(
-        label = 'Twitter',
-        help_text = 'Nombre de usuario. Ej. miusuario',
-        required = False,
-        widget = forms.TextInput(
-            attrs = {
-                'class': 'sizefull s-text7 p-l-22 p-r-22'
+                'class': 'form-control'
             }
         )
     )
@@ -112,7 +92,7 @@ class UserProfileForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('email', 'first_name','last_name','phone','facebook','twitter','avatar', 'birthday', 'gender',)
+        fields = ('email', 'first_name','last_name','phone','avatar', 'birthday', 'gender',)
 
 class ChangePasswordForm(forms.Form):
     current_password = forms.CharField(
@@ -120,7 +100,7 @@ class ChangePasswordForm(forms.Form):
         error_messages = {'required' : 'Debe capturar la contraseña actual'},
         widget = forms.PasswordInput(
             attrs = {
-                'class': 'sizefull s-text7 p-l-22 p-r-22'
+                'class': 'form-control'
             }
         )
     )
@@ -129,7 +109,7 @@ class ChangePasswordForm(forms.Form):
         error_messages = {'required' : 'Debe capturar la nueva contraseña'},
         widget = forms.PasswordInput(
             attrs = {
-                'class': 'sizefull s-text7 p-l-22 p-r-22'
+                'class': 'form-control'
             }
         )
     )
@@ -138,7 +118,7 @@ class ChangePasswordForm(forms.Form):
         error_messages = {'required' : 'Debe confirmar la nueva contraseña'},
         widget = forms.PasswordInput(
             attrs = {
-                'class': 'sizefull s-text7 p-l-22 p-r-22'
+                'class': 'form-control'
             }
         )
     )
@@ -181,7 +161,7 @@ class AddressForm(forms.ModelForm):
         error_messages = {'required':'Debe capturar el nombre'},
         widget = forms.TextInput(
             attrs = {
-                'class': 'sizefull s-text7 p-l-22 p-r-22',
+                'class': 'form-control',
                 'placeholder' : 'Nombre'
             }
         )
@@ -191,7 +171,7 @@ class AddressForm(forms.ModelForm):
         error_messages = {'required':'Debe capturar la dirección'},
         widget = forms.TextInput(
             attrs = {
-                'class': 'sizefull s-text7 p-l-22 p-r-22',
+                'class': 'form-control',
                 'placeholder' : 'Dirección'
             }
         )
@@ -201,8 +181,9 @@ class AddressForm(forms.ModelForm):
         error_messages = {'required':'Debe capturar el código postal'},
         widget = forms.TextInput(
             attrs = {
-                'class': 'input-control sizefull s-text7 p-l-15 p-r-15',
-                'placeholder' : 'CP'
+                'class': 'form-control',
+                'placeholder' : 'CP',
+                'autocomplete': 'xyz1231'
             }
         )
     )
@@ -211,7 +192,7 @@ class AddressForm(forms.ModelForm):
         error_messages = {'required':'Capture un número','invalid':'Introduzca un valor en digitos','max_digits':'Favor de introducir un valor menor a 5 digitos'},
         widget = forms.TextInput(
             attrs = {
-                'class': 'input-control sizefull s-text7 p-l-15 p-r-15',
+                'class': 'form-control',
                 'placeholder' : 'N° exterior'
             }
         )
@@ -223,38 +204,41 @@ class AddressForm(forms.ModelForm):
         help_text= 'Opcional',
         widget = forms.TextInput(
             attrs = {
-                'class': 'input-control sizefull s-text7 p-l-15 p-r-15',
+                'class': 'form-control',
                 'placeholder' : 'N° interior'
             }
         )
     )
     city = forms.CharField(
-        label = 'Nombre',
+        label = 'Ciudad',
         error_messages = {'required':'Debe capturar la ciudad'},
         widget = forms.TextInput(
             attrs = {
-                'class': 'sizefull s-text7 p-l-22 p-r-22',
-                'placeholder' : 'Ciudad'
+                'class': 'form-control',
+                'placeholder' : 'Ciudad',
+                'autocomplete': 'xyz1231'
             }
         )
     )
     state = forms.CharField(
-        label = 'Nombre',
+        label = 'Estado',
         error_messages = {'required':'Debe capturar el estado'},
         widget = forms.TextInput(
             attrs = {
-                'class': 'sizefull s-text7 p-l-22 p-r-22',
-                'placeholder' : 'Estado'
+                'class': 'form-control',
+                'placeholder' : 'Estado',
+                'autocomplete': 'xyz1231'
+
             }
         )
     )
     suburb = forms.CharField(
-        label = 'Nombre',
+        label = 'Colonia',
         error_messages = {'required':'Debe capturar la colonia'},
-        widget = forms.TextInput(
+        widget = forms.Select(
             attrs = {
-                'class': 'sizefull s-text7 p-l-22 p-r-22',
-                'placeholder' : 'Colonia'
+                'class': 'form-control',
+                'placeholder' : 'Colonia',
             }
         )
     )
@@ -280,9 +264,9 @@ class AddressForm(forms.ModelForm):
                 self.fields[field].label = format_html('{} <span class="text-danger">*</span>',self.fields[field].label)
     def clean(self):
         cd = self.cleaned_data
-        inst =  Address.objects.filter(user=self.request.user)
+        inst =  Address.objects.get(pk=self.instance.pk)
         obj = Address.objects.filter(user=self.request.user, default=True).exclude(pk=self.instance.pk).exists()
-        if inst:
+        if not inst.default:
             if not obj:
                 self.add_error('default', 'Una dirección debe de ser predeterminada')
         return cd

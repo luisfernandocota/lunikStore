@@ -12,6 +12,7 @@ urlpatterns = [
 	path('direcciones/', views.address, name='address'),
 	path('direcciones/agregar/', views.add_address, name='add_address'),
 	path('direcciones/editar/<int:pk>', views.edit_address, name='edit_address'),
+	path('zipcode/info/', views.get_zip_code, name='zipcode'),
 	#-- Orders
 	path('ordenes/', views.orders, name="orders"),
 	#-- Get Order detail

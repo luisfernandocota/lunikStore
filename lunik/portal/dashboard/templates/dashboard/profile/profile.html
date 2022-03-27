@@ -8,194 +8,192 @@
 
 {% block content %}
 <!-- Title Page -->
-<section class="bg-title-page flex-col-c-m" >
-		<h2 class="l-text2 t-center" style="color: #000">
-			MI PERFIL
-		</h2>
-	</section>
 
 <!-- content page -->
-<section class="bgwhite p-t-66 p-b-60">
+<section class="bgwhite" style="margin-top: 100px; margin-bottom: 50px;">
     <div class="container">
         <div class="row">
             <div class="col-md-12 p-b-30">
-                <div class="p-r-20 p-r-0-lg">
-                    <div class="item d-flex justify-content-between align-items-center flex-wrap">
-                        <h2 class="m-text26 p-b-0">
-                            MIS DATOS PERSONALES
-                        </h2>
-                        <a href="{% url 'dashboard:edit_profile' %}"
-                            class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4 w-25 buttonMovil mt-0" style="background-color: {{store_instance.store_meta.header_color}};">
-                            EDITAR PERFIL
-                        </a>
-                    </div>
-                    <div class="item d-flex flex-wrap justify-content-between flex-md-row flex-column">
-                        <div class="item p-3 mt-3 itemPerfil">
-                            <h4 class="mb-4 pb-3" style="border-bottom: 1px solid #eaeaea;">Mi Perfil</h4>
-                            <div class="item d-flex w-75 justify-content-between mt-3 mb-3">
-                                <div class="item">
-                                    <h5>Nombre Completo</h5>
-                                    <p class="font-weight-bold">
-                                        {{request.user.get_full_name}}
-                                    </p>
-                                </div>
-                                <div class="item">
-                                    <h5>Correo electronico</h5>
-                                    <p class="font-weight-bold">{{request.user.email}}</p>
-                                </div>
-                            </div>
-                            <div class="item d-flex w-75 justify-content-between mt-3 mb-3">
-                                <div class="item">
-                                    <h5>Telefono</h5>
-                                    {% if request.user.phone %}
-                                    <p class="font-weight-bold">{{request.user.phone}}</p>
-                                    {% else %}
-                                    <p class="font-weight-bold">Ingresalo</p>
-                                    {% endif %}
-                                </div>
-                                <div class="item">
-                                    <h5>Sexo</h5>
-                                    {% if request.user.gender %}
-                                    <p class="font-weight-bold">{{request.user.get_gender_display}}</p>
-                                    {% else %}
-                                    <p class="font-weight-bold">Ingresalo</p>
-                                    {% endif %}
-                                </div>
-                                <div class="item">
-                                    <h5>Fecha de nacimiento</h5>
-                                    {% if request.user.birthday %}
-                                    <p class="font-weight-bold">{{request.user.birthday}}</p>
-                                    {% else %}
-                                    <p class="font-weight-bold">Ingresalo</p>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <div class="item d-flex w-75 justify-content-between mt-3 mb-3">
-                                <div class="item">
-                                    <h5>Facebook</h5>
-                                    {% if request.user.facebook %}
-                                    <p class="font-weight-bold">{{request.user.facebook}}</p>
-                                    {% else %}
-                                    <p class="font-weight-bold">Ingresalo</p>
-                                    {% endif %}
-                                </div>
-                                <div class="item">
-                                    <h5>Twitter</h5>
-                                    {% if request.user.twitter %}
-                                    <p class="font-weight-bold">{{request.user.twitter}}</p>
-                                    {% else %}
-                                    <p class="font-weight-bold">Ingresalo</p>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <!-- <a  href="editPerfil.html" class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4 w-50" style="border-top: 1px solid #eaeaea;">
-                                        EDITAR PERFIL
-                                    </a> -->
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="item d-flex justify-content-between align-items-center flex-wrap p-t-55">
+                            <h2 class="m-text26 p-b-0" style="color: #914c54 !important;">
+                                MI PERFIL
+                            </h2>
+                            <a href="{% url 'dashboard:edit_profile' %}"
+                                class="flex-c-m size1 bg1 bo-rad-23 hov1 m-text3 trans-0-4 w-25 four-buttons mt-0 text-center">
+                                EDITAR PERFIL
+                            </a>
                         </div>
-                        <div class="item  p-3 mt-3"
-                            style="border: 1.5px solid #eaeaea;box-shadow: 0px 0px 6px 0px #eaeaea;height: 10rem;">
-                            <h4>Cambiar Contraseña</h4>
-                            <p class="font-weight-bold">*************************</p>
-                            <div class="item d-flex w-100 justify-content-start mt-3 pt-4 "
-                                style="border-top: 1px solid #eaeaea;">
-                                <a href="{% url 'dashboard:password_edit' %}"
-                                    class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4  mr-2"
-                    style="height: 30px;font-size: 12px; background-color: {{store_instance.store_meta.header_color}}">Cambiar Contraseña</a>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="item d-flex justify-content-between align-items-center flex-wrap p-t-55">
-                        <h2 class="m-text26 p-b-0">
-                            MIS PEDIDOS
-                        </h2>
-                        {% if count_orders.count > 3 %}
-                        <a href="{% url 'dashboard:orders' %}"
-                            class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4 w-25 buttonMovil mt-0"  style="background-color: {{store_instance.store_meta.header_color}};">
-                            VER TODOS
-                        </a>
-                        {% endif %}
-                    </div>
-                    <div class="item d-flex flex-wrap justify-content-start ">
-                        {% if not orders %}
-                        <p class="font-weight-bold">SIN PEDIDOS</p><br>
-                        {% endif %}
-                        {% for order in orders %}
-                        <div class="item mr-4 p-3 mt-3"
-                            style="border: 1.5px solid #eaeaea;box-shadow: 0px 0px 6px 0px #eaeaea;width: 350px;">
-                            <div class="item d-flex justify-content-between w-100">
-                                {% for item in order.products_orders.all %}
-                                {% with image=item.product.products_gallery.all.first.image %}
-                                {% thumbnail image '240x240' crop='center' as img %}
-                                {% if forloop.first %}
-                                <img src="{{img.url}}" class="img-fluid" style="width: 8rem;">
-                                {% endif %}
-                                {% endthumbnail %}
-                                {% endwith %}
-                                {% endfor %}
-                                <div class="item">
-                                    <p class="font-weight-bold">PEDIDO NO. {{order.folio}}</p>
-                                    <p class="font-weight-bold">Comprado el {{order.created|date:"d/m/y"}}</p>
-                                    <p class="font-weight-bold">Total : ${{order.order_payment.total|intcomma}}</p>
-                                    <p class="font-weight-bold">
-                                        {% for product in order.products_orders.all %}
-                                        {{product.product}}{% if not forloop.last %},{% endif %}
-                                        {% endfor %}
-                                    </p>
+                        <div class="row">
+                            <div class="col-md-12" >
+                                <div style="border: 1.5px solid #eaeaea;box-shadow: 0px 0px 6px 0px #eaeaea; padding: 30px; margin-bottom: 25px;">
+                                        <div class="row" >
+                                        <div class="col-md-6">
+                                            <div class="item d-flex w-75 justify-content-between mt-3 mb-3">
+                                                <div class="item">
+                                                    <h5>Nombre Completo</h5>
+                                                    <p class="font-weight-bold">
+                                                        {{request.user.get_full_name}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="item d-flex w-75 justify-content-between mt-3 mb-3">
+                                                <div class="item">
+                                                    <h5>Correo electronico</h5>
+                                                    <p class="font-weight-bold">{{request.user.email}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <div class="item d-flex w-75 justify-content-between mt-3 mb-3">
+                                                <div class="item">
+                                                    <h5>Telefono</h5>
+                                                    {% if request.user.phone %}
+                                                    <p class="font-weight-bold">{{request.user.phone}}</p>
+                                                    {% else %}
+                                                    <p class="font-weight-bold">Ingresalo</p>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="item d-flex w-75 justify-content-between mt-3 mb-3">
+                                                <div class="item">
+                                                    <h5>Sexo</h5>
+                                                    {% if request.user.gender %}
+                                                    <p class="font-weight-bold">{{request.user.get_gender_display}}</p>
+                                                    {% else %}
+                                                    <p class="font-weight-bold">Ingresalo</p>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="item d-flex justify-content-between mt-3 mb-3">
+                                                <div class="item">
+                                                    <h5>Fecha de nacimiento</h5>
+                                                    {% if request.user.birthday %}
+                                                    <p class="font-weight-bold">{{request.user.birthday}}</p>
+                                                    {% else %}
+                                                    <p class="font-weight-bold">Ingresalo</p>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="item d-flex w-100 justify-content-start mt-3 pt-4 "
-                                style="border-top: 1px solid #eaeaea;">
-                                <a href="" class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4 w-50 mr-2"
-                                    style="height: 30px;font-size: 12px; background-color: {{store_instance.store_meta.header_color}}">Ver Detalles</a>
+                                
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="item d-flex justify-content-between align-items-center flex-wrap p-t-55">
+                                            <h2 class="m-text26 p-b-0" style="color: #914c54 !important;">
+                                                MIS DIRECCIONES
+                                            </h2>
+                                            <a href="{% url 'dashboard:add_address' %}"
+                                                class="flex-c-m size1 bg1 bo-rad-23 hov1 m-text3 trans-0-4 w-25 four-buttons mt-0">
+                                                AGREGAR DIRECCIÓN
+                                            </a>
+                    
+                                            {% if addresses.count > 3 %}
+                                            <a href="{% url 'dashboard:address' %}"
+                                                class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4 w-25 buttonMovil mt-0"  style="background-color: var(--main-bg-color-branding);">
+                                                VER TODOS
+                                            </a>
+                                            {% endif %}
+                                        </div>
+                                        <div class="item d-flex flex-wrap justify-content-start ">
+                                            {% if not addresses %}
+                                            <p class="font-weight-bold">SIN DIRECCIONES REGISTRADAS</p><br>
+                                            {% endif %}
+                                            {% for address in addresses %}
+                                            <div class="item mr-4 p-3 mt-3"
+                                                style="border: 1.5px solid #eaeaea;box-shadow: 0px 0px 6px 0px #eaeaea;width: 350px; margin-inline: 10px;">
+                                                {% if address.default %}
+                                                <p class="font-weight-bold">Predeterminada</p>
+                                                {% endif %}
+                                                <p class="font-weight-bold">{{address.name}}</p>
+                                                <p class="font-weight-bold">{{address.address}} #{{address.num_ext}} {{address.num_int}}
+                                                </p>
+                                                <p class="font-weight-bold">{{address.suburb}}</p>
+                                                <p class="font-weight-bold">{{address.city}}, {{address.state}}, CP {{address.zip_code}}
+                                                </p>
+                                                <div class="item d-flex w-100 justify-content-start mt-3 pt-4 "
+                                                    style="border-top: 1px solid #eaeaea; ">
+                                                    <a href="{% url 'dashboard:edit_address' address.pk %}"
+                                                        class="four-buttons text-center"
+                                                        style="font-size: 12px; margin-inline: 10px;">Editar</a>
+                                                    <a href="#" class="flex-c-m four-buttons text-center"
+                                                        style="font-size: 12px; ">Eliminar</a>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                                
                             </div>
                         </div>
-                        {% endfor %}
                     </div>
-                    <div class="item d-flex justify-content-between align-items-center flex-wrap p-t-55">
-                        <h2 class="m-text26 p-b-0">
-                            MIS DIRECCIONES
-                        </h2>
-                        <a href="{% url 'dashboard:add_address' %}"
-                            class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4 w-25 buttonMovil mt-0"  style="background-color: {{store_instance.store_meta.header_color}};">
-                            AGREGAR DIRECCIÓN
-                        </a>
-
-                        {% if addresses.count > 3 %}
-                        <a href="{% url 'dashboard:address' %}"
-                            class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4 w-25 buttonMovil mt-0"  style="background-color: {{store_instance.store_meta.header_color}};">
-                            VER TODOS
-                        </a>
-                        {% endif %}
-                    </div>
-                    <div class="item d-flex flex-wrap justify-content-start ">
-                        {% if not addresses %}
-                        <p class="font-weight-bold">SIN DIRECCIONES REGISTRADAS</p><br>
-                        {% endif %}
-                        {% for address in addresses %}
-                        <div class="item mr-4 p-3 mt-3"
-                            style="border: 1.5px solid #eaeaea;box-shadow: 0px 0px 6px 0px #eaeaea;width: 350px;">
-                            {% if address.default %}
-                            <p class="font-weight-bold">Predeterminada</p>
-                            {% endif %}
-                            <p class="font-weight-bold">{{address.name}}</p>
-                            <p class="font-weight-bold">{{address.address}} #{{address.num_ext}} {{address.num_int}}
-                            </p>
-                            <p class="font-weight-bold">{{address.suburb}}</p>
-                            <p class="font-weight-bold">{{address.city}}, {{address.state}}, CP {{address.zip_code}}
-                            </p>
-                            <div class="item d-flex w-100 justify-content-start mt-3 pt-4 "
-                                style="border-top: 1px solid #eaeaea;">
-                                <a href="{% url 'dashboard:edit_address' address.pk %}"
-                                    class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4 w-25 mr-2"
-                                    style="height: 30px;font-size: 12px; background-color: {{store_instance.store_meta.header_color}}">Editar</a>
-                                <a href="#" class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4 w-25 mr-2"
-                                    style="height: 30px;font-size: 12px; background-color: {{store_instance.store_meta.header_color}}">Eliminar</a>
+                    <div class="col-md-4">
+                        <div class="p-r-20 p-r-0-lg" >
+                            <div class="col-12 mb-4">
+                                <div class="item d-flex justify-content-between align-items-center flex-wrap p-t-55">
+                                    <h2 class="m-text26 p-b-0" style="color: #914c54 !important;">
+                                        MIS PEDIDOS
+                                    </h2>
+                                    {% if count_orders.count > 3 %}
+                                    <a href="{% url 'dashboard:orders' %}"
+                                        class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4 w-25 buttonMovil mt-0">
+                                        VER TODOS
+                                    </a>
+                                    {% endif %}
+                                </div>
+                                <div class="item d-flex flex-wrap justify-content-start ">
+                                    {% if not orders %}
+                                    <p class="font-weight-bold">SIN PEDIDOS</p><br>
+                                    {% endif %}
+                                    {% for order in orders %}
+                                    <div class="item mr-4 p-3 mt-3"
+                                        style="border: 1.5px solid #eaeaea;box-shadow: 0px 0px 6px 0px #eaeaea;width: 350px;">
+                                        <div class="item d-flex justify-content-between w-100">
+                                            {% for item in order.products_orders.all %}
+                                            {% with image=item.product.products_gallery.all.first.image %}
+                                            {% thumbnail image '240x240' crop='center' as img %}
+                                            {% if forloop.first %}
+                                            <img src="{{img.url}}" class="img-fluid" style="width: 8rem;">
+                                            {% endif %}
+                                            {% endthumbnail %}
+                                            {% endwith %}
+                                            {% endfor %}
+                                            <div class="item">
+                                                <p class="font-weight-bold">PEDIDO NO. {{order.folio}}</p>
+                                                <p class="font-weight-bold">Comprado el {{order.created|date:"d/m/y"}}</p>
+                                                <p class="font-weight-bold">Total : ${{order.order_payment.total|intcomma}}</p>
+                                                <p class="font-weight-bold">
+                                                    {% for product in order.products_orders.all %}
+                                                    {{product.product}}{% if not forloop.last %},{% endif %}
+                                                    {% endfor %}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="item d-flex w-100 justify-content-start mt-3 pt-4 "
+                                            style="border-top: 1px solid #eaeaea;">
+                                            <a href="" class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4 w-50 mr-2"
+                                                style="height: 30px;font-size: 12px;">Ver Detalles</a>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
                             </div>
                         </div>
-                        {% endfor %}
                     </div>
                 </div>
+                
             </div>
         </div>
     </div>
