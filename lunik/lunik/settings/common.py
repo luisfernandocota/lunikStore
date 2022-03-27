@@ -158,6 +158,7 @@ LOGIN_EXEMPT_URLS = (
     r'cart/',
     r'detalle/',
     r'productos/',
+    r'order/'
 )
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases

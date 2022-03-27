@@ -142,7 +142,7 @@
               
             </form>
           </div>
-          {% elif order.shop_order_delivery %}
+          {% elif order.shop_order_delivery and order.order_payment.status == 'EE' %}
           <div class="row">
             <code><hr></code>
             <p style="font-size:larger;">Datos de envío</p>

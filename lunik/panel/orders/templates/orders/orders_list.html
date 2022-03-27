@@ -15,6 +15,41 @@
         <div class="card-header d-flex justify-content-between align-items-center">
             <h4 class="card-title">Ordenes</h4>
             <div class="d-flex ">
+              <ul class="list-unstyled mb-0" style="padding: 7px;">
+                <li class="d-inline-block me-2 mb-1">
+                    <div class='form-check'>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox"
+                                class="form-check-input form-check-primary"
+                                name="process" id="id_process">
+                            <label class="form-check-label"
+                                for="id_process"> <i data-feather="activity" style="color:#914c54"></i>En proceso </label>
+                        </div>
+                    </div>
+                </li>
+                <li class="d-inline-block me-2 mb-1">
+                  <div class='form-check'>
+                      <div class="custom-control custom-checkbox">
+                          <input type="checkbox"
+                              class="form-check-input form-check-primary"
+                              name="send" id="id_send">
+                          <label class="form-check-label"
+                              for="id_send"> <i data-feather="truck" style="color:#914c54"></i>Enviado </label>
+                      </div>
+                  </div>
+                </li>
+                <li class="d-inline-block me-2 mb-1">
+                  <div class='form-check'>
+                      <div class="custom-control custom-checkbox">
+                          <input type="checkbox"
+                              class="form-check-input form-check-primary"
+                              name="delivered" id="id_delivered">
+                          <label class="form-check-label"
+                              for="id_delivered"> <i data-feather="check-circle" style="color:#914c54"></i>Entregado </label>
+                      </div>
+                  </div>
+                </li>
+              </ul>
               <form action="{% url 'orders:orders_list' %}" method="GET" class="js-search-form">
                 <div class="col-12 mb-1">
                   <div class="input-group mb-3">
