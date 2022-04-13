@@ -53,18 +53,15 @@ def orders(request):
 	context['orders'] = pagination(orders, page, 6)
 	return render(request, 'dashboard/orders/orders_list.html', context)
 
-def get_order(request, pk):
+def order_detail(request, pk):
 	context = {}
 	data = {}
 
 	context['order'] = get_object_or_404(ShopOrder, pk=pk)
 	context['customer'] = get_object_or_404(User, email=request.user.email, is_customer=True)
-	if request.is_ajax() and request.method == 'GET':
-		data['html_order'] = render_to_string('dashboard/orders/includes/partial_order.html',context, request=request)
-	else:
-		data['form_is_valid'] = False
 
-	return JsonResponse(data)
+	return render(request, 'dashboard/orders/order_detail.html', context)
+
 
 def password_edit(request):
 	context = {}
@@ -149,7 +146,7 @@ def get_zip_code(request):
 	data['community'] = addressInfo.community_name
 
 	list_address = [i.lstrip() for i in str(addressInfo.place_name).split(',')]
-	print(list_address)
+
 	data['suburbs'] = list_address
 
 	return JsonResponse(data)

@@ -28,7 +28,7 @@
                         <div class="row">
                             <div class="col-md-12" >
                                 <div style="border: 1.5px solid #eaeaea;box-shadow: 0px 0px 6px 0px #eaeaea; padding: 30px; margin-bottom: 25px;">
-                                        <div class="row" >
+                                    <div class="row" >
                                         <div class="col-md-6">
                                             <div class="item d-flex w-75 justify-content-between mt-3 mb-3">
                                                 <div class="item">
@@ -112,11 +112,16 @@
                                             {% endif %}
                                             {% for address in addresses %}
                                             <div class="item mr-4 p-3 mt-3"
-                                                style="border: 1.5px solid #eaeaea;box-shadow: 0px 0px 6px 0px #eaeaea;width: 350px; margin-inline: 10px;">
-                                                {% if address.default %}
-                                                <p class="font-weight-bold">Predeterminada</p>
-                                                {% endif %}
-                                                <p class="font-weight-bold">{{address.name}}</p>
+                                                style="border: 1.5px solid #eaeaea;box-shadow: 0px 0px 6px 0px #eaeaea;width: 405px; margin-inline: 10px;">
+                                                <p class="font-weight-bold">
+                                                    {% if address.default %}
+                                                    <span class="text-center">
+                                                        <i class="bi bi-check-circle"></i>
+                                                    </span>
+                                                    
+                                                    {% endif %}
+                                                    {{address.name}}
+                                                </p>
                                                 <p class="font-weight-bold">{{address.address}} #{{address.num_ext}} {{address.num_int}}
                                                 </p>
                                                 <p class="font-weight-bold">{{address.suburb}}</p>
@@ -129,13 +134,14 @@
                                                         style="font-size: 12px; margin-inline: 10px;">Editar</a>
                                                     <a href="#" class="flex-c-m four-buttons text-center"
                                                         style="font-size: 12px; ">Eliminar</a>
+
+
                                                 </div>
                                             </div>
                                             {% endfor %}
                                         </div>
                                     </div>
                                 </div>
-                                
                             </div>
                         </div>
                     </div>
@@ -159,13 +165,13 @@
                                     {% endif %}
                                     {% for order in orders %}
                                     <div class="item mr-4 p-3 mt-3"
-                                        style="border: 1.5px solid #eaeaea;box-shadow: 0px 0px 6px 0px #eaeaea;width: 350px;">
+                                        style="border: 1.5px solid #eaeaea;box-shadow: 0px 0px 6px 0px #eaeaea;width: 400px;">
                                         <div class="item d-flex justify-content-between w-100">
                                             {% for item in order.products_orders.all %}
                                             {% with image=item.product.products_gallery.all.first.image %}
                                             {% thumbnail image '240x240' crop='center' as img %}
                                             {% if forloop.first %}
-                                            <img src="{{img.url}}" class="img-fluid" style="width: 8rem;">
+                                            <img src="{{img.url}}" class="img-fluid" style="width: 9rem;">
                                             {% endif %}
                                             {% endthumbnail %}
                                             {% endwith %}
@@ -175,15 +181,13 @@
                                                 <p class="font-weight-bold">Comprado el {{order.created|date:"d/m/y"}}</p>
                                                 <p class="font-weight-bold">Total : ${{order.order_payment.total|intcomma}}</p>
                                                 <p class="font-weight-bold">
-                                                    {% for product in order.products_orders.all %}
-                                                    {{product.product}}{% if not forloop.last %},{% endif %}
-                                                    {% endfor %}
+                                                    Productos: {{order.total_products}}
                                                 </p>
                                             </div>
                                         </div>
                                         <div class="item d-flex w-100 justify-content-start mt-3 pt-4 "
                                             style="border-top: 1px solid #eaeaea;">
-                                            <a href="" class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4 w-50 mr-2"
+                                            <a href="{% url 'dashboard:order_detail' order.pk %}" class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4 w-50 mr-2"
                                                 style="height: 30px;font-size: 12px;">Ver Detalles</a>
                                         </div>
                                     </div>

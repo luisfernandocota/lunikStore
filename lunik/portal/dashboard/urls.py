@@ -16,7 +16,7 @@ urlpatterns = [
 	#-- Orders
 	path('ordenes/', views.orders, name="orders"),
 	#-- Get Order detail
-	path('ordenes/detalle/<int:pk>', views.get_order, name='get_order'),
+	path('ordenes/detalle/<int:pk>', views.order_detail, name='order_detail'),
 	#-- Change password
     path('cambiar_contrasena/', views.password_edit, name='password_edit'),
 ]

@@ -146,6 +146,17 @@ class ShopOrder(TimeStampedModel):
     def subtotal_shopping(self):
         return (self.order_payment.total)
 
+class ShopOrderCancel(TimeStampedModel):
+    order = models.OneToOneField(ShopOrder,related_name='order_cancel',verbose_name='Shop order', on_delete=models.CASCADE)
+    comment = models.TextField(verbose_name='Comment')
+
+    class Meta:
+        db_table = 'shop_orders_canceled'
+
+    def __str__(self):
+        return self.order.folio
+
+
 # Create your models here.
 class ShopOrderDelivery(models.Model):
     order = models.OneToOneField(ShopOrder,related_name='order_delivery',verbose_name='Shop order', on_delete=models.CASCADE)
