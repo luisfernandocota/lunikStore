@@ -1,0 +1,135 @@
+{% extends 'base_shop.html' %}
+
+{% load humanize %}
+{% load thumbnail %}
+{% block title %}{{store_instance.name}}{% endblock title %}
+{% block subtitle %} Mis pedidos {% endblock subtitle %}
+
+{% block menu %}
+{% include 'shop/includes/partial_menu.html' %}
+{% endblock menu %}
+{% block cart %}
+{% include 'shop/includes/partial_cart_detail.html' %}
+{% endblock cart %}
+
+{% block content %}
+	<!-- content page -->
+	<section class="bgwhite p-t-66 p-b-60" style="margin-top: 100px; margin-bottom: 50px;">
+		<div class="container">
+			<div class="row">
+                <div class="col-md-12">
+                    <div class="blog-detail-txt p-t-33">
+                        <h4 class="p-b-11 m-text24">
+                            Pedido #{{order.folio}}
+                        </h4>
+                    </div>
+                    <div style="border: 1.5px solid #eaeaea;box-shadow: 0px 0px 6px 0px #eaeaea; padding: 30px; margin-bottom: 25px;">
+                            <div class="s-text8 flex-w flex-m p-b-21">
+                                <span>
+                                    Realizado por {{customer.get_full_name}}
+                                    <span class="m-l-3 m-r-6">|</span>
+                                </span>
+                
+                                <span>
+                                    {{order.created}}
+                                    <span class="m-l-3 m-r-6">|</span>
+                                </span>
+                
+                                <span>
+                                    {{order.total_products}} Producto(s)
+                                </span>
+                            </div>
+                            <div class="s-text8 flex-w flex-m p-b-21">
+                        <h5 class="p-b-11 m-text24">
+
+                                {% if order.order_payment.status == 'PE'%}Estamos validando tu pedido.
+                            {% elif order.order_payment.status == 'EP'%}Tu pedido esta en
+                            proceso.{% elif order.order_payment.status == 'EE' %}Tu pedido ha sido
+                            enviado.{% elif order.order_payment.status == 'EN' %}<span style="color:green">Tu pedido ha sido entregado.</span>{% endif %}
+                        </h5>
+                            </div>
+                            
+                    </div>
+                </div>
+                {% for item in order.products_orders.all %}
+                <div class="col-md-6">
+                    <div class="container" style="border: 1.5px solid #eaeaea;box-shadow: 0px 0px 6px 0px #eaeaea; padding: 30px; margin-bottom: 25px;">
+        
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="m-b-10" style="width: 300px;">
+                                    {% with image=item.product.products_gallery.all.first.image %}
+                                    {% thumbnail image '200x200' crop='center' as img %}
+                                    <img src="{{img.url}}">
+                                    {% endthumbnail %}
+                                    {% endwith %}
+                                </div>
+                            </div>
+        
+                            <div class="col-md-7">
+                                <h4 class="m-text-24 p-b-11">{{item.product.name}}<span class="m-r-6"> |
+                                        {{item.product.model}} </span></h4><br>
+                                <span class="m-r-6">{{item.quantity}} x $ {{item.price}} </span><br>
+                                <span class="m-r-6">Tamaño: {{item.size}} </span><br>
+                                <span class="m-r-6">Subtotal: $ {{order.subtotal_shopping}} </span><br>
+                                {% if item.product.products_properties.has_personalization %}
+                                <span class="m-r-6">Nombre personalizado: {{item.name_personalization}}</span><br>
+                                {% endif %}
+                                <div class="size12" style="margin-top: 20px;">
+                                    <!-- Button -->
+                                    <a href="{% url 'shop:product_detail' item.product.slug %}"
+                                        class="four-buttons">
+                                        Comprar de nuevo
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                
+                <div class="col-md-12">
+                    <div class="container m-t-40" style="border: 1.5px solid #eaeaea;box-shadow: 0px 0px 6px 0px #eaeaea; padding: 30px; margin-bottom: 25px;">
+                        <div class="row">
+                            {% if order.order_payment.status != 'PE'%}
+                            <div class="col-md-6">
+                                <h4 class="m-text-24 p-b-11">
+                                    Seguimiento de envio
+                                </h4>
+                                <br>
+                                <span class="m-r-6">El pedido se entregara entre el<strong> {{order.shop_order_delivery.range_date_start|date:"d"}} y {{order.shop_order_delivery.range_date_end|date:"d"}} de {{order.shop_order_delivery.range_date_end|date:"F"}}</strong></span><br>
+                                <span class="m-r-6">Paquetería:<strong> {{order.shop_order_delivery.delivery_company}} </strong></span><br>
+                                    <span class="m-r-6">Rastreo: <strong>{{order.shop_order_delivery.tracking_number}}</strong></span><br>
+                            </div>
+                            {% endif %}
+                            <div class="col-md-6">
+                                <h4 class="m-text-24 p-b-11">
+                                    Datos de envio
+                                </h4>
+                                <br>
+                                <span class="m-r-6">El pedido se entregara a: <strong>{{order.name}}</strong></span><br>
+                                <span class="m-r-6">Se enviará a: {{order.order_delivery.address}}
+                                    #{{order.order_delivery.num_ext}}</span><br>
+                                <span class="m-r-6">{{order.order_delivery.suburb}}, CP. {{order.order_delivery.zip_code}}</span>
+                                </span><br>
+                                <span class="m-r-6">{{order.order_delivery.city}}, {{order.order_delivery.state}}</span> </span><br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            {% if order.order_payment.status == 'PE' %}
+            <div class="row">
+                <div class="col-md-3 offset-md-9">
+                    <a class="m-r-6" style="float: right; color: red !important;">Cancelar pedido</a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+{% endblock content %}
+
+{% block customjs %}
+<script src="{{STATIC_URL}}js/shop.js"></script>
+{% endblock customjs %}
