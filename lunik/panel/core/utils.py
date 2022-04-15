@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 from datetime import datetime
+from urllib import request
 
 
 #import weasyprint
@@ -185,6 +186,31 @@ def delete_item_store(request,instance,namespace,message):
         data['html_delete'] = render_to_string('core/snippets/modal_delete.html', context, request=request)
 
     return data
+
+# Util view
+def filters_by_request(request):
+    filters = {}
+
+    pending = request.GET.get('pending')
+    process = request.GET.get('process')
+    send = request.GET.get('send')
+    delivered = request.GET.get('delivered')
+
+
+    if pending == 'true':
+        filter_pending = 'order_payment__status__icontains'
+        filters[filter_pending] = 'PE'
+    if process == 'true':
+        filter_process = 'order_payment__status__icontains'
+        filters[filter_process] = 'EP'
+    if send == 'true':
+        filter_send = 'order_payment__status__icontains'
+        filters[filter_send] = 'EE'
+    if delivered == 'true': 
+        filter_delivered = 'order_payment__status__icontains'
+        filters[filter_delivered] = 'EN'
+
+    return filters
 
 # def export_xls_file(filename,sheet,headers,qs):
 #     response = HttpResponse(content_type='application/ms-excel')

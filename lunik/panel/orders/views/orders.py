@@ -11,6 +11,7 @@ from django.http import JsonResponse,HttpResponse
 from django.template.loader import render_to_string
 from django.utils import timezone,formats
 from django.contrib import messages
+from panel.core.utils import filters_by_request
 
 from panel.core.utils import pagination, sendmail
 
@@ -27,27 +28,29 @@ def orders_list(request):
 
 	# context['total_products'] = context['store'].all().count()
 	if request.is_ajax() and request.method == 'GET':
-
+		filters = filters_by_request(request)
 		context['form_search'] = SearchOrderForm(request.GET)
-
 		if context['form_search'].is_valid():
 			query = context['form_search'].cleaned_data['query']
-			if query is not None:
-				if query:
-					lookups = Q(name__icontains=query)|Q(folio__icontains=query)|Q(order_payment__payment_intent__icontains=query)|Q(shop_order_delivery__tracking_number__icontains=query)
-					context['orders_list'] = ShopOrder.objects.select_related('order_payment').filter(lookups)\
-															.order_by('-created')
-				else:
-					context['orders_list'] = ShopOrder.objects.select_related('customer').filter(status=True).order_by('-created')
 
-				if context['orders_list'].exists():
-					data['search_valid'] = True
-					data['html_orders'] = render_to_string('orders/includes/partial_orders_shop_list.html', context, request=request)
-				else:
-					data['search_valid'] = False
-					data['message'] = 'Orden no encontrada'
+			if query and query is not None:
+				lookups = Q(name__icontains=query)|Q(folio__icontains=query)|Q(order_payment__payment_intent__icontains=query)|Q(shop_order_delivery__tracking_number__icontains=query)
+				context['orders_list'] = ShopOrder.objects.select_related('order_payment').filter(lookups)\
+														.order_by('-created')
+			elif filters:
+				context['orders_list'] = ShopOrder.objects.select_related('order_payment').filter(**filters)\
+														.order_by('-created')
+			else:
+				context['orders_list'] = ShopOrder.objects.select_related('customer').filter(status=True).order_by('-created')
 
-				return JsonResponse(data)
+			if context['orders_list'].exists():
+				data['search_valid'] = True
+				data['html_orders'] = render_to_string('orders/includes/partial_orders_shop_list.html', context, request=request)
+			else:
+				data['search_valid'] = False
+				data['message'] = 'Orden no encontrada'
+
+			return JsonResponse(data)
 
 	context['form_search'] = SearchStoreForm()
 
