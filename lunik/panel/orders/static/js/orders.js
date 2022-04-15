@@ -1,5 +1,58 @@
 $(document).ready(function() {
 
+  $("input:checkbox").on('click', function() {
+
+    // in the handler, 'this' refers to the box clicked on
+    var $box = $(this);
+    if ($box.is(":checked")) {
+      // the name of the box is retrieved using the .attr() method
+      // as it is assumed and expected to be immutable
+      var group = "input:checkbox[name='" + $box.attr("name") + "']";
+      // the checked state of the group/box on the other hand will change
+      // and the current value is retrieved using .prop() method
+      $(group).prop("checked", false);
+      $box.prop("checked", true);
+    } else {
+      $box.prop("checked", false);
+    }
+  });
+
+  $('.filter-checkbox').change(function() {
+    let checkFilters = new Array();
+    var checkbox = $(this);
+    var pending = $('#pending').is(':checked'); 
+    var process = $('#process').is(':checked'); 
+    var send = $('#send').is(':checked'); 
+    var delivered = $('#delivered').is(':checked'); 
+    console.log(pending, process, send, delivered)
+    checkFilters.push({
+      pending : pending,
+      process : process, 
+      send : send,
+      delivered : delivered
+    })
+
+      $.ajax({
+        url: checkbox.attr('data-url'),
+        data: {'pending':pending, 'process':process, 'send':send, 'delivered':delivered},
+        type: 'get',
+        dataType: 'json',
+        beforeSend: function () {
+          $("#modal-box").modal("show");
+        },
+        success: function (data) {
+          if (data.search_valid) {
+            $(".orders_list").empty();
+            $(".orders_list").append(data.html_orders);
+            feather.replace();
+  
+          }else{
+            toastr.error(data.message);
+          }
+        }
+      });
+
+  });
   /* SEARCH ORDERS/CAMPAIGNS */
   $(".card-header").on("submit", ".js-search-form", function () {
     var form = $(this);
