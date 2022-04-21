@@ -91,7 +91,7 @@
                 <div class="col-md-12">
                     <div class="container m-t-40" style="border: 1.5px solid #eaeaea;box-shadow: 0px 0px 6px 0px #eaeaea; padding: 30px; margin-bottom: 25px;">
                         <div class="row">
-                            {% if order.order_payment.status != 'PE'%}
+                            {% if order.order_payment.status == 'EE' or order.order_payment.status == 'EN' %}
                             <div class="col-md-6">
                                 <h4 class="m-text-24 p-b-11">
                                     Seguimiento de envio

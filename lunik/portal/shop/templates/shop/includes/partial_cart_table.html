@@ -53,7 +53,9 @@
                         <div>
 
                             {{item.product}} <br>
+                            {% if item.product.products_properties.has_personalization %}
                             Nombre personalizado: "{{key|get_custom_name:item}}"
+                            {% endif %}
 
                         </div>
 

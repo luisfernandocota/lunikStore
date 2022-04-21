@@ -178,7 +178,7 @@ def product_detail(request, slug):
 	#context['related_products'] = context['store'].store_products.select_related('product').exclude(product__slug=slug).filter(product__available=True).order_by('-created')[:4]
 	if request.POST:
 
-		context['form_product'] = ProductShopCart(request.POST,product_sizes=context['product'].sizes.all())
+		context['form_product'] = ProductShopCart(request.POST,product_sizes=context['product'].sizes.all(), product_pk=context['product'].pk)
 		if context['form_product'].is_valid():
 			#-- Initialite cart
 			cart = Cart(request)
@@ -194,7 +194,7 @@ def product_detail(request, slug):
 			return redirect('shop:product_detail', slug)
 
 	else:
-		context['form_product'] = ProductShopCart(initial={'product_pk':context['product'].pk},product_sizes=context['product'].sizes.all())
+		context['form_product'] = ProductShopCart(initial={'product_pk':context['product'].pk},product_sizes=context['product'].sizes.all(), product_pk=context['product'].pk)
 
 
 	return render(request,'shop/product_detail.html',context)

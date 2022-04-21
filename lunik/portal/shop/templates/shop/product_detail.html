@@ -735,9 +735,22 @@
 <script type="text/javascript" src="{{STATIC_URL}}shop/js/zoomImage.js"></script>
 
 <script type="text/javascript" src="{{STATIC_URL}}shop/js/product_detail.js"></script>
+
 {% endblock customjs %}
 
 {% block docready %}
+{% for field in form_product %}
+  {% for error in field.errors %}
+     toastr.error("{{error}}");
+  {% endfor %}
+{% endfor %}
+
+{% for field in form_product %}
+  {% for error in field.errors %}
+    $("#{{field.auto_id}}").addClass('is-invalid');
+  {% endfor %}
+{% endfor %}
+
 imageZoom("photo_1", "zoom");
 
 {% endblock docready %}

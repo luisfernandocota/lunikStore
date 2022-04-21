@@ -199,10 +199,18 @@ class ProductShopCart(forms.Form):
 
     def __init__(self, *args, **kwargs):
         sizes = kwargs.pop('product_sizes')
+        self.product_pk = kwargs.pop('product_pk')
         super(ProductShopCart, self).__init__(*args, **kwargs)
-
+        
         self.fields['sizes'].queryset = sizes
         self.fields['sizes'].label_from_instance = lambda obj: "%s + $(%s)  " % (obj.name, obj.charge) if obj.charge else obj.name
+
+    def clean(self):
+        product = Product.objects.get(pk=self.product_pk)
+        cd = self.cleaned_data
+        if not cd.get('name_personalization') and product.products_properties.has_personalization:
+            self._errors['name_personalization'] = self.error_class(['Captura el nombre personalizado'])
+        return cd
 
 class QuantityCartForm(forms.Form):
     quantity = forms.IntegerField(
