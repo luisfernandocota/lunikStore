@@ -7,7 +7,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.urls import reverse
 from django.utils.datastructures import MultiValueDict
 
-from portal.shop.models import ShopOrder,ShopOrderDelivery, Contact
+from portal.shop.models import ShopOrder,ShopOrderDelivery, Contact, ShopOrderCancel
 from panel.products.models import Product
 SHIPPING_OPTIONS = (
     #('SS','Pick up at school'),
@@ -282,3 +282,19 @@ class ContactForm(forms.ModelForm):
         for field in self.fields:
             if self.fields[field].required:
                 self.fields[field].label = format_html('{} <span class="text-danger">*</span>',self.fields[field].label)
+
+class OrderCanceledForm(forms.ModelForm):
+    comment = forms.CharField(
+        label = 'Comentarios',
+        error_messages = {'required':'Debe capturar algún comentario'},
+        widget = forms.Textarea(
+            attrs = {
+                'class': 'form-control',
+                'rows': '5',
+                'placeholder' : 'Dinos que estuvo mal en tu pedido',
+            }
+        )
+    )
+    class Meta:
+        model = ShopOrderCancel
+        fields = ('comment',)

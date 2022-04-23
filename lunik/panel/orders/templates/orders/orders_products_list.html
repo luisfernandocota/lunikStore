@@ -23,36 +23,47 @@
               title="Regresar">
               <i class="feather-24" data-feather="arrow-left"></i>
             </a> Folio de compra: <span style="color:#914c54">{{order.folio}} 
-              {% if order.order_payment.status == 'PE' %}
-              <span class="label label-warning"><i data-feather="clock"></i> Pendiente</span>
-              {% elif order.order_payment.status == 'EP' %}
-              <span class="label label-success"><i data-feather="activity"></i> En proceso</span>
-              {% elif order.order_payment.status == 'EE' %}
-              <span class="label label-info"><i data-feather="truck"></i> Enviado</span>
-              {% elif order.order_payment.status == 'EN' %}
-              <span class="label label-primary" style="color: #914c54;"><i data-feather="check-circle"></i> Entregado</span>
-              {% endif %}</span>
+              {% if not order.active %}
+              <span class="label label-warning"><i data-feather="x-circle"></i> Cancelado</span>
+              {% else %}
+                {% if order.order_payment.status == 'PE' %}
+                <span class="label label-warning"><i data-feather="clock"></i> Pendiente</span>
+                {% elif order.order_payment.status == 'EP' %}
+                <span class="label label-success"><i data-feather="activity"></i> En proceso</span>
+                {% elif order.order_payment.status == 'EE' %}
+                <span class="label label-info"><i data-feather="truck"></i> Enviado</span>
+                {% elif order.order_payment.status == 'EN' %}
+                <span class="label label-primary" style="color: #914c54;"><i data-feather="check-circle"></i> Entregado</span>
+                {% endif %}</span>
+              {% endif %}
           </h4>
-
-          {% if order.order_payment.status == 'PE' %}
-          <a href="{% url 'orders:orders_shipping_status' order.pk %}"
-            style="float:right; position: relative; margin-top: -40px;" class="btn btn-primary btn-sm"
-            data-toggle="tooltip" data-placement="top"
-            title="Al darle 'iniciar pedido' la orden cambiará de estatus y se le notificará al cliente que su pedido esta siendo realizado. ">
-            <i data-feather="play"></i></i>Iniciar pedido
-          </a>
-          {% elif order.order_payment.status == 'EE' %}
-          <a href="{% url 'orders:orders_shipping_status' order.pk %}"
-            style="float:right; position: relative; margin-top: -40px;" class="btn btn-primary btn-sm"
-            data-toggle="tooltip" data-placement="top" title="El pedido cambiará a estatus de finalizado ">
-            <i data-feather="target"></i></i>Finalizar pedido
-          </a>
-          {% elif order.order_payment.status == 'EN' %}
-          <a href="#"
-            style="float:right; position: relative; margin-top: -40px;" class="btn btn-primary btn-sm"
-            data-toggle="tooltip" data-placement="top" title="El pedido ha sido realizado y entregado ">
-            <i data-feather="check"></i></i>Pedido completado
-          </a>
+          {% if not order.active %}
+          <a style="float:right; position: relative; margin-top: -40px;" class="btn btn-primary btn-sm"
+              data-toggle="tooltip" data-placement="top"
+              title="Pedido cancelado el {{order.order_cancel.created|date:'d F Y'}}">
+              <i data-feather="x"></i></i>Pedido cancelado
+            </a>
+          {% else %}
+            {% if order.order_payment.status == 'PE' %}
+            <a href="{% url 'orders:orders_shipping_status' order.pk %}"
+              style="float:right; position: relative; margin-top: -40px;" class="btn btn-primary btn-sm"
+              data-toggle="tooltip" data-placement="top"
+              title="Al darle 'iniciar pedido' la orden cambiará de estatus y se le notificará al cliente que su pedido esta siendo realizado. ">
+              <i data-feather="play"></i></i>Iniciar pedido
+            </a>
+            {% elif order.order_payment.status == 'EE' %}
+            <a href="{% url 'orders:orders_shipping_status' order.pk %}"
+              style="float:right; position: relative; margin-top: -40px;" class="btn btn-primary btn-sm"
+              data-toggle="tooltip" data-placement="top" title="El pedido cambiará a estatus de finalizado ">
+              <i data-feather="target"></i></i>Finalizar pedido
+            </a>
+            {% elif order.order_payment.status == 'EN' %}
+            <a href="#"
+              style="float:right; position: relative; margin-top: -40px;" class="btn btn-primary btn-sm"
+              data-toggle="tooltip" data-placement="top" title="El pedido ha sido realizado y entregado ">
+              <i data-feather="check"></i></i>Pedido completado
+            </a>
+            {% endif %}
           {% endif %}
         </div>
         <div class="card-body">

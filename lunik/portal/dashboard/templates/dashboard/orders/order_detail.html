@@ -12,6 +12,12 @@
 {% include 'shop/includes/partial_cart_detail.html' %}
 {% endblock cart %}
 
+{% block cssStyle %}
+.hidden{
+    display : none;
+}
+{% endblock cssStyle %}
+
 {% block content %}
 	<!-- content page -->
 	<section class="bgwhite p-t-66 p-b-60" style="margin-top: 100px; margin-bottom: 50px;">
@@ -40,14 +46,17 @@
                                 </span>
                             </div>
                             <div class="s-text8 flex-w flex-m p-b-21">
-                        <h5 class="p-b-11 m-text24">
-
-                                {% if order.order_payment.status == 'PE'%}Estamos validando tu pedido.
-                            {% elif order.order_payment.status == 'EP'%}Tu pedido esta en
-                            proceso.{% elif order.order_payment.status == 'EE' %}Tu pedido ha sido
-                            enviado.{% elif order.order_payment.status == 'EN' %}<span style="color:green">Tu pedido ha sido entregado.</span>{% endif %}
-                        </h5>
-                            </div>
+                            <h5 class="p-b-11 m-text24">
+                                {% if not order.active %}
+                                Tu pedido ha sido <span style="color: red;">cancelado</span>
+                                {% else %}
+                                    {% if order.order_payment.status == 'PE'%}Estamos validando tu pedido.
+                                    {% elif order.order_payment.status == 'EP'%}Tu pedido esta en
+                                    proceso.{% elif order.order_payment.status == 'EE' %}Tu pedido ha sido
+                                    enviado.{% elif order.order_payment.status == 'EN' %}<span style="color:green">Tu pedido ha sido entregado.</span>{% endif %}
+                                {% endif %}
+                            </h5>
+                        </div>
                             
                     </div>
                 </div>
@@ -87,7 +96,7 @@
                     </div>
                 </div>
                 {% endfor %}
-                
+                {% if order.active %}
                 <div class="col-md-12">
                     <div class="container m-t-40" style="border: 1.5px solid #eaeaea;box-shadow: 0px 0px 6px 0px #eaeaea; padding: 30px; margin-bottom: 25px;">
                         <div class="row">
@@ -117,12 +126,28 @@
                         </div>
                     </div>
                 </div>
+                {% endif %}
                 
             </div>
-            {% if order.order_payment.status == 'PE' %}
+            {% if order.order_payment.status == 'PE' and order.active %}
             <div class="row">
                 <div class="col-md-3 offset-md-9">
-                    <a class="m-r-6" style="float: right; color: red !important;">Cancelar pedido</a>
+                    <a class="m-r-6" style="float: right; color: red !important;" id="cancelTxt">Cancelar pedido</a>
+                </div>
+            </div>
+            <div class="row hidden" id="cancelForm" > 
+                <div class="col-md-4 offset-md-8">
+                    <form action="{% url 'dashboard:order_cancel' order.pk %}" method="POST" class="js-cancel-form">
+                        {% csrf_token %}
+
+                            {{form.comment}}
+            
+                        <div class="align-items-center" style="float: right;">
+                            <button type="submit" class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 four-buttons trans-0-4 " >
+                                Si, deseo cancelar.
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
             {% endif %}
@@ -133,3 +158,27 @@
 {% block customjs %}
 <script src="{{STATIC_URL}}js/shop.js"></script>
 {% endblock customjs %}
+
+{% block docready %}
+$('#cancelTxt').on('click', function(){
+
+    $("#cancelForm").toggleClass('hidden');
+});
+
+$(".bgwhite").on("submit", ".js-cancel-form", function () {
+    var form = $(this);
+    $.ajax({
+        url: form.attr("action"),
+        data: form.serialize(),
+        type: form.attr("method"),
+        dataType: 'json',
+        success: function (data) {
+            console.log(data)
+            if (data.valid) {
+                window.location = window.location;
+            }
+        }
+    });
+    return false;
+});
+{% endblock docready %}

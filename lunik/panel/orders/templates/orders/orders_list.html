@@ -60,6 +60,17 @@
                       </div>
                   </div>
                 </li>
+                <li class="d-inline-block me-2 mb-1">
+                  <div class='form-check'>
+                      <div class="custom-control custom-checkbox">
+                          <input type="checkbox"
+                              class="form-check-input form-check-primary filter-checkbox"
+                              name="fooby[1][]" id="canceled">
+                          <label class="form-check-label"
+                              for="canceled"> <i data-feather="x-circle" style="color:#914c54"></i>Cancelado </label>
+                      </div>
+                  </div>
+                </li>
               </ul>
               <form action="{% url 'orders:orders_list' %}" method="GET" class="js-search-form">
                 <div class="col-12 mb-1">

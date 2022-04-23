@@ -24,17 +24,19 @@ $(document).ready(function() {
     var process = $('#process').is(':checked'); 
     var send = $('#send').is(':checked'); 
     var delivered = $('#delivered').is(':checked'); 
-    console.log(pending, process, send, delivered)
+    var canceled = $('#canceled').is(':checked');
+    console.log(pending, process, send, delivered, canceled)
     checkFilters.push({
       pending : pending,
       process : process, 
       send : send,
-      delivered : delivered
+      delivered : delivered,
+      canceled : canceled
     })
 
       $.ajax({
         url: checkbox.attr('data-url'),
-        data: {'pending':pending, 'process':process, 'send':send, 'delivered':delivered},
+        data: {'pending':pending, 'process':process, 'send':send, 'delivered':delivered, 'canceled':canceled},
         type: 'get',
         dataType: 'json',
         beforeSend: function () {

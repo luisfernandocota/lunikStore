@@ -56,6 +56,7 @@ class ShopOrder(TimeStampedModel):
     email = models.EmailField(max_length=80,verbose_name='Email')
     phone = models.CharField(max_length=30,verbose_name='Phone')
     customer = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='shop_orders', verbose_name='Customer', on_delete=models.CASCADE, null=True)
+    active = models.BooleanField(default=True, verbose_name='Active')
     status = models.BooleanField(verbose_name='Status',default=True)
 
     class Meta:

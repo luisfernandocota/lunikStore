@@ -17,7 +17,7 @@
         </ol>
 
     </nav>
-
+    {% if not request.user.is_authenticated and not request.user.is_customer %}
     <div class="contact-information pt-4">
 
         <p class="fw-bold">
@@ -60,6 +60,7 @@
         </form> {% endcomment %}
 
     </div>
+    {% endif %}
 
     <div class="shipping-information pt-4">
 

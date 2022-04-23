@@ -14,6 +14,7 @@ from panel.core.utils import user_logs, pagination
 from panel.accounts.models import User
 from portal.dashboard.forms import UserProfileForm, ChangePasswordForm
 from portal.shop.models import ShopOrder
+from portal.shop.forms import OrderCanceledForm
 from portal.dashboard.models import Address
 from portal.dashboard.forms import AddressForm
 # Create your views here.
@@ -55,13 +56,28 @@ def orders(request):
 
 def order_detail(request, pk):
 	context = {}
-	data = {}
 
 	context['order'] = get_object_or_404(ShopOrder, pk=pk)
 	context['customer'] = get_object_or_404(User, email=request.user.email, is_customer=True)
-
+	context['form'] = OrderCanceledForm()
 	return render(request, 'dashboard/orders/order_detail.html', context)
 
+def order_cancel(request,pk):
+	data = {}
+	order = get_object_or_404(ShopOrder, pk=pk)
+	if request.is_ajax() and request.method == 'POST':
+		form = OrderCanceledForm(request.POST)
+		if form.is_valid():
+			cancel = form.save(commit=False)
+			cancel.order = order
+			cancel.save()
+
+			order.active = False
+			order.save() 
+			data['valid'] = True
+			data['urlRedirect'] = '/dashboard/ordenes/detalle/%s' %(pk)
+		return JsonResponse(data)
+	
 
 def password_edit(request):
 	context = {}

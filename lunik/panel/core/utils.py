@@ -195,7 +195,7 @@ def filters_by_request(request):
     process = request.GET.get('process')
     send = request.GET.get('send')
     delivered = request.GET.get('delivered')
-
+    canceled = request.GET.get('canceled')
 
     if pending == 'true':
         filter_pending = 'order_payment__status__icontains'
@@ -209,7 +209,9 @@ def filters_by_request(request):
     if delivered == 'true': 
         filter_delivered = 'order_payment__status__icontains'
         filters[filter_delivered] = 'EN'
-
+    if canceled == 'true':
+        filter_canceled = 'active'
+        filters[filter_canceled] = False
     return filters
 
 # def export_xls_file(filename,sheet,headers,qs):

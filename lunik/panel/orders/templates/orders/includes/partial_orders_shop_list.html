@@ -29,19 +29,28 @@
       <small>Productos</small><br>
     </td>
     <td class="project-status text-center">
-      {% if order.order_payment.status == 'PE' %}
-        <span class="label label-warning"><i data-feather="clock"></i> Pendiente</span>
-      {% elif order.order_payment.status == 'EP' %}
-      <span class="label label-success"><i data-feather="activity"></i> En proceso</span>
-      {% elif order.order_payment.status == 'EE' %}
-      <span class="label label-info"><i data-feather="truck"></i> Enviado</span>
-      {% elif order.order_payment.status == 'EN' %}
-      <span class="label label-primary" style="color: #914c54;"><i data-feather="check-circle"></i> Entregado</span>
+      {% if not order.active %}
+        <span class="label label-warning"><i data-feather="x-circle"></i> Cancelado</span><br>
+        <small data-toggle="tooltip" data-placement="top" title="Fecha de cancelación"><b>{{order.order_cancel.created|date:"d F Y"}}</b></small>
+        
+      {% else %}
+        {% if order.order_payment.status == 'PE' %}
+          <span class="label label-warning"><i data-feather="clock"></i> Pendiente</span>
+        {% elif order.order_payment.status == 'EP' %}
+        <span class="label label-success"><i data-feather="activity"></i> En proceso</span>
+        {% elif order.order_payment.status == 'EE' %}
+        <span class="label label-info"><i data-feather="truck"></i> Enviado</span>
+        {% elif order.order_payment.status == 'EN' %}
+        <span class="label label-primary" style="color: #914c54;"><i data-feather="check-circle"></i> Entregado</span>
+        {% endif %}
       {% endif %}
 
     </td>
     <td class="project-actions text-center">
-      {% if order.order_payment.status == 'PE' %}
+      {% if not order.active %}
+      <a data-toggle="tooltip" data-placement="top"  title="Comentario: {{order.order_cancel.comment}}"><button type="button" class="btn btn-white btn-sm"><i data-feather="message-square"></i></button></a>
+      {% endif %}
+      {% if order.order_payment.status == 'PE' and order.active %}
       <button data-url="{% url 'orders:orders_shop_sendmail' order.pk %}" data-toggle="tooltip" data-placement="top" title="Reenviar el correo al cliente" class="btn btn-white btn-sm js-send-shop">
         <i data-feather="mail"></i>
       </button>
