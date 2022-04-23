@@ -11,6 +11,7 @@ from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from django.utils.translation import ugettext as _
 import datetime
+from portal.shop.models import ShopOrder
 
 from panel.authorization.forms import LoginForm
 from panel.core.tokens import account_activation_token
@@ -29,6 +30,13 @@ def register_user(request):
 			user.set_password(password)
 			user.save()
 
+			orders = ShopOrder.objects.filter(email=user.email)
+			if orders:
+				for order in orders.all():
+					if not order.customer:
+						order.customer = user
+						order.save()
+			
 			#-- Send email
 			uid = urlsafe_base64_encode(force_bytes(user.pk))
 			token = account_activation_token.make_token(user)
