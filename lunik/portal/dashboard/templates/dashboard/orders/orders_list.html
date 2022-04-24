@@ -62,11 +62,16 @@
 										<div class="size12" style="margin: 20px 0;">
 											<!-- Button -->
 											<span>
-												{% if order.order_payment.status == 'PE'%}Pendiente <i class="bi bi-clock"></i>
-												{% elif order.order_payment.status == 'EP'%}En proceso <i class="bi-pin"></i>
-												{% elif order.order_payment.status == 'EE' %}Enviado <i class="bi bi-truck"></i>
-												{% elif order.order_payment.status == 'EN' %}<span style="color:green">Entregado <i class="bi bi-check-circle"></i></span>
+												{% if not order.active %}
+												Cancelado <i class="bi bi-x-circle"></i>
+												{% else %}
+													{% if order.order_payment.status == 'PE'%}Pendiente <i class="bi bi-clock"></i>
+													{% elif order.order_payment.status == 'EP'%}En proceso <i class="bi-pin"></i>
+													{% elif order.order_payment.status == 'EE' %}Enviado <i class="bi bi-truck"></i>
+													{% elif order.order_payment.status == 'EN' %}<span style="color:green">Entregado <i class="bi bi-check-circle"></i></span>
+													{% endif %}
 												{% endif %}
+
 											</span>
 										</div>
 									</div>

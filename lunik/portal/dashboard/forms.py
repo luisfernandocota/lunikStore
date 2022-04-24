@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from django.utils.html import format_html
+from django.core.exceptions import ObjectDoesNotExist
 
 from panel.accounts.models import User
 from .models import Address
@@ -264,9 +265,12 @@ class AddressForm(forms.ModelForm):
                 self.fields[field].label = format_html('{} <span class="text-danger">*</span>',self.fields[field].label)
     def clean(self):
         cd = self.cleaned_data
-        inst =  Address.objects.get(pk=self.instance.pk)
-        obj = Address.objects.filter(user=self.request.user, default=True).exclude(pk=self.instance.pk).exists()
-        if not inst.default:
-            if not obj:
-                self.add_error('default', 'Una dirección debe de ser predeterminada')
+        try:
+            inst =  Address.objects.get(pk=self.instance.pk)
+            obj = Address.objects.filter(user=self.request.user, default=True).exclude(pk=self.instance.pk).exists()
+            if not inst.default:
+                if not obj:
+                    self.add_error('default', 'Una dirección debe de ser predeterminada')
+        except ObjectDoesNotExist:
+            pass
         return cd

@@ -8,6 +8,7 @@ from django.template.loader import render_to_string
 from django.http import JsonResponse
 
 import pgeocode
+import stripe
 
 from panel.core.decorators import access_for_customer
 from panel.core.utils import user_logs, pagination
@@ -17,6 +18,9 @@ from portal.shop.models import ShopOrder
 from portal.shop.forms import OrderCanceledForm
 from portal.dashboard.models import Address
 from portal.dashboard.forms import AddressForm
+
+stripe.api_key = 'sk_test_51H5LaSIKF8Hi9Jx6yW3RzsyKlJDSLAcxolhL6C7g4G1PqjXUTdRfuhmnPap94WJn0q908PqVauxGBh3EHWykv90t00UkIeOM2P'
+
 # Create your views here.
 def profile(request):
 	context = {}
@@ -76,6 +80,9 @@ def order_cancel(request,pk):
 			order.save() 
 			data['valid'] = True
 			data['urlRedirect'] = '/dashboard/ordenes/detalle/%s' %(pk)
+
+			data['refund'] = stripe.Refund.create(payment_intent=order.order_payment.payment_intent)
+
 		return JsonResponse(data)
 	
 
