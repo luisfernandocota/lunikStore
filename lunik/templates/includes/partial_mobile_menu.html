@@ -3,43 +3,29 @@
 
             <button class="btn btn-cart menuBarToggle mt-2 mb-4"><i class="bi bi-x" style="font-size: 25px;"></i></button>    
 
-              <div class="row mobile-menu-container">
+              <div class="row">
 
                 <div class="col-6 pb-2">
 
-                    <h4><a href="#">Sobre nosotros</a></h4>
+                    <h4><a href="#">Inicio</a></h4>
 
                 </div>
 
+                <div class="col-6 pb-2">
+
+                    <h4><a href="#">Conocenos</a></h4>
+
+                </div>
+                <div class="col-6 pb-2">
+
+                    <h4><a href="#">Agendas</a></h4>
+
+                </div>
                 <div class="col-6 pb-2">
 
                     <h4><a href="#">Contacto</a></h4>
 
                 </div>
-                {% for category in categories_list  %}
-
-                <div class="col-6">
-
-                    <h6><a onclick="sendPage('{% url 'shop:products_list' %}?categoria={{category.slug}}')">{{category.name}}</a></h6>
-
-                    <ul class="list-group list-group-flush">
-                        {% for subcategory in category.subcategories.all %}
-
-                        <li class="list-group-item">
-
-                            <a onclick="sendPage('{% url 'shop:products_list' %}?subcategoria={{subcategory.name}}')">
-
-                                {{subcategory.name}}
-
-                            </a>
-
-                        </li>
-                        {% endfor %}
-
-                    </ul>
-
-                </div>
-                {% endfor %}
 
                 {% comment %} <div class="col-6">
 
@@ -91,49 +77,27 @@
 
                 </div> {% endcomment %}
 
-                {% comment %} <div class="col-6">
+                <div class="col-12">
 
-                    <h6><a href="#">-Ofertas</a></h6>
+                    <h6><a href="#">Da un vistazo</a></h6>
 
                     <div id="carouselPromotionsProducts" class="carousel slide mw-100" data-bs-ride="carousel">
-
                         <div class="carousel-inner">
+                            {% for product in products_list %}
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                <img src="{{product.products_gallery.all.first.image.url}}" class="d-block mw-100" alt="...">
+                                <p class="pt-2 mb-0 pb-0">{{product.name}} {{product.model}}</p>
 
-                        <div class="carousel-item active">
+                                <a class="pt-2 mb-2 pb-3" href="{% url 'shop_cart:product_detail' product.slug %}">Ver producto</a>
 
-                            <img src="./resources/store/4-2.jpg" class="d-block mw-100" alt="...">
-
-                            <p class="pt-2 mb-0 pb-0">Camisa Lancaster #23452</p>
-
-                            <a href="#">Ver producto</a>
-
-                        </div>
-
-                        <div class="carousel-item">
-
-                            <img src="./resources/store/3-3.jpg" class="d-block mw-100" alt="...">
-
-                            <p class="pt-2 mb-0 pb-0">Camisa Lancaster #23452</p>
-
-                            <a href="#">Ver producto</a>
-
-                        </div>
-
-                        <div class="carousel-item">
-
-                            <img src="./resources/store/8-1.jpg" class="d-block mw-100" alt="...">
-
-                            <p class="pt-2 mb-0 pb-0">Camisa Lancaster #23452</p>
-
-                            <a href="#">Ver producto</a>
-
-                        </div>
+                            </div>
+                            {% endfor %}
 
                         </div>
 
                     </div>
 
-                </div> {% endcomment %}
+                </div> 
 
             </div>
 
@@ -152,9 +116,9 @@
 			</a>
 				{% else %}
 
-			<a class="navbar-brand" href="#">
+			<a class="navbar-brand" href="{% url 'shop:shop_list' %}">
 				
-				<img src="{{STATIC_URL}}shop/resources/logo_4shop.svg" class="logo-brand-store" alt="">
+				<img src="{{STATIC_URL}}assets/images/icons/LogoRosa.png" class="logo-brand-store" alt="">
 
 			</a>
 				{% endif %}

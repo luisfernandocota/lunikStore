@@ -226,7 +226,7 @@
                 <div class="container-fluid principal-menu">
 
                     <div>
-                        <a class="navbar-brand" href="#">
+                        <a class="navbar-brand" href="{% url 'shop:shop_list' %}">
                             
                             <img src="{{STATIC_URL}}assets/images/icons/LogoRosa.png" class="logo-brand-store" alt="">
 
@@ -241,6 +241,12 @@
                             <li class="nav-item">
 
                                 <a class="nav-link principal-menu-option active" aria-current="page" href="{% url 'shop:shop_list' %}">Inicio</a>
+
+                            </li>
+
+                            <li class="nav-item">
+
+                                <a class="nav-link principal-menu-option active" aria-current="page" href="{% url 'shop:products_list' %}">Agendas</a>
 
                             </li>
 
@@ -286,8 +292,6 @@
 
                                     <li><a class="dropdown-item " href="{% url 'dashboard:profile' %}">Mi perfil</a></li>
                                     <li><a class="dropdown-item " href="{% url 'dashboard:orders' %}">Mis pedidos</a></li>
-
-                                    <li><a class="dropdown-item " href="#">Configuración</a></li>
 
                                     <li><a class="dropdown-item " href="{% url 'register:logout' %}">Cerrar Sesión</a></li>
 
