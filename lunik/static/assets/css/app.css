@@ -31,7 +31,7 @@
     border-color:#da9fa6
 }
 .logoLunik{
-    max-width: 9em;
+    max-width: 14em;
     position: relative;
     margin-top: -30px;
 }
@@ -702,7 +702,7 @@ footer{
     font-weight:700
 }
 .sidebar-wrapper .sidebar-header img{
-    height:9rem
+    height:6rem
 }
 .sidebar-wrapper .sidebar-toggler.x{
     position:absolute;
