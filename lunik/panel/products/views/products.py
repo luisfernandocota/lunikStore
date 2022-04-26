@@ -119,7 +119,7 @@ def add_size(request):
         
     else:
         context['size_form'] = ProductSizeForm()
-        context['name_form'] = 'Agregar tamaño'
+        context['name_form'] = 'Agregar tipo'
     #-- Parameters modal form
         context['url_post'] = '/panel/products/add/size'
         data['form_is_valid'] = False

@@ -162,7 +162,7 @@ class ProductShopCart(forms.Form):
         )
     )
     sizes = forms.ModelChoiceField(
-        label = 'Tallas',
+        label = 'Tipo',
         empty_label = 'Elija ...',
         to_field_name = 'name',
         queryset = Product.objects.none(),

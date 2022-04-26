@@ -45,7 +45,7 @@
         <thead>
           <tr>
             <th>Producto</th>
-            <th>Marca</th>
+            <th>Imagen</th>
             <th>Modelo</th>
             <th>Precio base</th>
             <th>Disponible en tienda</th>
@@ -56,12 +56,21 @@
           {% for product in products_list %}
           <tr>
             <td>{{product.name}}</td>
-            <td>{{product.brand}}</td>
+            <td>
+              <div class="avatar avatar-xl me-3">
+                {% thumbnail product.products_gallery.all.first.image '80x80' crop='center' as img %}
+                <img src="{{img.url}}" srcset="">
+                {% endthumbnail %}
+
+              </div>
+            </td>
             <td>{{product.model}}</td>
             <td>${{product.price|intcomma}}</td>
             <td>
-              {% if product.available %}
+              {% if product.available and product.products_properties.sell_price > 0%}
               <span class="badge bg-success"><i data-feather="check-circle"></i></span>
+              {% elif product.products_properties.sell_price < 1 %}
+              <span class="badge bg-danger"><i data-feather="x-circle" data-toggle="tooltip" data-placement="top" title="Este producto tiene precio de venta ${{product.products_properties.sell_price}}"></i></span>
               {% else %}
               <span class="badge bg-danger"><i data-feather="x-circle"></i></span>
               {% endif %}

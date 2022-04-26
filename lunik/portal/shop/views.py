@@ -71,7 +71,7 @@ def filters_by_request(request):
 def shop_list(request):
 	context = {}
 	context['slides_list'] = Slide.objects.filter(status=True).order_by('-created')
-	context['products_list'] = Product.objects.prefetch_related('products_properties').filter(available=True, status=True).order_by('-created')
+	context['products_list'] = Product.objects.prefetch_related('products_properties').filter(available=True, status=True, products_properties__sell_price__gte=1).order_by('-created')
 
 	return render(request,'shop/shop_list.html',context)
 
@@ -83,9 +83,9 @@ def products_list(request):
 
 
 	if filters:
-		products_list = Product.objects.select_related('products_properties').filter(available=True, status=True).filter(**filters).order_by('-created')
+		products_list = Product.objects.select_related('products_properties').filter(available=True, status=True, products_properties__sell_price__gte=1).filter(**filters).order_by('-created')
 	else:
-		products_list = Product.objects.prefetch_related('products_properties').filter(available=True, status=True).order_by('-created')
+		products_list = Product.objects.prefetch_related('products_properties').filter(available=True, status=True, products_properties__sell_price__gte=1).order_by('-created')
 
 	# if store_products:
 	if request.GET.get('min') and request.GET.get('max'):

@@ -83,8 +83,8 @@ class ProductForm(forms.ModelForm):
         )
     )
     sizes = forms.ModelMultipleChoiceField(
-        label = 'Tamaños',
-        error_messages = {'required':'Debe de seleccionar al menos una talla'},
+        label = 'Tipo',
+        error_messages = {'required':'Debe de seleccionar al menos un tipo'},
         queryset = ProductSize.objects.none(),
         widget = forms.SelectMultiple(
             attrs = {
