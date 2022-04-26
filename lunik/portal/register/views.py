@@ -40,7 +40,7 @@ def register_user(request):
 			#-- Send email
 			uid = urlsafe_base64_encode(force_bytes(user.pk))
 			token = account_activation_token.make_token(user)
-			subject = 'Lunik | Registro de cuenta' 
+			subject = 'Karla Gálvez | Registro de cuenta' 
 			message = render_to_string('register/register_email_customer.html', {
 										'user': user,
 										'request': request,
