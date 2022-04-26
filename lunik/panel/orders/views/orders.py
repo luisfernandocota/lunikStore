@@ -83,7 +83,7 @@ def orders_shop_products(request,order_pk):
 			#-- Sendmail order to customer (From,to)
 			context['request'] = request
 			message = render_to_string('orders/includes/delivery_mail.html' ,context)
-			sendmail('Tu pedido de %s n.º %s ha sido enviado' % ('Lunik', context['order'].folio), message, settings.DEFAULT_FROM_EMAIL,context['order'].email)
+			sendmail('Tu pedido de tu %s folio %s ha sido enviado' % ('agenda', context['order'].folio), message, settings.DEFAULT_FROM_EMAIL,context['order'].email)
 			return redirect('orders:orders_shop_products', order_pk=context['order'].pk)
 	else:
 

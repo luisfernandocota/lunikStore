@@ -34,7 +34,7 @@ class OrderDelivery(TimeStampedModel):
 
         #-- Sendmail order to customer (From,to)
         message = render_to_string('orders/includes/delivery_mail.html',context)
-        sendmail('Lunik Diseño :: Detalle de envio', message, settings.DEFAULT_FROM_EMAIL,order.email)
+        sendmail('Karla Gálvez :: Detalle de envio', message, settings.DEFAULT_FROM_EMAIL,order.email)
 
         return True
 
@@ -54,7 +54,7 @@ class OrderDelivery(TimeStampedModel):
 
             context['order'] = instance
             message = render_to_string('orders/includes/orders_sendmail.html',context,request=request)
-            sendmail('Lunik Diseño :: Compra de productos', message, settings.DEFAULT_FROM_EMAIL,instance.email)
+            sendmail('Karla Gálvez :: Compra de productos', message, settings.DEFAULT_FROM_EMAIL,instance.email)
 
             messages.success(request, 'Reenvio de correo enviado satisfactoriamente')
 
