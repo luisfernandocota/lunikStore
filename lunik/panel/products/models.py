@@ -79,6 +79,14 @@ class Product(TimeStampedModel):
 
         super(Product,self).save(*args,**kwargs)
 
+
+    def get_total_sales(self):
+        total = 0
+        total = Product.objects.prefetch_related('products_orders').filter(products_orders__product__pk=self.pk).count()
+
+        return total
+
+
 class ProductGallery(TimeStampedModel):
 	product = models.ForeignKey(Product, related_name='products_gallery', verbose_name='Product', on_delete=models.CASCADE)
 	image = models.FileField(upload_to=get_product_gallery, validators=[validate_file_extension],verbose_name='Image')

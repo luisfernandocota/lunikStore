@@ -1,0 +1,57 @@
+<div class="row">
+    {% for product in products_list %}
+    <div class="col-xl-3 col-md-4 col-sm-12 cmodal">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-body">
+            <div style="position: relative; float: right;">
+              {% if product.available and product.products_properties.sell_price > 0%}
+              <span class="badge bg-primary"><i data-feather="check-circle" data-toggle="tooltip" data-placement="top"
+                title="Disponible en tienda"></i></span>
+              
+              {% elif product.products_properties.sell_price < 1 %} <span class="badge bg-danger"><i
+                  data-feather="x-circle" data-toggle="tooltip" data-placement="top"
+                  title="Este producto tiene precio de venta ${{product.products_properties.sell_price}}"></i></span>
+                {% else %}
+                <span class="badge bg-danger"><i data-feather="x-circle"></i></span>
+                {% endif %}
+            </div>
+            
+            <h4 class="card-title">{{product.name}}</h4>
+            <p class="card-text">
+              {{product.model}} | ${{product.price}} | {{product.get_total_sales}}
+            </p>
+          </div>
+          <img class="img-fluid" src="{{product.products_gallery.all.first.image.url}}"
+            alt="Card image cap">
+        </div>
+        <div class="card-footer d-flex justify-content-between">
+          
+          <a href="{% url 'products:edit_product' product.slug %}" class="badge bg-info" data-toggle="tooltip"
+        data-placement="top" title="Editar"><i data-feather="edit"></i></a>
+      <a data-url="{% url 'products:info_product' product.slug %}" style="cursor: pointer;"
+        class="badge bg-light show-modal" data-toggle="tooltip" data-placement="top" title="Información"><i
+          data-feather="info"></i></a>
+      {% if not product.available %}
+      <a href="#" class="badge bg-success" data-toggle="tooltip" data-placement="top" title="Activar"><i
+          data-feather="power"></i></a>
+      <a data-url="{% url 'products:delete_product' product.slug%}" class="badge bg-danger show-modal"
+        data-toggle="tooltip" data-placement="top" title="Eliminar"><i data-feather="trash"></i></a>
+
+      {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="table-responsive">
+    <table class='table mb-0 table-hover table-borderless ' id="table1">
+      <tbody class="orders_list">
+        <tr>
+          <td colspan="10" class="text-center">
+            {% include 'core/snippets/pagination.html' with obj_list=products_list %}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

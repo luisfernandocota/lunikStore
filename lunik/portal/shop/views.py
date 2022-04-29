@@ -71,7 +71,7 @@ def filters_by_request(request):
 def shop_list(request):
 	context = {}
 	context['slides_list'] = Slide.objects.filter(status=True).order_by('-created')
-	context['products_list'] = Product.objects.prefetch_related('products_properties').filter(available=True, status=True, products_properties__sell_price__gte=1).order_by('-created')
+	context['products_list'] = Product.objects.prefetch_related('products_properties').filter(available=True, status=True, products_properties__sell_price__gte=1).order_by('-created')[:8]
 
 	return render(request,'shop/shop_list.html',context)
 
@@ -109,7 +109,7 @@ def products_list(request):
 
 	context['products'] = products_list
 	page = request.GET.get('page', 1)
-	context['products_list'] = pagination(products_list, page, 16)
+	context['products_list'] = pagination(products_list, page, 12)
 	# context['products_colors'] = ProductHexaCodeM2M.objects.select_related('product')\
 	# 	.filter(status=True, product=store_products.products)
 	# context['products_sold'] = context['store'].total_products_sold()

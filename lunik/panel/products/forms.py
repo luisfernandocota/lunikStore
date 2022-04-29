@@ -424,3 +424,15 @@ class CouponProductForm(forms.ModelForm):
                                                 .prefetch_related('sizes', 'products_gallery', 'products_properties')\
                                                 .filter(status=True, available=True)\
                                                 .order_by('-created')
+
+class SearchProductForm(forms.Form):
+    query = forms.CharField(
+        label = 'Buscar producto',
+        required = False,
+        widget = forms.TextInput(
+            attrs = {
+                'class': 'input-sm form-control',
+                'placeholder': 'Buscar producto'
+            }
+        )
+    )

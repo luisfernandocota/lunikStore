@@ -4,19 +4,53 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.template.loader import render_to_string
 from django.contrib import messages
 from django.http import JsonResponse, HttpResponse
-from django.db.models import Prefetch
+from django.db.models import Prefetch, Q
 
-from panel.core.utils import user_logs,delete_record, delete_item
+
+from panel.core.utils import user_logs,delete_record, delete_item, pagination
 from panel.products.models import Product, ProductHexaCodeM2M, ProductGallery,ProductProperty
-from panel.products.forms import ProductForm, ProductSizeForm, ProductColorForm, ProductPropertyForm
+from panel.products.forms import ProductForm, ProductSizeForm, ProductColorForm, ProductPropertyForm, SearchProductForm
 
 
 # Create your views here.
 def products_list(request):
     context = {}
+    data = {}
+    if request.is_ajax() and request.method == 'GET':
+        context['form_search'] = SearchProductForm(request.GET)
+        if context['form_search'].is_valid():
+            query = context['form_search'].cleaned_data['query']
+            if query and query is not None:
+                lookups = Q(name__icontains=query)|Q(brand__icontains=query)|Q(model__icontains=query)
+                context['products_list'] = Product.objects.prefetch_related(Prefetch('hexacodes_m2m',queryset=ProductHexaCodeM2M.objects.select_related('hexacode').filter(status=True)))\
+                                .filter(status=True).filter(lookups).order_by('name')
+                if context['products_list'].exists():
+                    data['search_valid'] = True
+                    data['html_orders'] = render_to_string('products/includes/partial_products_list.html', context, request=request)
+                else:
+                    data['search_valid'] = False
+                    data['message'] = 'Producto no encontrado...'
+            else:
+                data['search_valid'] = True
+                products_list = Product.objects.prefetch_related(Prefetch('hexacodes_m2m',queryset=ProductHexaCodeM2M.objects.select_related('hexacode').filter(status=True)))\
+                                .filter(status=True).order_by('name')
+                page = request.GET.get('page',1)
 
-    context['products_list'] = Product.objects.prefetch_related(Prefetch('hexacodes_m2m',queryset=ProductHexaCodeM2M.objects.select_related('hexacode').filter(status=True)))\
-                                   .filter(status=True).order_by('name')
+                context['products_list'] = pagination(products_list,page,8)
+                data['html_orders'] = render_to_string('products/includes/partial_products_list.html', context, request=request)
+
+
+            return JsonResponse(data)
+
+    products_list = Product.objects.prefetch_related(Prefetch('hexacodes_m2m',queryset=ProductHexaCodeM2M.objects.select_related('hexacode').filter(status=True)))\
+                                .filter(status=True).order_by('name')
+
+
+    context['form_search'] = SearchProductForm()
+
+    page = request.GET.get('page',1)
+
+    context['products_list'] = pagination(products_list,page,8)
 
     return render(request,'products/products_list.html',context)
 
@@ -68,7 +102,7 @@ def edit_product(request, product_slug):
         hexacodes_ids = context['product_obj'].hexacodes_m2m.values('hexacode').filter(status=True)
         context['product_properties_form'] = ProductPropertyForm(instance=product_property)
         context['product_form'] = ProductForm(instance=context['product_obj'], initial={'sizes':context['product_obj'].sizes.all(),\
-                                                                                      'hexacodes':context['product_obj'].hexacodes.filter(pk__in=hexacodes_ids,status=True)})
+                                                                                    'hexacodes':context['product_obj'].hexacodes.filter(pk__in=hexacodes_ids,status=True)})
 
     return render(request, 'products/products_form.html', context)
 

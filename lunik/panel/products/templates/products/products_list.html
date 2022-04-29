@@ -12,8 +12,25 @@
 
 
 {% block styles %}
+<style>
+  .well.sk-loading {
+      position: relative;
+  }
+  .well.sk-loading:after {
+      content: '';
+      background-color: rgba(255, 255, 255, 0.7);
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+  }
+  </style>
+
+
 {% endblock styles %}
 {% block js %}
+<script src="{{STATIC_URL}}js/products.js" type="text/javascript"></script>
 {% endblock js %}
 
 {% block content %}
@@ -30,81 +47,62 @@
           <!-- <li class="breadcrumb-item active" aria-current="page">Menu</li> -->
         </ol>
       </nav>
-      <a href="{% url 'products:add_product' %}" style="float: right;" class="btn btn-primary me-1 mb-1">Agregar <i data-feather="plus"></i></a>
+      <a href="{% url 'products:add_product' %}" style="float: right;" class="btn btn-primary me-1 mb-1">Agregar <i
+          data-feather="plus"></i></a>
     </div>
   </div>
 </div>
 <section class="section">
-  {% if products_list %}
-  <div class="card-header">
-    
-  </div>
-  <div class="card">
-    <div class="card-body">
-      <table class='table table-striped cmodal' id="dataTable">
-        <thead>
-          <tr>
-            <th>Producto</th>
-            <th>Imagen</th>
-            <th>Modelo</th>
-            <th>Precio base</th>
-            <th>Disponible en tienda</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for product in products_list %}
-          <tr>
-            <td>{{product.name}}</td>
-            <td>
-              <div class="avatar avatar-xl me-3">
-                {% thumbnail product.products_gallery.all.first.image '80x80' crop='center' as img %}
-                <img src="{{img.url}}" srcset="">
-                {% endthumbnail %}
+  <div class="row mb-4">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h4 class="card-title">Productos</h4>
+          <div class="d-flex ">
+            <ul class="list-unstyled mb-0" style="padding: 7px;">
+              <li class="d-inline-block me-2 mb-1">
+                <div class='form-check'>
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="form-check-input form-check-primary filter-checkbox" name="fooby[1][]"
+                      id="pending" data-url="{% url 'orders:orders_list' %}">
+                    <label class="form-check-label" for="pending"> <i data-feather="check-circle"
+                        style="color:#914c54"></i>Disponible </label>
+                  </div>
+                </div>
+              </li>
+              <li class="d-inline-block me-2 mb-1">
+                <div class='form-check'>
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="form-check-input form-check-primary filter-checkbox" name="fooby[1][]"
+                      id="process">
+                    <label class="form-check-label" for="process"> <i data-feather="x-circle"
+                        style="color:#914c54"></i>No disponible </label>
+                  </div>
+                </div>
+              </li>
 
+            </ul>
+            <form action="{% url 'products:products_list' %}" method="GET" class="js-search-form">
+              <div class="col-12 mb-1">
+                <div class="input-group mb-3">
+                  <span class="input-group-text" id="basic-addon1"><i data-feather="search" data-toggle="tooltip"
+                      data-placement="top" title="Buscar por nombre, marca o modelo"></i></span>
+                  {{form_search.query}}
+
+                  <button class="btn btn-outline-primary" type="submit" id="button-addon2">Buscar</button>
+                </div>
               </div>
-            </td>
-            <td>{{product.model}}</td>
-            <td>${{product.price|intcomma}}</td>
-            <td>
-              {% if product.available and product.products_properties.sell_price > 0%}
-              <span class="badge bg-success"><i data-feather="check-circle"></i></span>
-              {% elif product.products_properties.sell_price < 1 %}
-              <span class="badge bg-danger"><i data-feather="x-circle" data-toggle="tooltip" data-placement="top" title="Este producto tiene precio de venta ${{product.products_properties.sell_price}}"></i></span>
-              {% else %}
-              <span class="badge bg-danger"><i data-feather="x-circle"></i></span>
-              {% endif %}
-            </td>
-            <td>
-              <a href="{% url 'products:edit_product' product.slug %}" class="badge bg-info" data-toggle="tooltip" data-placement="top" title="Editar"><i data-feather="edit"></i></a>
-              <a data-url="{% url 'products:info_product' product.slug %}" style="cursor: pointer;" class="badge bg-light show-modal" data-toggle="tooltip" data-placement="top" title="Información"><i data-feather="info"></i></a>
-              {% if not product.available %}
-              <a href="#" class="badge bg-success" data-toggle="tooltip" data-placement="top" title="Activar"><i data-feather="power"></i></a>
-              <a data-url ="{% url 'products:delete_product' product.slug%}" class="badge bg-danger show-modal" data-toggle="tooltip" data-placement="top" title="Eliminar"><i data-feather="trash"></i></a>
-
-              {% endif %}
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+            </form>
+            <!-- <i data-feather="download"></i> -->
+          </div>
+        </div>
+        <div id="box-content" class="card-body card-products pb-0 well">
+          {% include 'products/includes/partial_products_list.html' %}
+          
+        </div>
+      </div>
     </div>
   </div>
-  {% else %}
-  <!-- Empty list users -->
-  <div class="row">
-    <div class="col-12 col-md-5 order-m-1 order-last" style="align-self: center; text-align: center;">
-      <h2 style="font-size:xxx-large;">¡Muestra lo que tienes!</h2>
-      <p class="text-subtitle text-muted" style="font-size: x-large;">Agrega tus diferentes productos con sus pequeñas o
-        grandes caracteristicas para que se vuelvan una venta.</p>
-      <a href="{% url 'products:add_product' %}" class="btn btn-lunik"><i class="fas fa-plus"></i> Agregar</a>
-    </div>
-    <div class="col-md-5 order-m-1 order-last">
-      <img src="{{STATIC_URL}}assets/images/ilustrations/products.png" style="position: relative; max-width: 650px;"
-        alt="list-users">
-    </div>
-  </div>
-  <!-- END empty list users -->
-  {% endif %}
 </section>
 {% endblock content %}
+

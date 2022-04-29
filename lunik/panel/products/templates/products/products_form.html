@@ -258,41 +258,40 @@
 {% include 'core/snippets/messages_error.html' with form=product_properties_form %}
 
 $('#properties-tab').on('click', function(){
-   $('.dz-default').css('display', 'none');   
-});
-$('#general-tab').on('click', function(){
-    $('.dz-default').css('display', 'block');
+    $('.dz-default').css('display', 'none');   
  });
+ $('#general-tab').on('click', function(){
+     $('.dz-default').css('display', 'block');
+  });
 
 //Properties script
-$('#id_is_sale').change(function(){
-    if ($('#id_is_sale').is(":checked")){
-      $('#id_sale_price').attr('readonly', false);
-    
-    } else {
-      $('#id_sale_price').attr('readonly', true);
+    $('#id_is_sale').change(function(){
+        if ($('#id_is_sale').is(":checked")){
+        $('#id_sale_price').attr('readonly', false);
+        
+        } else {
+        $('#id_sale_price').attr('readonly', true);
 
-    }
+        }
     }).trigger("change");
 
-    function getPercentageChange(oldNumber, newNumber) {
-        var decreaseValue = oldNumber - newNumber;
 
-        $('#id_gain').val(decreaseValue.toFixed(2))
-        $('#gain').val(decreaseValue.toFixed(2))
-        return (decreaseValue / oldNumber) * 100;
-    }
-    $('#id_sell_price').change(function(){
+    $('#id_sell_price').focusout(function(){
         var sell_price = $('#id_sell_price').val();
         var price_base = $('#id_price').val();
-
+        function getPercentageChange(oldNumber, newNumber) {
+            var decreaseValue = oldNumber - newNumber;
+            $('#id_gain').val(decreaseValue.toFixed(2))
+            $('#gain').val(decreaseValue.toFixed(2))
+            return (decreaseValue / oldNumber) * 100;
+        }
         var margin = getPercentageChange(sell_price, price_base).toFixed(2);
 
         $('#id_margin').val(margin)
         $('#margin').val(margin)
         $('#id_sell_price').val(sell_price);
 
-    }).trigger("change");
+    });
 
     $('#id_shipping_free').change(function(){
 
@@ -311,31 +310,24 @@ let myDropzone = new Dropzone("#frmTarget", {
     uploadMultiple: true,
     parallelUploads: 100,
     maxFiles: 100,
-    url: '{% if product_obj %}{% url 'products:edit_product' product_obj.slug %}{% else %}{% url 'products:add_product' %}{% endif %}'
+    url: '{% if request.is_secure %}https{% else %}http{% endif %}://{{request.get_host}}{% if product_obj %}{% url 'products:edit_product' product_obj.slug %}{% else %}{% url 'products:add_product' %}{% endif %}',
+    init: function(){
+        this.on("success", function(file, response) {
+            window.location = '{% if request.is_secure %}https{% else %}http{% endif %}://{{request.get_host}}{% url 'products:products_list' %}'
+        })
+    }
 });
 
 // Update selector to match your button
-$("#submitButton").click(function (e) {
+$("#frmTarget").on('submit', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
 
-    myDropzone.processQueue();
-    //window.location.href = '{% url 'products:products_list' %}'
+    if (myDropzone.getQueuedFiles().length > 0) {                        
+        myDropzone.processQueue();  
+    } else {                       
+        this.submit();
+    }                                    
+
 });
-Dropzone.options.myDropzone = {
-    
-    init: function () {
-
-        
-
-        this.on('sending', function(file, xhr, formData) {
-            // Append all form inputs to the formData Dropzone will POST
-            var data = $('#frmTarget').serializeArray();
-            $.each(data, function(key, el) {
-                formData.append(el.name, el.value);
-            });
-        });
-        this.on("successmultiple", function(files, response) {
-            console.log('hola')
-          });
-    }
-}
 {% endblock docready %}

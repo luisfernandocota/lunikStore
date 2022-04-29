@@ -1,5 +1,11 @@
 $(document).ready(function() {
-
+  function simpleLoad(box, state) {
+    if (state) {
+        box.toggleClass('sk-loading');
+    } else {
+        box.toggleClass('sk-loading');
+        }
+    }
   $("input:checkbox").on('click', function() {
 
     // in the handler, 'this' refers to the box clicked on
@@ -25,7 +31,7 @@ $(document).ready(function() {
     var send = $('#send').is(':checked'); 
     var delivered = $('#delivered').is(':checked'); 
     var canceled = $('#canceled').is(':checked');
-    console.log(pending, process, send, delivered, canceled)
+
     checkFilters.push({
       pending : pending,
       process : process, 
@@ -40,9 +46,9 @@ $(document).ready(function() {
         type: 'get',
         dataType: 'json',
         beforeSend: function () {
-          $("#modal-box").modal("show");
         },
         success: function (data) {
+
           if (data.search_valid) {
             $(".orders_list").empty();
             $(".orders_list").append(data.html_orders);

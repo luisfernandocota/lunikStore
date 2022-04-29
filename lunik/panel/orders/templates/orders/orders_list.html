@@ -7,6 +7,25 @@
 
 {% block subheader %}Lista de pedidos{% endblock subheader %}
 
+{% block styles %}
+<style>
+  .well.sk-loading {
+      position: relative;
+  }
+  .well.sk-loading:after {
+      content: '';
+      background-color: rgba(255, 255, 255, 0.7);
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+  }
+  </style>
+
+
+{% endblock styles %}
+
 {% block content %}
 <section class="section">
   <div class="row mb-4">
@@ -86,7 +105,7 @@
                 <!-- <i data-feather="download"></i> -->
             </div>
         </div>
-        <div class="card-body px-0 pb-0">
+        <div class="card-body pb-0 px-0">
             <div class="table-responsive">
                 <table class='table mb-0 table-hover table-borderless ' id="table1">
                     <tbody class="orders_list">
@@ -180,10 +199,6 @@
         </div>
         <div id="box_orders_loading">
           <div class="ibox-content">
-            <div class="sk-spinner sk-spinner-double-bounce">
-              <div class="sk-double-bounce1"></div>
-              <div class="sk-double-bounce2"></div>
-            </div>
             <div class="project-list">
               <table class="table table-hover table_list">
                 <tbody class="orders_list">
