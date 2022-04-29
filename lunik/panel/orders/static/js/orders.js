@@ -45,13 +45,17 @@ $(document).ready(function() {
         data: {'pending':pending, 'process':process, 'send':send, 'delivered':delivered, 'canceled':canceled},
         type: 'get',
         dataType: 'json',
-        beforeSend: function () {
+        beforeSend: function(){
+          simpleLoad($('#box-content'), true);
+          console.log($('#box-content'))
+          $('#box-content').prepend("<div class='sk-spinner sk-spinner-three-bounce'><div class='sk-bounce1'></div><div class='sk-bounce2'></div><div class='sk-bounce3'></div></div>");
         },
         success: function (data) {
+          simpleLoad($('#box-content'), false);
 
           if (data.search_valid) {
-            $(".orders_list").empty();
-            $(".orders_list").append(data.html_orders);
+            $(".orders-list").empty();
+            $(".orders-list").append(data.html_orders);
             feather.replace();
   
           }else{

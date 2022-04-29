@@ -105,3 +105,15 @@ class SlideForm(forms.ModelForm):
             pass
 
         return cd['image']
+
+class SearchCustomerForm(forms.Form):
+    query = forms.CharField(
+        label = 'Buscar cliente',
+        required = False,
+        widget = forms.TextInput(
+            attrs = {
+                'class': 'input-sm form-control',
+                'placeholder': 'Buscar cliente'
+            }
+        )
+    )

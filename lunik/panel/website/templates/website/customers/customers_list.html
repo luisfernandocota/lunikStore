@@ -1,0 +1,214 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block subtitle %}Clientes{% endblock subtitle %}
+
+{% block header %}Clientes{% endblock header %}
+
+{% block subheader %}Lista de clientes{% endblock subheader %}
+
+{% block styles %}
+<style>
+  .well.sk-loading {
+      position: relative;
+  }
+  .well.sk-loading:after {
+      content: '';
+      background-color: rgba(255, 255, 255, 0.7);
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+  }
+  </style>
+
+
+{% endblock styles %}
+
+{% block js %}
+<script src="{{STATIC_URL}}js/customers.js" type="text/javascript"></script>
+{% endblock js %}
+
+
+{% block content %}
+<section class="section">
+  <div class="row mb-4">
+    <div class="col-md-12">
+          <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h4 class="card-title">Clientes</h4>
+            <div class="d-flex ">
+              
+              <form action="{% url 'website:customers_list' %}" method="GET" class="js-search-form">
+                <div class="col-12 mb-1">
+                  <div class="input-group mb-3">
+                      <span class="input-group-text" id="basic-addon1"><i data-feather="search" data-toggle="tooltip" data-placement="top"
+                        title="Buscar por nombre o correo"></i></span>
+                      {{form_search.query}}
+
+                      <button class="btn btn-outline-primary" type="submit" id="button-addon2">Buscar</button>
+                  </div>
+              </div>
+              </form>
+              <div style="margin-left:12px">
+                <a href="{% url 'website:customers_list' %}" class="btn btn-outline-primary"> <i
+                  data-feather="refresh-cw"></i></a>
+              </div>
+                <!-- <i data-feather="download"></i> -->
+            </div>
+        </div>
+        <div class="card-body pb-0 px-0">
+            <div class="table-responsive">
+                <table class='table mb-0 table-hover table-borderless ' id="table1">
+                    <tbody class="customers_list">
+                      {% include 'website/customers/includes/partial_customers_list.html' %}
+                      <tr>
+                        <td colspan="10" class="text-center">
+                          {% include 'core/snippets/pagination.html' with obj_list=customers_list %}
+                        </td>
+                      </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{% comment %}
+<div class="col-lg-12">
+  <div class="ibox float-e-margins">
+    {% if orders_list %}
+    <div class="ibox-title">
+      <h5>Lista de pedidos</small></h5>
+    </div>
+    {% for store in stores_list %}
+    <div class="wrapper wrapper-content animated fadeInRight">
+      <div class="row m-t-lg">
+        <div class="col-md-6">
+          <div class="" style="width: auto; text-align: center;">
+              <img src="{{STATIC_URL}}assets/images/icons/logoRosa.png" class="m-b-md" style="max-height: 120px; max-width:100%;" alt="Karla Gálvez">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="col-md-6">
+          <table class="table small m-b-xs">
+            <tbody>
+              <tr>
+                <td>
+                  <i class="fa fa-shopping-bag"></i><strong> {{store.total_products_sold}}</strong> productos vendidos
+                </td>
+                <td>
+                  <i class="fa fa-cubes"></i><strong> {{store.get_total_orders}}</strong> Ordenes
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <small><i class="fa fa-truck"></i></small><strong> $
+                    {{store.total_stores_shipping|floatformat:2|intcomma}}</strong><br> Total envios
+                </td>
+                <td>
+                  <small><i class="fa fa-money"></i></small><strong> $
+                    {{store.total_stores_earnings|floatformat:2|intcomma}}</strong><br> Total compras
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-6">
+          <small class="font-bold m-t">Ingresos</small>
+          <i class="fa fa-money"></i>
+          <h1 class="no-margins font-bold m-t block text-green-success">$ {{store.total_stores_net|floatformat:2|intcomma}}</h1>
+          <div id="sparkline1"></div>
+          <a href="#" title="Correo de envio"><button type="button" class="btn btn-white btn-sm"><i
+                class="fa fa-truck"></i></button></a>
+        </div>
+        </div>
+
+      </div>
+    </div>
+    {% endfor %}
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        {% if orders_list %}
+        <div class="ibox-title search-box">
+          <div class="row">
+            <div class="col-md-6">
+              <form method="GET" class="js-search-form">
+                <div class="input-group">
+                  {{form_search.query}}
+                  <span class="input-group-btn">
+                    <button type="submit" class="btn btn-primary" value="Buscar" id="btnBuscar">
+                      <i class="fa fa-search"></i> Buscar
+                    </button>
+                  </span>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div id="box_orders_loading">
+          <div class="ibox-content">
+            <div class="project-list">
+              <table class="table table-hover table_list">
+                <tbody class="orders_list">
+                  {% include 'orders/includes/partial_orders_shop_list.html' %}
+                  <tr>
+                    <td colspan="10" class="text-center">
+                      {% include 'core/snippets/pagination.html' with obj_list=orders_list %}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% else %}
+      <hr>
+      <div class="wrapper">
+        <div class="animated fadeInRightBig">
+          <div class="col-lg-6 col-sm-6">
+            <div class="jumbotron">
+              <h1>¡Pronto llegarán...!</h1>
+              <p>Aqui verás un listado detallado de las ordenes de tus clientes.</p>
+              <!-- <p><a href="{% url 'products:products_add' %}" role="button" class="btn btn-primary btn-lg">Agregar</a></p> -->
+          </div>
+          </div>
+          <div class="col-lg-6 col-sm-6">
+            <div class="img-prod">
+              <img src="{{STATIC_URL}}site/images/shop_5.png" style="max-width: 400px;" class="img-responsive" alt="">
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+    {% else %}
+    <div class="wrapper wrapper-content">
+      <div class="animated fadeInRightBig">
+        <div class="col-lg-6 col-sm-6">
+          <div class="jumbotron">
+            <h1>¡Empieza a vender!</h1>
+            <p>Aqui encontrarás todos los pedidos realizados por tus maravillosos clientes comprando tus productos.</p>
+            <!-- <p><a href="{% url 'products:products_add' %}" role="button" class="btn btn-primary btn-lg">Agregar</a></p> -->
+        </div>
+        </div>
+        <div class="col-lg-6 col-sm-6">
+          <div class="img-prod">
+            <img src="{{STATIC_URL}}site/images/shop_3.png" style="max-width: 400px;" class="img-responsive" alt="">
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<div class="col-md-4 col-md-offset-4 col-sm-6" style="margin-top: 3rem;">
+  <a class="btn btn-info btn-rounded btn-block" href="#"><i class="fa fa-info-circle"></i> Saber más de <span class="font-bold">Ordenes</span></a>
+</div> {% endcomment %}
+{% endblock content %}

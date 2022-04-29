@@ -47,8 +47,7 @@
           <!-- <li class="breadcrumb-item active" aria-current="page">Menu</li> -->
         </ol>
       </nav>
-      <a href="{% url 'products:add_product' %}" style="float: right;" class="btn btn-primary me-1 mb-1">Agregar <i
-          data-feather="plus"></i></a>
+      
     </div>
   </div>
 </div>
@@ -93,6 +92,10 @@
                 </div>
               </div>
             </form>
+            <div style="margin-left:12px">
+              <a href="{% url 'products:add_product' %}" style="float: right;" class="btn btn-primary">Agregar <i
+                data-feather="plus"></i></a>
+            </div>
             <!-- <i data-feather="download"></i> -->
           </div>
         </div>

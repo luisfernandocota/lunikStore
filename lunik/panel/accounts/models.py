@@ -18,6 +18,8 @@ from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.crypto import get_random_string
 from django.core.cache import cache
+from django.db.models import Sum
+
 
 from panel.core.tokens import account_activation_token
 from panel.core.managers import UserManager
@@ -88,6 +90,29 @@ class User(AbstractBaseUser, PermissionsMixin, TimeStampedModel):
 
     def get_short_name(self):
         return self.first_name
+
+    def get_total_spent(self):
+        from portal.shop.models import ShopOrder
+        customer = 0
+        customer = ShopOrder.objects.filter(customer__pk=self.pk, active=True).aggregate(total=Sum('order_payment__total'))
+        if customer['total'] is None:
+            customer['total'] = 0
+        return customer['total']
+
+    def get_total_spent_shipping(self):
+        from portal.shop.models import ShopOrder
+        customer = 0
+        customer = ShopOrder.objects.filter(customer__pk=self.pk, active=True).aggregate(shipping=Sum('order_payment__shipping'))
+        if customer['shipping'] is None:
+            customer['shipping'] = 0
+        return customer['shipping']
+
+    def get_total_products(self):
+        total = 0
+        for item in self.shop_orders.all():
+            if item.customer.pk == self.pk and item.active:
+                total += item.total_products()
+        return total
 
     @staticmethod
     def activation_email(request,user,password, own_password=False):

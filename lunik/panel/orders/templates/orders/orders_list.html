@@ -105,19 +105,8 @@
                 <!-- <i data-feather="download"></i> -->
             </div>
         </div>
-        <div class="card-body pb-0 px-0">
-            <div class="table-responsive">
-                <table class='table mb-0 table-hover table-borderless ' id="table1">
-                    <tbody class="orders_list">
-                      {% include 'orders/includes/partial_orders_shop_list.html' %}
-                      <tr>
-                        <td colspan="10" class="text-center">
-                          {% include 'core/snippets/pagination.html' with obj_list=orders_list %}
-                        </td>
-                      </tr>
-                    </tbody>
-                </table>
-            </div>
+        <div id="box-content" class="card-body orders-list pb-0 px-0 well">
+          {% include 'orders/includes/partial_orders_shop_list.html' %}
         </div>
       </div>
     </div>

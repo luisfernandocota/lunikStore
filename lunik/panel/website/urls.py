@@ -21,5 +21,8 @@ urlpatterns = [
     path('slides/edit/<int:pk>/', views.slides_edit, name='slides_edit'),
     #-- Slide delete
     path('slides/delete/<int:pk>/', views.slides_delete, name='slides_delete'),
+
+
+    path('customers/', views.customers_list, name='customers_list')
  
 ]

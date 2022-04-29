@@ -4,18 +4,17 @@ import datetime
 from decimal import Decimal
 
 from django.conf import settings
-from django.db.models import Q, CharField,DateField, DecimalField, Case, Value, When, F
+from django.db.models import Q
 from django.urls import reverse
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import JsonResponse,HttpResponse
+from django.http import JsonResponse
 from django.template.loader import render_to_string
-from django.utils import timezone,formats
 from django.contrib import messages
 from panel.core.utils import filters_by_request
 
 from panel.core.utils import pagination, sendmail
 
-from panel.orders.forms import SearchOrderForm,SearchStoreForm, OrderDeliveryForm
+from panel.orders.forms import SearchOrderForm, OrderDeliveryForm
 from panel.orders.models import OrderDelivery
 from portal.shop.models import ShopOrder, ShopOrderPayment
 
@@ -35,15 +34,19 @@ def orders_list(request):
 
 			if query and query is not None:
 				lookups = Q(name__icontains=query)|Q(folio__icontains=query)|Q(order_payment__payment_intent__icontains=query)|Q(shop_order_delivery__tracking_number__icontains=query)
-				context['orders_list'] = ShopOrder.objects.select_related('order_payment').filter(lookups)\
+				orders_list = ShopOrder.objects.select_related('order_payment').filter(lookups)\
 														.order_by('-created')
 			elif filters:
-				context['orders_list'] = ShopOrder.objects.select_related('order_payment').filter(**filters)\
+				orders_list = ShopOrder.objects.select_related('order_payment').filter(**filters)\
 														.order_by('-created')
 			else:
-				context['orders_list'] = ShopOrder.objects.select_related('customer').filter(status=True).order_by('-created')
+				orders_list = ShopOrder.objects.select_related('customer').filter(status=True).order_by('-created')
 
-			if context['orders_list'].exists():
+				
+
+			if orders_list.exists():
+				page = request.GET.get('page',1)
+				context['orders_list'] = pagination(orders_list,page,10)
 				data['search_valid'] = True
 				data['html_orders'] = render_to_string('orders/includes/partial_orders_shop_list.html', context, request=request)
 			else:
@@ -51,13 +54,16 @@ def orders_list(request):
 				data['message'] = 'Orden no encontrada'
 
 			return JsonResponse(data)
+	else:
+		if request.GET.get('customer'):
+			customer_pk = request.GET.get('customer')
+			context['orders_list'] = ShopOrder.objects.select_related('order_payment').filter(customer__pk=customer_pk)\
+														.order_by('-created')
+		else:
+			orders_list = ShopOrder.objects.select_related('customer').filter(status=True).order_by('-created')
 
-	context['form_search'] = SearchStoreForm()
-
-	page = request.GET.get('page',1)
-	orders_list = ShopOrder.objects.select_related('customer').filter(status=True).order_by('-created')
-
-	context['orders_list'] = pagination(orders_list,page,10)
+			page = request.GET.get('page',1)
+			context['orders_list'] = pagination(orders_list,page,10)
 	context['form_search'] = SearchOrderForm()
 
 

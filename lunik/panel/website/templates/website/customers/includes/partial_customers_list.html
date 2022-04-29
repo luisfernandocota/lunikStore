@@ -1,0 +1,41 @@
+{% load humanize %}
+
+{% for customer in customers_list %}
+  <tr>
+    <td class="project-status">
+      {{customer.get_full_name}}<br>
+        <small><i data-feather="calendar"></i>Cliente desde el {{customer.created|date:"d F Y"}}</small><br>
+
+    </td>
+    <td class="project-title">
+      <small><i data-feather="mail"></i> {{customer.email}}</small><br>
+      <small><i data-feather="phone"></i> {% if customer.phone %}{{customer.phone}}{% else %}Sin registrar{% endif %}</small><br>
+    </td>
+    <td class="project-status">
+        {% if customer.get_total_spent == 0 and customer.get_total_spent_shipping == 0 %}
+        <small>Sin compras</small>
+        {% else %}
+      <small><i data-feather="dollar-sign"></i></small>
+      <b>{{customer.get_total_spent|intcomma}} </b><br>
+      <small><i data-feather="truck"></i></small>
+      <small>Envio ($ {{customer.get_total_spent_shipping|intcomma}} )</small>
+      {% endif %}
+    </td>
+    <td class="project-status text-center">
+        {% if customer.get_total_products == 0 %}
+        <small>Sin productos</small>
+        {% else %}
+      <small><i data-feather="tag"></i></small>
+      <b>{{customer.get_total_products|intcomma}}</b><br>
+      <small>Productos</small><br>
+      {% endif %}
+    </td>
+
+    <td class="project-actions text-center">
+        {% if not customer.get_total_spent == 0 and not customer.get_total_spent_shipping == 0 %}
+      <a href="{% url 'orders:orders_list' %}?customer={{customer.pk}}" data-toggle="tooltip" data-placement="top"  title="Ordenes"><button type="button" class="btn btn-white btn-sm"><i data-feather="shopping-cart"></i></button></a>
+      {% endif %}
+
+    </td>
+  </tr>
+{% endfor %}
