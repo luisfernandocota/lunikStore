@@ -264,6 +264,11 @@ $('#properties-tab').on('click', function(){
      $('.dz-default').css('display', 'block');
   });
 
+  {% if product_obj %}
+  $('#margin').val({{product_obj.products_properties.margin}});
+  $('#gain').val({{product_obj.products_properties.gain}});
+  {% endif %}
+
 //Properties script
     $('#id_is_sale').change(function(){
         if ($('#id_is_sale').is(":checked")){
