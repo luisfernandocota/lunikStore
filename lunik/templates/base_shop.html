@@ -276,7 +276,7 @@
 
                             </li> -->
 
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
 
                                 <a class="nav-link principal-menu-option" href="#">Conócenos</a>
 
@@ -286,7 +286,7 @@
 
                                 <a class="nav-link principal-menu-option" href="#">Contacto</a>
 
-                            </li>
+                            </li> -->
 
                         </ul>
 
@@ -331,13 +331,13 @@
                             </li>
                             {% endif %}
 
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
 
                                 <a class="nav-link secondary-menu-option" data-bs-toggle="modal" data-bs-target="#searchProductsForm"><i class="bi bi-search"
 
                                         style="font-size: 18px;"></i></a>
 
-                            </li>
+                            </li> -->
 
                             <li class="nav-item">
 
@@ -700,7 +700,7 @@
 
                             </li>
 
-                            <li class="list-group-item clean">
+                            <!-- <li class="list-group-item clean">
 
                                 <a href="#">
 
@@ -718,13 +718,13 @@
 
                                 </a>
 
-                            </li>
+                            </li> -->
 
                             <li class="list-group-item clean">
 
-                                <a href="">
+                                <a href="{% url 'register:login' %}">
 
-                                    Inicia sesión
+                                    Iniciar sesión
 
                                 </a>
 
@@ -732,7 +732,7 @@
 
                             <li class="list-group-item clean">
 
-                                <a href="">
+                                <a href="{% url 'register:add' %}">
 
                                     Regístrate
 
@@ -743,7 +743,7 @@
                         </ul>
 
                     </div>
-
+                    {% comment %}
                     <div class="col-6 col-md-3 col-lg-2">
 
                         <h6><a href="{% url 'shop:categories_list' %}">Categorías</a></h6>
@@ -763,7 +763,7 @@
                             </li>
                             {% endfor %}
 
-                            {% comment %} <li class="list-group-item clean">
+                             <li class="list-group-item clean">
 
                                 <a href="#">
 
@@ -801,11 +801,11 @@
 
                                 </a>
 
-                            </li> {% endcomment %}
+                            </li> 
 
                         </ul>
 
-                    </div>
+                    </div>{% endcomment %}
 
                     <div class="col-6 col-md-3 col-lg-2">
 

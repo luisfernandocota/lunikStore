@@ -1,0 +1,162 @@
+
+{% load humanize %}
+{% load thumbnail %}
+{% load tags %}
+<table class="table table-hover my-shopping-cart-table">
+
+    <tbody>
+        {% if cart.get_quantity_products > 0 %}
+        {% for item in cart %}
+        {% for key in item.variants.keys %}
+        <tr class="sm">
+
+            <th>
+
+                <div class="position-relative">
+                {% with image=item.product.products_gallery.all.first.image %}
+                      {% thumbnail image '100x100' crop='center' as img %}
+
+                    <img src="{{img.url}}" class="d-block mx-auto shopping-cart-image-product sm" alt="...">
+                    {% endthumbnail %}
+                  {% endwith %}
+
+                    <span class="badge rounded-pill counter-product-cart badge-floating">{{key|get_quantity_cart:item}}</span>
+
+                </div>
+
+            </th>
+
+            <td>
+
+                <div>
+
+                    {{item.product.name}} {{item.product.model}}
+
+                </div>
+
+            </td>
+
+            <td>
+
+                <div>
+
+                    <p class="text-end w-100">
+
+                        {% if cart.is_coupon_apply and item.product|coupon:cart.is_coupon_apply and not cart.is_coupon_apply.apply_all  %}
+                            <p class="fw-bold">
+                                {% if item.product|coupon:cart.is_coupon_apply and not cart.is_coupon_apply.apply_all %}
+                                    <i class="bi bi-bullseye"></i>
+                                {% endif %}
+                                ${{key|get_total_cart:item|intcomma}} 
+                            </p>
+                        {% else %}
+                            $ {{key|get_total_cart:item|intcomma}} 
+                        {% endif %}
+
+                    </p>
+
+                </div>
+
+            </td>
+
+        </tr>
+        {% endfor %}
+        {% endfor %}
+        {% endif %}
+
+
+    </tbody>
+
+
+
+</table>
+
+<div class="row">
+
+    <div class="col-6">
+
+        <p class="text-start">Subtotal</p>
+
+
+
+    </div>
+
+    <div class="col-6">
+
+        <p class="fw-bold text-end">$ {{cart.get_subtotal_products|intcomma}}</p>
+
+    </div>
+    {% if cart.is_coupon_apply %}
+
+    <div class="col-6">
+
+        <p class="text-start">Cupón <strong>{{cart.is_coupon_apply.code}}</strong></p>
+
+
+
+    </div>
+
+    <div class="col-6">
+
+        <p class="fw-bold text-end">- {% if cart.is_coupon_apply.discount_types == 'A'%}${{cart.is_coupon_apply.discount|intcomma}}{% elif cart.is_coupon_apply.discount_types == 'P'%}{{cart.is_coupon_apply.discount}}%{% endif %}</p>
+
+    </div>
+    {% endif %}
+
+    <div class="col-6">
+
+        <p class="text-start">Envío</p>
+
+
+
+    </div>
+
+    <div class="col-6">
+
+        <p class="fw-bold text-end">
+            {% if step == 'informacion' %}
+                Calculado en el siguiente paso
+            {% else %}
+                {% if cart.get_shipping_method %}
+                    {% if cart.get_shipping_cost > 0 %}
+                        ${{cart.get_shipping_cost|intcomma}}
+                    {% else %}
+                        ¡Gratis! <i class="bi bi-lightning" style="color:{{store_instance.store_meta.header_color}}"></i>
+                    {% endif %}
+                {% else %}
+                    Selecciona un metodo de envio <i class="bi bi-lightning" style="color: var(--main-bg-color-branding)"></i>
+                {% endif %}
+            {% endif %}
+        </p>
+
+    </div>
+
+</div>
+
+<hr class="mt-0 mb-2">
+<div class="row">
+
+    <div class="col-6">
+
+        <p class="text-start">Total</p>
+
+
+
+    </div>
+
+    <div class="col-6">
+        {% if cart.get_shipping_method and not step == 'informacion' %}
+        <h5 class="text-end">$ {{cart.get_total_products|intcomma}}</h5>
+
+        {% else %}
+        <div class="loader text-end">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+        {% endif %}
+
+    </div>
+
+</div>
+

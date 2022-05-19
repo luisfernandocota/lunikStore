@@ -102,7 +102,8 @@ class ShopOrderDeliveryForm(forms.ModelForm):
         widget = forms.TextInput(
             attrs = {
                 'class': 'form-control',
-                'placeholder' : 'Ciudad'
+                'placeholder' : 'Ciudad',
+                'readonly': 'readonly'
             }
         )
     )
@@ -112,17 +113,19 @@ class ShopOrderDeliveryForm(forms.ModelForm):
         widget = forms.TextInput(
             attrs = {
                 'class': 'form-control',
-                'placeholder' : 'Estado'
+                'placeholder' : 'Estado',
+                'readonly': 'readonly'
             }
         )
     )
     suburb = forms.CharField(
         label = 'Colonia',
         error_messages = {'required':'Capture la colonia'},
-        widget = forms.TextInput(
+        widget = forms.Select(
             attrs = {
                 'class': 'form-control',
-                'placeholder' : 'Colonia'
+                'placeholder' : 'Colonia',
+                'onload': 'get_zipcode()'
             }
         )
     )

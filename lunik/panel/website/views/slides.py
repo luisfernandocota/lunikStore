@@ -22,17 +22,13 @@ def slides_add(request):
     context = {}
 
     if request.method == 'POST':
-        if request.FILES:
-            print('hola')
-        else:
-            print('nada')
-        # files=request.FILES
-        # i = 0
-        # for obj in files:
-        #     i += 1
-        #     Slide.objects.create(image=files[obj])
-        # messages.success(request, 'Han sido agregado(s) %s slide(s) correctamente' %(i))
-        # return redirect('website:slides_list')
+        files=request.FILES
+        i = 0
+        for obj in files:
+            i += 1
+            Slide.objects.create(image=files[obj])
+        messages.success(request, 'Han sido agregado(s) %s slide(s) correctamente' %(i))
+        return redirect('website:slides_list')
 
     else:
         context['slide_form'] = SlideForm()

@@ -3,7 +3,7 @@
 {% load humanize %}
 {% load thumbnail %}
 {% load tags %}
-{% block title %}LuKarla Gálveznik{% endblock title %}
+{% block title %}Karla Gálvez{% endblock title %}
 
 {% block subtitle %} Checkout {% endblock subtitle %}
 
@@ -68,229 +68,9 @@
                                   {% include 'shop/includes/partial_dynamic_checkout.html' with step=step %}
 
                                   </div>
-                                    <div class="col-12 col-lg-6 dynamic-padding bg-light">
-
-                                        <table class="table table-hover my-shopping-cart-table">
-
-                                            <tbody>
-                                                {% if cart.get_quantity_products > 0 %}
-                                                {% for item in cart %}
-                                                {% for key in item.variants.keys %}
-                                                <tr class="sm">
-
-                                                    <th>
-
-                                                        <div class="position-relative">
-                                                        {% with image=item.product.products_gallery.all.first.image %}
-                                                              {% thumbnail image '100x100' crop='center' as img %}
-
-                                                            <img src="{{img.url}}" class="d-block mx-auto shopping-cart-image-product sm" alt="...">
-                                                            {% endthumbnail %}
-                                                          {% endwith %}
-
-                                                            <span class="badge rounded-pill counter-product-cart badge-floating">{{key|get_quantity_cart:item}}</span>
-
-                                                        </div>
-
-                                                    </th>
-
-                                                    <td>
-
-                                                        <div>
-
-                                                            {{item.product.name}} {{item.product.model}}
-
-                                                        </div>
-
-                                                    </td>
-
-                                                    <td>
-
-                                                        <div>
-
-                                                            <p class="text-end w-100">
-
-                                                                {% if cart.is_coupon_apply and item.product|coupon:cart.is_coupon_apply and not cart.is_coupon_apply.apply_all  %}
-                                                                    <p class="fw-bold">
-                                                                        {% if item.product|coupon:cart.is_coupon_apply and not cart.is_coupon_apply.apply_all %}
-                                                                            <i class="bi bi-bullseye"></i>
-                                                                        {% endif %}
-                                                                        ${{key|get_total_cart:item|intcomma}} 
-                                                                    </p>
-                                                                {% else %}
-                                                                    $ {{key|get_total_cart:item|intcomma}} 
-                                                                {% endif %}
-
-                                                            </p>
-
-                                                        </div>
-
-                                                    </td>
-
-                                                </tr>
-                                                {% endfor %}
-                                                {% endfor %}
-                                                {% endif %}
-
-                                                {% comment %} <tr class="sm">
-
-                                                    <th>
-
-                                                        <div class="position-relative">
-
-                                                            <img src="{{STATIC_URL}}shop/resources/store/product/1-1.jpg" class="d-block mx-auto shopping-cart-image-product sm" alt="...">
-
-                                                            <span class="badge bg-warning  badge-floating">1</span>
-
-                                                        </div>
-
-                                                    </th>
-
-                                                    <td>
-
-                                                        <div>
-
-                                                            Tenis Nike #2312
-
-                                                        </div>
-
-                                                    </td>
-
-                                                    <td>
-
-                                                        <div>
-
-                                                            <p class="text-end w-100">
-
-                                                                $ 62.00 USD
-
-                                                            </p>
-
-                                                        </div>
-
-                                                    </td>
-
-                                                </tr>
-
-                                                <tr class="sm">
-
-                                                    <th>
-
-                                                        <div class="position-relative">
-
-                                                            <img src="{{STATIC_URL}}shop/resources/store/product/1-1.jpg" class="d-block mx-auto shopping-cart-image-product sm" alt="...">
-
-                                                            <span class="badge bg-warning  badge-floating">1</span>
-
-                                                        </div>
-
-                                                    </th>
-
-                                                    <td>
-
-                                                        <div>
-
-                                                            Tenis Nike #2312
-
-                                                        </div>
-
-                                                    </td>
-
-                                                    <td>
-
-                                                        <div>
-
-                                                            <p class="text-end w-100">
-
-                                                                $ 62.00 USD
-
-                                                            </p>
-
-                                                        </div>
-
-                                                    </td>
-
-                                                </tr> {% endcomment %}
-
-                                            </tbody>
-
-        
-
-                                        </table>
-
-                                        <div class="row">
-
-                                            <div class="col-6">
-
-                                                <p class="text-start">Subtotal</p>
-
-
-
-                                            </div>
-
-                                            <div class="col-6">
-
-                                                <p class="fw-bold text-end">$ {{cart.get_subtotal_products|intcomma}}</p>
-
-                                            </div>
-                                            {% if cart.is_coupon_apply %}
-
-                                            <div class="col-6">
-
-                                                <p class="text-start">Cupón <strong>{{cart.is_coupon_apply.code}}</strong></p>
-
-
-
-                                            </div>
-
-                                            <div class="col-6">
-
-                                                <p class="fw-bold text-end">- {% if cart.is_coupon_apply.discount_types == 'A'%}${{cart.is_coupon_apply.discount|intcomma}}{% elif cart.is_coupon_apply.discount_types == 'P'%}{{cart.is_coupon_apply.discount}}%{% endif %}</p>
-
-                                            </div>
-                                            {% endif %}
-
-                                            <div class="col-6">
-
-                                                <p class="text-start">Envío</p>
-
-
-
-                                            </div>
-
-                                            <div class="col-6">
-
-                                                <p class="fw-bold text-end">
-                                                  {% if cart.get_shipping_cost > 0 %}
-                                                    ${{cart.get_shipping_cost}}
-                                                  {% else %}
-                                                  ¡Gratis! <i class="bi bi-lightning" style="color:{{store_instance.store_meta.header_color}}"></i>
-                                                  {% endif %}
-                                                </p>
-
-                                            </div>
-
-                                        </div>
-
-                                        <hr class="mt-0 mb-2">
-
-                                        <div class="row">
-
-                                            <div class="col-6">
-
-                                                <p class="text-start">Total</p>
-
-
-
-                                            </div>
-
-                                            <div class="col-6">
-
-                                                <h5 class="text-end">$ {{cart.get_total_products|intcomma}}</h5>
-
-                                            </div>
-
-                                        </div>
+                                    <div class="col-12 col-lg-6 dynamic-padding dynamic-detail bg-light well">
+                                        
+                                        {% include 'shop/includes/partial_dynamic_detail.html' with step=step %}
 
                                     </div>
 
@@ -317,7 +97,6 @@
 <!-- Toastr -->
 
 <script src="{{STATIC_URL}}assets/js/plugins/toastr/toastr.min.js"></script>
-<!-- <script src="{{STATIC_URL}}js/shop.js"></script> -->
 <!-- <script src="{{STATIC_URL}}js/script.js" defer></script> -->
 
 {% endblock customjs %}
@@ -326,5 +105,54 @@
 
 {% include 'core/snippets/form_validation.html' with form=form_order check=check %}
 {% include 'core/snippets/form_validation.html' with form=form_delivery check=check %}
+{% if cart.get_address_order %}
+    var zipcode = $('#id_zip_code').val();
+
+    $.ajax({
+        url: '{% url 'dashboard:zipcode' %}',
+        data: {'zipcode':zipcode},
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            if(data){
+                $('#id_city').val(data.community);
+                $('#id_state').val(data.state);
+                if( $('#id_suburb').has('option').length == 0 ) {
+                    $.each(data.suburbs, function (i, item) {
+                        $('#id_suburb').append($('<option>', { 
+                            value: item,
+                            text : item 
+                        }));
+                    });
+                }
+                $("#id_suburb option[value='{{cart.get_suburb_by_address}}']").attr("selected", true);
+            }
+        }
+    });
+{% endif %}
+$('#id_zip_code').blur(function() {
+    var zipcode = $('#id_zip_code').val();
+
+    $.ajax({
+        url: '{% url 'dashboard:zipcode' %}',
+        data: {'zipcode':zipcode},
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            if(data){
+                $('#id_city').val(data.community);
+                $('#id_state').val(data.state);
+                if( $('#id_suburb').has('option').length == 0 ) {
+                    $.each(data.suburbs, function (i, item) {
+                        $('#id_suburb').append($('<option>', { 
+                            value: item,
+                            text : item 
+                        }));
+                    });
+                }
+            }
+        }
+    });
+});
 
 {% endblock docready %}

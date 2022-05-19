@@ -1,6 +1,7 @@
 #-*- coding: utf-8 -*-
 
 from decimal import Decimal
+from this import d
 from django.conf import settings
 import datetime
 
@@ -127,7 +128,7 @@ class Cart(object):
 			item['totals'] = {}
 			item['price_charge'] = {}
 			item['price_custom'] = {}
-			# print(item['product'].pk)
+
 			#item['coupon'] = self.is_product_in_coupon(item['product'].pk)
 			variants_keys = item['variants'].keys()
 
@@ -154,19 +155,19 @@ class Cart(object):
 				else:
 					total = 0
 				if item['product'].products_properties.shipping_free:
-					# print('El producto esta en envio gratis, shipping 0')
+
 					if self.cart['shipping'].get('total') == 0:
 						total = 0
 					elif len(self.cart['shop'].values()) == 1:
 						total = 0
 				else:
-					# print('El producto no esta en envio gratis, shipping varia')
+
 					if item['variants'][key]['quantity'] >= item['variants'][key].get('shipping_limit',0):
 						if self.all_shipping_free(products_keys):
 							total = 0
-						# print('El producto esta en envio gratis por cantidad, shipping 0')
+
 					else:
-						# print('El producto tiene envio')
+
 						if item['variants'][key]['shipping'] > total:
 							total = Decimal(item['variants'][key]['shipping'])
 						else:
@@ -174,9 +175,17 @@ class Cart(object):
 							# self.cart['shipping']['total'] = Decimal(item['variants'][key]['shipping'])
 			# if self.cart.get('shipping'):
 			# 	if self.cart['shipping'].get('total'):
-			# 		print('hola')
+			self.cart['shipping']['shipping_total'] = total
 			if total > 0:
-				self.cart['shipping']['total'] = total
+				if self.cart['shipping'].get('method'):
+					if self.cart['shipping']['method'] == 'nacional':
+						self.cart['shipping']['total'] = total
+					if self.cart['shipping']['method'] == 'local':
+						self.cart['shipping']['total'] = 40
+					if self.cart['shipping']['method'] == 'default':
+						self.cart['shipping']['total'] = 0
+				else:
+					self.cart['shipping']['total'] = 0
 			else:
 				self.cart['shipping']['total'] = 0
 			yield item
@@ -221,7 +230,7 @@ class Cart(object):
 		cp = []
 		# coupon_products = coupon.products_coupons.values_list('product__pk', flat=False)
 		if coupon.no_uses > coupon.uses and coupon.date_expiration > datetime.date.today() and self.get_subtotal_products() >= coupon.min_purchase or coupon.min_purchase == 0:
-			print(coupon.apply_all)
+
 			if  coupon.apply_all:
 				coupon_apply = True
 				self.cart['coupon_apply'] = coupon_apply
@@ -230,14 +239,12 @@ class Cart(object):
 			else:
 				for p in coupon.products_coupons.all():
 					cp.append(str(p.product.pk))
-				# print(cp)
 				for key in self.cart['shop'].keys():
 					keys.append(key)
-				# print(keys)
+
 				check_all = all(item in keys for item in cp)
 				check_any =  any(item in keys for item in cp)
-				# print('all', check_all)
-				# print('any', check_any)
+
 				if check_all:
 					self.cart['check_all'] = True
 					coupon_apply = True
@@ -252,13 +259,6 @@ class Cart(object):
 					return True
 		else:
 			return False
-			# else:
-			# 	if check:
-			# 		print("The list {} contains SOME elements of the list {}".format(cp, keys))
-			# 		return True
-			# 	else:
-			# 		print("No, List1 doesn't have ANY elements of the List2.")
-			# 		return False
 
 	def is_coupon_apply(self):
 		if self.cart.get('coupon_apply', False):
@@ -269,7 +269,7 @@ class Cart(object):
 		temp_total = 0
 		discount = 0
 		cp = []
-		print(self.cart.get('check_any'), self.cart.get('check_all'))
+
 		for item in self.cart['shop'].values():
 			item['coupon'] = {}
 			variants_keys = item['variants'].keys()
@@ -306,16 +306,15 @@ class Cart(object):
 												Decimal(item['variants'][key].get('charge_custom',0.00)) +
 												item['variants'][key]['quantity'] * Decimal(item['variants'][key].get('charge_size',0.00))
 											)
-			# print('temp ',temp_total)
+
 			if self.cart['coupon'].discount_types == 'P':
 				if temp_total > 0:
-					# print(total)
-					# print(temp_total)
+
 					temp = total - Decimal(temp_total)
 					temp_subtotal = (100 - Decimal(discount))/100 * Decimal(temp_total)
-					# print(temp_subtotal)
+
 					total = Decimal(temp) + Decimal(temp_subtotal)
-					# print('total-p ', total)
+
 				else:
 					subtotal = Decimal(discount/100) * Decimal(total)
 					total = total - Decimal(subtotal)
@@ -324,7 +323,7 @@ class Cart(object):
 					temp = total - temp_total
 					temp_subtotal = temp_total - Decimal(discount)
 					dis = temp + temp_subtotal
-					# print('total-a ', dis)
+
 				else:
 					dis = total - Decimal(discount)
 				if dis < 0:
@@ -335,9 +334,9 @@ class Cart(object):
 
 			if self.cart['coupon'].discount_types == 'P':
 				subtotal = (100 - Decimal(discount))/100 * Decimal(total)
-				# print(subtotal)
+
 				total = total - Decimal(subtotal)
-				# print(total)
+
 			elif self.cart['coupon'].discount_types == 'A':
 				dis = total - Decimal(discount)
 				if dis < 0:
@@ -353,11 +352,7 @@ class Cart(object):
 				for item in self.cart['shop'].values():
 					cp.append(str(item['product'].pk))
 				exist = self.cart['coupon'].products_coupons.filter(product__pk__in=cp).count()
-				# print(exist)
-				# if exist:
-				# 	return exist
-				# else:
-				# 	return False
+
 				return exist
 			else:
 				#return True
@@ -403,12 +398,40 @@ class Cart(object):
 
 		return total
 
+	def set_shipping_method(self, method):
+		shippingLocal = 40.00
+		if self.cart.get('shipping'):
+			if method == 'default':
+				self.cart['shipping']['total'] = 0
+
+			if method == 'local':
+				self.cart['shipping']['total'] = shippingLocal.__round__(2)
+
+			self.cart['shipping']['method'] = method
+		self.save()
+		
+	def get_shipping_method(self):
+		if self.cart.get('shipping'):
+			if self.cart['shipping'].get('method'):
+				return self.cart['shipping']['method']
+			else:
+				return False
+		else:
+			return False
+
 	#-- Shipping cost of products
 	def get_shipping_cost(self):
 		if self.cart.get('shipping'):
 			return self.cart['shipping']['total']
 		else:
 			return 0
+
+	def get_shipping_total(self):
+		if self.cart.get('shipping'):
+			return self.cart['shipping']['shipping_total']
+		else:
+			return 0
+		
 
 	#-- Total of products
 	def get_total_products(self):
@@ -468,3 +491,9 @@ class Cart(object):
 				self.cart['address']['delivery']['state'])
 		else:
 			return False
+
+	def get_suburb_by_address(self):
+		if self.cart['address'].get('delivery'):
+			return self.cart['address']['delivery']['suburb']
+		else:
+			return False	

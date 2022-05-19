@@ -18,14 +18,14 @@
 </div>
 
 <div>
-
-    <button class="four-buttons" data-url="{% url 'shop:cart_checkout' %}?step=pago" onclick="goStep($(this));">Continuar al pago</button>
-
+    {% if cart.get_shipping_method %}
+    <button class="four-buttons" data-url="{% url 'shop:cart_checkout' %}?step=pago&method={{cart.get_shipping_method}}" onclick="goStep($(this));">Continuar al pago</button>
+    {% endif %}
 </div>
 {% elif step == 'pago' %}
 <div>
 
-    <a  class="text-primary" data-url="{% url 'shop:cart_checkout' %}?step=envio" onclick="goStep($(this));">Regresar atrás</a>
+    <a  class="text-primary" data-url="{% url 'shop:cart_checkout' %}?step=envio&method={{cart.get_shipping_method}}" onclick="goStep($(this));">Regresar atrás</a>
 
 </div>
 {% endif %}

@@ -35,7 +35,7 @@ transition: 0.3s;">
 					<div class="item bground-config d-flex justify-content-center align-items-center" 
 						style="background-image: url('{{item.image.url}}');">
 
-						<div class="background-filter"></div>
+						<!-- <div class="background-filter"></div> -->
 
 						<div class="carousel-content text-center">
 
@@ -325,25 +325,27 @@ transition: 0.3s;">
 
 								</p>
 
-								<h6>
-								{% if item.products_properties.is_sale %}
-									$ {{item.products_properties.sale_price|intcomma}}
-								{% else %}
-									$ {{item.products_properties.sell_price|intcomma}}
+								<h6 style="display: -webkit-inline-box;">
+									{% if item.products_properties.is_sale %}
+									$ {{item.products_properties.sale_price|intcomma}} <small style="text-decoration: line-through;">$ {{item.products_properties.sell_price|intcomma}}</small>
+									{% else %}
+										$ {{item.products_properties.sell_price|intcomma}}
+									{% endif %}
+									</h6>
+									
+
+								</div>
+								{% if item.products_properties.shipping_free %}
+								<div class="col-2 col-md-3 col-lg-6 d-flex justify-content-end">
+
+									<button type="button" style="color: #914c54 !important; text-decoration: none !important;" class="btn btn-link d-block">
+
+										<i class="bi bi-truck"></i> Envio gratis
+
+									</button>
+
+								</div>
 								{% endif %}
-								</h6>
-
-							</div>
-
-							<div class="col-2 col-md-3 col-lg-6 d-flex justify-content-end">
-
-								<button type="button" class="btn btn-link like-heart-button d-block">
-
-									<i class="bi bi-heart"></i>
-
-								</button>
-
-							</div>
 
 						</div>
 					</div>
@@ -845,9 +847,12 @@ transition: 0.3s;">
 					{% endcomment %}
 
 				</div>
+
+				{% if products_list.count >= 8 %}
                 <div>
                     <button type="button" onclick="sendPage('{% url 'shop:products_list' %}')" class="button-for-category four-buttons d-block mx-auto">Ver más productos</button>
                 </div>
+				{% endif %}
 			</section>
 
 

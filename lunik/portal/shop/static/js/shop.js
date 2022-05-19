@@ -317,6 +317,7 @@ $(document).ready(function(){
         history.pushState({}, null, window.location.origin + '/carrito/checkout/?step='+data.step);
         $(".dynamic-step").html(data.html_dynamic);
         $(".dynamic-footer").html(data.html_footer);
+        $(".dynamic-detail").html(data.html_dynamic_detail);
         
       } else {
         data.errors.forEach(function (error) {
@@ -339,6 +340,7 @@ $(document).ready(function(){
             // Replace HTML with step 
             $(".dynamic-step").html(data.html_dynamic);
             $(".dynamic-footer").html(data.html_footer);
+            $(".dynamic-detail").html(data.html_dynamic_detail);
 
         }
     })

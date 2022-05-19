@@ -208,7 +208,7 @@ def cart_update(request):
 
 		product = get_object_or_404(Product, pk=request.GET.get('product_pk'))
 		context['cart'].add(product,request.GET.get('size'),request.GET.get('quantity'),request.GET.get('total_quantity'))
-		print(context['cart'].get_shipping_cost())
+
 		data['form_is_valid'] = True
 		data['html_cart_charge'] = render_to_string('shop/includes/partial_cart_charge.html',context)
 		data['html_cart_table'] = render_to_string('shop/includes/partial_cart_table.html',context,request)
@@ -311,6 +311,7 @@ def cart_address(request):
 					errors.append({'field': field.name, 'error': error})
 		data['html_dynamic'] = render_to_string('shop/includes/partial_dynamic_checkout.html',context,request)
 		data['html_footer'] = render_to_string('shop/includes/partial_footer_checkout.html',context,request)
+		data['html_dynamic_detail'] = render_to_string('shop/includes/partial_dynamic_detail.html', context, request)
 	
 	return JsonResponse(data)
 
@@ -370,9 +371,15 @@ def cart_checkout(request):
 		if request.is_ajax() and request.method == 'GET':
 
 			context['step'] = request.GET.get('step')
+			if request.GET.get('method'):
+				data['method'] = request.GET.get('method')
+				context['cart'].set_shipping_method(request.GET.get('method'))
+				data['step'] = context['step']
+			data['html_dynamic_detail'] = render_to_string('shop/includes/partial_dynamic_detail.html', context, request)
 			data['html_dynamic'] = render_to_string('shop/includes/partial_dynamic_checkout.html',context,request)
 			data['html_footer'] = render_to_string('shop/includes/partial_footer_checkout.html',context,request)
 			return JsonResponse(data)
+
 		if request.method == 'POST':
 			form_order = ShopOrderForm(request.POST, initial=context['cart'].get_address_order())
 			form_delivery = ShopOrderDeliveryForm(request.POST, initial=context['cart'].get_address_delivery())
@@ -392,69 +399,7 @@ def cart_checkout(request):
 				})
 			except Exception as e:
 				return JsonResponse(error=str(e)), 403	
-			# try:
-			# 	#-- Stripe payment
-			# 	stripe.api_key = 'sk_test_51H5LaSIKF8Hi9Jx6yW3RzsyKlJDSLAcxolhL6C7g4G1PqjXUTdRfuhmnPap94WJn0q908PqVauxGBh3EHWykv90t00UkIeOM2P'
-			# 	token = request.POST.get('stripeToken')
-			# 	charge = stripe.Charge.create(
-			# 		amount=context['cart'].get_total_products_stripe(),
-			# 		currency='mxn',
-			# 		description='%s-%s' % (context['store'].name,context['store'].code),
-			# 		source=token,
-			# 	)
-			# 	#-- payment successful
-			# 	if charge['paid']:
-			# 		#-- Save order in DB
-			# 		order = form_order.save(commit=False)
-			# 		order.store = context['store']
-			# 		if not request.user.is_superuser and not request.user.is_anonymous and request.user.is_customer:
-			# 			order.customer = request.user
-			# 		order.date_order = timezone.now().today()
-			# 		order.save()
 
-			# 		# if context['form_delivery'].has_changed():
-			# 		delivery = form_delivery.save(commit=False)
-			# 		delivery.order = order
-			# 		delivery.save()
-
-			# 		#-- Save products from order
-			# 		order_products = ShopOrderProduct.products_save(context['cart'],order)
-			# 		ShopOrderProduct.objects.bulk_create(order_products)
-			# 		#-- Create OrderDelivery objetc
-			# 		#OrderDelivery.objects.create(order=order)
-			# 		#-- Save payment from order
-			# 		payment = ShopOrderPayment(
-			# 						order = order,
-			# 						stripe_folio = charge['id'],
-			# 						total = context['cart'].get_subtotal_products(),
-			# 						shipping = context['cart'].get_shipping_cost(),
-			# 					)
-			# 		if context['cart'].is_coupon_apply():
-			# 			#coupon = Coupon.objects.get(pk=context['cart'].is_coupon_apply().pk)
-			# 			#coupon.uses += 1
-			# 			#coupon.save()
-			# 			#payment.coupon = coupon
-						
-			# 			payment.save()
-
-			# 		#--Purchase informarion
-			# 		context['folio'] = order.folio
-			# 		context['email'] = order.email
-			# 		context['store_name'] = context['store'].name
-
-			# 		#-- Sendmail from order
-			# 		ShopOrder.sendmail_order(request, order, info)
-
-			# 		#-- Delete cart session
-			# 		#context['cart'].clear()
-			# 		del request.session[settings.CART_COOKIE_NAME]
-
-			# 		#return render(request,'shop/shop_payment_successful.html',context)
-			# 		context['order'] = order
-			# 		return render(request,'shop/shop_payment_successful.html',context)
-
-			# except stripe.error.CardError:
-			# 		return render(request,'shop/shop_payment_error.html',context)
 		return render(request,'shop/shop_checkout.html',context)
 	else:
 		return redirect('shop:cart_detail')

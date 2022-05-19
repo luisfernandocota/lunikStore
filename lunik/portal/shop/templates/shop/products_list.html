@@ -220,17 +220,27 @@
 
                                         </p>
 
-                                        <h6>
+                                        <h6 style="display: -webkit-inline-box;">
                                         {% if item.products_properties.is_sale %}
-                                            $ {{item.products_properties.sale_price|intcomma}}
+                                        $ {{item.products_properties.sale_price|intcomma}} <small style="text-decoration: line-through;">$ {{item.products_properties.sell_price|intcomma}}</small>
                                         {% else %}
                                             $ {{item.products_properties.sell_price|intcomma}}
                                         {% endif %}
                                         </h6>
+                                        
 
                                     </div>
+                                    {% if item.products_properties.shipping_free %}
+                                    <div class="col-2 col-md-3 col-lg-6 d-flex justify-content-end">
 
-                                    
+                                        <button type="button" style="color: #914c54 !important; text-decoration: none !important;" class="btn btn-link d-block">
+
+                                            <i class="bi bi-truck"></i> Envio gratis
+
+                                        </button>
+
+                                    </div>
+                                    {% endif %}
 
                                 </div>
 

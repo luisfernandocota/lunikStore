@@ -77,34 +77,29 @@ Dropzone.autoDiscover = false;
 {% endblock content %}
 
 {% block docready %}
-let myDropzone = new Dropzone("#frmTarget", { 
-    autoProcessQueue: false,
-    uploadMultiple: true,
-    parallelUploads: 100,
-    maxFiles: 100,
-    url: '{% if slide_obj %}{% url 'website:slides_edit' slide_obj.pk %}{% else %}{% url 'website:slides_add' %}{% endif %}'
+let myDropzone = new Dropzone("#frmTarget", {
+  autoProcessQueue: false,
+  uploadMultiple: true,
+  parallelUploads: 100,
+  maxFiles: 100,
+  url: '{% if request.is_secure %}https{% else %}http{% endif %}://{{request.get_host}}{% if product_obj %}{% url 'website:slides_edit' slide_obj.pk %}{% else %}{% url 'website:slides_add' %}{% endif %}',
+  init: function(){
+      this.on("success", function(file, response) {
+          window.location = '{% if request.is_secure %}https{% else %}http{% endif %}://{{request.get_host}}{% url 'website:slides_list' %}'
+      })
+  }
 });
+
 // Update selector to match your button
-$("#submitButton").click(function (e) {
-    e.preventDefault();
-    myDropzone.processQueue();
+$("#frmTarget").on('submit', function (e) {
+  e.preventDefault();
+  e.stopPropagation();
+
+  if (myDropzone.getQueuedFiles().length > 0) {                        
+      myDropzone.processQueue();  
+  } else {                       
+      this.submit();
+  }                                    
+
 });
-Dropzone.options.myDropzone = {
-    
-    init: function () {
-
-        
-
-        this.on('sending', function(file, xhr, formData) {
-            // Append all form inputs to the formData Dropzone will POST
-            var data = $('#frmTarget').serializeArray();
-            $.each(data, function(key, el) {
-                formData.append(el.name, el.value);
-            });
-        });
-        this.on("successmultiple", function(files, response) {
-            console.log('hola')
-          });
-    }
-}
 {% endblock docready %}

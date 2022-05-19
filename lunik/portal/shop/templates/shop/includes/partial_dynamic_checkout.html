@@ -1,3 +1,4 @@
+{% load humanize %}
 {% if step == 'informacion' %}
 
     <h5>Mi carrito de compras</h5>
@@ -116,20 +117,6 @@
                 <label for="num_ext">Num int.</label>
 
             </div>
-            {% comment %} <div class="form-floating mb-3 col-12">
-
-                <input type="text" class="form-control" id="additional_information" placeholder="Información adicional">
-
-                <label for="additional_information">Información adicional</label>
-
-            </div> {% endcomment %}
-            <div class="form-floating mb-3 col-12 col-lg-8">
-
-                {{form_delivery.suburb}}
-
-                <label for="suburb">Colonia</label>
-
-            </div>
             <div class="form-floating mb-3 col-12 col-lg-4">
 
                 {{form_delivery.zip_code}}
@@ -137,6 +124,14 @@
                 <label for="cp">Cod. Postal</label>
 
             </div>
+            <div class="form-floating mb-3 col-12 col-lg-8">
+
+                {{form_delivery.suburb}}
+
+                <label for="suburb">Colonia</label>
+
+            </div>
+            
 
             <div class="form-floating mb-3 col-12 col-lg-6">
 
@@ -171,6 +166,34 @@
         </form>
 
     </div>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            let zipcode = document.getElementById('id_zip_code').value
+            let url = '/dashboard/zipcode/info/?zipcode=' + zipcode
+            $.ajax({
+                url: url,
+                data: {'zipcode':zipcode},
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    if(data){
+                        $('#id_city').val(data.community);
+                        $('#id_state').val(data.state);
+                        if( $('#id_suburb').has('option').length == 0 ) {
+                            $.each(data.suburbs, function (i, item) {
+                                $('#id_suburb').append($('<option>', { 
+                                    value: item,
+                                    text : item 
+                                }));
+                            });
+                        }
+                        $("#id_suburb option[value='{{cart.get_suburb_by_address}}']").attr("selected", true);
+                    }
+                }
+            });
+        });
+    </script>
 
 {% elif step == 'envio' %}
 
@@ -229,7 +252,7 @@
         </div>
 
     </div>
-{% comment %} 
+
     <div class="contact-information pt-4">
 
         <p class="fw-bold">
@@ -239,16 +262,17 @@
         </p>
 
         <div class="p-2 row g-0" style="border: 1px solid #ced4da;">
-
+            
             <div class="col-12 col-lg-9">
 
                 <div class="form-check">
 
-                    <input class="form-check-input" type="radio" name="shipping_method" id="default" value="default" checked>
+                    <input class="form-check-input" onclick="radioCheck()"  style="background-color: var(--main-bg-color-branding) !important; border-color: var(--main-bg-color-branding) !important;" type="radio" name="shipping_method" id="default" value="default" 
+                    {% if cart.get_shipping_method == 'default' %}checked{% endif %}>
 
                     <label class="form-check-label" for="default">
 
-                        Correos de México
+                        Recoger pedido
 
                     </label>
 
@@ -258,7 +282,7 @@
 
             <div class="col-12 col-lg-3">
 
-                <p class="mb-0 fw-bold text-end" style="font-size: 14px;">$ 2 USD</p>
+                <p class="mb-0 fw-bold text-end" {% if cart.get_shipping_method == 'default' %}style="font-size:20px;"{% endif %} id="p-default">GRATIS</p>
 
             </div>
 
@@ -266,11 +290,12 @@
 
                 <div class="form-check">
 
-                    <input class="form-check-input" type="radio" name="shipping_method" id="dhl"value="dhl">
+                    <input class="form-check-input" onclick="radioCheck()" style="background-color: var(--main-bg-color-branding) !important; border-color: var(--main-bg-color-branding) !important;" type="radio" name="shipping_method" id="local" value="local"  
+                    {% if cart.get_shipping_method == 'local' %}checked{% endif %}>
 
-                    <label class="form-check-label" for="dhl">
+                    <label class="form-check-label" for="local">
 
-                        DHL
+                        Envio local
 
                     </label>
 
@@ -280,13 +305,36 @@
 
             <div class="col-12 col-lg-3">
 
-                <p class="mb-0 fw-bold text-end" style="font-size: 14px;">$ 22 USD</p>
+                <p class="mb-0 fw-bold text-end" {% if cart.get_shipping_method == 'local' %}style="font-size:20px;"{% endif %} id="p-local" >$ 40.00</p>
+
+            </div>
+
+            <div class="col-12 col-lg-9">
+
+                <div class="form-check">
+
+                    <input class="form-check-input" onclick="radioCheck()"  style="background-color: var(--main-bg-color-branding) !important; border-color: var(--main-bg-color-branding) !important;" type="radio" name="shipping_method" id="nacional"value="nacional" 
+                    {% if cart.get_shipping_method == 'nacional' %}checked{% endif %}>
+
+                    <label class="form-check-label" for="nacional">
+
+                        Envio nacional
+
+                    </label>
+
+                    </div>
+
+            </div>
+
+            <div class="col-12 col-lg-3">
+
+                <p class="mb-0 fw-bold text-end" {% if cart.get_shipping_method == 'nacional' %}style="font-size:20px;"{% endif %} id="p-nacional">$ {{cart.get_shipping_total}}</p>
 
             </div>
 
         </div>
 
-    </div> {% endcomment %}
+    </div>
 
 {% elif step == 'pago' %}
 
@@ -308,8 +356,8 @@
         </ol>
 
     </nav>
-{% comment %} 
-    <div class="shipping-information pt-4">
+
+    <div class="shipping-information">
 
         <div class="p-2 row g-0" style="border: 1px solid #ced4da;">
 
@@ -321,7 +369,7 @@
 
             <div class="col-12 col-lg-9">
 
-                <p class="mb-0 text-end" style="font-size: 14px;">manueldenoviembre@gmail.com</p>
+                <p class="mb-0 text-end" style="font-size: 14px;">{{cart.get_email_by_address}}</p>
 
             </div>
 
@@ -339,7 +387,7 @@
 
             <div class="col-12 col-lg-9">
 
-                <p class="mb-0 text-end" style="font-size: 14px;">Antonio Toledo Corro #231 Los Mochis, Sinaloa</p>
+                <p class="mb-0 text-end" style="font-size: 14px;">{{cart.get_street_by_address}}</p>
 
             </div>
 
@@ -356,18 +404,23 @@
             </div>
 
             <div class="col-12 col-lg-9">
-
-                <p class="mb-0 text-end" style="font-size: 14px;">Correos de méxico <strong>$ 20 USD</strong></p>
+                {% if cart.get_shipping_method == 'default' %}
+                <p class="mb-0 text-end" style="font-size: 14px;"><span id="span-method">Recoger pedido</span><strong> Gratis</strong></p>
+                {% elif cart.get_shipping_method == 'local' %}
+                <p class="mb-0 text-end" style="font-size: 14px;"><span id="span-method">Local</span><strong> ${{cart.get_shipping_cost|intcomma}}</strong></p>
+                {% elif cart.get_shipping_method == 'nacional' %}
+                <p class="mb-0 text-end" style="font-size: 14px;"><span id="span-method">Nacional</span><strong> ${{cart.get_shipping_cost|intcomma}}</strong></p>
+                {% endif %}
 
             </div>
 
         </div>
 
-    </div> {% endcomment %}
+    </div> 
 
     <div class="contact-information">
 
-        <p class="fw-bold mb-2">
+        <p class="fw-bold mb-2 pt-4">
 
             Método de pago
 
@@ -520,3 +573,5 @@
     }
     </script>
 {% endif %}
+
+<script src="{{STATIC_URL}}js/cart.js"></script>
