@@ -24,7 +24,8 @@
         <small><i data-feather="dollar-sign"></i></small>
         <b>$ {{order.total_shopping|intcomma}} </b><br>
         <small><i data-feather="truck"></i></small>
-        <small>Envio ($ {{order.order_payment.shipping|intcomma}} )</small>
+        <small>Envio ($ {{order.order_payment.shipping|intcomma}} )</small><br>
+        <small>{% if order.order_payment.shipping_method == 'default' %}Recoger pedido{% elif order.order_payment.shipping_method == 'local' %}Local{% else %}Nacional{% endif %}</small>
       </td>
       <td class="project-status text-center">
         <small><i data-feather="tag"></i></small>

@@ -305,6 +305,14 @@ $(document).ready(function(){
 
  });
 
+ function simpleLoad(box, state) {
+  if (state) {
+      box.toggleClass('sk-loading');
+  } else {
+      box.toggleClass('sk-loading');
+      }
+  }
+
  function sendFormData(){
   var form = $('#form-info');
   $.ajax({
@@ -312,7 +320,14 @@ $(document).ready(function(){
     data: form.serialize(),
     type: form.attr("method"),
     dataType: 'json',
+    beforeSend: function () {
+      simpleLoad($('#panel_user'),true);
+
+      $('#panel_user').prepend('<div id="loader-bar" class="loader text-center"><span class="bar"></span><span class="bar"></span><span class="bar"></span> </div>');
+    },
     success: function (data) {
+      simpleLoad($('#panel_user'),false);
+      $('#loader-bar').remove();
       if(data.form_is_valid){
         history.pushState({}, null, window.location.origin + '/carrito/checkout/?step='+data.step);
         $(".dynamic-step").html(data.html_dynamic);
@@ -334,8 +349,14 @@ $(document).ready(function(){
         url: elem.data('url'),
         type: 'get',
         dataType: 'json',
+        beforeSend: function () {
+          simpleLoad($('#panel_user'),true);
+          $('#panel_user').prepend('<div id="loader-bar" class="loader text-center"><span class="bar"></span><span class="bar"></span><span class="bar"></span> </div>');
+        },
         success: function (data) {
             // Replace URL with new step
+            simpleLoad($('#panel_user'),false);
+            $('#loader-bar').remove();
             history.pushState({}, null, window.location.origin + elem.data('url'));
             // Replace HTML with step 
             $(".dynamic-step").html(data.html_dynamic);
@@ -400,6 +421,5 @@ function removeAllParams(){
 // Send page URL
 
 function sendPage(page){
-  console.log(page)
-return window.location = page
+  return window.location = page
 };

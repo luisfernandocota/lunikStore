@@ -204,7 +204,9 @@ class ProductShopCart(forms.Form):
         sizes = kwargs.pop('product_sizes')
         self.product_pk = kwargs.pop('product_pk')
         super(ProductShopCart, self).__init__(*args, **kwargs)
-        
+        product = Product.objects.get(pk=self.product_pk)
+        if product.products_properties.has_personalization:
+            self.fields['quantity'].widget = forms.HiddenInput()
         self.fields['sizes'].queryset = sizes
         self.fields['sizes'].label_from_instance = lambda obj: "%s + $(%s)  " % (obj.name, obj.charge) if obj.charge else obj.name
 

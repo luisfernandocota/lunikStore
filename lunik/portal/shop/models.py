@@ -232,6 +232,7 @@ class ShopOrderPayment(models.Model):
     client_secret = models.CharField(max_length=120,verbose_name='Client secret ID')
     total = models.DecimalField(max_digits=8,decimal_places=2,verbose_name='Total')
     shipping = models.DecimalField(max_digits=8,decimal_places=2,verbose_name='Shipping',blank=True)
+    shipping_method = models.CharField(max_length=10, verbose_name='Shipping method')
     date_payment = models.DateField(verbose_name='Payment date',auto_now_add=True)
     coupon = models.ForeignKey(Coupon, related_name='order_payment', null=True, on_delete=models.CASCADE)
     status = models.CharField(max_length=2, choices=SHIPPING_STATUS , default='PE')

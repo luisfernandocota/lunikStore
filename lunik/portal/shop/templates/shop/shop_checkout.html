@@ -55,9 +55,9 @@
 
                     </ul> {% endcomment %}
 
-                    <div class="tab-content parent" id="panel_user">
+                    <div class="tab-content parent well" id="panel_user">
 
-                        <div class="tab-pane fade show d-block">
+                        <div class="tab-pane fade show d-block ">
 
                             <div class="tab-pane-content no-padding">
 
@@ -105,54 +105,5 @@
 
 {% include 'core/snippets/form_validation.html' with form=form_order check=check %}
 {% include 'core/snippets/form_validation.html' with form=form_delivery check=check %}
-{% if cart.get_address_order %}
-    var zipcode = $('#id_zip_code').val();
-
-    $.ajax({
-        url: '{% url 'dashboard:zipcode' %}',
-        data: {'zipcode':zipcode},
-        type: 'GET',
-        dataType: 'json',
-        success: function (data) {
-            if(data){
-                $('#id_city').val(data.community);
-                $('#id_state').val(data.state);
-                if( $('#id_suburb').has('option').length == 0 ) {
-                    $.each(data.suburbs, function (i, item) {
-                        $('#id_suburb').append($('<option>', { 
-                            value: item,
-                            text : item 
-                        }));
-                    });
-                }
-                $("#id_suburb option[value='{{cart.get_suburb_by_address}}']").attr("selected", true);
-            }
-        }
-    });
-{% endif %}
-$('#id_zip_code').blur(function() {
-    var zipcode = $('#id_zip_code').val();
-
-    $.ajax({
-        url: '{% url 'dashboard:zipcode' %}',
-        data: {'zipcode':zipcode},
-        type: 'GET',
-        dataType: 'json',
-        success: function (data) {
-            if(data){
-                $('#id_city').val(data.community);
-                $('#id_state').val(data.state);
-                if( $('#id_suburb').has('option').length == 0 ) {
-                    $.each(data.suburbs, function (i, item) {
-                        $('#id_suburb').append($('<option>', { 
-                            value: item,
-                            text : item 
-                        }));
-                    });
-                }
-            }
-        }
-    });
-});
 
 {% endblock docready %}

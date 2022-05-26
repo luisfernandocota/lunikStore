@@ -95,7 +95,7 @@
                     {% endif %}
                     <br>
                     {% if product.products_properties.shipping_min %}
-                    <strong>Gratis al comprar: </strong> {{product.products_properties.shipping_min|floatformat:0}}
+                    <strong>Envio gratis al comprar: </strong> {{product.products_properties.shipping_min|floatformat:0}}
                     {% endif %}
                 </p>
 
@@ -174,13 +174,13 @@
 
 
                         <div class="row pt-4">
+                            {% if not product.products_properties.has_personalization %}
 
                             <div class="col-12">
 
                                 <label for="id_quantity" class="form-label d-block w-100">Piezas a comprar</label>
 
                             </div>
-
                             <div class="col-12 col-md-6">
 
                                 <div class="input-group mb-3">
@@ -195,7 +195,9 @@
                                 </div>
 
                             </div>
-
+                            {% else %}
+                            {{form_product.quantity}}
+                            {% endif %}
                             <div class="col-12 col-md-6">
 
                                 <div>

@@ -18,6 +18,7 @@ class Cart(object):
 		if not cart:
 			cart = self.session[settings.CART_COOKIE_NAME] = {'shop':{},'shipping':{}, 'address':{'order':{}, 'delivery': {}}}
 
+		self.local = (40).__round__(2)
 		self.cart = cart
 
 		self.save()
@@ -399,13 +400,15 @@ class Cart(object):
 		return total
 
 	def set_shipping_method(self, method):
-		shippingLocal = 40.00
+		
 		if self.cart.get('shipping'):
 			if method == 'default':
 				self.cart['shipping']['total'] = 0
 
 			if method == 'local':
-				self.cart['shipping']['total'] = shippingLocal.__round__(2)
+
+				self.cart['shipping']['total'] = self.local
+
 
 			self.cart['shipping']['method'] = method
 		self.save()
@@ -419,16 +422,23 @@ class Cart(object):
 		else:
 			return False
 
+
 	#-- Shipping cost of products
 	def get_shipping_cost(self):
 		if self.cart.get('shipping'):
-			return self.cart['shipping']['total']
+			if self.get_subtotal_products() < 1999:
+				return self.cart['shipping']['total']
+			else:
+				return 0
 		else:
 			return 0
 
 	def get_shipping_total(self):
 		if self.cart.get('shipping'):
-			return self.cart['shipping']['shipping_total']
+			if self.get_subtotal_products() < 1999:
+				return self.cart['shipping']['shipping_total']
+			else:
+				return 0
 		else:
 			return 0
 		
@@ -451,12 +461,11 @@ class Cart(object):
 	def add_address(self, *args,**kwargs):
 		order_form = kwargs.pop('order')
 		delivery_form = kwargs.pop('delivery')
-	
+		# range_code = range(81200,81394)
 		for field in order_form:
 			self.cart['address']['order'][field.name] = order_form.cleaned_data[field.name]
 		for field in delivery_form:
 			self.cart['address']['delivery'][field.name] = delivery_form.cleaned_data[field.name]
-
 
 	def get_address_order(self):
 		if self.cart.get('address'):

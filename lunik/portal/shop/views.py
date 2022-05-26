@@ -438,6 +438,7 @@ def retrievePayment(request):
 								client_secret = body['paymentIntent']['client_secret'],
 								total = cart.get_subtotal_products(),
 								shipping = cart.get_shipping_cost(),
+								shipping_method = cart.get_shipping_method()
 							)
 				if cart.is_coupon_apply():
 					coupon = Coupon.objects.get(pk=cart.is_coupon_apply().pk)
