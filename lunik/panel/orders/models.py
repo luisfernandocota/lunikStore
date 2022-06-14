@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-import locale
-from decimal import Decimal
+
 from django.conf import settings
 from django.db import models
-from django.utils import timezone
+
 from django_extensions.db.models import TimeStampedModel
 from django.template.loader import render_to_string
 from django.contrib import messages
@@ -46,15 +45,23 @@ class OrderDelivery(TimeStampedModel):
 
     @staticmethod
     def sendmail_shop_link(request,instance,url,namespace):
+        from decouple import config
+        import stripe
 
         context = {}
         data = {}
 
         if request.is_ajax() and request.method == 'POST':
 
+            stripe.api_key = config('STRIPE_TEST_SECRET_KEY')
+            paymentIntent = stripe.PaymentIntent.retrieve(instance.order_payment.payment_intent)
+
             context['order'] = instance
-            message = render_to_string('orders/includes/orders_sendmail.html',context,request=request)
-            sendmail('Karla Gálvez :: Compra de productos', message, settings.DEFAULT_FROM_EMAIL,instance.email)
+            context['request'] = request
+            context['brand'] = paymentIntent['charges']['data'][0]['payment_method_details']['card']['brand']
+            context['last4'] = paymentIntent['charges']['data'][0]['payment_method_details']['card']['last4']
+            message = render_to_string('shop/includes/order_payment_email.html',context, request=request)
+            sendmail('%s | Detalle de tu pedido %s 😍' % ('Karla Galvéz', instance.folio), message, settings.DEFAULT_FROM_EMAIL,instance.email)
 
             messages.success(request, 'Reenvio de correo enviado satisfactoriamente')
 
@@ -69,7 +76,7 @@ class OrderDelivery(TimeStampedModel):
             context['obj_campaign'] = instance
             context['url_post'] = namespace
 
-            data['html_sendmail_shop'] = render_to_string('orders/includes/orders_sendmail_modal.html', context, request=request)
+            data['html_sendmail_shop'] = render_to_string('core/snippets/modal_sendmail.html', context, request=request)
 
         return data
 

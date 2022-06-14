@@ -156,8 +156,8 @@ def orders_shipping_status(request, order_pk):
 
 def orders_shop_sendmail(request,pk):
 
-	order = get_object_or_404(ShopOrder.objects.select_related('store').prefetch_related('products_orders', 'shop_order_delivery'), pk=pk)
+	order = get_object_or_404(ShopOrder.objects.prefetch_related('products_orders', 'shop_order_delivery'), pk=pk)
 
-	data = OrderDelivery.sendmail_shop_link(request,order,'/panel/orders/','orders:orders_shop_sendmail')
+	data = OrderDelivery.sendmail_shop_link(request,order,'/panel/orders/', 'shop/sendmail/%s/' %(pk))
 
 	return JsonResponse(data)

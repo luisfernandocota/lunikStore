@@ -1,25 +1,8 @@
 {% load humanize %}
 {% if step == 'informacion' %}
 
-    <h5>Mi carrito de compras</h5>
-
-    <nav aria-label="breadcrumb">
-
-        <ol class="breadcrumb">
-
-            <li class="breadcrumb-item"><a href="{% url 'shop:cart_detail' %}" class="text-primary">Carrito</a></li>
-
-            <li id="informacion" class="breadcrumb-item active"><a style="font-weight: bold;" data-url="{% url 'shop:cart_checkout' %}?step=informacion" onclick="goStep($(this));" class="text-primary">Información</a></li>
-
-            <li id="envio" class="breadcrumb-item"><a data-url="{% url 'shop:cart_checkout' %}?step=envio" onclick="goStep($(this));" class="text-primary">Envío</a></li>
-
-            <li id="pago" class="breadcrumb-item"><a data-url="{% url 'shop:cart_checkout' %}?step=pago" onclick="goStep($(this));" class="text-primary">Método de pago</a></li>
-
-        </ol>
-
-    </nav>
     {% if not request.user.is_authenticated and not request.user.is_customer %}
-    <div class="contact-information pt-4">
+    <div class="p-t-4">
 
         <p class="fw-bold">
 
@@ -63,91 +46,116 @@
     </div>
     {% endif %}
 
-    <div class="shipping-information pt-4">
+    <div class="p-r-40">
 
-        <p class="fw-bold">
+        <form rol="form" method='POST' action="{% url 'shop:cart_address' %}" id="form-info" class="js-form-info" style="height: 750px;">
+            <h4 class="m-text14 p-b-32">
 
-            Dirección de envío
-
-        </p>
-
-        <form rol="form" method='POST' action="{% url 'shop:cart_address' %}" id="form-info" class="row g-0 js-form-info">
+                Ingresa tus datos de envío
+    
+            </h4>
         {% csrf_token %}
             <input type="hidden" name="step" value="envio">
-            <div class="form-floating mb-3 col-12 ">
-
-                {{form_order.name}}
-
-                <label for="name">Nombre</label>
-
-            </div>
-
-            <div class="form-floating mb-3 col-12 col-lg-7">
-
-                {{form_order.email}}
-
-                <label for="last_name">Correo</label>
-
-            </div>
-            <div class="form-floating mb-3 col-12 col-lg-5">
-
-                {{form_order.phone}}
-
-                <label for="phone">Teléfono</label>
-
-            </div>
-            <div class="form-floating mb-3 col-12 col-lg-6">
-
-                {{form_delivery.address}}
-
-                <label for="address">Dirección</label>
-
-            </div>
-            <div class="form-floating mb-3 col-12 col-lg-3">
-
-                {{form_delivery.num_ext}}
-
-                <label for="num_ext">Num ext.</label>
-
-            </div>
-            <div class="form-floating mb-3 col-12 col-lg-3">
-
-                {{form_delivery.num_int}}
-
-                <label for="num_ext">Num int.</label>
-
-            </div>
-            <div class="form-floating mb-3 col-12 col-lg-4">
-
-                {{form_delivery.zip_code}}
-
-                <label for="cp">Cod. Postal</label>
-
-            </div>
-            <div class="form-floating mb-3 col-12 col-lg-8">
-
-                {{form_delivery.suburb}}
-
-                <label for="suburb">Colonia</label>
-
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="input-group p-b-10 p-t-10">
+        
+                            {{form_order.name}}
+            
+                            <label for="name" class="input-label">Nombre</label>
+            
+                        </div>
+                    </div>
+                    
+        
+                    <div class="col-12">
+                        <div class="input-group p-b-10 p-t-10">
+        
+                            {{form_order.email}}
+        
+                            <label for="last_name" class="input-label">Correo</label>
+        
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="input-group p-b-10 p-t-10">
+        
+                            {{form_order.phone}}
+        
+                            <label for="phone" class="input-label">Teléfono</label>
+        
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="input-group p-b-10 p-t-10">
+        
+                            {{form_delivery.address}}
+        
+                            <label for="address" class="input-label">Dirección</label>
+        
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-6">
+                        <div class="input-group p-b-10 p-t-10">
+        
+                            {{form_delivery.num_ext}}
+        
+                            <label for="num_ext" class="input-label">Num ext.</label>
+        
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-6">
+                        <div class="input-group p-b-10 p-t-10">
+        
+                            {{form_delivery.num_int}}
+        
+                            <label for="num_int" class="input-label">Num int.</label>
+        
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-6">
+                        <div class="input-group p-b-10 p-t-10">
+        
+                            {{form_delivery.zip_code}}
+        
+                            <label for="cp" class="input-label">Cod. Postal</label>
+        
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-6">
+                        <div class="input-group p-b-10 p-t-10">
+        
+                            {{form_delivery.suburb}}
+        
+                            <label for="suburb" class="input-label">Colonia</label>
+        
+                        </div>
+                    </div>
+                    
+        
+                    <div class="col-12 col-md-6 col-lg-6">
+                        <div class="input-group p-b-10 p-t-10">
+        
+                            {{form_delivery.city}}
+        
+                            <label for="city" class="input-label">Ciudad</label>
+        
+                        </div>
+                    </div>
+        
+                    <div class="col-12 col-md-6 col-lg-6">
+                        <div class="input-group p-b-10 p-t-10">
+        
+                        {{form_delivery.state}}
+        
+                        <label for="state" class="input-label">Estado</label>
+                        </div>
+                    </div>
+                </div>
+                
             </div>
             
-
-            <div class="form-floating mb-3 col-12 col-lg-6">
-
-                {{form_delivery.city}}
-
-                <label for="city">Ciudad</label>
-
-            </div>
-
-            <div class="form-floating mb-3 col-12 col-lg-6">
-
-                {{form_delivery.state}}
-
-                <label for="state">Estado</label>
-
-            </div>
 
 
 
@@ -203,8 +211,6 @@
                     type: 'GET',
                     dataType: 'json',
                     success: function (data) {
-                        console.log(data.community)
-
                         if(data){
                             $('#id_city').val(data.community);
                             $('#id_state').val(data.state);
@@ -226,31 +232,15 @@
 
 {% elif step == 'envio' %}
 
-    <h5>Mi carrito de compras</h5>
+    <div class=" p-lr-15 p-t-20 container-option">
 
-    <nav aria-label="breadcrumb">
-
-        <ol class="breadcrumb">
-
-            <li class="breadcrumb-item"><a href="{% url 'shop:cart_detail' %}" class="text-primary">Carrito</a></li>
-
-            <li id="informacion" class="breadcrumb-item"><a data-url="{% url 'shop:cart_checkout' %}?step=informacion" onclick="goStep($(this));" class="text-primary">Información</a></li>
-
-            <li id="envio" class="breadcrumb-item active"><a style="font-weight: bold;" data-url="{% url 'shop:cart_checkout' %}?step=envio" onclick="goStep($(this));" class="text-primary">Envío</a></li>
-
-            <li id="pago" class="breadcrumb-item"><a data-url="{% url 'shop:cart_checkout' %}?step=pago" onclick="goStep($(this));" class="text-primary">Método de pago</a></li>
-
-        </ol>
-
-    </nav>
-
-    <div class="shipping-information pt-4">
-
-        <div class="p-2 row g-0" style="border: 1px solid #ced4da;">
+        <div class="row">
 
             <div class="col-12 col-lg-3">
 
-                <p class="mb-0" style="font-size: 14px;">Contacto</p>
+                <span class="s-text18 w-size19 w-full-sm">
+                    Contacto
+                </span>
 
             </div>
 
@@ -268,7 +258,9 @@
 
             <div class="col-12 col-lg-3">
 
-                <p class="mb-0" style="font-size: 14px;">Envíar a </p>
+                <span class="s-text18 w-size19 w-full-sm">
+                    Enviar a
+                </span>
 
             </div>
 
@@ -282,113 +274,219 @@
 
     </div>
 
-    <div class="contact-information pt-4">
+    <div class="p-lr-15 p-t-20">
 
-        <p class="fw-bold">
+        <h4 class="m-text14 p-b-12">
 
             Método de envío
 
-        </p>
+        </h4>
 
-        <div class="p-2 row g-0" style="border: 1px solid #ced4da;">
+        <div class="row container-option m-r-3" >
+            <div class="container select-option container-default">
+                <div class="row ">
+                    <div class="col-lg-1 icon-check">
+                        <i class="default-check visible-false fa fa-check-circle fa-2x" style="color: #da9fa6;"></i>
+                    </div>
+                    <div class="col-12 col-lg-8">
+
+                        <div class="form-check">
+
+                            <input class="visible-false"  style="background-color: var(--main-bg-color-branding) !important; border-color: var(--main-bg-color-branding) !important;" type="radio" name="shipping_method" id="default" value="default" 
+                            {% if cart.get_shipping_method == 'default' %}checked{% endif %}>
+        
+                            <label class="form-check-label">
+        
+                                Recoger pedido
+        
+                            </label>
+        
+                        </div>
+        
+                    </div>
+        
+                    <div class="col-12 col-lg-3">
+        
+                        <p class="mb-0 fw-bold text-end" {% if cart.get_shipping_method == 'default' %}style="font-size:20px;color:#914c54;"{% endif %} id="p-default">¡Gratis! <i class="fa fa-bolt" style="color:#914c54"></i></p>
+        
+                    </div>
+                </div>
+                
+            </div>
             
-            <div class="col-12 col-lg-9">
+            
+            <div class="col-12">
 
-                <div class="form-check">
+                <hr class="mt-2 mb-2">
 
-                    <input class="form-check-input" onclick="radioCheck()"  style="background-color: var(--main-bg-color-branding) !important; border-color: var(--main-bg-color-branding) !important;" type="radio" name="shipping_method" id="default" value="default" 
-                    {% if cart.get_shipping_method == 'default' %}checked{% endif %}>
+            </div>
+            <div class="container select-option container-local">
+                <div class="row ">
+                    <div class="col-lg-1 icon-check">
+                        <i class="local-check visible-false fa fa-check-circle fa-2x" style="color: #da9fa6;"></i>
+                    </div>
+                    <div class="col-12 col-lg-8">
 
-                    <label class="form-check-label" for="default">
+                        <div class="form-check">
 
-                        Recoger pedido
+                            <input class="visible-false" style="background-color: var(--main-bg-color-branding) !important; border-color: var(--main-bg-color-branding) !important;" type="radio" name="shipping_method" id="local" value="local"  
+                            {% if cart.get_shipping_method == 'local' %}checked{% endif %}>
 
-                    </label>
+                            <label class="form-check-label">
+
+                                Envio local (Ciudad Los Mochis, Sin, México.)
+
+                            </label>
+
+                            </div>
+
+                    </div>
+                    <div class="col-12 col-lg-3">
+
+                        <p class="mb-0 fw-bold text-end" {% if cart.get_shipping_method == 'local' %} style="font-size:20px;color:#914c54;"{% endif %} id="p-local" > {% if cart.get_shipping_total > 0 %}$40.00{% else %}¡Gratis! <i class="fa fa-bolt" style="color:#914c54"></i>{% endif %}</p>
+        
+                    </div>
+                </div>
+            </div>
+
+            
+
+            <div class="col-12">
+
+                <hr class="mt-2 mb-2">
+
+            </div>
+
+            <div class="container select-option container-nacional">
+                <div class="row ">
+                    <div class="col-lg-1 icon-check">
+                        <i class="nacional-check visible-false fa fa-check-circle fa-2x" style="color: #da9fa6;"></i>
+                    </div>
+                    <div class="col-12 col-lg-8">
+
+                        <div class="form-check">
+
+                            <input class="visible-false" style="background-color: var(--main-bg-color-branding) !important; border-color: var(--main-bg-color-branding) !important;" type="radio" name="shipping_method" id="nacional"value="nacional" 
+                            {% if cart.get_shipping_method == 'nacional' %}checked{% endif %}>
+
+                            <label class="form-check-label">
+
+                                Envio nacional (México)
+
+                            </label>
+
+                            </div>
 
                     </div>
 
-            </div>
+                    <div class="col-12 col-lg-3">
 
-            <div class="col-12 col-lg-3">
-
-                <p class="mb-0 fw-bold text-end" {% if cart.get_shipping_method == 'default' %}style="font-size:20px;"{% endif %} id="p-default">¡Gratis! <i class="bi bi-lightning" style="color:#914c54"></i></p>
-
-            </div>
-
-            <div class="col-12 col-lg-9">
-
-                <div class="form-check">
-
-                    <input class="form-check-input" onclick="radioCheck()" style="background-color: var(--main-bg-color-branding) !important; border-color: var(--main-bg-color-branding) !important;" type="radio" name="shipping_method" id="local" value="local"  
-                    {% if cart.get_shipping_method == 'local' %}checked{% endif %}>
-
-                    <label class="form-check-label" for="local">
-
-                        Envio local
-
-                    </label>
+                        <p class="mb-0 fw-bold text-end" {% if cart.get_shipping_method == 'nacional' %}style="font-size:20px;color:#914c54;"{% endif %} id="p-nacional">{% if cart.get_shipping_total > 0 %}${{cart.get_shipping_total}}{% else %}¡Gratis! <i class="bi bi-lightning" style="color:#914c54"></i>{% endif %}</p>
 
                     </div>
-
+                </div>
             </div>
-
-            <div class="col-12 col-lg-3">
-
-                <p class="mb-0 fw-bold text-end" {% if cart.get_shipping_method == 'local' %} style="font-size:20px;"{% endif %} id="p-local" > {% if cart.get_shipping_total > 0 %}$40.00{% else %}¡Gratis! <i class="bi bi-lightning" style="color:#914c54"></i>{% endif %}</p>
-
-            </div>
-
-            <div class="col-12 col-lg-9">
-
-                <div class="form-check">
-
-                    <input class="form-check-input" onclick="radioCheck()"  style="background-color: var(--main-bg-color-branding) !important; border-color: var(--main-bg-color-branding) !important;" type="radio" name="shipping_method" id="nacional"value="nacional" 
-                    {% if cart.get_shipping_method == 'nacional' %}checked{% endif %}>
-
-                    <label class="form-check-label" for="nacional">
-
-                        Envio nacional
-
-                    </label>
-
-                    </div>
-
-            </div>
-
-            <div class="col-12 col-lg-3">
-
-                <p class="mb-0 fw-bold text-end" {% if cart.get_shipping_method == 'nacional' %}style="font-size:20px;"{% endif %} id="p-nacional">{% if cart.get_shipping_total > 0 %}${{cart.get_shipping_total}}{% else %}¡Gratis! <i class="bi bi-lightning" style="color:#914c54"></i>{% endif %}</p>
-
-            </div>
-
         </div>
 
     </div>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+        
+
+            if($(this).find('input[type="radio"]').is(':checked')){
+                $(this).find('.{{cart.get_shipping_method}}-check').toggleClass('visible-false');
+                
+                $(this).find('input[type="radio"]').prop('checked', false);
+                $(this).removeClass('selected-option');
+
+            }
+            else{
+
+                $(this).addClass('selected-option');
+                $(this).find('input[type="radio"]').prop('checked', true);
+            }
+        });
+        $('.select-option').click(function(){
+            let method = '';
+            if($(this).hasClass('container-default')){
+                if(!$('.container-local').find('.local-check').hasClass('visible-false')){
+                    $('.container-local').find('.local-check').toggleClass('visible-false');
+
+                }
+                if(!$('.container-nacional').find('.nacional-check').hasClass('visible-false')){
+                    $('.container-nacional').find('.nacional-check').toggleClass('visible-false');
+
+                }
+                
+                if($('.container-local').hasClass('selected-option')){
+                    $('.container-local').toggleClass('selected-option')
+                }
+                if($('.container-nacional').hasClass('selected-option')){
+                    $('.container-nacional').toggleClass('selected-option')
+
+                }
+                method = 'default';
+            } else if ($(this).hasClass('container-local')){
+                if(!$('.container-default').find('.default-check').hasClass('visible-false')){
+                    $('.container-default').find('.default-check').toggleClass('visible-false');
+
+                }
+                if(!$('.container-nacional').find('.nacional-check').hasClass('visible-false')){
+                    $('.container-nacional').find('.nacional-check').toggleClass('visible-false');
+
+
+                }
+
+                if($('.container-default').hasClass('selected-option')){
+                    $('.container-default').toggleClass('selected-option')
+                }
+                if($('.container-nacional').hasClass('selected-option')){
+                    $('.container-nacional').toggleClass('selected-option')              
+                }
+                method = 'local';
+
+            } else if ($(this).hasClass('container-nacional')){
+                if(!$('.container-default').find('.default-check').hasClass('visible-false')){
+                    $('.container-default').find('.default-check').toggleClass('visible-false');
+
+                }
+                if(!$('.container-local').find('.local-check').hasClass('visible-false')){
+                    $('.container-local').find('.local-check').toggleClass('visible-false');
+
+                }
+
+                if($('.container-local').hasClass('selected-option')){
+                    $('.container-local').toggleClass('selected-option')
+                    
+                }
+                if($('.container-default').hasClass('selected-option')){
+                    $('.container-default').toggleClass('selected-option')
+                }
+                method = 'nacional';
+
+            }
+            if($(this).find('input[type="radio"]').is(':checked')){
+                
+                $(this).find('input[type="radio"]').prop('checked', false);
+                $(this).removeClass('selected-option');
+
+            }
+            else{
+                radioCheck(method);
+                $(this).find('.fa-check-circle').toggleClass('visible-false');
+                $(this).addClass('selected-option');
+                $(this).find('input[type="radio"]').prop('checked', true);
+            }
+        })
+    </script>
 
 {% elif step == 'pago' %}
 
-    <h5>Mi carrito de compras</h5>
+    <div class="p-lr-15 p-t-20 container-option">
 
-    <nav aria-label="breadcrumb">
-
-        <ol class="breadcrumb">
-
-
-                <li class="breadcrumb-item"><a href="{% url 'shop:cart_detail' %}" class="text-primary">Carrito</a></li>
-
-                <li id="informacion" class="breadcrumb-item"><a data-url="{% url 'shop:cart_checkout' %}?step=informacion" onclick="goStep($(this));" class="text-primary">Información</a></li>
-
-                <li id="envio" class="breadcrumb-item"><a data-url="{% url 'shop:cart_checkout' %}?step=envio" onclick="goStep($(this));" class="text-primary">Envío</a></li>
-
-                <li id="pago" class="breadcrumb-item active"><a style="font-weight: bold;" data-url="{% url 'shop:cart_checkout' %}?step=pago" onclick="goStep($(this));" class="text-primary">Método de pago</a></li>
-
-        </ol>
-
-    </nav>
-
-    <div class="shipping-information">
-
-        <div class="p-2 row g-0" style="border: 1px solid #ced4da;">
+        <div class="row">
 
             <div class="col-12 col-lg-3">
 
@@ -447,13 +545,13 @@
 
     </div> 
 
-    <div class="contact-information">
+    <div class="p-lr-15 p-t-30">
 
-        <p class="fw-bold mb-2 pt-4">
+        <h4 class="m-text14 p-b-12">
 
             Método de pago
 
-        </p>
+        </h4>
 
         <p>
 
@@ -461,12 +559,12 @@
 
         </p>
 
-        <div class="p-2 row g-0" >
+        <div class="row flex-c p-t-30" >
 
-            <div class="d-flex d-flex justify-content-end">
-                <form id="payment-form">
+            <div id="payment-div" class="t-center well">
+                <form id="payment-form" style="width: 45vw !important; border-radius: 10px;">
                     {% csrf_token %}
-                    <div id="payment-element">
+                    <div id="payment-element" >
                       <!--Stripe.js injects the Payment Element-->
                     </div>
                     <button id="submit">
@@ -482,8 +580,6 @@
 
     </div>
     <script>
-        // This is your test publishable API key.
-        const stripe = Stripe("pk_test_51H5LaSIKF8Hi9Jx6Uetqcf1TSvBOFZBVTe69PKuV9Xir5fkMwC3O4bifcGS5cV41jDxQfdMJiTgjhAj5g0Mtf2Lo00WmU2jh8X");
     
     // The items the customer wants to buy
     const items = [{ id: "xl-tshirt" }];
@@ -499,20 +595,28 @@
     
     // Fetches a payment intent and captures the client secret
     async function initialize() {
-      const response = await fetch("/carrito/checkout/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ items }),
-      });
-      const { clientSecret } = await response.json();
+
+        var paymentdiv = document.getElementById('payment-div')
+        paymentdiv.classList.add('sk-loading');
+        paymentdiv.innerHTML += '<div id="loader-bar" class="loader text-center"><span class="bar"></span><span class="bar"></span><span class="bar"></span> </div>';
+        var loader = document.getElementById('loader-bar')
+      
+        const response = await fetch("/carrito/checkout/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ items }),
+        });
+        const { clientSecret } = await response.json();
+            
+        const appearance = {
+            theme: 'flat',
+        };
+        elements = stripe.elements({ appearance, clientSecret });
     
-      const appearance = {
-        theme: 'flat',
-      };
-      elements = stripe.elements({ appearance, clientSecret });
-    
-      const paymentElement = elements.create("payment");
-      paymentElement.mount("#payment-element");
+        const paymentElement = elements.create("payment");
+        paymentElement.mount("#payment-element");
+        paymentdiv.classList.remove('sk-loading');
+        loader.parentNode.removeChild(loader);
     }
     
     async function handleSubmit(e) {

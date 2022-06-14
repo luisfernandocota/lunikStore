@@ -185,6 +185,11 @@
               <p class="card-text text-ellipsis">
                 <small><b>{{item.size}}</b></small><br>
               </p>
+              {% if item.gift %}
+              <p class="card-text">
+                <small><b>Envoltura regalo</b></small><br>
+              </p>
+              {% endif %}
               {% if item.product.products_properties.has_personalization and item.name_personalization %}
               <p class="card-text text-ellipsis">
                 <small><b>Nombre personalizado: {{item.name_personalization}}</b></small><br>

@@ -83,7 +83,7 @@ $(document).ready(function () {
   });
 
   /* SENDMAIL MODAL FORM */
-  $("#modal-box").on("submit", ".js-sendmail-form", function () {
+  $("#form_sendmail").on("submit", ".js-sendmail-form", function () {
     var form = $(this);
     $.ajax({
       url: form.attr("action"),

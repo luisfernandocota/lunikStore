@@ -7,877 +7,192 @@
 {% block subtitle %} Productos {% endblock subtitle %}
 
 {% block content %}
-
-
-            <section class="section-content products-page template">
-
-                <h4 class="pt-4 pb-5">
-
-                    <strong>Nuestros Productos</strong>
-
-                </h4>
-
-                <div class="row">
-
-                    <div class="col-4 col-md-3 col-lg-2">
-
-                        <h6>Filtros <i id="iconFilterTrash" onclick="removeAllParams();" style="cursor:pointer;" class="bi bi-trash"></i></h6>
-
-                        <hr>
-
-
-
-                        <!-- <p class="mt-2"><strong>Categorías</strong></p>
-
-                        <ul class="list-group list-group-flush products-list-filters">
-                            {% for category in categories_list %}
-
-                            <li class="list-group-item clean">
-                                {% comment %} <a  onclick="showCategory('{{category.name}}'); addUrlParameter('category', '{{category.name}}') "> {% endcomment %}
-                                <a id="{{category.slug}}" onclick="addUrlParameter($(this), 'categoria', '{{category.slug}}');">
-
-                                    {{category.name}} ({{category.count}})
-
-                                </a>
-
-                            </li>
-                            {% endfor %}
-
-                        </ul> -->
-
-
-
-                        <p class="mt-2"><strong>Características</strong></p>
-
-                        <ul class="list-group list-group-flush products-list-filters">
-
-                            <li class="list-group-item clean">
-
-                                <div class="form-check">
-
-                                    <input class="form-check-input" type="checkbox" value="" id="shipping_free">
-
-                                    <label class="form-check-label" for="shipping_free">
-
-                                        Envío gratis
-
-                                    </label>
-
-                                </div>
-
-                            </li>
-
-                            <li class="list-group-item clean">
-
-                                <div class="form-check">
-
-                                    <input class="form-check-input" type="checkbox" value="" id="is_sale">
-
-                                    <label class="form-check-label" for="is_sale">
-
-                                        En oferta
-
-                                    </label>
-
-                                </div>
-
-                            </li>
-
-                        </ul>
-
-
-
-
-                            <!-- <p class="mt-2"><strong>Rango de precios</strong></p>
-
-                            <ul class="list-group list-group-flush products-list-filters">
-
-                                <li class="list-group-item clean">
-
-                                    <div class="rangeslider">
-                                        {% if p_min_price and p_max_price %}
-                                        <input class="min" id="priceMin" name="range_1" type="range" min="{{p_min_price}}" max="{{p_max_price}}" value="{{p_min_price}}" />
-
-                                        <input class="max" id="priceMax" name="range_1" type="range" min="{{p_min_price}}" max="{{p_max_price}}" value="{{p_max_price}}" />
-
-                                        <span class="range_min light left">$<span id="sPriceMin">{{p_min_price|intcomma:0}}</span></span>
-
-                                        <span class="range_max light right">$<span id="sPriceMax">{{p_max_price|intcomma:0}}</span></span>
-                                        {% else %}
-                                        <input class="min" id="priceMin" name="range_1" type="range" min="{{min_price.price__min}}" max="{{max_price.price__max}}" value="{{min_price.price__min}}" />
-
-                                        <input class="max" id="priceMax" name="range_1" type="range" min="{{min_price.price__min}}" max="{{max_price.price__max}}" value="{{max_price.price__max}}" />
-
-                                        <span class="range_min light left">$<span id="sPriceMin">{{min_price.price__min|intcomma:0}}</span></span>
-
-                                        <span class="range_max light right">$<span id="sPriceMax">{{max_price.price__max|intcomma:0}}</span></span>
-                                        {% endif %}
-
-                                    </div>
-
-
-
-                                </li>
-
-                            </ul>
-                            <a id="btnFilterPrice" style="text-align:center;" class="four-buttons d-block mx-auto">Buscar por precio</a>  -->
-
-
-                    </div>
-
-                    <div class="col-8 col-md-9 col-lg-10">
-
-                        <div class="row pt-2 pb-4">
-
-                            <div class="col-12 col-md-6 pb-2 products-filter-results order-2 order-md-1">
-
-                                Mostrando página {{products_list.number }} de {{products_list.paginator.num_pages}} de
-                        {{products_list.paginator.count}} productos
-
-                            </div>
-
-                            <div class="col-12 col-md-6 pb-2 order-1 order-md-2">
-                                <label for="inputSearch" class="form-label">Buscar artículo</label>
-
-                                {% comment %} <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder=""> {% endcomment %}
-                                <input class="form-control inputSearch" name="search" id="inputSearch" placeholder="{% if query %}Resultados para: {{query}}{% endif %}">
-
-                                {% comment %} <datalist id="datalistOptions">
-
-                                    <option value="Hombre">
-
-                                    <option value="Mujer">
-
-                                    <option value="Calzado">
-
-                                    <option value="T-Shirts">
-
-                                    <option value="Dresses">
-
-                                    <option value="Shorts">
-
-                                    <option value="Sweaters">
-
-                                    <option value="Sandals">
-
-                                </datalist> {% endcomment %}
-                            </div>
-
-                        </div>
-
-                        <div class="row panel-category-container">
-                        {% for item in products_list %}
-
-                            <div class="col-6 col-md-3 col-lg-3 article-result animate__animated  animate__fadeIn pb-4 {{item.slug}} show">
-
-                                <div class="carousel slide" data-bs-ride="false" id="itemname_{{forloop.counter}}">
-
-                                    <button class="carousel-control-prev" type="button" data-bs-target="#itemname_{{forloop.counter}}" data-bs-slide="prev">
-
-                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-
-                                        <span class="visually-hidden">Previous</span>
-
-                                    </button>
-
-                                    <button class="carousel-control-next" type="button" data-bs-target="#itemname_{{forloop.counter}}" data-bs-slide="next">
-
-                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-
-                                        <span class="visually-hidden">Next</span>
-
-                                    </button>
-
-                                    <div class="carousel-inner">
-                                        {% for image in item.products_gallery.all %}
-
-                                        <div class="carousel-item carrousel-product-item {%if forloop.first %}active{% endif %} bground-config"
-
-                                            style="background-image: url('{{image.image.url}}');">
-
-                                        </div>
-                                        {% endfor %}
-
-                                        {% comment %} <div class="carousel-item carrousel-product-item bground-config"
-
-                                            style="background-image: url('{{STATIC_URL}}shop/resources/store/1-2.jpg');">
-
-                                        </div> {% endcomment %}
-
-                                    </div>
-
-                                    <button type="button" onclick="sendPage('{% url 'shop:product_detail' item.slug %}');" class="four-buttons d-block mx-auto check-article-button">Ver artículo</button>
-
-                                </div>
-
-                                <div class="row pt-2 pb-2">
-
-                                    <div class="col-10 col-md-9 col-lg-6">
-
-                                        <p class="text-grey pb-0 mb-2" onclick="sendPage('{% url 'shop:product_detail' item.slug %}');">
-
-                                            <small>{{item.name}} </small>
-
-                                        </p>
-
-                                        <h6 style="display: -webkit-inline-box;">
-                                        {% if item.products_properties.is_sale %}
-                                        $ {{item.products_properties.sale_price|intcomma}} <small style="text-decoration: line-through;">$ {{item.products_properties.sell_price|intcomma}}</small>
-                                        {% else %}
-                                            $ {{item.products_properties.sell_price|intcomma}}
-                                        {% endif %}
-                                        </h6>
-                                        
-
-                                    </div>
-                                    {% if item.products_properties.shipping_free %}
-                                    <div class="col-2 col-md-3 col-lg-6 d-flex justify-content-end">
-
-                                        <button type="button" style="color: #914c54 !important; text-decoration: none !important;" class="btn btn-link d-block">
-
-                                            <i class="bi bi-truck"></i> Envio gratis
-
-                                        </button>
-
-                                    </div>
-                                    {% endif %}
-
-                                </div>
-
-                            </div>
-                        {% endfor %}
-
-                        {% include 'core/snippets/pagination.html' with obj_list=products_list %}
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-
-
-
-            </section>
-{% comment %} <!-- Title Page -->
-<section class="bg-title-page flex-col-c-m">
-    {% if category %}
-    <h3 class="l-text2 t-center" style="color: #000">
-        {{category.name}}
-    </h3>
-    {% elif search %}
-    <h3 class="l-text2 t-center" style="color: #000">
-        Buscar: {{query}}
-    </h3>
-    {% else %}
-    <h3 class="l-text2 t-center" style="color: #000">
-        PRODUCTOS
-    </h3>
-    {% endif %}
-    <p class="m-text13 t-center">
-        Nuestro catálogo
-    </p>
-</section>
-
-
 <!-- Content page -->
-<section class="bgwhite p-b-65">
-    <div class="container">
+<section class="bgwhite p-t-55 p-b-65 p-r-25 p-l-25">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-6 col-md-4 col-lg-3 p-b-50">
+            <div class="col-sm-4 col-md-2 col-lg-2 p-b-50">
                 <div class="leftbar p-r-20 p-r-0-sm">
                     <!--  -->
-                    <h3 class="m-text14 p-b-15">
-                        Filtrar por
-                    </h3>
-                    <ul class="p-b-15">
-                        <li>
-                            <a href="{% url 'shop:product_filter' 'oferta' %}" class="s-text13 active1">
-                                Ofertas
+                    <h4 class="m-text14 p-b-7">
+                        Categorias
+                    </h4>
+
+                    <ul class="p-b-54">
+
+                        <li class="p-t-4">
+                            <a href="{% url 'shop:products_list' 'agendas' %}" class="s-text13">
+                                Agendas
+                            </a>
+                        </li>
+
+                        <li class="p-t-4">
+                            <a href="{% url 'shop:products_list' 'planners' %}" class="s-text13">
+                                Planners
+                            </a>
+                        </li>
+
+                        <li class="p-t-4">
+                            <a href="{% url 'shop:products_list' 'libretas' %}" class="s-text13">
+                                Libretas
+                            </a>
+                        </li>
+
+                        <li class="p-t-4">
+                            <a href="{% url 'shop:products_list' 'organizadores' %}" class="s-text13">
+                                Organizadores
+                            </a>
+                        </li>
+                        <li class="p-t-4">
+                            <a href="{% url 'shop:products_list' 'recetarios' %}" class="s-text13">
+                                Recetarios
                             </a>
                         </li>
                     </ul>
-                    <h4 class="m-text14 p-b-7">
-                        Categorías
+
+                    <h4 class="m-text14 p-b-32">
+                        Filtros
                     </h4>
 
                     <ul class="p-b-54">
                         <li class="p-t-4">
-                            <a href="{% url 'shop:products_list' %}" class="s-text13 active1">
-                                Todas
-                            </a>
+                            <input class="" type="checkbox" value="" id="shipping_free">
+
+                            <label class="" for="shipping_free">
+
+                                Envío gratis
+
+                            </label>
                         </li>
-                        {% if store_instance and categories_list %}
-                        {% for category in categories_list %}
                         <li class="p-t-4">
-                            <a href="{% url 'shop:product_filter' category.slug %}" class="s-text13">
-                                {{category}}
-                            </a>
+                            <input type="checkbox" value="" id="is_sale">
+
+                            <label for="is_sale">
+
+                                En oferta
+
+                            </label>
                         </li>
-                        {% endfor %}
-                        {% endif %}
                     </ul>
 
-
-                    <div class="filter-price p-t-22 p-b-50 bo3">
-                        <div class="m-text15 p-b-17">
-                            Precio
-                        </div>
-
-                        <div class="wra-filter-bar">
-                            <div id="filter-bar"></div>
-                        </div>
-
-                        <div class="flex-sb-m flex-w p-t-16">
-                            <form action="{% url 'shop:product_filter' 'precio' %}" method="POST">
-                                {% csrf_token %}
-                                <div class="w-size11">
-                                    <button type="submit" class="btn-price flex-c-m size4 bg7 bo-rad-15 hov1 s-text14 trans-0-4">
-                                        Filtrar
-                                    </button>
-                                </div>
-
-                                <div class="s-text3 p-t-10 p-b-10">
-                                    Rango: $<span id="value-lower">{{min_price.price__min}}</span> - $<span
-                                        id="value-upper">{{max_price.price__max}}</span>
-                                        <input type="hidden" name="min_price" id="min_price" value="{{min_price.price__min}}">
-                                        <input type="hidden" name="max_price" id="max_price" value="{{max_price.price__max}}">
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    
                 </div>
             </div>
-
-            <div class="col-sm-6 col-md-8 col-lg-9 p-b-50">
-                <div class="search-product pos-relative bo4 of-hidden">
-                    <form action="{% url 'shop:search' %}" method="POST">
-                        {% csrf_token %}
-                        <input class="s-text7 size6 p-l-23 p-r-50" type="text" name='q' value="{{ request.POST.q }}"
-                        placeholder="Buscar...">
-
-                    <button type="submit" class="flex-c-m size5 ab-r-m color2 color0-hov trans-0-4">
-                        <i class="fs-12 fa fa-search" aria-hidden="true"></i>
-                    </button>
-                    </form>
-
-                </div>
+            {% if products_list %}
+            <div class="col-sm-8 col-md-10 col-lg-10 p-b-50">
                 <!--  -->
                 <div class="flex-sb-m flex-w p-b-35">
                     <!-- <div class="flex-w">
-                        <div class="rs2-select2 bo4 of-hidden w-size12 m-t-5 m-b-5 m-r-10">
-                            <select class="selection-2" name="sorting">
-                                <option>Default Sorting</option>
-                                <option>Popularity</option>
-                                <option>Price: low to high</option>
-                                <option>Price: high to low</option>
-                            </select>
-                        </div>
-
-                        <div class="rs2-select2 bo4 of-hidden w-size12 m-t-5 m-b-5 m-r-10">
-                            <select class="selection-2" name="sorting">
-                                <option>Price</option>
-                                <option>$0.00 - $50.00</option>
-                                <option>$50.00 - $100.00</option>
-                                <option>$100.00 - $150.00</option>
-                                <option>$150.00 - $200.00</option>
-                                <option>$200.00+</option>
-
-                            </select>
+                        <div class="search-product pos-relative bo4 of-hidden">
+                            <input class="s-text7 size6 p-l-23 p-r-50" type="text" style="width: 500px !important;" name="search-product" placeholder="Search Products...">
+    
+                            <button class="flex-c-m size5 ab-r-m color2 color0-hov trans-0-4">
+                                <i class="fs-12 fa fa-search" aria-hidden="true"></i>
+                            </button>
                         </div>
                     </div> -->
 
                     <span class="s-text8 p-t-5 p-b-5">
-                        Mostrando {{store_products.number }}-{{store_products.paginator.num_pages}} de
-                        {{products_count}} resultado(s)
+                        Mostrando página {{products_list.number }} de {{products_list.paginator.num_pages}} de
+                        {{products_list.paginator.count}} productos
                     </span>
                 </div>
 
                 <!-- Product -->
                 <div class="row">
-                    {% if store_instance %}
-                    {% for item in store_products %}
-                    <div class="col-sm-12 col-md-6 col-lg-4 p-b-50">
+                    {% for item in products_list %}
+                    <div class="col-sm-12 col-md-4 col-lg-3 p-b-50">
                         <!-- Block2 -->
                         <div class="block2">
-                            <div
-                                class="block2-img wrap-pic-w of-hidden pos-relative {% if item.is_sale %}block2-labelsale{% endif %}">
-                                {% thumbnail item.product.products_gallery.all.first.image '720x960' crop='center' as img %}
-                                <img src="{{img.url}}" alt="IMG-PRODUCT">
-                                {% endthumbnail %}
+                            <div class="block2-img wrap-pic-w of-hidden pos-relative {%if item.products_properties.is_sale%}block2-labelsale{% endif %}">
+                                <img src="{{item.products_gallery.all.first.image.url}}" alt="IMG-PRODUCT">
+    
                                 <div class="block2-overlay trans-0-4">
                                     <!-- <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
                                         <i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
                                         <i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
                                     </a> -->
-
+    
                                     <div class="block2-btn-addcart w-size1 trans-0-4">
                                         <!-- Button -->
-                                        <a href="{% url 'shop:product_detail' item.product.slug %}"
-                                            class="flex-c-m size2 bg4 bo-rad-23 hov1 m-text3 trans-0-4">
+                                        <a href="{% url 'shop_cart:product_detail' item.slug %}" class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
                                             Ver producto
                                         </a>
                                     </div>
                                 </div>
                             </div>
-
+    
                             <div class="block2-txt p-t-20">
-                                <a href="{% url 'shop:product_detail' item.product.slug %}"
-                                    class="block2-name dis-block s-text3 p-b-5">
-                                    {{item.product.name}}
+                                <a href="{% url 'shop_cart:product_detail' item.slug %}" class="block2-name dis-block s-text3 p-b-5">
+                                    {{item.name}}
                                 </a>
-
-                                {% if item.is_sale %}
-                                <span class="block2-newprice m-text14">
-                                    ${{item.sale_price|intcomma}}
+                                {% if item.products_properties.is_sale %}
+    
+                                <span class="block2-oldprice m-text7 p-r-5" style="font-weight: bold !important;">
+                                    ${{item.products_properties.sell_price|intcomma}}
                                 </span>
-                                <span class="block2-oldprice m-text7 p-r-5">
-                                    ${{item.price|intcomma}}
+    
+                                <span class="block2-newprice m-text8 p-r-5">
+                                    ${{item.products_properties.sale_price|intcomma}} 
                                 </span>
                                 {% else %}
-                                <span class="block2-price m-text6 p-r-5">
-                                    ${{item.price|intcomma}}
-                                </span>
+                                    <span class="block2-price m-text6 p-r-5">
+                                        ${{item.products_properties.sell_price|intcomma}}
+                                    </span>
                                 {% endif %}
+                                
                             </div>
                         </div>
                     </div>
-                    {% empty %}
-                    <p class="m-text14 t-center">
-                        No se encontraron resultados...
                     {% endfor %}
-                    {% else %}
-                    <div class="col-sm-12 col-md-6 col-lg-4 p-b-50">
-                        <!-- Block2 -->
-                        <div class="block2">
-                            <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
-                                <img src="images/item-02.jpg" alt="IMG-PRODUCT">
-
-                                <div class="block2-overlay trans-0-4">
-                                    <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-                                        <i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-                                        <i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-                                    </a>
-
-                                    <div class="block2-btn-addcart w-size1 trans-0-4">
-                                        <!-- Button -->
-                                        <button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
-                                            Add to Cart
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="block2-txt p-t-20">
-                                <a href="product-detail.html" class="block2-name dis-block s-text3 p-b-5">
-                                    Herschel supply co 25l
-                                </a>
-
-                                <span class="block2-price m-text6 p-r-5">
-                                    $75.00
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12 col-md-6 col-lg-4 p-b-50">
-                        <!-- Block2 -->
-                        <div class="block2">
-                            <div class="block2-img wrap-pic-w of-hidden pos-relative">
-                                <img src="images/item-03.jpg" alt="IMG-PRODUCT">
-
-                                <div class="block2-overlay trans-0-4">
-                                    <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-                                        <i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-                                        <i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-                                    </a>
-
-                                    <div class="block2-btn-addcart w-size1 trans-0-4">
-                                        <!-- Button -->
-                                        <button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
-                                            Add to Cart
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="block2-txt p-t-20">
-                                <a href="product-detail.html" class="block2-name dis-block s-text3 p-b-5">
-                                    Denim jacket blue
-                                </a>
-
-                                <span class="block2-price m-text6 p-r-5">
-                                    $92.50
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12 col-md-6 col-lg-4 p-b-50">
-                        <!-- Block2 -->
-                        <div class="block2">
-                            <div class="block2-img wrap-pic-w of-hidden pos-relative">
-                                <img src="images/item-05.jpg" alt="IMG-PRODUCT">
-
-                                <div class="block2-overlay trans-0-4">
-                                    <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-                                        <i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-                                        <i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-                                    </a>
-
-                                    <div class="block2-btn-addcart w-size1 trans-0-4">
-                                        <!-- Button -->
-                                        <button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
-                                            Add to Cart
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="block2-txt p-t-20">
-                                <a href="product-detail.html" class="block2-name dis-block s-text3 p-b-5">
-                                    Coach slim easton black
-                                </a>
-
-                                <span class="block2-price m-text6 p-r-5">
-                                    $165.90
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12 col-md-6 col-lg-4 p-b-50">
-                        <!-- Block2 -->
-                        <div class="block2">
-                            <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelsale">
-                                <img src="images/item-07.jpg" alt="IMG-PRODUCT">
-
-                                <div class="block2-overlay trans-0-4">
-                                    <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-                                        <i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-                                        <i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-                                    </a>
-
-                                    <div class="block2-btn-addcart w-size1 trans-0-4">
-                                        <!-- Button -->
-                                        <button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
-                                            Add to Cart
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="block2-txt p-t-20">
-                                <a href="product-detail.html" class="block2-name dis-block s-text3 p-b-5">
-                                    Frayed denim shorts
-                                </a>
-
-                                <span class="block2-oldprice m-text7 p-r-5">
-                                    $29.50
-                                </span>
-
-                                <span class="block2-newprice m-text8 p-r-5">
-                                    $15.90
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12 col-md-6 col-lg-4 p-b-50">
-                        <!-- Block2 -->
-                        <div class="block2">
-                            <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
-                                <img src="images/item-01.jpg" alt="IMG-PRODUCT">
-
-                                <div class="block2-overlay trans-0-4">
-                                    <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-                                        <i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-                                        <i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-                                    </a>
-
-                                    <div class="block2-btn-addcart w-size1 trans-0-4">
-                                        <!-- Button -->
-                                        <button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
-                                            Add to Cart
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="block2-txt p-t-20">
-                                <a href="product-detail.html" class="block2-name dis-block s-text3 p-b-5">
-                                    Herschel supply co 25l
-                                </a>
-
-                                <span class="block2-price m-text6 p-r-5">
-                                    $75.00
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12 col-md-6 col-lg-4 p-b-50">
-                        <!-- Block2 -->
-                        <div class="block2">
-                            <div class="block2-img wrap-pic-w of-hidden pos-relative">
-                                <img src="images/item-14.jpg" alt="IMG-PRODUCT">
-
-                                <div class="block2-overlay trans-0-4">
-                                    <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-                                        <i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-                                        <i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-                                    </a>
-
-                                    <div class="block2-btn-addcart w-size1 trans-0-4">
-                                        <!-- Button -->
-                                        <button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
-                                            Add to Cart
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="block2-txt p-t-20">
-                                <a href="product-detail.html" class="block2-name dis-block s-text3 p-b-5">
-                                    Denim jacket blue
-                                </a>
-
-                                <span class="block2-price m-text6 p-r-5">
-                                    $92.50
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12 col-md-6 col-lg-4 p-b-50">
-                        <!-- Block2 -->
-                        <div class="block2">
-                            <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
-                                <img src="images/item-06.jpg" alt="IMG-PRODUCT">
-
-                                <div class="block2-overlay trans-0-4">
-                                    <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-                                        <i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-                                        <i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-                                    </a>
-
-                                    <div class="block2-btn-addcart w-size1 trans-0-4">
-                                        <!-- Button -->
-                                        <button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
-                                            Add to Cart
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="block2-txt p-t-20">
-                                <a href="product-detail.html" class="block2-name dis-block s-text3 p-b-5">
-                                    Herschel supply co 25l
-                                </a>
-
-                                <span class="block2-price m-text6 p-r-5">
-                                    $75.00
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12 col-md-6 col-lg-4 p-b-50">
-                        <!-- Block2 -->
-                        <div class="block2">
-                            <div class="block2-img wrap-pic-w of-hidden pos-relative">
-                                <img src="images/item-08.jpg" alt="IMG-PRODUCT">
-
-                                <div class="block2-overlay trans-0-4">
-                                    <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-                                        <i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-                                        <i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-                                    </a>
-
-                                    <div class="block2-btn-addcart w-size1 trans-0-4">
-                                        <!-- Button -->
-                                        <button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
-                                            Add to Cart
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="block2-txt p-t-20">
-                                <a href="product-detail.html" class="block2-name dis-block s-text3 p-b-5">
-                                    Denim jacket blue
-                                </a>
-
-                                <span class="block2-price m-text6 p-r-5">
-                                    $92.50
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12 col-md-6 col-lg-4 p-b-50">
-                        <!-- Block2 -->
-                        <div class="block2">
-                            <div class="block2-img wrap-pic-w of-hidden pos-relative">
-                                <img src="images/item-10.jpg" alt="IMG-PRODUCT">
-
-                                <div class="block2-overlay trans-0-4">
-                                    <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-                                        <i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-                                        <i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-                                    </a>
-
-                                    <div class="block2-btn-addcart w-size1 trans-0-4">
-                                        <!-- Button -->
-                                        <button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
-                                            Add to Cart
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="block2-txt p-t-20">
-                                <a href="product-detail.html" class="block2-name dis-block s-text3 p-b-5">
-                                    Coach slim easton black
-                                </a>
-
-                                <span class="block2-price m-text6 p-r-5">
-                                    $165.90
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12 col-md-6 col-lg-4 p-b-50">
-                        <!-- Block2 -->
-                        <div class="block2">
-                            <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelsale">
-                                <img src="images/item-11.jpg" alt="IMG-PRODUCT">
-
-                                <div class="block2-overlay trans-0-4">
-                                    <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-                                        <i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-                                        <i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-                                    </a>
-
-                                    <div class="block2-btn-addcart w-size1 trans-0-4">
-                                        <!-- Button -->
-                                        <button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
-                                            Add to Cart
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="block2-txt p-t-20">
-                                <a href="product-detail.html" class="block2-name dis-block s-text3 p-b-5">
-                                    Frayed denim shorts
-                                </a>
-
-                                <span class="block2-oldprice m-text7 p-r-5">
-                                    $29.50
-                                </span>
-
-                                <span class="block2-newprice m-text8 p-r-5">
-                                    $15.90
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12 col-md-6 col-lg-4 p-b-50">
-                        <!-- Block2 -->
-                        <div class="block2">
-                            <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
-                                <img src="images/item-12.jpg" alt="IMG-PRODUCT">
-
-                                <div class="block2-overlay trans-0-4">
-                                    <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-                                        <i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-                                        <i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-                                    </a>
-
-                                    <div class="block2-btn-addcart w-size1 trans-0-4">
-                                        <!-- Button -->
-                                        <button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
-                                            Add to Cart
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="block2-txt p-t-20">
-                                <a href="product-detail.html" class="block2-name dis-block s-text3 p-b-5">
-                                    Herschel supply co 25l
-                                </a>
-
-                                <span class="block2-price m-text6 p-r-5">
-                                    $75.00
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12 col-md-6 col-lg-4 p-b-50">
-                        <!-- Block2 -->
-                        <div class="block2">
-                            <div class="block2-img wrap-pic-w of-hidden pos-relative">
-                                <img src="images/item-15.jpg" alt="IMG-PRODUCT">
-
-                                <div class="block2-overlay trans-0-4">
-                                    <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-                                        <i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-                                        <i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-                                    </a>
-
-                                    <div class="block2-btn-addcart w-size1 trans-0-4">
-                                        <!-- Button -->
-                                        <button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
-                                            Add to Cart
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="block2-txt p-t-20">
-                                <a href="product-detail.html" class="block2-name dis-block s-text3 p-b-5">
-                                    Denim jacket blue
-                                </a>
-
-                                <span class="block2-price m-text6 p-r-5">
-                                    $92.50
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    {% endif %}
                 </div>
 
                 <!-- Pagination -->
-                {% if store_products.has_other_pages %}
+                {% if products_list.has_other_pages %}
                 <div class="pagination flex-m flex-w p-t-26">
-                    {% if store_products.has_previous %}
-                    <a href="?page={{store_products.previous_page_number}}"
-                        class="item-pagination flex-c-m trans-0-4"><i class="fa fa-chevron-left"></i></a>
+                    {% if products_list.has_previous %}
+                    <a href="?page={{products_list.previous_page_number}}" class="item-pagination flex-c-m trans-0-4 "><i class="fa fa-chevron-left"></i></a>
                     {% endif %}
-                    {% for i in store_products.paginator.page_range %}
-                    <a href="?page={{i}}"
-                        class="item-pagination flex-c-m trans-0-4 {% ifequal i store_products.number %}active-pagination{% endifequal %}">{{i}}</a>
+                    {% if products_list.number|add:'-4' > 1 %}
+                    <a href="?page={{ obj_list.number|add:'-5' }}" class="item-pagination flex-c-m trans-0-4">&hellip;</a>
+
+                    {% endif %}
+                    {% for i in products_list.paginator.page_range %}
+                        {% if products_list.number == i %}
+                            <a href="#" class="item-pagination flex-c-m trans-0-4 active-pagination">{{i}}</a>
+                        {% elif i > products_list.number|add:'-5' and i < products_list.number|add:'5' %}
+                            <a href="?page={{i}}" class="item-pagination flex-c-m trans-0-4">{{i}}</a>
+                        {% endif %}
                     {% endfor %}
-                    {% if store_products.has_next %}
-                    <a href="?page={{store_products.next_page_number}}" class="item-pagination flex-c-m trans-0-4"><i
-                            class="fa fa-chevron-right"></i></a>
+                    {% if products_list.has_next %}
+                    <a href="?page={{products_list.next_page_number}}" class="item-pagination flex-c-m trans-0-4 "><i class="fa fa-chevron-right"></i></a>
                     {% endif %}
                 </div>
                 {% endif %}
             </div>
+            {% else %}
+            <div class="col-sm-8 col-md-19 col-lg-10 p-b-50">
+                <h4 class="m-text14 p-b-32" style="text-align: center;">
+                    No se encontrarón resultados 🙁
+                </h4>
+            </div>
+            {% endif %}
         </div>
     </div>
-</section> {% endcomment %}
+</section>
+
 {% endblock content %}
 {% block customjs %}
+<script type="text/javascript">
+    $(".selection-1").select2({
+        minimumResultsForSearch: 20,
+        dropdownParent: $('#dropDownSelect1')
+    });
+
+    $(".selection-2").select2({
+        minimumResultsForSearch: 20,
+        dropdownParent: $('#dropDownSelect2')
+    });
+</script>
 <!-- Toastr -->
 <script src="{{STATIC_URL}}assets/js/plugins/toastr/toastr.min.js"></script>
 {% comment %} <script src="{{STATIC_URL}}js/shop.js"></script> {% endcomment %}

@@ -1,123 +1,64 @@
 {% load humanize %}
 {% load thumbnail %}
 {% load tags %}
-<div class="col-12">
 
-    <div class="table-responsive">
+<div class="wrap-table-shopping-cart bgwhite">
+    <table class="table-shopping-cart">
+        <tr class="table-head">
+            <th class="column-1 t-center"></th>
+            <th class="column-2 t-center">Producto</th>
+            <th class="column-2 t-center">Precio</th>
+            <th class="column-4 t-center">Cantidad</th>
+            <th class="column-4 t-center">Total</th>
+            <th class="column-5 t-center">Acciones</th>
+        </tr>
+        {% if cart.get_quantity_products > 0 %}
+        {% for item in cart %}
+        {% for key in item.variants.keys %}
+        <tr class="table-row">
+            <td class="column-1 t-center">
+                <div class="cart-img-product b-rad-4 o-f-hidden">
+                    {% with image=item.product.products_gallery.all.first.image %}
+                    {% thumbnail image '100x100' crop='center' as img %}
+                    <img src="{{img.url}}" alt="IMG-PRODUCT">
+                    {% endthumbnail %}
+                    {% endwith %}
+                </div>
+            </td>
+            <td class="column-2 t-center">
+                {{item.product}}<br>
+                {% if item.product.subcategory == 'C' %}
+                    Nombre personalizado: "{{key|get_custom_name:item}}"
+                {% endif %}
+            </td>
+            <td class="column-2 t-center">${{key|get_charge_price_cart:item|intcomma}} <br>
+                <small>{% if key|is_gift:item %} Envoltura regalo + $20.00 {% endif %}</small>
+            </td>
+            <td class="column-5 t-center">
+                {% if item.product.subcategory != 'C' %}
+                <div class="flex-w bo5 of-hidden w-size17">
+                    <button class="btn-num-product-down color1 flex-c-m size7 bg8 eff2">
+                        <i class="fs-12 fa fa-minus" aria-hidden="true"></i>
+                    </button>
 
-        <table class="table table-hover table-bordered my-shopping-cart-table">
-            <thead>
+                    <input class="size8 m-text18 t-center num-product" type="number" name="num-product1" value="1">
 
-                <tr>
+                    <button class="btn-num-product-up color1 flex-c-m size7 bg8 eff2">
+                        <i class="fs-12 fa fa-plus" aria-hidden="true"></i>
+                    </button>
 
-                    <th scope="col"></th>
-
-                    <th scope="col">Producto</th>
-
-                    <th scope="col">Precio</th>
-
-                    <th scope="col">Cantidad</th>
-
-                    <!-- <th scope="col">Envío</th> -->
-
-                    <th scope="col">Total</th>
-
-                    <th scope="col">Acciones</th>
-
-                </tr>
-
-            </thead>
-
-            <tbody>
-                {% if cart.get_quantity_products > 0 %}
-                {% for item in cart %}
-                {% for key in item.variants.keys %}
-                <tr>
-
-                    <th>
-
-                        <div>
-                        {% with image=item.product.products_gallery.all.first.image %}
-                            {% thumbnail image '100x100' crop='center' as img %}
-                            <img src="{{img.url}}"
-                                class="d-block w-100 shopping-cart-image-product" alt="...">
-                            {% endthumbnail %}
-                        {% endwith %}
-
-                        </div>
-
-                    </th>
-
-                    <td>
-
-                        <div>
-
-                            {{item.product}} <br>
-                            {% if item.product.products_properties.has_personalization %}
-                            Nombre personalizado: "{{key|get_custom_name:item}}"
-                            {% endif %}
-
-                        </div>
-
-                    </td>
-
-                    <td>
-
-                        <div>
-                            
-                            ${{key|get_charge_price_cart:item|intcomma}}
-
-                        </div>
-
-                    </td>
-
-                    <td>
-
-                        <div>
-
-                            <div class="input-group mb-3" style="max-width:200px;">
-
-                                <button class="btn btn-light mt-0 mb-0 button-rest" type="button">
-                                    <i class="bi bi-dash "></i>
-                                </button>
-
-                                <input name="quantity" id="id_quantity" value="{{key|get_quantity_cart:item}}" maxlength="2"
-                                        class="form-control text-center" type="text">
-
-                                <button class="btn btn-light mt-0 mb-0 button-add" type="button">
-                                    <i class="bi bi-plus "></i>
-                                </button>
-
-                            </div>
-                            <button class="btn mb-3 btn-refresh" type="button" {% if key|get_custom_price_cart:item > 0 %}readonly=True{% else %}{% endif %}
-                                    data-url="{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'shop_cart:cart_update' %}"
-                                    data-product="{{item.product.pk}}"
-                                    data-size="{{key|get_sizes_cart:item}}">
-                                        <i class="bi bi-arrow-repeat bi-2x"></i>
-                            </button>
-
-                        </div>
-
-                    </td>
-
-                    <!-- <td>
-
-                        <div>
-
-                            {% if item.product.products_properties.shipping_free or key|get_quantity_cart:item >= item.product.products_properties.shipping_min or item.product.products_properties.shipping_price is None %}
-                            ¡Gratis! <i class="bi bi-lightning"></i>
-                            {% else %}
-                            $ {{item.product.products_properties.shipping_price|intcomma}}
-                            {% endif %}
-
-                        </div>
-
-                    </td> -->
-
-                    <td>
-
-                        <div>
-                            {% comment %}
+                </div>
+                {% else %}
+                <h4>{{key|get_quantity_cart:item}}</h4>
+                {% endif %}
+                <!-- <button class="btn-num-product-up color1 flex-c-m size7 bg8 eff2" type="button" {% if key|get_custom_price_cart:item > 0 %}readonly=True{% else %}{% endif %}
+                    data-url="{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'shop_cart:cart_update' %}"
+                    data-product="{{item.product.pk}}"
+                    data-size="{{key|get_sizes_cart:item}}">
+                        <i class="fa fa-refresh"></i>
+                </button> -->
+            </td>
+            <td class="column-4 t-center">
                             {% if cart.is_coupon_apply and item.product|coupon:cart.is_coupon_apply and not cart.is_coupon_apply.apply_all  %}
                                 <p class="fw-bold">
                                     {% if item.product|coupon:cart.is_coupon_apply and not cart.is_coupon_apply.apply_all %}
@@ -132,202 +73,23 @@
                             {% else %}
                                 $ {{key|get_total_cart:item|intcomma}} 
                             {% endif %}
-                            {% endcomment %}
-                            $ {{key|get_total_cart:item|intcomma}} 
 
-                        </div>
-
-                    </td>
-                    <td>
-                        <div>
-                            <div class="block">
-                                <button class="btn btn-cart remove-cart-item" 
+            </td>
+            <td class="column-5 t-center">
+                <button class="btn-num-product-down color1 flex-c-m size7 bg8 eff2 remove-cart-item" 
                                         data-url="{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'shop:cart_remove' %}"
                                         data-product="{{item.product.pk}}" 
                                         data-size="{{key|get_sizes_cart:item}}"
-                                        data-checkout="1">
-                                    <i class="bi bi-trash" style="font-size: 18px;"></i>
+                                        data-checkout="1" style="text-align: center;">
+                                    <i class="fa fa-trash" style="font-size: 18px;"></i>
                                 </button>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                {% endfor %}
-                {% endfor %}
-                {% endif %}
-                {% comment %} <tr>
-
-                    <th>
-
-                        <div>
-
-                            <img src="{{STATIC_URL}}shop/resources/store/product/1-1.jpg"
-
-                                class="d-block w-100 shopping-cart-image-product" alt="...">
-
-                        </div>
-
-                    </th>
-
-                    <td>
-
-                        <div>
-
-                            Tenis Nike #2312
-
-                        </div>
-
-                    </td>
-
-                    <td>
-
-                        <div>
-
-                            $ 62.00 USD
-
-                        </div>
-
-                    </td>
-
-                    <td>
-
-                        <div>
-
-                            <div class="input-group mb-3" style="max-width:200px;">
-
-                                <button class="btn btn-light mt-0 mb-0" type="button"
-
-                                    id="button-rest"><i
-
-                                        class="bi bi-dash "></i></button>
-
-                                <input id="" type="text"
-
-                                    class="form-control text-center" value="1">
-
-                                <button class="btn btn-light mt-0 mb-0" type="button"
-
-                                    id="button-add"><i
-
-                                        class="bi bi-plus "></i></button>
-
-                            </div>
-
-                        </div>
-
-                    </td>
-
-                    <td>
-
-                        <div>
-
-                            ¡Gratis!
-
-                        </div>
-
-                    </td>
-
-                    <td>
-
-                        <div>
-
-                            $ 62.00 USD
-
-                        </div>
-
-                    </td>
-
-                </tr>
-
-                <tr>
-
-                    <th>
-
-                        <div>
-
-                            <img src="{{STATIC_URL}}shop/resources/store/product/1-1.jpg"
-
-                                class="d-block w-100 shopping-cart-image-product" alt="...">
-
-                        </div>
-
-                    </th>
-
-                    <td>
-
-                        <div>
-
-                            Tenis Nike #2312
-
-                        </div>
-
-                    </td>
-
-                    <td>
-
-                        <div>
-
-                            $ 62.00 USD
-
-                        </div>
-
-                    </td>
-
-                    <td>
-
-                        <div>
-
-                            <div class="input-group mb-3" style="max-width:200px;">
-
-                                <button class="btn btn-light mt-0 mb-0" type="button"
-
-                                    id="button-rest"><i
-
-                                        class="bi bi-dash "></i></button>
-
-                                <input id="" type="text"
-
-                                    class="form-control text-center" value="1">
-
-                                <button class="btn btn-light mt-0 mb-0" type="button"
-
-                                    id="button-add"><i
-
-                                                class="bi bi-plus "></i></button>
-
-                            </div>
-
-                        </div>
-
-                    </td>
-
-                    <td>
-
-                        <div>
-
-                            ¡Gratis!
-
-                        </div>
-
-                    </td>
-
-                    <td>
-
-                        <div>
-
-                            $ 62.00 USD
-
-                        </div>
-
-                    </td>
-
-                </tr> {% endcomment %}
-
-            </tbody>
-        </table>
-
-    </div>
-
+            </td>
+        </tr>
+        {% endfor %}
+        {% endfor %}
+        {% endif %}
+
+    </table>
 </div>
 {% if cart.is_coupon_apply and not cart.is_coupon_apply.apply_all %}
 <div class="row justify-content-end" style="text-align: -webkit-right;">
@@ -339,8 +101,4 @@
     </div> 
 </div> 
 {% endif %}
-{% comment %} <div class="row justify-content-end" style="text-align: -webkit-right;">
-    <div class="col-4">
-        <button class="four-buttons" type="button"><i class="bi bi-arrow-repeat"> Actualizar</i></button>
-    </div> 
-</div>  {% endcomment %}
+

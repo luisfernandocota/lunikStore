@@ -2,6 +2,8 @@
 from __future__ import unicode_literals
 
 import json
+from decouple import config
+
 import stripe
 
 
@@ -30,7 +32,7 @@ from portal.dashboard.models import Address
 
 # Create your views here.
 
-stripe.api_key = 'sk_test_51H5LaSIKF8Hi9Jx6yW3RzsyKlJDSLAcxolhL6C7g4G1PqjXUTdRfuhmnPap94WJn0q908PqVauxGBh3EHWykv90t00UkIeOM2P'
+stripe.api_key = config('STRIPE_TEST_SECRET_KEY',default='')
 
 # Util view
 def filters_by_request(request):
@@ -70,22 +72,62 @@ def filters_by_request(request):
 
 def shop_list(request):
 	context = {}
+
 	context['slides_list'] = Slide.objects.filter(status=True).order_by('-created')
 	context['products_list'] = Product.objects.prefetch_related('products_properties').filter(available=True, status=True, products_properties__sell_price__gte=1).order_by('-created')[:8]
+	
+	context['schedule'] = Product.objects.prefetch_related('products_gallery').filter(available=True, status=True, products_properties__sell_price__gte=1).filter(category='S').order_by('created')[:1]
+	context['notebook'] = Product.objects.prefetch_related('products_gallery').filter(available=True, status=True, products_properties__sell_price__gte=1).filter(category='N').order_by('-created')[:1]
+	context['planners'] = Product.objects.prefetch_related('products_gallery').filter(available=True, status=True, products_properties__sell_price__gte=1).filter(category='P').order_by('-created')[:1]
+	context['recipe'] = Product.objects.prefetch_related('products_gallery').filter(available=True, status=True, products_properties__sell_price__gte=1).filter(category='R').order_by('-created')[:1]
+	context['organizer'] = Product.objects.prefetch_related('products_gallery').filter(available=True, status=True, products_properties__sell_price__gte=1).filter(category='O').order_by('-created')[:1]
 
 	return render(request,'shop/shop_list.html',context)
 
-def products_list(request):
+def products_list(request, category):
 	context = {}
-
 	filters = filters_by_request(request)
 
+	if category == 'agendas':
+		key = 'S'
+	elif category == 'planners':
+		key = 'P'
+	elif category == 'libretas':
+		key = 'N'
+	elif category == 'recetarios':
+		key = 'R'
+	elif category == 'organizadores':
+		key = 'O'
+
+	subcategory = request.GET.get('subcategory')
+
+	if subcategory == 'personalizadas':
+		value = 'C'
+	elif subcategory == 'sinpersonalizar':
+		value = 'N'
+	elif subcategory == 'escolar':
+		value = 'S'
+	elif subcategory == 'embarazo':
+		value = 'P'
+	elif subcategory == 'boda':
+		value = 'W'
+	elif subcategory == 'diaria':
+		value = 'D'
 
 
 	if filters:
-		products_list = Product.objects.select_related('products_properties').filter(available=True, status=True, products_properties__sell_price__gte=1).filter(**filters).order_by('-created')
+
+		if subcategory:
+			products_list = Product.objects.select_related('products_properties').filter(available=True, status=True, products_properties__sell_price__gte=1).filter(category=key, subcategory=value).filter(**filters).order_by('-created')
+		else:
+			products_list = Product.objects.select_related('products_properties').filter(available=True, status=True, products_properties__sell_price__gte=1).filter(category=key).filter(**filters).order_by('-created')
 	else:
-		products_list = Product.objects.prefetch_related('products_properties').filter(available=True, status=True, products_properties__sell_price__gte=1).order_by('-created')
+
+		if subcategory:
+			products_list = Product.objects.select_related('products_properties').filter(available=True, status=True, products_properties__sell_price__gte=1).filter(category=key, subcategory=value).filter(**filters).order_by('-created')
+
+		else:
+			products_list = Product.objects.select_related('products_properties').filter(available=True, status=True, products_properties__sell_price__gte=1).filter(category=key).filter(**filters).order_by('-created')
 
 	# if store_products:
 	if request.GET.get('min') and request.GET.get('max'):
@@ -190,11 +232,14 @@ def product_detail(request, slug):
 			if context['form_product'].cleaned_data['sizes'].charge:
 				custom['charge_size'] = context['form_product'].cleaned_data['sizes'].charge
 			# design = get_object_or_404(StoreGallery, pk=context['form_product'].cleaned_data['design'])
-			cart.add(context['product'],context['form_product'].cleaned_data['sizes'],context['form_product'].cleaned_data['quantity'],context['form_product'].cleaned_data['name_personalization'])
+			cart.add(context['product'],context['form_product'].cleaned_data['sizes'],context['form_product'].cleaned_data['quantity'],\
+						context['form_product'].cleaned_data['name_personalization'], request.POST.get('gift'))
 			return redirect('shop:product_detail', slug)
 
 	else:
 		context['form_product'] = ProductShopCart(initial={'product_pk':context['product'].pk},product_sizes=context['product'].sizes.all(), product_pk=context['product'].pk)
+		context['related_products'] = Product.objects.prefetch_related('products_gallery', 'products_properties').filter(available=True, status=True, products_properties__sell_price__gte=1)\
+			.filter(category=context['product'].category, subcategory=context['product'].subcategory).exclude(pk=context['product'].pk).order_by('-created')[:8]
 
 
 	return render(request,'shop/product_detail.html',context)
@@ -312,6 +357,7 @@ def cart_address(request):
 		data['html_dynamic'] = render_to_string('shop/includes/partial_dynamic_checkout.html',context,request)
 		data['html_footer'] = render_to_string('shop/includes/partial_footer_checkout.html',context,request)
 		data['html_dynamic_detail'] = render_to_string('shop/includes/partial_dynamic_detail.html', context, request)
+		data['html_dynamic_breadcrumb'] = render_to_string('shop/includes/partial_dynamic_breadcrumb.html', context, request)
 	
 	return JsonResponse(data)
 
@@ -378,13 +424,11 @@ def cart_checkout(request):
 			data['html_dynamic_detail'] = render_to_string('shop/includes/partial_dynamic_detail.html', context, request)
 			data['html_dynamic'] = render_to_string('shop/includes/partial_dynamic_checkout.html',context,request)
 			data['html_footer'] = render_to_string('shop/includes/partial_footer_checkout.html',context,request)
+			data['html_dynamic_breadcrumb'] = render_to_string('shop/includes/partial_dynamic_breadcrumb.html', context, request)
+
 			return JsonResponse(data)
 
 		if request.method == 'POST':
-			form_order = ShopOrderForm(request.POST, initial=context['cart'].get_address_order())
-			form_delivery = ShopOrderDeliveryForm(request.POST, initial=context['cart'].get_address_delivery())
-			# if context['form_order'].is_valid() and context['form_delivery'].is_valid():
-
 			try:
 				# Create a PaymentIntent with the order amount and currency
 				intent = stripe.PaymentIntent.create(
@@ -453,6 +497,8 @@ def retrievePayment(request):
 				context['email'] = order.email
 
 				data['html_succeeded'] = render_to_string('shop/includes/partial_payment_succeeded.html',context,request)
+
+				ShopOrder.sendmail_order(request,order)
 				#-- Delete cart session
 				del request.session[settings.CART_COOKIE_NAME]
 

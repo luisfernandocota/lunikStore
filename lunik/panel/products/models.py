@@ -1,5 +1,6 @@
 
 from __future__ import unicode_literals
+from curses.ascii import SUB
 
 import os
 from django.db import models
@@ -53,8 +54,44 @@ class ProductHexaCode(models.Model):
         return '%s - %s' %(self.name,self.hexacode)
 
 class Product(TimeStampedModel):
+    CHOOSE = 'X'
+
+    SCHEDULE = 'S'
+    NOTEBOOK = 'N'
+    PLANNER = 'P'
+    ORGANIZER = 'O'
+    RECIPE = 'R'
+
+    CATEGORY = (
+        (CHOOSE, 'Selecciona...'),
+        (SCHEDULE, 'Agenda'),
+        (NOTEBOOK, 'Libreta'),
+        (PLANNER, 'Planner'),
+        (ORGANIZER, 'Organizador'),
+        (RECIPE, 'Recetario')
+    )
+
+    CUSTOM = 'C'
+    NO_CUSTOM = 'N'
+    SCHOOL = 'S'
+    DAILY = 'D'
+    WEDDING = 'W'
+    PREGNACY = 'P'
+    NA = 'A'
+    
+    SUBCATEGORY = (
+        (CHOOSE, 'Selecciona...'),
+        (CUSTOM, 'Personalizable'),
+        (NO_CUSTOM, 'No personalizable'),
+        (SCHOOL, 'Escolar'),
+        (DAILY, 'Diaria'),
+        (WEDDING, 'Bodas'),
+        (PREGNACY, 'Embarazo'),
+        (NA, 'No aplica')
+    )
     slug = models.SlugField(max_length=120, verbose_name='Slug',default=None)
-    #brand = models.ForeignKey(ProductBrand,related_name='products',verbose_name='Brand', on_delete=models.CASCADE)
+    category = models.CharField(max_length=1,choices=CATEGORY,default='X',verbose_name='Categoria')
+    subcategory = models.CharField(max_length=1,choices=SUBCATEGORY,default='X',verbose_name='Subcategoria')
     brand = models.CharField(max_length=30,verbose_name='Brand')
     model = models.CharField(max_length=30,verbose_name='Model')
     name = models.CharField(max_length=120,verbose_name='Name')
@@ -116,7 +153,6 @@ class ProductProperty(models.Model):
     shipping_price = models.DecimalField(max_digits=8,decimal_places=2,verbose_name='Shipping to home', null=True, default=0)
     shipping_free = models.BooleanField(verbose_name='Shipping Free', default=False)
     shipping_min = models.DecimalField(max_digits=8,decimal_places=2,verbose_name='Shipping min', null=True, default=0)
-    has_personalization = models.BooleanField(verbose_name='Has_personalization',default=False)
 
     class Meta:
         db_table = 'product_properties'

@@ -122,7 +122,7 @@ TEMPLATES = [
 
                 'panel.core.context_processors.data_panel',
                 'panel.core.context_processors.menu_user',
-                #'panel.core.context_processors.menu_top',
+                'panel.core.context_processors.pk_stripe',
                 'panel.core.context_processors.module_action',
                 'panel.core.context_processors.module_name',
                 'panel.core.context_processors.cart',
@@ -241,6 +241,15 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+#-- Sendmail Configuration
+EMAIL_BACKEND = config('EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
+EMAIL_HOST = config('EMAIL_HOST',default='')
+EMAIL_HOST_USER = config('EMAIL_USER',default='')
+EMAIL_HOST_PASSWORD = config('EMAIL_PASSWORD',default='')
+EMAIL_PORT = config('EMAIL_PORT',default=587,cast=int)
+EMAIL_USE_TLS = config('EMAIL_TLS',default=True,cast=bool)
+DEFAULT_FROM_EMAIL = config('EMAIL_DEFAULT')
+
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
@@ -266,13 +275,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATIC_URL = '/static/'
 COMPRESS_ROOT = os.path.join(BASE_DIR,'static')
-
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
-
-COMPRESS_ENABLED = True
-#COMPRESS_OFFLINE = True
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),

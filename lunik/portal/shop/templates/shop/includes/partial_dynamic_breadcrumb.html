@@ -1,0 +1,19 @@
+<div class="bread-crumb bgwhite flex-w p-l-15 t-center" style="height: 50px;">
+    <div class="">
+        <a href="{% url 'shop:cart_detail' %}" class="s-text16">
+            Carrito
+            <i class="fa fa-angle-right m-l-8 m-r-9" aria-hidden="true"></i>
+        </a>
+
+        <a {% if step == 'informacion' %}style="font-weight: bold;" {% endif %} data-url="{% url 'shop:cart_checkout' %}?step=informacion" onclick="goStep($(this));" class="s-text16">Información
+            <i class="fa fa-angle-right m-l-8 m-r-9" aria-hidden="true"></i>
+        </a>
+
+        <a {% if step == 'envio' %}style="font-weight: bold;" {% endif %} data-url="{% url 'shop:cart_checkout' %}?step=envio" onclick="goStep($(this));" class="s-text16">Envío
+            <i class="fa fa-angle-right m-l-8 m-r-9" aria-hidden="true"></i>
+        </a>
+
+        <a {% if step == 'pago' %}style="font-weight: bold;" {% endif %} data-url="{% url 'shop:cart_checkout' %}?step=pago" onclick="goStep($(this));" class="s-text16">Pago</a>
+    </div>
+    
+</div>

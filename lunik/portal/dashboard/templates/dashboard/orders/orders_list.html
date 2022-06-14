@@ -14,7 +14,7 @@
 
 {% block content %}
 	<!-- content page -->
-	<section class="bgwhite p-t-66 p-b-60" style="margin-top: 100px; margin-bottom: 50px;">
+	<section class="bgwhite p-t-66 p-b-60">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12 p-b-30">
@@ -22,9 +22,6 @@
                             <h2 class="m-text26 p-b-0">
                                 LISTA DE PEDIDOS
                             </h2>
-                            <a  href="{% url 'shop:products_list' %}" class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4 w-25 buttonMovil"  >
-								SEGUIR COMPRANDO
-							</a>
 						{% if orders %}
 						<div class="row">
 								{% for order in orders %}

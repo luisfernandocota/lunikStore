@@ -161,3 +161,9 @@ def products_menu(request):
     context['products_list'] = Product.objects.prefetch_related('products_properties').filter(available=True, status=True).order_by('-created')
 
     return context
+
+def pk_stripe(request):
+    context = {}
+    context['pk_stripe'] = config('STRIPE_TEST_PUBLIC_KEY',default='')
+
+    return context

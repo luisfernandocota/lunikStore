@@ -37,7 +37,7 @@
 	}
 
 	body a {
-	color: {{order.store.store_meta.header_color}};
+	color: #da9fa6;
 	text-decoration: none;
 	}
 
@@ -134,7 +134,7 @@
 </head>
 
 <body>
-	<center class="wrapper" data-link-color="{{order.store.store_meta.header_color}}"
+	<center class="wrapper" data-link-color="#da9fa6"
 		data-body-style="font-size:14px; font-family:inherit; color:#000000; background-color:#f0f0f0;">
 		<div class="webkit">
 		<table cellpadding="0" cellspacing="0" border="0" width="100%" class="wrapper" bgcolor="#f0f0f0">
@@ -174,7 +174,7 @@
 										</table>
 										<table border="0" cellpadding="0" cellspacing="0" align="center" width="100%"
 											role="module" data-type="columns" style="padding:30px 20px 40px 30px;"
-											bgcolor="{{order.store.store_meta.header_color}}">
+											bgcolor="#da9fa6">
 											<tbody>
 											<tr role="module-content">
 												<td height="100%" valign="top">
@@ -193,23 +193,13 @@
 																<td
 																style="font-size:6px; line-height:10px; padding:0px 0px 0px 0px;"
 																valign="top" align="left">
-																{% if order.store.store_meta.logo %}
-																<img class="max-width" border="0"
-																  style="display:block; color:#000000; text-decoration:none; font-family:Helvetica, arial, sans-serif; font-size:16px;"
-																  width="90" height="90" alt=""
-																  data-proportionally-constrained="true"
-																  data-responsive="false"
-																  src="{{order.store.store_meta.logo.url}}"
-																  height="40">
-																  {% else %}
 																  <img class="max-width" border="0"
 																  style="display:block; color:#000000; text-decoration:none; font-family:Helvetica, arial, sans-serif; font-size:16px;"
 																  width="90" height="90" alt=""
 																  data-proportionally-constrained="true"
 																  data-responsive="false"
-																  src="{{AWS_S3_ENDPOINT_URL}}static/landing/one-page/images/logo_4shop.svg"
+																  src="{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{{STATIC_URL}}assets/images/icons/logoKGNegro.png"
 																  height="40">
-																  {% endif %}
 																</td>
 															</tr>
 															</tbody>
@@ -253,7 +243,7 @@
 												height="100%" valign="top" bgcolor="" role="module-content">
 												<div>
 													<div style="font-family: inherit; text-align: inherit"><span
-														style="color: {{order.store.store_meta.header_color}}; font-size: 24px">Resumen de la compra</span></div>
+														style="color: #da9fa6; font-size: 24px">Resumen de la compra</span></div>
 													<div></div>
 												</div>
 												</td>
@@ -333,35 +323,6 @@
 											</tr>
 											</tbody>
 										  </table>
-										  <table class="column" width="140"
-											style="width:140px; border-spacing:0; border-collapse:collapse; margin:0px 0px 0px 0px;"
-											cellpadding="0" cellspacing="0" align="left" border="0" bgcolor="">
-											<tbody>
-											<tr>
-											  <td style="padding:0px;margin:0px;border-spacing:0;">
-											  <table class="module" role="module" data-type="text" border="0"
-												cellpadding="0" cellspacing="0" width="100%"
-												style="table-layout: fixed;"
-												data-muid="9d43ffa1-8e24-438b-9484-db553cf5b092.1">
-												<tbody>
-												<tr>
-												  <td
-												  style="padding:18px 0px 18px 0px; line-height:22px; text-align:inherit;"
-												  height="100%" valign="top" bgcolor=""
-												  role="module-content">
-												  <div>
-													<div style="font-family: inherit; text-align: center"><a
-													  href="{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}/conocenos/"><span style="color: #000">Conocenos</span></a></div>
-													<div></div>
-												  </div>
-												  </td>
-												</tr>
-												</tbody>
-											  </table>
-											  </td>
-											</tr>
-											</tbody>
-										  </table>
 										  </td>
 										</tr>
 										</tbody>
@@ -408,7 +369,7 @@
 													  <td align="center" bgcolor="#f0f0f0" class="inner-td" style="padding-top: 20px;">
 														<p style="font-size:10px; line-height:20px;"><span
 														  class="Unsubscribe--senderAddress">Todos
-														  los derechos reservados para {{store.name}} {% now 'Y' %} &copy;<br></span></p>
+														  los derechos reservados para Karla Galvez {% now 'Y' %} &copy;<br></span></p>
 													  </td>
 
 													</tr>

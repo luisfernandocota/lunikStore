@@ -20,8 +20,7 @@ class ShopOrderForm(forms.ModelForm):
         error_messages = {'required':'Debe capturar el nombre'},
         widget = forms.TextInput(
             attrs = {
-                'class': 'form-control',
-                'placeholder' : 'Nombre(s)'
+                'class': 'input',
             }
         )
     )
@@ -30,8 +29,7 @@ class ShopOrderForm(forms.ModelForm):
         error_messages = {'required':'Debe capturar el correo'},
         widget = forms.EmailInput(
             attrs = {
-                'class': 'form-control',
-                'placeholder' : 'email@mail.com',
+                'class': 'input',
             }
         )
     )
@@ -40,8 +38,7 @@ class ShopOrderForm(forms.ModelForm):
         error_messages = {'required':'Debe capturar el teléfono'},
         widget = forms.TextInput(
             attrs = {
-                'class': 'form-control',
-                'placeholder' : '(999) 999 9999'
+                'class': 'input',
             }
         )
     )
@@ -59,8 +56,7 @@ class ShopOrderDeliveryForm(forms.ModelForm):
         error_messages = {'required':'Debe capturar la dirección'},
         widget = forms.TextInput(
             attrs = {
-                'class': 'form-control',
-                'placeholder' : 'Dirección'
+                'class': 'input',
             }
         )
     )
@@ -69,8 +65,7 @@ class ShopOrderDeliveryForm(forms.ModelForm):
         error_messages = {'required':'Debe capturar el código postal'},
         widget = forms.TextInput(
             attrs = {
-                'class': 'form-control',
-                'placeholder' : 'CP'
+                'class': 'input',
             }
         )
     )
@@ -79,8 +74,7 @@ class ShopOrderDeliveryForm(forms.ModelForm):
         error_messages = {'required':'Capture un número','invalid':'Introduzca un valor en digitos','max_digits':'Favor de introducir un valor menor a 5 digitos'},
         widget = forms.TextInput(
             attrs = {
-                'class': 'form-control',
-                'placeholder' : 'N° exterior'
+                'class': 'input',
             }
         )
     )
@@ -88,11 +82,9 @@ class ShopOrderDeliveryForm(forms.ModelForm):
         label = 'N° Interior',
         required = False,
         error_messages = {'required':'Capture un número','invalid':'Introduzca un valor en digitos','max_digits':'Favor de introducir un valor menor a 5 digitos'},
-        help_text= 'Opcional',
         widget = forms.TextInput(
             attrs = {
-                'class': 'form-control',
-                'placeholder' : 'N° interior'
+                'class': 'input',
             }
         )
     )
@@ -101,9 +93,7 @@ class ShopOrderDeliveryForm(forms.ModelForm):
         error_messages = {'required':'Capture la ciudad'},
         widget = forms.TextInput(
             attrs = {
-                'class': 'form-control',
-                'placeholder' : 'Ciudad',
-                'readonly': 'readonly'
+                'class': 'input',
             }
         )
     )
@@ -112,9 +102,7 @@ class ShopOrderDeliveryForm(forms.ModelForm):
         error_messages = {'required':'Capture el estado'},
         widget = forms.TextInput(
             attrs = {
-                'class': 'form-control',
-                'placeholder' : 'Estado',
-                'readonly': 'readonly'
+                'class': 'input',
             }
         )
     )
@@ -123,24 +111,10 @@ class ShopOrderDeliveryForm(forms.ModelForm):
         error_messages = {'required':'Capture la colonia'},
         widget = forms.Select(
             attrs = {
-                'class': 'form-control',
-                'placeholder' : 'Colonia',
-                'onload': 'get_zipcode()'
+                'class': 'input',
             }
         )
     )
-    # has_delivery = forms.ChoiceField(
-    #     label = 'Enviar a',
-    #     required = False,
-    #     choices = SHIPPING_OPTIONS,
-    #     widget = forms.Select(
-    #         attrs = {
-    #             'class':'custom-select my-1 mr-sm-2 custom-select-fd',
-    #             'data-shipping': "0",
-    #             'data-shipping-limit': "0",
-    #         }
-    #     )
-    # )
 
     class Meta:
         model = ShopOrderDelivery
@@ -159,7 +133,7 @@ class ProductShopCart(forms.Form):
         validators = [MinValueValidator(1),MaxValueValidator(99)],
         widget = forms.TextInput(
             attrs = {
-                'class':'form-control text-center',
+                'class':'size8 m-text18 t-center num-product',
                 'name':'num-product'
             }
         )
@@ -171,7 +145,7 @@ class ProductShopCart(forms.Form):
         queryset = Product.objects.none(),
         widget = forms.Select(
             attrs = {
-                'class':'form-select',
+                'class':'selection-2',
             }
         )
     )
@@ -184,7 +158,7 @@ class ProductShopCart(forms.Form):
         required = False,
         widget = forms.TextInput(
             attrs = {
-                'class': 'form-control',
+                'class': 'input',
             }
         )
     )
@@ -205,7 +179,7 @@ class ProductShopCart(forms.Form):
         self.product_pk = kwargs.pop('product_pk')
         super(ProductShopCart, self).__init__(*args, **kwargs)
         product = Product.objects.get(pk=self.product_pk)
-        if product.products_properties.has_personalization:
+        if product.subcategory == 'C':
             self.fields['quantity'].widget = forms.HiddenInput()
         self.fields['sizes'].queryset = sizes
         self.fields['sizes'].label_from_instance = lambda obj: "%s + $(%s)  " % (obj.name, obj.charge) if obj.charge else obj.name
@@ -213,7 +187,7 @@ class ProductShopCart(forms.Form):
     def clean(self):
         product = Product.objects.get(pk=self.product_pk)
         cd = self.cleaned_data
-        if not cd.get('name_personalization') and product.products_properties.has_personalization:
+        if not cd.get('name_personalization') and product.subcategory == 'C':
             self._errors['name_personalization'] = self.error_class(['Captura el nombre personalizado'])
         return cd
 
@@ -240,7 +214,7 @@ class ContactForm(forms.ModelForm):
         error_messages = {'required':'Debe capturar el nombre'},
         widget = forms.TextInput(
             attrs = {
-                'class': 'sizefull s-text7 p-l-22 p-r-22',
+                'class': 'input',
                 'placeholder' : 'Nombre(s)'
             }
         )
@@ -250,7 +224,7 @@ class ContactForm(forms.ModelForm):
         error_messages = {'required':'Debe capturar el correo'},
         widget = forms.EmailInput(
             attrs = {
-                'class': 'sizefull s-text7 p-l-22 p-r-22',
+                'class': 'input',
                 'placeholder' : 'Correo electrónico',
             }
         )
@@ -260,7 +234,7 @@ class ContactForm(forms.ModelForm):
         error_messages = {'required':'Debe capturar el teléfono'},
         widget = forms.TextInput(
             attrs = {
-                'class': 'sizefull s-text7 p-l-22 p-r-22',
+                'class': 'input',
                 'placeholder' : 'Teléfono'
             }
         )

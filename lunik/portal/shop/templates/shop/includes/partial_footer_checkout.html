@@ -1,7 +1,7 @@
 {% if step == 'informacion' %}
 <div>
 
-    <a  class="text-primary" onclick="sendPage('{% url 'shop:cart_detail' %}');">Regresar atrás</a>
+    <a  class="text-primary" onclick="sendPage('{% url 'shop:cart_detail' %}');">Ir al carrito</a>
 
 </div>
 
@@ -13,7 +13,7 @@
 {% elif step == 'envio' %}
 <div>
 
-    <a  class="text-primary" data-url="{% url 'shop:cart_checkout' %}?step=informacion" onclick="goStep($(this));">Regresar atrás</a>
+    <a  class="text-primary" data-url="{% url 'shop:cart_checkout' %}?step=informacion" onclick="goStep($(this));">Regresar</a>
 
 </div>
 
@@ -25,7 +25,7 @@
 {% elif step == 'pago' %}
 <div>
 
-    <a  class="text-primary" data-url="{% url 'shop:cart_checkout' %}?step=envio&method={{cart.get_shipping_method}}" onclick="goStep($(this));">Regresar atrás</a>
+    <a  class="text-primary" data-url="{% url 'shop:cart_checkout' %}?step=envio&method={{cart.get_shipping_method}}" onclick="goStep($(this));">Regresar</a>
 
 </div>
 {% endif %}

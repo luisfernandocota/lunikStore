@@ -29,16 +29,15 @@ SHIPPING_STATUS = (
 )
 
 def folio_order():
-    date_year = str(timezone.now().today().date()).split("-")
-    year = date_year[0][2:4]
+    import random 
+    n = random.getrandbits(32)
 
-    fill = ShopOrder.objects.filter(created__startswith=timezone.now().today().date()).count()
+    folio = ShopOrder.objects.filter(folio=n).exists()
 
-    if fill:
-        fill = fill + 1
-        return "%s%s%s-%s" % (year,date_year[1],date_year[2],fill)
-    else:
-        return "%s%s%s-%s" % (year,date_year[1],date_year[2],1)
+    if folio:
+        n + 1
+
+    return n
 
 class State(models.Model):
     name = models.CharField(max_length=100, verbose_name='Estado')
@@ -118,24 +117,18 @@ class ShopOrder(TimeStampedModel):
         return current_shopping
 
     @staticmethod
-    def sendmail_order(request, order, info):
+    def sendmail_order(request, order):
         context = {}
-        user = get_object_or_404(User, is_client=True)
         context['order'] = order
         context['request'] = request
-        context['info'] = info
-        if info.same_email:
-            mail_list = [info.email_store, user.email]
-
-        else:
-            mail_list = [order.store.store_meta.info.email_store]
+        mail_list = ['karlag.galvez@gmail.com', 'ing.fernandocota@gmail.com']
 
             #-- Sendmail to Client 4shop
         message2 = render_to_string('shop/includes/order_review_email.html',context)
-        sendmail('%s :: Compra de productos' % (order.store.name), message2, settings.DEFAULT_FROM_EMAIL, mail_list)
+        sendmail('%s | Compra de productos' % ('Karla Galvéz'), message2, settings.DEFAULT_FROM_EMAIL, mail_list)
         #-- Sendmail order to customer (From,to)
         message = render_to_string('shop/includes/order_payment_email.html',context)
-        sendmail('%s :: Compra de productos' % (order.store.name), message, settings.DEFAULT_FROM_EMAIL,order.email)
+        sendmail('%s | Detalle de tu pedido %s 😍' % ('Karla Galvéz', order.folio), message, settings.DEFAULT_FROM_EMAIL,order.email)
 
         return True
 
@@ -187,6 +180,7 @@ class ShopOrderProduct(models.Model):
     size = models.CharField(max_length=50,verbose_name='Size')
     name = models.CharField(max_length=250,verbose_name='Name',blank=True)
     number = models.PositiveSmallIntegerField(verbose_name='Number',blank=True,null=True)
+    gift = models.BooleanField(default=False, verbose_name='Gift')
 
     class Meta:
         db_table = 'shop_orders_products'
@@ -202,7 +196,6 @@ class ShopOrderProduct(models.Model):
 
         for item in cart:
             variants_keys = item['variants'].keys()
-
             for key in variants_keys:
                 #-- Save products
                 products_list.append(
@@ -218,6 +211,7 @@ class ShopOrderProduct(models.Model):
                         name_personalization=item['variants'][key].get('name_personalization',''),
                         name=item['variants'][key].get('name',''),
                         number=item['variants'][key].get('number'),
+                        gift = True if item['add_gift'] else False
                     )
                 )
 

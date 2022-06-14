@@ -5,15 +5,37 @@
   {% block title %}Karla Gálvez{% endblock title %}
 
   {% block subtitle %} Compra: {{folio}} {% endblock subtitle %}
-  {% block menu %}
-    {% include 'shop/includes/partial_menu.html' %}
-  {% endblock menu %}
-  {% block cart_mobile %}
-    {% include 'shop/includes/partial_cart_mobile_detail.html' %}
-  {% endblock cart_mobile %}
+
+  {% block showheader %}style="display:none;"{% endblock showheader %}
+  {% block showfooter %}style="display:none;"{% endblock showfooter %}
+
+  {% block headercheckout %}
+  <header class="header1">
+      <!-- Header desktop -->
+      <div class="container-menu-header">
+          <div class="topbar">
+              <div class="topbar-social">
+                  <a href="#" class="topbar-social-item fa fa-facebook"></a>
+                  <a href="#" class="topbar-social-item fa fa-instagram"></a>
+              </div>
+  
+              <span class="topbar-child1">
+                  ¡ Gracias por tu compra ! 🥰
+              </span>
+  
+              <div class="topbar-child2">
+                  <span class="topbar-email">
+                      
+                  </span>
+  
+              </div>
+          </div>
+      </div>
+  </header>
+  {% endblock headercheckout %}
 
 {% block content %}
-<section class="bg-title-page p-t-30 p-b-50 flex-col-c-m" style="margin:120px 0 35px 0; text-align: center;">
+<section class="bg-title-page p-t-30 p-b-50 flex-col-c-m" style="text-align: center;">
   <h1 style="color: #da9fa6 !important">
     ¡ Muchas gracias por su compra !
   </h1>

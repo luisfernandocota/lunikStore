@@ -2,6 +2,7 @@ from dataclasses import fields
 from re import A
 
 from datetime import date
+from unicodedata import category
 
 from django import forms
 from django.utils.html import format_html
@@ -49,6 +50,24 @@ class ProductForm(forms.ModelForm):
             attrs = {
                 'class': 'form-control',
                 'placeholder':'Ej. Sport',
+            }
+        )
+    )
+    category = forms.ChoiceField(
+        label = 'Categoria',
+        choices = Product.CATEGORY,
+        widget = forms.Select(
+            attrs = {
+                'class' : 'form-select'
+            }
+        )
+    )
+    subcategory = forms.ChoiceField(
+        label = 'Subcategoria',
+        choices = Product.SUBCATEGORY,
+        widget = forms.Select(
+            attrs = {
+                'class' : 'form-select'
             }
         )
     )
@@ -107,7 +126,7 @@ class ProductForm(forms.ModelForm):
     )
     class Meta:
         model = Product
-        fields = ('name','price','brand', 'model', 'description', 'aditional', 'sizes', 'hexacodes', 'available')
+        fields = ('name','price','brand', 'model', 'category', 'subcategory', 'description', 'aditional', 'sizes', 'hexacodes', 'available')
 
 
     def __init__(self,*args,**kwargs):

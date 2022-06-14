@@ -7,97 +7,81 @@
 
 {% block subtitle %} Checkout {% endblock subtitle %}
 
+{% block showheader %}style="display:none;"{% endblock showheader %}
+{% block showfooter %}style="display:none;"{% endblock showfooter %}
+
+{% block headercheckout %}
+<header class="header1">
+    <!-- Header desktop -->
+    <div class="container-menu-header">
+        <div class="topbar">
+            <div class="topbar-social">
+                <a href="#" class="topbar-social-item fa fa-facebook"></a>
+                <a href="#" class="topbar-social-item fa fa-instagram"></a>
+            </div>
+
+            <span class="topbar-child1">
+                Ya casi es tuyo !!! 🤩
+            </span>
+
+            <div class="topbar-child2">
+                <span class="topbar-email">
+                    ¿Necesitas ayuda?
+                </span>
+
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock headercheckout %}
+
 {% block customcss %}
 <link rel="stylesheet" href="{{STATIC_URL}}css/checkout.css" />
 {% endblock customcss %}
     
 
 {% block content %}
-            <section class="section-content panel panel-user-backoffice">
+<section class="bgwhite p-t-80 p-b-65">
+    <div class="container-fluid">
+        <div class="row dynamic-breadcrumb">   
 
-                <div class="container">
+            {% include 'shop/includes/partial_dynamic_breadcrumb.html' with step=step %}
 
-                    {% comment %} <ul class="nav nav-pills justify-content-center">
+        </div>
+        <div class="row well" id="panel_user" style="height: 750px;">
+            <div class="col-sm-12 col-md-6 col-lg-6 dynamic-step">
 
-                        <li class="nav-item">
+                {% include 'shop/includes/partial_dynamic_checkout.html' with step=step %}
 
-                            <button type="button" class="nav-link">Mi cuenta</button>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-6  dynamic-detail bg-light well detail-checkout p-l-30" style="width: 50vw;">
+                
+                {% include 'shop/includes/partial_dynamic_detail.html' with step=step %}
+            </div>
+            
+        </div>
+        <div class="row p-t-40">
+            <div class="col-12 flex-w flex-sb dynamic-footer">
 
-                        </li>
+                {% include 'shop/includes/partial_footer_checkout.html' with step=step %}
 
-                        <li class="nav-item dropdown">
+            </div>
+        </div>
+    </div>
 
-                            <button type="button" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Compras</button>
-
-                            <ul class="dropdown-menu">
-
-                                <li><a class="dropdown-item" href="#">Lista de ordenes</a></li>
-
-                                <li><a class="dropdown-item active" href="#">Carrito de compras</a></li>
-
-                                <li><a class="dropdown-item" href="#">Favoritos</a></li>
-
-                            </ul>
-
-                        </li>
-
-                        <li class="nav-item">
-
-                            <button type="button" class="nav-link">Mis direcciones</button>
-
-                        </li>
-
-                        <li class="nav-item">
-
-                            <button class="nav-link" class="nav-link">Configuración</button>
-
-                        </li>
-
-                    </ul> {% endcomment %}
-
-                    <div class="tab-content parent well" id="panel_user">
-
-                        <div class="tab-pane fade show d-block ">
-
-                            <div class="tab-pane-content no-padding">
-
-                                <div class="row g-0">
-                                  
-                                  <div class="col-12 col-lg-6 dynamic-padding dynamic-step">
-
-                                  {% include 'shop/includes/partial_dynamic_checkout.html' with step=step %}
-
-                                  </div>
-                                    <div class="col-12 col-lg-6 dynamic-padding dynamic-detail bg-light well">
-                                        
-                                        {% include 'shop/includes/partial_dynamic_detail.html' with step=step %}
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                            <div class="tab-pane-footer d-flex justify-content-between align-items-center dynamic-footer">
-
-                                {% include 'shop/includes/partial_footer_checkout.html' with step=step %}
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </section>
+</section>
 {% endblock content %}
 
 {% block customjs %}
 <!-- Toastr -->
 
 <script src="{{STATIC_URL}}assets/js/plugins/toastr/toastr.min.js"></script>
-<!-- <script src="{{STATIC_URL}}js/script.js" defer></script> -->
+<script type="text/javascript">
+    // This is your test publishable API key.
+    const stripe = Stripe("{{pk_stripe}}");
+
+</script>
+<script src="{{STATIC_URL}}js/script.js" defer></script>
 
 {% endblock customjs %}
 

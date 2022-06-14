@@ -5,2312 +5,523 @@
 
 {% block subtitle %} Inicio {% endblock subtitle %}
 
-{% block editbar %}
-{% ifequal request.user.customer.tenant tenant %}
-{% if request.user.is_client %}
-<div class="topbar" id="edit-bar" style="background-color: #068eef;   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-transition: 0.3s;">
-	<div class="topbar-social" style="color:white">
-		Hola {{request.user.get_short_name}}
-	</div>
-
-	<span class="topbar-child1">
-		¿Te gustaria seguir editando tu tienda?
-		<i class="fa fa-edit"></i>
-		<a style="color:white; text-decoration:none" href="{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}/panel/website/store_meta/">IR A EDITAR</a>
-	</span>
-
-	<div class="topbar-child2">
-		<button style="color:white" class="fa fa-times btn-times"></button>
-	</div>
-</div>
-{% endif %}
-{% endifequal %}
-{% endblock editbar %}
 {% block content %}
-			<section id="principal" class="hero principal-container template">
+<!-- Slide1 -->
+<section class="slide1">
+	<div class="wrap-slick1">
+		<div class="slick1">
+			{% for item in slides_list %}
+			{% thumbnail item.image '1920x570' crop='center' as img %}
+			<div class="item-slick1 item1-slick1" style="background-image: url('{{img.url}}');">
+			{% endthumbnail %}
+			{% if item.title %}
+				<div class="wrap-content-slide1 sizefull flex-col-c-m p-l-15 p-r-15 p-t-150 p-b-170">
+					<span class="caption1-slide1 m-text1 t-center animated visible-false m-b-15" data-appear="fadeInDown">
+						Women Collection 2018
+					</span>
 
-				<div class="owl-carousel owl-theme principal-carousel large">
-					{% for item in slides_list %}
-					<div class="item bground-config d-flex justify-content-center align-items-center" 
-						style="background-image: url('{{item.image.url}}');">
+					<h2 class="caption2-slide1 xl-text1 t-center animated visible-false m-b-37" data-appear="fadeInUp">
+						New arrivals
+					</h2>
 
-						<!-- <div class="background-filter"></div> -->
-
-						<div class="carousel-content text-center">
-
-							{% if item.title %}
-							<h1 class="color-text-carousel-item">{{item.title}}</h1>
-							{% endif %}
-
-							{% comment %} <h5 class="color-text-carousel-item">Doloribus doloremque eos deserunt eligendi facilis ad?</h5>
-
-							<p class="color-text-carousel-item">Lusto quis explicabo in amet, ullam dignissimos officiis
-
-								doloremque provident quisquam ratione.</p>
-
-							<button type="button" class="four-buttons">Conocer más</button> {% endcomment %}
-
-						</div>
-
+					<div class="wrap-btn-slide1 w-size1 animated visible-false" data-appear="zoomIn">
+						<!-- Button -->
+						<a href="product.html" class="flex-c-m size2 bo-rad-23 s-text2 bgwhite hov1 trans-0-4">
+							Shop Now
+						</a>
 					</div>
-					{% endfor %}
 				</div>
-
-			</section>
-
-
-			{% comment %} 
-			<section class="section-content template">
-
-				<div class="container config-container">
-
-					<div class="row">
-
-						<div class="col-12 col-lg-6 d-flex justify-content-center align-items-center">
-
-							<div>
-
-								<h4>
-
-									<strong>Bienvenido a {{store_instance.name}}. Tu tienda ideal.</strong>
-
-								</h4>
-
-								<hr style="width: 25%; margin: 42px 0px;">
-
-								<p>
-
-									Lorem ipsum dolor sit amet consectetur, adipisicing elit. Expedita consequuntur sunt optio corporis tempore quam ipsum ducimus suscipit provident libero quaerat, ullam, minima at placeat adipisci laudantium totam voluptates quis!
-
-								</p>
-
-								<button type="button" class="four-buttons">Conocer más</button>
-
-							</div>
-
-						</div>
-
-						<div class="col-12 col-lg-6">
-
-							<img src="{{STATIC_URL}}shop/resources/store/9-2.jpg" class="mw-100" alt="">
-
-						</div>
-
-					</div>
-
-				</div>
-
-			</section> 
-			{% endcomment %}
-
-			{% comment %}
-            <section class="section-content template">
-                <h4 class="text-center">
-                    <strong>Los Más Populares</strong>
-                    <hr>
-                </h4>
-                <div class="row categories-images justify-content-center">
-					{% if store_instance and categories_list %}
-					{% for category in categories_list %}
-					{% if forloop.counter <= 3 %}
-					{% if category.subcategories.all.first.products.all.first.products_gallery.all %}
-                    <div class="p-4 col-12 col-md-4">
-                        <div class="category d-flex justify-content-center align-items-center bground-config" 
-						style="background-image: url('{{category.subcategories.all.first.products.all.first.products_gallery.first.image.url}}');">
-                            <div>
-                                <h5 class="color-text-category-item">
-                                    <strong>{{category.name}}</strong>
-                                </h5>
-                                <!-- <p class="color-text-category-item">
-                                    Lorem ipsum dolor sit amet consectetur
-                                </p> -->
-                                <button type="button" onclick="sendPage('{% url 'shop:products_list' %}?categoria={{category.slug}}')" class="four-buttons">Conocer más</button>
-                            </div>
-                        </div>
-                    </div>
-					{% endif %}
-					{% endif %}
-					{% endfor %}
-					{% endif %}
-                    <!-- <div class="p-4 col-12 col-md-4">
-                        <div class="category d-flex justify-content-center align-items-center bground-config" style="background-image: url('{{STATIC_URL}}shop/resources/store/cat/footwear.jpg');">
-                            <div>
-                                <h5 class="color-text-category-item">
-                                    <strong>Categoría 2</strong>
-                                </h5>
-                                <p class="color-text-category-item">
-                                    Lorem ipsum dolor sit amet consectetur
-                                </p>
-                                <button type="button" class="four-buttons">Conocer más</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="p-4 col-12 col-md-4">
-                        <div class="category d-flex justify-content-center align-items-center bground-config" style="background-image: url('{{STATIC_URL}}shop/resources/store/cat/workout.jpg');">
-                            <div>
-                                <h5 class="color-text-category-item">
-                                    <strong>Categoría 3</strong>
-                                </h5>
-                                <p class="color-text-category-item">
-                                    Lorem ipsum dolor sit amet consectetur
-                                </p>
-                                <button type="button" class="four-buttons">Conocer más</button>
-                            </div>
-                        </div>
-                    </div> -->
-
-				</div>
-				<div>
-					<button type="button" onclick="sendPage('{% url 'shop:categories_list' %}')" class="button-for-category four-buttons d-block mx-auto">Ver más categorías</button>
-				</div>
-            </section>
-			{% endcomment %}
-			<!-- Our brands -->
-			{% comment %} 
-			<section class="section-content template">
-
-				<div class="container config-container">
-
-					<h4 class="text-center">
-
-						<strong>Nuestras Marcas</strong>
-
-						<hr>
-
-					</h4>
-
-					<div class="row">
-
-						<div class="owl-carousel owl-theme brands-carousel ">
-
-							<div class="item d-flex justify-content-center align-items-center">
-
-								<img src="{{STATIC_URL}}shop/resources/store/brands/1.png" class="w-100 d-block mx-auto  brand-logos"  alt="">
-
-							</div>
-
-							<div class="item d-flex justify-content-center align-items-center">
-
-								<img src="{{STATIC_URL}}shop/resources/store/brands/2.png" class="w-100 d-block mx-auto  brand-logos"  alt="">
-
-							</div>
-
-							<div class="item d-flex justify-content-center align-items-center">
-
-								<img src="{{STATIC_URL}}shop/resources/store/brands/3.png" class="w-100 d-block mx-auto  brand-logos"  alt="">
-
-							</div>
-
-							<div class="item d-flex justify-content-center align-items-center">
-
-								<img src="{{STATIC_URL}}shop/resources/store/brands/4.png" class="w-100 d-block mx-auto  brand-logos"  alt="">
-
-							</div>
-
-							<div class="item d-flex justify-content-center align-items-center">
-
-								<img src="{{STATIC_URL}}shop/resources/store/brands/5.png" class="w-100 d-block mx-auto  brand-logos"  alt="">
-
-							</div>
-
-							<div class="item d-flex justify-content-center align-items-center">
-
-								<img src="{{STATIC_URL}}shop/resources/store/brands/6.png" class="w-100 d-block mx-auto  brand-logos"  alt="">
-
-							</div>
-
-							<div class="item d-flex justify-content-center align-items-center">
-
-								<img src="{{STATIC_URL}}shop/resources/store/brands/7.png" class="w-100 d-block mx-auto  brand-logos"  alt="">
-
-							</div>
-
-							<div class="item d-flex justify-content-center align-items-center">
-
-								<img src="{{STATIC_URL}}shop/resources/store/brands/8.png" class="w-100 d-block mx-auto  brand-logos"  alt="">
-
-							</div>
-
-							<div class="item d-flex justify-content-center align-items-center">
-
-								<img src="{{STATIC_URL}}shop/resources/store/brands/9.png" class="w-100 d-block mx-auto  brand-logos"  alt="">
-
-							</div>
-
-						</div>
-
-					</div>
-
-				</div>
-
-			</section> 
-			{% endcomment %}
-			<!-- end Our brands-->
-
-
-			<section class="section-content template">
-
-				<h4 class="text-center">
-
-					<strong>Nuestros Productos</strong>
-
-					<hr>
-
-				</h4>
-
-				<div class="panel-category-products d-flex justify-content-center align-content-center p-2 pb-4">
-
-					<div class="btn-group" role="group">
-
-						<button type="button" class="four-buttons" onclick="showCategory('all')">Todos</button>
-						{% for category in categories_list %}
-						<button type="button" class="four-buttons" onclick="showCategory('{{category.name}}')">{{category.name}}</button>
-						{% endfor %}
-						{% comment %} 
-						<button type="button" class="four-buttons" onclick="showCategory('hombre')">Hombre</button>
-
-						<button type="button" class="four-buttons" onclick="showCategory('hombre')">Hombre</button>
-
-						<button type="button" class="four-buttons" onclick="showCategory('mujer')">Mujer</button> {% endcomment %}
-
-					</div>
-
-				</div>
-
-				<div class="config-product-grid four panel-category-container">
-					{% for item in products_list %}
-					<div class="article-result animate__animated  animate__fadeIn pb-4 {{item.product.subcategory.category.name}} show">
-
-						<div class="carousel slide" data-bs-ride="false" id="itemname_{{forloop.counter}}">
-
-							<button class="carousel-control-prev" type="button" data-bs-target="#itemname_{{forloop.counter}}" data-bs-slide="prev">
-
-								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-
-								<span class="visually-hidden">Previous</span>
-
-							</button>
-
-							<button class="carousel-control-next" type="button" data-bs-target="#itemname_{{forloop.counter}}" data-bs-slide="next">
-
-								<span class="carousel-control-next-icon" aria-hidden="true"></span>
-
-								<span class="visually-hidden">Next</span>
-
-							</button>
-
-							<div class="carousel-inner">
-								{% for image in item.products_gallery.all %}
-								<div class="carousel-item carrousel-product-item {% if forloop.first %}active{% endif %} bground-config"
-
-									style="background-image: url('{{image.image.url}}');">
-
-								</div>
-								{% endfor %}
-
-							</div>
-
-							<button type="button" onclick="sendPage('{% url 'shop_cart:product_detail' item.slug %}');" class="four-buttons d-block mx-auto check-article-button">Ver artículo</button>
-
-						</div>
-
-						<div class="row pt-2 pb-2">
-
-							<div class="col-10 col-md-9 col-lg-6">
-
-								<p class="text-grey pb-0 mb-2" onclick="sendPage('{% url 'shop_cart:product_detail' item.slug %}');">
-
-									<small>{{item.name}}</small>
-
-								</p>
-
-								<h6 style="display: -webkit-inline-box;">
-									{% if item.products_properties.is_sale %}
-									$ {{item.products_properties.sale_price|intcomma}} <small style="text-decoration: line-through;">$ {{item.products_properties.sell_price|intcomma}}</small>
-									{% else %}
-										$ {{item.products_properties.sell_price|intcomma}}
-									{% endif %}
-									</h6>
-									
-
-								</div>
-								{% if item.products_properties.shipping_free %}
-								<div class="col-2 col-md-3 col-lg-6 d-flex justify-content-end">
-
-									<button type="button" style="color: #914c54 !important; text-decoration: none !important;" class="btn btn-link d-block">
-
-										<i class="bi bi-truck"></i> Envio gratis
-
-									</button>
-
-								</div>
-								{% endif %}
-
-						</div>
-					</div>
-					{% endfor %}
-					{% comment %} 
-					<div class="article-result animate__animated  animate__fadeIn pb-4 mujer show">
-
-						<div class="carousel slide" data-bs-ride="false" id="itemname_1">
-
-							<button class="carousel-control-prev" type="button" data-bs-target="#itemname_1" data-bs-slide="prev">
-
-								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-
-								<span class="visually-hidden">Previous</span>
-
-							</button>
-
-							<button class="carousel-control-next" type="button" data-bs-target="#itemname_1" data-bs-slide="next">
-
-								<span class="carousel-control-next-icon" aria-hidden="true"></span>
-
-								<span class="visually-hidden">Next</span>
-
-							</button>
-
-							<div class="carousel-inner">
-
-								<div class="carousel-item carrousel-product-item active bground-config"
-
-									style="background-image: url('{{STATIC_URL}}shop/resources/store/5-1.jpg');">
-
-								</div>
-
-								<div class="carousel-item carrousel-product-item bground-config"
-
-									style="background-image: url('{{STATIC_URL}}shop/resources/store/5-2.jpg');">
-
-								</div>
-
-							</div>
-
-							<button type="button" class="four-buttons d-block mx-auto check-article-button">Ver artículo</button>
-
-						</div>
-
-						<div class="row pt-2 pb-2">
-
-							<div class="col-10 col-md-9 col-lg-6">
-
-								<p class="text-grey pb-0 mb-2">
-
-									<small>Tenis Nike #19328</small>
-
-								</p>
-
-								<h6>$ 50.00 USD</h6>
-
-							</div>
-
-							<div class="col-2 col-md-3 col-lg-6 d-flex justify-content-end">
-
-								<button type="button" class="btn btn-link like-heart-button d-block">
-
-									<i class="bi bi-heart"></i>
-
-								</button>
-
-							</div>
-
-						</div>
-
-					</div>
-
-					<div class="article-result animate__animated  animate__fadeIn pb-4 hombre show">
-
-						<div class="carousel slide" data-bs-ride="false" id="itemname_2">
-
-							<button class="carousel-control-prev" type="button" data-bs-target="#itemname_2" data-bs-slide="prev">
-
-								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-
-								<span class="visually-hidden">Previous</span>
-
-							</button>
-
-							<button class="carousel-control-next" type="button" data-bs-target="#itemname_2" data-bs-slide="next">
-
-								<span class="carousel-control-next-icon" aria-hidden="true"></span>
-
-								<span class="visually-hidden">Next</span>
-
-							</button>
-
-							<div class="carousel-inner">
-
-								<div class="carousel-item carrousel-product-item active bground-config"
-
-									style="background-image: url('{{STATIC_URL}}shop/resources/store/3-1.jpg');">
-
-								</div>
-
-								<div class="carousel-item carrousel-product-item bground-config"
-
-									style="background-image: url('{{STATIC_URL}}shop/resources/store/3-2.jpg');">
-
-								</div>
-
-								<div class="carousel-item carrousel-product-item bground-config"
-
-									style="background-image: url('{{STATIC_URL}}shop/resources/store/3-3.jpg');">
-
-								</div>
-
-							</div>
-
-							<button type="button" class="four-buttons d-block mx-auto check-article-button">Ver artículo</button>
-
-						</div>
-
-						<div class="row pt-2 pb-2">
-
-							<div class="col-10 col-md-9 col-lg-6">
-
-								<p class="text-grey pb-0 mb-2">
-
-									<small>Tenis Nike #19328</small>
-
-								</p>
-
-								<h6>$ 50.00 USD</h6>
-
-							</div>
-
-							<div class="col-2 col-md-3 col-lg-6 d-flex justify-content-end">
-
-								<button type="button" class="btn btn-link like-heart-button d-block">
-
-									<i class="bi bi-heart"></i>
-
-								</button>
-
-							</div>
-
-						</div>
-
-					</div>
-
-					<div class="article-result animate__animated  animate__fadeIn pb-4 hombre show">
-
-						<div class="carousel slide" data-bs-ride="false" id="itemname_3">
-
-							<button class="carousel-control-prev" type="button" data-bs-target="#itemname_3" data-bs-slide="prev">
-
-								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-
-								<span class="visually-hidden">Previous</span>
-
-							</button>
-
-							<button class="carousel-control-next" type="button" data-bs-target="#itemname_3" data-bs-slide="next">
-
-								<span class="carousel-control-next-icon" aria-hidden="true"></span>
-
-								<span class="visually-hidden">Next</span>
-
-							</button>
-
-							<div class="carousel-inner">
-
-								<div class="carousel-item carrousel-product-item active bground-config"
-
-									style="background-image: url('{{STATIC_URL}}shop/resources/store/4-1.jpg');">
-
-								</div>
-
-								<div class="carousel-item carrousel-product-item bground-config"
-
-									style="background-image: url('{{STATIC_URL}}shop/resources/store/4-2.jpg');">
-
-								</div>
-
-							</div>
-
-							<button type="button" class="four-buttons d-block mx-auto check-article-button">Ver artículo</button>
-
-						</div>
-
-						<div class="row pt-2 pb-2">
-
-							<div class="col-10 col-md-9 col-lg-6">
-
-								<p class="text-grey pb-0 mb-2">
-
-									<small>Tenis Nike #19328</small>
-
-								</p>
-
-								<h6>$ 50.00 USD</h6>
-
-							</div>
-
-							<div class="col-2 col-md-3 col-lg-6 d-flex justify-content-end">
-
-								<button type="button" class="btn btn-link like-heart-button d-block">
-
-									<i class="bi bi-heart"></i>
-
-								</button>
-
-							</div>
-
-						</div>
-
-					</div>
-
-					<div class="article-result animate__animated  animate__fadeIn pb-4 calzado show">
-
-						<div class="carousel slide" data-bs-ride="false" id="itemname_4">
-
-							<button class="carousel-control-prev" type="button" data-bs-target="#itemname_4" data-bs-slide="prev">
-
-								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-
-								<span class="visually-hidden">Previous</span>
-
-							</button>
-
-							<button class="carousel-control-next" type="button" data-bs-target="#itemname_4" data-bs-slide="next">
-
-								<span class="carousel-control-next-icon" aria-hidden="true"></span>
-
-								<span class="visually-hidden">Next</span>
-
-							</button>
-
-							<div class="carousel-inner">
-
-								<div class="carousel-item carrousel-product-item active bground-config"
-
-									style="background-image: url('{{STATIC_URL}}shop/resources/store/9-1.jpg');">
-
-								</div>
-
-								<div class="carousel-item carrousel-product-item bground-config"
-
-									style="background-image: url('{{STATIC_URL}}shop/resources/store/9-2.jpg');">
-
-								</div>
-
-								<div class="carousel-item carrousel-product-item bground-config"
-
-									style="background-image: url('{{STATIC_URL}}shop/resources/store/9-3.jpg');">
-
-								</div>
-
-							</div>
-
-							<button type="button" class="four-buttons d-block mx-auto check-article-button">Ver artículo</button>
-
-						</div>
-
-						<div class="row pt-2 pb-2">
-
-							<div class="col-10 col-md-9 col-lg-6">
-
-								<p class="text-grey pb-0 mb-2">
-
-									<small>Tenis Nike #19328</small>
-
-								</p>
-
-								<h6>$ 50.00 USD</h6>
-
-							</div>
-
-							<div class="col-2 col-md-3 col-lg-6 d-flex justify-content-end">
-
-								<button type="button" class="btn btn-link like-heart-button d-block">
-
-									<i class="bi bi-heart"></i>
-
-								</button>
-
-							</div>
-
-						</div>
-
-					</div>
-
-					<div class="article-result animate__animated  animate__fadeIn pb-4 mujer show">
-
-						<div class="carousel slide" data-bs-ride="false" id="itemname_5">
-
-							<button class="carousel-control-prev" type="button" data-bs-target="#itemname_5" data-bs-slide="prev">
-
-								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-
-								<span class="visually-hidden">Previous</span>
-
-							</button>
-
-							<button class="carousel-control-next" type="button" data-bs-target="#itemname_5" data-bs-slide="next">
-
-								<span class="carousel-control-next-icon" aria-hidden="true"></span>
-
-								<span class="visually-hidden">Next</span>
-
-							</button>
-
-							<div class="carousel-inner">
-
-								<div class="carousel-item carrousel-product-item active bground-config"
-
-									style="background-image: url('{{STATIC_URL}}shop/resources/store/7-1.jpg');">
-
-								</div>
-
-								<div class="carousel-item carrousel-product-item bground-config"
-
-									style="background-image: url('{{STATIC_URL}}shop/resources/store/7-2.jpg');">
-
-								</div>
-
-								<div class="carousel-item carrousel-product-item bground-config"
-
-									style="background-image: url('{{STATIC_URL}}shop/resources/store/7-3.jpg');">
-
-								</div>
-
-							</div>
-
-							<button type="button" class="four-buttons d-block mx-auto check-article-button">Ver artículo</button>
-
-						</div>
-
-						<div class="row pt-2 pb-2">
-
-							<div class="col-10 col-md-9 col-lg-6">
-
-								<p class="text-grey pb-0 mb-2">
-
-									<small>Tenis Nike #19328</small>
-
-								</p>
-
-								<h6>$ 50.00 USD</h6>
-
-							</div>
-
-							<div class="col-2 col-md-3 col-lg-6 d-flex justify-content-end">
-
-								<button type="button" class="btn btn-link like-heart-button d-block">
-
-									<i class="bi bi-heart"></i>
-
-								</button>
-
-							</div>
-
-						</div>
-
-					</div>
-
-					<div class="article-result animate__animated  animate__fadeIn pb-4 calzado show">
-
-						<div class="carousel slide" data-bs-ride="false" id="itemname_6">
-
-							<button class="carousel-control-prev" type="button" data-bs-target="#itemname_6" data-bs-slide="prev">
-
-								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-
-								<span class="visually-hidden">Previous</span>
-
-							</button>
-
-							<button class="carousel-control-next" type="button" data-bs-target="#itemname_6" data-bs-slide="next">
-
-								<span class="carousel-control-next-icon" aria-hidden="true"></span>
-
-								<span class="visually-hidden">Next</span>
-
-							</button>
-
-							<div class="carousel-inner">
-
-								<div class="carousel-item carrousel-product-item active bground-config"
-
-									style="background-image: url('{{STATIC_URL}}shop/resources/store/img1.png');">
-
-								</div>
-
-								<div class="carousel-item carrousel-product-item bground-config"
-
-									style="background-image: url('{{STATIC_URL}}shop/resources/store/img2.png');">
-
-								</div>
-
-							</div>
-
-							<button type="button" class="four-buttons d-block mx-auto check-article-button">Ver artículo</button>
-
-						</div>
-
-						<div class="row pt-2 pb-2">
-
-							<div class="col-10 col-md-9 col-lg-6">
-
-								<p class="text-grey pb-0 mb-2">
-
-									<small>Tenis Nike #19328</small>
-
-								</p>
-
-								<h6>$ 50.00 USD</h6>
-
-							</div>
-
-							<div class="col-2 col-md-3 col-lg-6 d-flex justify-content-end">
-
-								<button type="button" class="btn btn-link like-heart-button d-block">
-
-									<i class="bi bi-heart"></i>
-
-								</button>
-
-							</div>
-
-						</div>
-
-					</div>
-
-					<div class="article-result animate__animated  animate__fadeIn pb-4 hombre show">
-
-						<div class="carousel slide" data-bs-ride="false" id="itemname_7">
-
-							<button class="carousel-control-prev" type="button" data-bs-target="#itemname_7" data-bs-slide="prev">
-
-								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-
-								<span class="visually-hidden">Previous</span>
-
-							</button>
-
-							<button class="carousel-control-next" type="button" data-bs-target="#itemname_7" data-bs-slide="next">
-
-								<span class="carousel-control-next-icon" aria-hidden="true"></span>
-
-								<span class="visually-hidden">Next</span>
-
-							</button>
-
-							<div class="carousel-inner">
-
-								<div class="carousel-item carrousel-product-item active bground-config"
-
-									style="background-image: url('{{STATIC_URL}}shop/resources/store/8-1.jpg');">
-
-								</div>
-
-								<div class="carousel-item carrousel-product-item bground-config"
-
-									style="background-image: url('{{STATIC_URL}}shop/resources/store/8-2.jpg');">
-
-								</div>
-
-							</div>
-
-							<button type="button" class="four-buttons d-block mx-auto check-article-button">Ver artículo</button>
-
-						</div>
-
-						<div class="row pt-2 pb-2">
-
-							<div class="col-10 col-md-9 col-lg-6">
-
-								<p class="text-grey pb-0 mb-2">
-
-									<small>Tenis Nike #19328</small>
-
-								</p>
-
-								<h6>$ 50.00 USD</h6>
-
-							</div>
-
-							<div class="col-2 col-md-3 col-lg-6 d-flex justify-content-end">
-
-								<button type="button" class="btn btn-link like-heart-button d-block">
-
-									<i class="bi bi-heart"></i>
-
-								</button>
-
-							</div>
-
-						</div>
-
-					</div> 
-					{% endcomment %}
-
-				</div>
-
-				{% if products_list.count >= 8 %}
-                <div>
-                    <button type="button" onclick="sendPage('{% url 'shop:products_list' %}')" class="button-for-category four-buttons d-block mx-auto">Ver más productos</button>
-                </div>
 				{% endif %}
-			</section>
+			</div>
+			{% endfor %}
+			<div class="item-slick1 item2-slick1" style="background-image: url({{STATIC_URL}}shop/images/master-slide-03.jpg);">
+				<div class="wrap-content-slide1 sizefull flex-col-c-m p-l-15 p-r-15 p-t-150 p-b-170">
+					<span class="caption1-slide1 m-text1 t-center animated visible-false m-b-15" data-appear="rollIn">
+						Women Collection 2018
+					</span>
 
+					<h2 class="caption2-slide1 xl-text1 t-center animated visible-false m-b-37" data-appear="lightSpeedIn">
+						New arrivals
+					</h2>
 
-
-			{% comment %} <!-- <section class="section-content medium video-container position-relative">
-
-				<video src="{{STATIC_URL}}shop/resources/store/video.mp4" autoplay muted loop class="video-banner" poster="{{STATIC_URL}}shop/resources/store/video-poster.jpg"></video>
-
-				<div class="over-load-video-filter"></div>
-
-				<div class="container over-load-video-container d-flex justify-content-center align-items-center heightflex">
-
-						<div >
-
-							<h2 class=" text-center">Próximamente nuestras ofertas</h2>
-
-							<p class=" text-center">
-
-								Sólo váligo del 22 de febrero al 27 de febrero 2021
-
-							</p>
-
-							<button type="button" class="four-buttons d-block mx-auto">Conocer más</button>
-
-						</div>
-
-
-
-				</div>
-
-			</section> -->
-
-
-			<section class="section-content template">
-
-				<div class="container config-container">
-
-					<div class="row">
-
-						<div class="col-12 col-md-6 col-lg-3">
-
-							<div class="d-flex justify-content-center align-items-center">
-
-								<div class="icon-service-container">
-
-									<i class="bi bi-arrow-counterclockwise"></i>
-
-								</div>
-
-							</div>
-
-							<p class="text-center pt-4">
-
-								Tienes 30 días para regresar el producto y te devolvemos tu dinero.
-
-							</p>
-
-						</div>
-
-						<div class="col-12 col-md-6 col-lg-3">
-
-							<div class="d-flex justify-content-center align-items-center">
-
-								<div class="icon-service-container">
-
-									<i class="bi bi-gift"></i>
-
-								</div>
-
-							</div>
-
-							<p class="text-center pt-4">
-
-								100% Original y única, que esperas para vender en línea.
-
-							</p>
-
-						</div>
-
-						<div class="col-12 col-md-6 col-lg-3">
-
-							<div class="d-flex justify-content-center align-items-center">
-
-								<div class="icon-service-container">
-
-									<i class="bi bi-globe"></i>
-
-								</div>
-
-							</div>
-
-							<p class="text-center pt-4">
-
-								Envios Gratis a toda la republica en compras mayores a $500
-
-							</p>
-
-						</div>
-
-						<div class="col-12 col-md-6 col-lg-3">
-
-							<div class="d-flex justify-content-center align-items-center">
-
-								<div class="icon-service-container">
-
-									<i class="bi bi-wallet2"></i>
-
-								</div>
-
-							</div>
-
-							<p class="text-center pt-4">
-
-								Aceptamos con diferentes metodos de pago, visa y mastercard.
-
-							</p>
-
-						</div>
-
+					<div class="wrap-btn-slide1 w-size1 animated visible-false" data-appear="slideInUp">
+						<!-- Button -->
+						<a href="product.html" class="flex-c-m size2 bo-rad-23 s-text2 bgwhite hov1 trans-0-4">
+							Shop Now
+						</a>
 					</div>
-
 				</div>
+			</div>
 
-			</section> {% endcomment %}
+			<div class="item-slick1 item3-slick1" style="background-image: url({{STATIC_URL}}shop/images/master-slide-04.jpg);">
+				<div class="wrap-content-slide1 sizefull flex-col-c-m p-l-15 p-r-15 p-t-150 p-b-170">
+					<span class="caption1-slide1 m-text1 t-center animated visible-false m-b-15" data-appear="rotateInDownLeft">
+						Women Collection 2018
+					</span>
 
-	{% comment "" %}
+					<h2 class="caption2-slide1 xl-text1 t-center animated visible-false m-b-37" data-appear="rotateInUpRight">
+						New arrivals
+					</h2>
 
-	<!-- Slide1 -->
-	<section class="slide1">
-		<div class="wrap-slick1">
-			<div class="slick1">
-		{% for item in slides_list %}
-				<div class="item-slick1 item1-slick1" style="background-image: url({{item.image.url}});">
-					<img src="{{item.image.url}}" class="img-fluid imgMobil" style="display:none;">
-					<div class="wrap-content-slide1 sizefull flex-col-c-m p-l-15 p-r-15 p-t-150 p-b-170">
-						<span class="caption1-slide1 m-text1 t-center animated visible-false m-b-15" data-appear="fadeInDown">
-							{{item.title}}
-						</span>
+					<div class="wrap-btn-slide1 w-size1 animated visible-false" data-appear="rotateIn">
+						<!-- Button -->
+						<a href="product.html" class="flex-c-m size2 bo-rad-23 s-text2 bgwhite hov1 trans-0-4">
+							Shop Now
+						</a>
+					</div>
+				</div>
+			</div>
 
-						<h2 class="caption2-slide1 xl-text1 t-center animated visible-false m-b-37" data-appear="fadeInUp">
+		</div>
+	</div>
+</section>
+
+<!-- Banner -->
+<section class="banner bgwhite p-t-40 p-b-40">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-10 col-md-8 col-lg-4 m-l-r-auto">
+				<!-- block1 -->
+				<div class="block1 hov-img-zoom pos-relative m-b-30">
+					{% if schedule %}
+					{% thumbnail schedule.first.products_gallery.all.first.image '720x932' crop='center' as img %}
+					<img src="{{img.url}}" alt="IMG-BENNER">
+					{% endthumbnail %}
+					{% else %}
+					<img src="{{STATIC_URL}}shop/images/banner-02.jpg" alt="IMG-BENNER">
+					{% endif %}
+
+					<div class="block1-wrapbtn w-size2">
+						<!-- Button -->
+						<a href="{% url 'shop:products_list' 'agendas' %}" class="flex-c-m size2 m-text2 bg3 hov1 trans-0-4">
+							Agendas
 							
-						</h2>
-						{% if item.url %}
-						<div class="wrap-btn-slide1 w-size1 animated visible-false" data-appear="zoomIn">
-							<!-- Button -->
-							<a href="{{item.url}}" class="flex-c-m size2 bo-rad-23 s-text2 bgwhite hov1 trans-0-4">
-								{% if store_instance.name == 'app' %}
-								Ver planes
-								{% else %}
-								Ver productos
-								{% endif %}
-							</a>
-						</div>
-						{% endif %}
-					</div>
-		</div>
-		{% empty %}
-		<div class="item-slick1 item1-slick1" style="background-image: url({{STATIC_URL}}site/images/imagesdefault/ba1-1.png);">
-			<img src="{{STATIC_URL}}site/images/imagesdefault/ba1-1.png" class="img-fluid imgMobil" style="display:none;">
-			<div class="wrap-content-slide1 sizefull flex-col-c-m p-l-15 p-r-15 p-t-150 p-b-170">
-				<h2 class="caption1-slide1 xl-text2 t-center bo14 p-b-6 animated visible-false m-b-22" data-appear="fadeInUp">
-					TU TIENDA
-				</h2>
-
-				<span class="caption2-slide1 m-text1 t-center animated visible-false m-b-33" data-appear="fadeInDown">
-					{% now 'Y' %}
-				</span>
-
-				<div class="wrap-btn-slide1 w-size1 animated visible-false" data-appear="zoomIn">
-					<!-- Button -->
-					<a href="{% url 'shop:products_list' %}" class="flex-c-m size2 bo-rad-23 s-text2 bgwhite hov1 trans-0-4">
-						Ver productos
-					</a>
-				</div>
-			</div>
-		</div>
-		{% endfor %}
-
-			</div>
-		</div>
-	</section>
-	<!-- Shipping -->
-
-	<section class="shipping bgwhite p-t-62 p-b-46">
-		<div class="flex-w p-l-15 p-r-15">
-			<div class="flex-col-c w-size5 p-l-15 p-r-15 p-t-16 p-b-15 respon1">
-				<h4 class="m-text12 t-center">
-					Envios a todo México <i class="fa fa-truck"></i>
-				</h4>
-
-				<a href="#" class="s-text11 t-center">
-					Ir a preguntas frecuentes
-				</a>
-			</div>
-
-			<div class="flex-col-c w-size5 p-l-15 p-r-15 p-t-16 p-b-15 bo2 respon2">
-				<h4 class="m-text12 t-center">
-					15 Dias de garantia <i class="fa fa-refresh"></i>
-				</h4>
-
-				<span class="s-text11 t-center">
-					Te lo cambiamos o te reembolsamos, tu elijes.
-				</span>
-			</div>
-
-			<div class="flex-col-c w-size5 p-l-15 p-r-15 p-t-16 p-b-15 respon1">
-				<h4 class="m-text12 t-center">
-					Tu tienda <i class="fa fa-shopping-cart"></i>
-				</h4>
-
-				<span class="s-text11 t-center">
-					Siempre abierta, siempre a tus ordenes
-				</span>
-			</div>
-		</div>
-	</section>
-
-	<!-- Banner -->
-	<div class="banner bgwhite p-t-40 p-b-40">
-		<div class="container">
-			<div class="row">
-				{% if store_instance and categories_list %}
-				{% for category in categories_list %}
-				{% if forloop.counter <= 3 %}
-				{% if category.subcategories.all.first.products.all.first.products_gallery.all %}
-				<div class="col-sm-10 col-md-8 col-lg-4 m-l-r-auto widthProductMovil">
-					<!-- block1 -->
-					<div class="block1 hov-img-zoom pos-relative m-b-30">
-						<img src="{{category.subcategories.all.first.products.all.first.products_gallery.first.image.url}}" alt="IMG-BENNER">
-						<div class="block1-wrapbtn w-size2">
-							<!-- Button -->
-							<a href="{% url 'shop:product_filter' category.slug %}" class="flex-c-m size2 m-text2 bg3 hov1 trans-0-4">
-								{{category}}
-							</a>
-						</div>
+						</a>
 					</div>
 				</div>
-				{% endif %}
-				{% endif %}
-				{% endfor %}
-				{% else %}
-				<div class="col-sm-10 col-md-8 col-lg-4 m-l-r-auto widthProductMovil">
-					<!-- block1 -->
-					<div class="block1 hov-img-zoom pos-relative m-b-30">
-						<img src="{{STATIC_URL}}site/images/imagesdefault/A-1.png" alt="IMG-BENNER">
-						
-						<div class="block1-wrapbtn w-size2">
+
+				<!-- block1 -->
+				<div class="block1 hov-img-zoom pos-relative m-b-30">
+					{% if recipe %}
+					{% thumbnail recipe.first.products_gallery.all.first.image '720x660' crop='center' as img %}
+					<img src="{{img.url}}" alt="IMG-BENNER">
+					{% endthumbnail %}
+					{% else %}
+					<img src="{{STATIC_URL}}shop/images/banner-05.jpg" alt="IMG-BENNER">
+					{% endif %}
+					<div class="block1-wrapbtn w-size2">
+						<!-- Button -->
+						<a href="#" class="flex-c-m size2 m-text2 bg3 hov1 trans-0-4">
+							Recetarios
+						</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-10 col-md-8 col-lg-4 m-l-r-auto">
+				<!-- block1 -->
+				<div class="block1 hov-img-zoom pos-relative m-b-30">
+					{% if notebook %}
+					{% thumbnail notebook.first.products_gallery.all.first.image '720x660' crop='center' as img %}
+					<img src="{{img.url}}" alt="IMG-BENNER">
+					{% endthumbnail %}
+					{% else %}
+					<img src="{{STATIC_URL}}shop/images/banner-03.jpg" alt="IMG-BENNER">
+					{% endif %}
+					<div class="block1-wrapbtn w-size2">
+						<!-- Button -->
+						<a href="#" class="flex-c-m size2 m-text2 bg3 hov1 trans-0-4">
+							Libretas
+						</a>
+					</div>
+				</div>
+
+				<!-- block1 -->
+				<div class="block1 hov-img-zoom pos-relative m-b-30">
+					{% if planners %}
+					{% thumbnail planners.first.products_gallery.all.first.image '720x932' crop='center' as img %}
+					<img src="{{img.url}}" alt="IMG-BENNER">
+					{% endthumbnail %}
+					{% else %}
+					<img src="{{STATIC_URL}}shop/images/banner-07.jpg" alt="IMG-BENNER">
+					{% endif %}
+					<div class="block1-wrapbtn w-size2">
+						<!-- Button -->
+						<a href="#" class="flex-c-m size2 m-text2 bg3 hov1 trans-0-4">
+							Planners
+						</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-10 col-md-8 col-lg-4 m-l-r-auto">
+				<!-- block1 -->
+				<div class="block1 hov-img-zoom pos-relative m-b-30">
+					{% if organizer %}
+					{% thumbnail organizer.first.products_gallery.all.first.image '720x932' crop='center' as img %}
+					<img src="{{img.url}}" alt="IMG-BENNER">
+					{% endthumbnail %}
+					{% else %}
+					<img src="{{STATIC_URL}}shop/images/banner-04.jpg" alt="IMG-BENNER">
+					{% endif %}
+					<div class="block1-wrapbtn w-size2">
+						<!-- Button -->
+						<a href="#" class="flex-c-m size2 m-text2 bg3 hov1 trans-0-4">
+							Organizadores
+						</a>
+					</div>
+				</div>
+
+				<!-- block2 -->
+				<div class="block2 wrap-pic-w pos-relative m-b-30">
+					<img src="{{STATIC_URL}}shop/images/icons/bg-01.jpg" alt="IMG">
+					<div class="" ></div>
+					<div class="block2-content sizefull ab-t-l flex-col-c-m" >
+						<h4 class="m-text4 t-center w-size3 p-b-8">
+							Registrate y obten <span style="color:palevioletred !important">10% OFF</span> 
+						</h4>
+
+						<p class="t-center w-size4">
+							Crea una cuenta y obten un cupón de 10% de descuento para tu primera compra
+						</p>
+
+						<div class="w-size2 p-t-25">
 							<!-- Button -->
-							<a href="#" class="flex-c-m size2 m-text2 bg3 hov1 trans-0-4">
-								Categoría #1
+							<a href="#" class="flex-c-m size2 bg4 bo-rad-23 hov1 m-text3 trans-0-4">
+								Registrate
 							</a>
 						</div>
 					</div>
 				</div>
-				<div class="col-sm-10 col-md-8 col-lg-4 m-l-r-auto widthProductMovil">
-					<!-- block1 -->
-					<div class="block1 hov-img-zoom pos-relative m-b-30">
-						<img src="{{STATIC_URL}}site/images/imagesdefault/E-1.png" alt="IMG-BENNER">
-						
-						<div class="block1-wrapbtn w-size2">
-							<!-- Button -->
-							<a href="#" class="flex-c-m size2 m-text2 bg3 hov1 trans-0-4">
-								Categoría #2
-							</a>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-10 col-md-8 col-lg-4 m-l-r-auto widthProductMovil">
-					<!-- block1 -->
-					<div class="block1 hov-img-zoom pos-relative m-b-30">
-						<img src="{{STATIC_URL}}site/images/imagesdefault/D-1.png" alt="IMG-BENNER">
-						
-						<div class="block1-wrapbtn w-size2">
-							<!-- Button -->
-							<a href="#" class="flex-c-m size2 m-text2 bg3 hov1 trans-0-4">
-								Categoría #3
-							</a>
-						</div>
-					</div>
-				</div>
-				{% endif %}
 			</div>
 		</div>
 	</div>
-	<section class="bgwhite p-t-45 p-b-58">
-		<div class="container">
-			<div class="sec-title p-b-22">
-				<h3 class="m-text5 t-center">
-					Nuestros productos
-				</h3>
-			</div>
-
-			<!-- Tab01 -->
-			<div class="tab01">
-				<!-- Nav tabs -->
-				<ul class="nav nav-tabs" role="tablist">
-					{% if store_instance %}
-					<li class="nav-item">
-						<a class="nav-link active" data-toggle="tab" href="#top-rate" role="tab">Todos</a>
-					</li>
-					{% if products_outstanding %}
-					<li class="nav-item">
-						<a class="nav-link" data-toggle="tab" href="#featured" role="tab">Destacados</a>
-					</li>
-					{% endif %}
-					{% if best_seller %}
-					<li class="nav-item">
-						<a class="nav-link" data-toggle="tab" href="#best-seller" role="tab">Mas vendidos</a>
-					</li>
-					{% endif %}
-					{% if products_sale %}
-					<li class="nav-item">
-						<a class="nav-link" data-toggle="tab" href="#sale" role="tab">Ofertas</a>
-					</li>
-					{% endif %}
-					{% endif %}
-				</ul>
-
-				<!-- Tab panes -->
-				<div class="tab-content p-t-35">
-					<!-- - -->
-					<!-- - -->
-					<div class="tab-pane fade" id="featured" role="tabpanel">
-						<div class="row">
-							{% for item in products_outstanding %}
-							<div class="col-sm-6 col-md-4 col-lg-3 p-b-50 widthProductMovil">
-								<!-- Block2 -->
-								<div class="block2">
-									<div class="block2-img wrap-pic-w of-hidden pos-relative {% if item.is_sale %}block2-labelsale{% endif %}">
-										{% thumbnail item.product.products_gallery.all.first.image '720x960' crop='center' as img %}
-										<img src="{{img.url}}" alt="IMG-PRODUCT">
-										{% endthumbnail %}
-										<div class="block2-overlay trans-0-4">
-											<!-- <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-												<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-												<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-											</a> -->
-
-											<div class="block2-btn-addcart w-size1 trans-0-4">
-												<!-- Button -->
-												<a href="{% url 'shop:product_detail' item.product.slug %}" class="flex-c-m size2 bg4 bo-rad-23 hov1 m-text3 trans-0-4">
-													Ver producto
-												</a>
-											</div>
-										</div>
-									</div>
-
-									<div class="block2-txt p-t-20">
-										<a href="{% url 'shop:product_detail' item.product.slug %}" class="block2-name dis-block s-text3 p-b-5">
-											{{item.product.name}}
-										</a>
-
-										{% if item.is_sale %}
-										<span class="block2-newprice m-text14">
-											${{item.sale_price|intcomma}}
-										</span>
-										<span class="block2-oldprice m-text7 p-r-5">
-											${{item.price|intcomma}}
-										</span>
-										{% else %}
-										<span class="block2-price m-text6 p-r-5">
-											${{item.price|intcomma}}
-										</span>
-										{% endif %}
-									</div>
-								</div>
-							</div>
-							{% empty %}
-							<div class="col-sm-6 col-md-4 col-lg-3 p-b-50 widthProductMovil">
-								<!-- Block2 -->
-								<div class="block2">
-									<div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
-										<img src="{{STATIC_URL}}site/images/imagesdefault/D-1.png" alt="IMG-PRODUCT">
-
-										<div class="block2-overlay trans-0-4">
-											<!-- <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-												<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-												<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-											</a> -->
-
-											<div class="block2-btn-addcart w-size1 trans-0-4">
-												<!-- Button -->
-												<button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
-													Ver producto
-												</button>
-											</div>
-										</div>
-									</div>
-
-									<div class="block2-txt p-t-20">
-										<a href="product-detail.html" class="block2-name dis-block s-text3 p-b-5">
-											Herschel supply co 25l
-										</a>
-
-										<span class="block2-price m-text6 p-r-5">
-											$75.00
-										</span>
-									</div>
-								</div>
-							</div>
-							<div class="col-sm-6 col-md-4 col-lg-3 p-b-50 widthProductMovil">
-								<!-- Block2 -->
-								<div class="block2">
-									<div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
-										<img src="{{STATIC_URL}}site/images/imagesdefault/A-1.png" alt="IMG-PRODUCT">
-
-										<div class="block2-overlay trans-0-4">
-											<!-- <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-												<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-												<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-											</a> -->
-
-											<div class="block2-btn-addcart w-size1 trans-0-4">
-												<!-- Button -->
-												<button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
-													Ver producto
-												</button>
-											</div>
-										</div>
-									</div>
-
-									<div class="block2-txt p-t-20">
-										<a href="product-detail.html" class="block2-name dis-block s-text3 p-b-5">
-											Herschel supply co 25l
-										</a>
-
-										<span class="block2-price m-text6 p-r-5">
-											$75.00
-										</span>
-									</div>
-								</div>
-							</div>
-							<div class="col-sm-6 col-md-4 col-lg-3 p-b-50 widthProductMovil">
-								<!-- Block2 -->
-								<div class="block2">
-									<div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
-										<img src="{{STATIC_URL}}site/images/imagesdefault/F-1.png" alt="IMG-PRODUCT">
-
-										<div class="block2-overlay trans-0-4">
-											<!-- <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-												<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-												<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-											</a> -->
-
-											<div class="block2-btn-addcart w-size1 trans-0-4">
-												<!-- Button -->
-												<button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
-													Ver producto
-												</button>
-											</div>
-										</div>
-									</div>
-
-									<div class="block2-txt p-t-20">
-										<a href="product-detail.html" class="block2-name dis-block s-text3 p-b-5">
-											Herschel supply co 25l
-										</a>
-
-										<span class="block2-price m-text6 p-r-5">
-											$75.00
-										</span>
-									</div>
-								</div>
-							</div>
-							<div class="col-sm-6 col-md-4 col-lg-3 p-b-50 widthProductMovil">
-								<!-- Block2 -->
-								<div class="block2">
-									<div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
-										<img src="{{STATIC_URL}}site/images/imagesdefault/B-1.png" alt="IMG-PRODUCT">
-
-										<div class="block2-overlay trans-0-4">
-											<!-- <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-												<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-												<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-											</a> -->
-
-											<div class="block2-btn-addcart w-size1 trans-0-4">
-												<!-- Button -->
-												<button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
-													Ver producto
-												</button>
-											</div>
-										</div>
-									</div>
-
-									<div class="block2-txt p-t-20">
-										<a href="product-detail.html" class="block2-name dis-block s-text3 p-b-5">
-											Herschel supply co 25l
-										</a>
-
-										<span class="block2-price m-text6 p-r-5">
-											$75.00
-										</span>
-									</div>
-								</div>
-							</div>
-							{% endfor%}
-						</div>
-					</div>
-					<div class="tab-pane fade " id="best-seller" role="tabpanel">
-						<div class="row">
-							{% for item in store_products %}
-							<div class="col-sm-6 col-md-4 col-lg-3 p-b-50 widthProductMovil">
-								<!-- Block2 -->
-								<div class="block2">
-									<div class="block2-img wrap-pic-w of-hidden pos-relative {% if item.is_sale %}block2-labelsale{% endif %}">
-										{% thumbnail item.product.products_gallery.all.first.image '720x960' crop='center' as img %}
-										<img src="{{img.url}}" alt="IMG-PRODUCT">
-										{% endthumbnail %}
-										<div class="block2-overlay trans-0-4">
-											<!-- <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-												<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-												<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-											</a> -->
-
-											<div class="block2-btn-addcart w-size1 trans-0-4">
-												<!-- Button -->
-												<a href="{% url 'shop:product_detail' item.product.slug %}" class="flex-c-m size2 bg4 bo-rad-23 hov1 m-text3 trans-0-4">
-													Ver producto
-												</a>
-											</div>
-										</div>
-									</div>
-
-									<div class="block2-txt p-t-20">
-										<a href="{% url 'shop:product_detail' item.product.slug %}" class="block2-name dis-block s-text3 p-b-5">
-											{{item.product.name}}
-										</a>
-										{% if item.is_sale %}
-										<span class="block2-newprice m-text14">
-											${{item.sale_price|intcomma}}
-										</span>
-										<span class="block2-oldprice m-text7 p-r-5">
-											${{item.price|intcomma}}
-										</span>
-										{% else %}
-										<span class="block2-price m-text6 p-r-5">
-											${{item.price|intcomma}}
-										</span>
-										{% endif %}
-									</div>
-								</div>
-							</div>
-							{% empty %}
-							<div class="col-sm-6 col-md-4 col-lg-3 p-b-50 widthProductMovil">
-								<!-- Block2 -->
-								<div class="block2">
-									<div class="block2-img wrap-pic-w of-hidden pos-relative ">
-										<img src="{{STATIC_URL}}site/images/imagesdefault/A-1.png" alt="IMG-PRODUCT">
-
-										<div class="block2-overlay trans-0-4">
-											<!-- <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-												<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-												<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-											</a> -->
-
-											<div class="block2-btn-addcart w-size1 trans-0-4">
-												<!-- Button -->
-												<button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
-													Ver producto
-												</button>
-											</div>
-										</div>
-									</div>
-
-									<div class="block2-txt p-t-20">
-										<a href="product-detail.html" class="block2-name dis-block s-text3 p-b-5">
-											Herschel supply co 25l
-										</a>
-
-										<span class="block2-price m-text6 p-r-5">
-											$75.00
-										</span>
-									</div>
-								</div>
-							</div>
-							<div class="col-sm-6 col-md-4 col-lg-3 p-b-50 widthProductMovil">
-								<!-- Block2 -->
-								<div class="block2">
-									<div class="block2-img wrap-pic-w of-hidden pos-relative ">
-										<img src="{{STATIC_URL}}site/images/imagesdefault/D-1.png" alt="IMG-PRODUCT">
-
-										<div class="block2-overlay trans-0-4">
-											<!-- <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-												<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-												<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-											</a> -->
-
-											<div class="block2-btn-addcart w-size1 trans-0-4">
-												<!-- Button -->
-												<button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
-													Ver producto
-												</button>
-											</div>
-										</div>
-									</div>
-
-									<div class="block2-txt p-t-20">
-										<a href="product-detail.html" class="block2-name dis-block s-text3 p-b-5">
-											Herschel supply co 25l
-										</a>
-
-										<span class="block2-price m-text6 p-r-5">
-											$75.00
-										</span>
-									</div>
-								</div>
-							</div>
-							<div class="col-sm-6 col-md-4 col-lg-3 p-b-50 widthProductMovil">
-								<!-- Block2 -->
-								<div class="block2">
-									<div class="block2-img wrap-pic-w of-hidden pos-relative ">
-										<img src="{{STATIC_URL}}site/images/imagesdefault/C-1.png" alt="IMG-PRODUCT">
-
-										<div class="block2-overlay trans-0-4">
-											<!-- <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-												<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-												<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-											</a> -->
-
-											<div class="block2-btn-addcart w-size1 trans-0-4">
-												<!-- Button -->
-												<button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
-													Ver producto
-												</button>
-											</div>
-										</div>
-									</div>
-
-									<div class="block2-txt p-t-20">
-										<a href="product-detail.html" class="block2-name dis-block s-text3 p-b-5">
-											Herschel supply co 25l
-										</a>
-
-										<span class="block2-price m-text6 p-r-5">
-											$75.00
-										</span>
-									</div>
-								</div>
-							</div>
-							<div class="col-sm-6 col-md-4 col-lg-3 p-b-50 widthProductMovil">
-								<!-- Block2 -->
-								<div class="block2">
-									<div class="block2-img wrap-pic-w of-hidden pos-relative ">
-										<img src="{{STATIC_URL}}site/images/imagesdefault/F-1.png" alt="IMG-PRODUCT">
-
-										<div class="block2-overlay trans-0-4">
-											<!-- <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-												<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-												<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-											</a> -->
-
-											<div class="block2-btn-addcart w-size1 trans-0-4">
-												<!-- Button -->
-												<button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
-													Ver producto
-												</button>
-											</div>
-										</div>
-									</div>
-
-									<div class="block2-txt p-t-20">
-										<a href="product-detail.html" class="block2-name dis-block s-text3 p-b-5">
-											Herschel supply co 25l
-										</a>
-
-										<span class="block2-price m-text6 p-r-5">
-											$75.00
-										</span>
-									</div>
-								</div>
-							</div>
-							{% endfor %}
-						</div>
-					</div>
-					<!--  -->
-					<div class="tab-pane fade" id="sale" role="tabpanel">
-						<div class="row">
-							{% for item in products_sale %}
-							<div class="col-sm-6 col-md-4 col-lg-3 p-b-50 widthProductMovil">
-								<!-- Block2 -->
-								<div class="block2">
-									<div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelsale">
-										{% thumbnail item.product.products_gallery.all.first.image '720x960' crop='center' as img %}
-										<img src="{{img.url}}" alt="IMG-PRODUCT">
-										{% endthumbnail %}
-										<div class="block2-overlay trans-0-4">
-											<!-- <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-												<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-												<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-											</a> -->
-
-											<div class="block2-btn-addcart w-size1 trans-0-4">
-												<!-- Button -->
-												<a href="{% url 'shop:product_detail' item.product.slug %}" class="flex-c-m size2 bg4 bo-rad-23 hov1 m-text3 trans-0-4">
-													Ver producto
-												</a>
-											</div>
-										</div>
-									</div>
-
-									<div class="block2-txt p-t-20">
-										<a href="{% url 'shop:product_detail' item.product.slug %}" class="block2-name dis-block s-text3 p-b-5">
-											{{item.product.name}}
-										</a>
-										{% if item.is_sale %}
-										<span class="block2-newprice m-text14">
-											${{item.sale_price|intcomma}}
-										</span>
-										<span class="block2-oldprice m-text7 p-r-5">
-											${{item.price|intcomma}}
-										</span>
-										{% else %}
-										<span class="block2-price m-text6 p-r-5">
-											${{item.price|intcomma}}
-										</span>
-										{% endif %}
-		
-
-									</div>
-								</div>
-							</div>
-							{% empty %}
-							<div class="col-sm-6 col-md-4 col-lg-3 p-b-50 widthProductMovil">
-								<!-- Block2 -->
-								<div class="block2">
-									<div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelsale">
-										<img src="{{STATIC_URL}}site/images/imagesdefault/A-1.png" alt="IMG-PRODUCT">
-
-										<div class="block2-overlay trans-0-4">
-											<!-- <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-												<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-												<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-											</a> -->
-
-											<div class="block2-btn-addcart w-size1 trans-0-4">
-												<!-- Button -->
-												<button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
-													Ver producto
-												</button>
-											</div>
-										</div>
-									</div>
-
-									<div class="block2-txt p-t-20">
-										<a href="product-detail.html" class="block2-name dis-block s-text3 p-b-5">
-											Herschel supply co 25l
-										</a>
-
-										<span class="block2-price m-text6 p-r-5">
-											$75.00
-										</span>
-									</div>
-								</div>
-							</div>
-							<div class="col-sm-6 col-md-4 col-lg-3 p-b-50 widthProductMovil">
-								<!-- Block2 -->
-								<div class="block2">
-									<div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelsale">
-										<img src="{{STATIC_URL}}site/images/imagesdefault/E-1.png" alt="IMG-PRODUCT">
-
-										<div class="block2-overlay trans-0-4">
-											<!-- <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-												<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-												<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-											</a> -->
-
-											<div class="block2-btn-addcart w-size1 trans-0-4">
-												<!-- Button -->
-												<button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
-													Ver producto
-												</button>
-											</div>
-										</div>
-									</div>
-
-									<div class="block2-txt p-t-20">
-										<a href="product-detail.html" class="block2-name dis-block s-text3 p-b-5">
-											Herschel supply co 25l
-										</a>
-
-										<span class="block2-price m-text6 p-r-5">
-											$75.00
-										</span>
-									</div>
-								</div>
-							</div>
-							<div class="col-sm-6 col-md-4 col-lg-3 p-b-50 widthProductMovil">
-								<!-- Block2 -->
-								<div class="block2">
-									<div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelsale">
-										<img src="{{STATIC_URL}}site/images/imagesdefault/C-1.png" alt="IMG-PRODUCT">
-
-										<div class="block2-overlay trans-0-4">
-											<!-- <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-												<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-												<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-											</a> -->
-
-											<div class="block2-btn-addcart w-size1 trans-0-4">
-												<!-- Button -->
-												<button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
-													Ver producto
-												</button>
-											</div>
-										</div>
-									</div>
-
-									<div class="block2-txt p-t-20">
-										<a href="product-detail.html" class="block2-name dis-block s-text3 p-b-5">
-											Herschel supply co 25l
-										</a>
-
-										<span class="block2-price m-text6 p-r-5">
-											$75.00
-										</span>
-									</div>
-								</div>
-							</div>
-							<div class="col-sm-6 col-md-4 col-lg-3 p-b-50 widthProductMovil">
-								<!-- Block2 -->
-								<div class="block2">
-									<div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelsale">
-										<img src="{{STATIC_URL}}site/images/imagesdefault/D-1.png" alt="IMG-PRODUCT">
-
-										<div class="block2-overlay trans-0-4">
-											<!-- <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-												<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-												<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-											</a> -->
-
-											<div class="block2-btn-addcart w-size1 trans-0-4">
-												<!-- Button -->
-												<button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
-													Ver producto
-												</button>
-											</div>
-										</div>
-									</div>
-
-									<div class="block2-txt p-t-20">
-										<a href="product-detail.html" class="block2-name dis-block s-text3 p-b-5">
-											Herschel supply co 25l
-										</a>
-
-										<span class="block2-price m-text6 p-r-5">
-											$75.00
-										</span>
-									</div>
-								</div>
-							</div>
-							{% endfor %}
-						</div>
-					</div>
-
-					<!--  -->
-					<div class="tab-pane fade show active" id="top-rate" role="tabpanel">
-						<div class="row">
-							{% for item in store_products %}
-							<div class="col-sm-6 col-md-4 col-lg-3 p-b-50 widthProductMovil">
-								<!-- Block2 -->
-								<div class="block2">
-									<div class="block2-img wrap-pic-w of-hidden pos-relative {% if item.is_sale %}block2-labelsale{% endif %}">
-										{% thumbnail item.product.products_gallery.all.first.image '720x960' crop='center' as img %}
-										<img src="{{img.url}}" alt="IMG-PRODUCT">
-										{% endthumbnail %}
-										<div class="block2-overlay trans-0-4">
-											<!-- <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-												<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-												<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-											</a> -->
-
-											<div class="block2-btn-addcart w-size1 trans-0-4">
-												<!-- Button -->
-												<a href="{% url 'shop:product_detail' item.product.slug %}" class="flex-c-m size2 bg4 bo-rad-23 hov1 m-text3 trans-0-4">
-													Ver producto
-												</a>
-											</div>
-										</div>
-									</div>
-
-									<div class="block2-txt p-t-20">
-										<a href="{% url 'shop:product_detail' item.product.slug %}" class="block2-name dis-block s-text3 p-b-5">
-											{{item.product.name}}
-										</a>
-										{% if item.is_sale %}
-										<span class="block2-newprice m-text14">
-											${{item.sale_price|intcomma}}
-										</span>
-										<span class="block2-oldprice m-text7 p-r-5">
-											${{item.price|intcomma}}
-										</span>
-										{% else %}
-										<span class="block2-price m-text6 p-r-5">
-											${{item.price|intcomma}}
-										</span>
-										{% endif %}
-									</div>
-								</div>
-							</div>
-							{% empty %}
-							<div class="col-sm-6 col-md-4 col-lg-3 p-b-50 widthProductMovil">
-								<!-- Block2 -->
-								<div class="block2">
-									<div class="block2-img wrap-pic-w of-hidden pos-relative ">
-										<img src="{{STATIC_URL}}site/images/imagesdefault/B-1.png" alt="IMG-PRODUCT">
-
-										<div class="block2-overlay trans-0-4">
-											<!-- <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-												<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-												<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-											</a> -->
-
-											<div class="block2-btn-addcart w-size1 trans-0-4">
-												<!-- Button -->
-												<button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
-													Ver producto
-												</button>
-											</div>
-										</div>
-									</div>
-
-									<div class="block2-txt p-t-20">
-										<a href="product-detail.html" class="block2-name dis-block s-text3 p-b-5">
-											Herschel supply co 25l
-										</a>
-
-										<span class="block2-price m-text6 p-r-5">
-											$75.00
-										</span>
-									</div>
-								</div>
-							</div>
-							<div class="col-sm-6 col-md-4 col-lg-3 p-b-50 widthProductMovil">
-								<!-- Block2 -->
-								<div class="block2">
-									<div class="block2-img wrap-pic-w of-hidden pos-relative ">
-										<img src="{{STATIC_URL}}site/images/imagesdefault/C-1.png" alt="IMG-PRODUCT">
-
-										<div class="block2-overlay trans-0-4">
-											<!-- <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-												<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-												<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-											</a> -->
-
-											<div class="block2-btn-addcart w-size1 trans-0-4">
-												<!-- Button -->
-												<button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
-													Ver producto
-												</button>
-											</div>
-										</div>
-									</div>
-
-									<div class="block2-txt p-t-20">
-										<a href="product-detail.html" class="block2-name dis-block s-text3 p-b-5">
-											Herschel supply co 25l
-										</a>
-
-										<span class="block2-price m-text6 p-r-5">
-											$75.00
-										</span>
-									</div>
-								</div>
-							</div>
-							<div class="col-sm-6 col-md-4 col-lg-3 p-b-50 widthProductMovil">
-								<!-- Block2 -->
-								<div class="block2">
-									<div class="block2-img wrap-pic-w of-hidden pos-relative ">
-										<img src="{{STATIC_URL}}site/images/imagesdefault/E-1.png" alt="IMG-PRODUCT">
-
-										<div class="block2-overlay trans-0-4">
-											<!-- <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-												<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-												<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-											</a> -->
-
-											<div class="block2-btn-addcart w-size1 trans-0-4">
-												<!-- Button -->
-												<button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
-													Ver producto
-												</button>
-											</div>
-										</div>
-									</div>
-
-									<div class="block2-txt p-t-20">
-										<a href="product-detail.html" class="block2-name dis-block s-text3 p-b-5">
-											Herschel supply co 25l
-										</a>
-
-										<span class="block2-price m-text6 p-r-5">
-											$75.00
-										</span>
-									</div>
-								</div>
-							</div>
-							<div class="col-sm-6 col-md-4 col-lg-3 p-b-50 widthProductMovil">
-								<!-- Block2 -->
-								<div class="block2">
-									<div class="block2-img wrap-pic-w of-hidden pos-relative ">
-										<img src="{{STATIC_URL}}site/images/imagesdefault/F-1.png" alt="IMG-PRODUCT">
-
-										<div class="block2-overlay trans-0-4">
-											<!-- <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-												<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-												<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-											</a> -->
-
-											<div class="block2-btn-addcart w-size1 trans-0-4">
-												<!-- Button -->
-												<button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
-													Ver producto
-												</button>
-											</div>
-										</div>
-									</div>
-
-									<div class="block2-txt p-t-20">
-										<a href="product-detail.html" class="block2-name dis-block s-text3 p-b-5">
-											Herschel supply co 25l
-										</a>
-
-										<span class="block2-price m-text6 p-r-5">
-											$75.00
-										</span>
-									</div>
-								</div>
-							</div>	
-							{% endfor %}
-						</div>
-						<div class="row">
-							<div class="col-sm12 col-md-12 p-b-50 t-center">
-								<div class="w-size2 p-t-25">
+</section>
+
+<!-- Shipping -->
+<section class="shipping bgwhite p-t-62 p-b-46">
+	<div class="flex-w p-l-15 p-r-15">
+		<div class="flex-col-c w-size5 p-l-15 p-r-15 p-t-16 p-b-15 respon1">
+			<h4 class="m-text12 t-center" style="color: palevioletred;">
+				ENVÍOS A TODO MÉXICO 🚚
+			</h4>
+
+			<a href="#" class="s-text11 t-center">
+				El tiempo de envío es de 3 a 5 días hábiles
+			</a>
+		</div>
+
+		<div class="flex-col-c w-size5 p-l-15 p-r-15 p-t-16 p-b-15 bo2 respon2">
+			<h4 class="m-text12 t-center" style="color: palevioletred;">
+				PAGOS SEGUROS 💳
+			</h4>
+
+			<span class="s-text11 t-center">
+				Paga con tu tarjeta de débito o credito.
+			</span>
+		</div>
+
+		<div class="flex-col-c w-size5 p-l-15 p-r-15 p-t-16 p-b-15 respon1">
+			<h4 class="m-text12 t-center" style="color: palevioletred;"> 
+				SIEMPRE DISPONIBLE 🥰
+			</h4>
+
+			<span class="s-text11 t-center">
+				Compra en nuestra tienda cuando quieras
+			</span>
+		</div>
+	</div>
+</section>
+
+<!-- New Product -->
+<section class="newproduct bgwhite p-t-45 p-b-105">
+	<div class="container" style="max-width: 1500px !important;">
+		<div class="sec-title p-b-60">
+			<h3 class="m-text5 t-center">
+				Lo más TOP &#128525;
+			</h3>
+		</div>
+
+		<!-- Slide2 -->
+		<div class="wrap-slick2">
+			<div class="slick2">
+				{% for item in products_list %}
+				<div class="item-slick2 p-l-15 p-r-15">
+					<!-- Block2 -->
+					<div class="block2">
+						<div class="block2-img wrap-pic-w of-hidden pos-relative {%if item.products_properties.is_sale%}block2-labelsale{% endif %}">
+							<img src="{{item.products_gallery.all.first.image.url}}" alt="IMG-PRODUCT">
+
+							<div class="block2-overlay trans-0-4">
+								<!-- <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
+									<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
+									<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
+								</a> -->
+
+								<div class="block2-btn-addcart w-size1 trans-0-4">
 									<!-- Button -->
-									<a href="{% url 'shop:products_list' %}" class="flex-c-m size2 bg4 bo-rad-23 hov1 m-text3 trans-0-4">
-										Ver todos
+									<a href="{% url 'shop_cart:product_detail' item.slug %}" class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
+										Ver producto
 									</a>
 								</div>
 							</div>
 						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- Banner2 -->
 
-	<section class="banner2 bg5 p-t-55 p-b-55">
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-10 col-md-8 col-lg-6 m-l-r-auto p-t-15 p-b-15">
-					<div class="hov-img-zoom pos-relative">
-						<img src="{{STATIC_URL}}site/images/banner-08.jpg" alt="IMG-BANNER">
+						<div class="block2-txt p-t-20">
+							<a href="{% url 'shop_cart:product_detail' item.slug %}" class="block2-name dis-block s-text3 p-b-5">
+								{{item.name}}
+							</a>
+							{% if item.products_properties.is_sale %}
 
-						<div class="ab-t-l sizefull flex-col-c-m p-l-15 p-r-15">
-							<span class="m-text9 p-t-45 fs-20-sm">
-								Banner publicitario
+							<span class="block2-oldprice m-text7 p-r-5" style="font-weight: bold !important;">
+								${{item.products_properties.sell_price|intcomma}}
 							</span>
 
-							<h3 class="l-text1 fs-35-sm">
-								{% now 'Y' %}
-							</h3>
-
-							<a href="{% url 'shop:products_list' %}" class="s-text4 hov2 p-t-20 ">
-								Ver
-							</a>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-sm-10 col-md-8 col-lg-6 m-l-r-auto p-t-15 p-b-15">
-					<div class="bgwhite hov-img-zoom pos-relative p-b-20per-ssm">
-						<img src="{{STATIC_URL}}site/images/banner-08.jpg" alt="IMG-BANNER">
-
-						<div class="ab-t-l sizefull flex-col-c-b p-l-15 p-r-15 p-b-20">
-							<div class="t-center">
-								<a href="{% url 'register:add' %}" class="dis-block s-text3 p-b-5">
-									Ofertas con tiempo limitado
-								</a>
-
-								<!-- <span class="block2-oldprice m-text7 p-r-5">
-									$29.50
+							<span class="block2-newprice m-text8 p-r-5">
+								${{item.products_properties.sale_price|intcomma}} 
+							</span>
+							{% else %}
+								<span class="block2-price m-text6 p-r-5">
+									${{item.products_properties.sell_price|intcomma}}
 								</span>
-
-								<span class="block2-newprice m-text8">
-									$15.90
-								</span> -->
-							</div>
-
-							<div class="flex-c-m p-t-44 p-t-30-xl">
-								<div class="flex-col-c-m size3 bo1 m-l-5 m-r-5">
-									<span class="m-text10 p-b-1 days">
-										69
-									</span>
-
-									<span class="s-text5">
-										days
-									</span>
-								</div>
-
-								<div class="flex-col-c-m size3 bo1 m-l-5 m-r-5">
-									<span class="m-text10 p-b-1 hours">
-										04
-									</span>
-
-									<span class="s-text5">
-										hrs
-									</span>
-								</div>
-
-								<div class="flex-col-c-m size3 bo1 m-l-5 m-r-5">
-									<span class="m-text10 p-b-1 minutes">
-										32
-									</span>
-
-									<span class="s-text5">
-										mins
-									</span>
-								</div>
-
-								<div class="flex-col-c-m size3 bo1 m-l-5 m-r-5">
-									<span class="m-text10 p-b-1 seconds">
-										05
-									</span>
-
-									<span class="s-text5">
-										secs
-									</span>
-								</div>
-							</div>
+							{% endif %}
+							
 						</div>
 					</div>
 				</div>
+				{% endfor %}
 			</div>
 		</div>
-	</section>
 
-	{% if info.has_video %}
-	<section class="parallax0 parallax100" style="background-image: url({{info.image_vide.url}});">
-		<div class="overlay0 p-t-190 p-b-200">
-			<div class="flex-col-c-m p-l-15 p-r-15">
-				<span class="m-text9 p-t-45 fs-20-sm">
-					¡ Enterate !
-				</span>
-
-				<span class="btn-play s-text4 hov5 cs-pointer p-t-25" data-toggle="modal" data-target="#modal-video-01">
-					<i class="fa fa-play" aria-hidden="true"></i>
-					Ver video
-				</span>
+	</div>
+</section>
+<!-- Banner2 -->
+<section class="banner2 bg5 p-t-55 p-b-55">
+	<div class="container" style="max-width: 1700px !important;">
+		<div class="row">
+			<div class="col-sm-10 col-md-8 col-lg-6 m-l-r-auto p-t-15 p-b-15">
+				<div class="hov-img-zoom pos-relative">
+					<img src="{{STATIC_URL}}shop/images/banner-08.jpg" alt="IMG-BANNER">
+				</div>
 			</div>
-		</div>
-	</section>
-	<div class="modal fade" id="modal-video-01" tabindex="-1" role="dialog" aria-hidden="true">
 
-		<div class="modal-dialog" role="document" data-dismiss="modal">
-			<div class="close-mo-video-01 trans-0-4" data-dismiss="modal" aria-label="Close">&times;</div>
-
-			<div class="wrap-video-mo-01">
-				<div class="w-full wrap-pic-w op-0-0"><img src="{{STATIC_URL}}site/images/icons/video-16-9.jpg" alt="IMG"></div>
-				<div class="video-mo-01">
-					<iframe src="{{info.url_video}}" allowfullscreen></iframe>
+			<div class="col-sm-10 col-md-8 col-lg-6 m-l-r-auto p-t-15 p-b-15">
+				<div class="bgwhite hov-img-zoom pos-relative p-b-20per-ssm">
+					<img src="{{STATIC_URL}}shop/images/shop-item-09.jpg" alt="IMG-BANNER">
 				</div>
 			</div>
 		</div>
 	</div>
-	{% else %}
-	{% if store_instance is None %}
-	<section class="parallax0 parallax100" style="background-image: url({{STATIC_URL}}site/images/bg-video-01.jpg);">
-		<div class="overlay0 p-t-190 p-b-200">
-			<div class="flex-col-c-m p-l-15 p-r-15">
-				<span class="m-text9 p-t-45 fs-20-sm">
-					The Beauty
-				</span>
+</section>
 
-				<h3 class="l-text1 fs-35-sm">
-					Lookbook
-				</h3>
+{% comment %}
 
-				<span class="btn-play s-text4 hov5 cs-pointer p-t-25" data-toggle="modal" data-target="#modal-video-01">
-					<i class="fa fa-play" aria-hidden="true"></i>
-					Play Video
-				</span>
-			</div>
+<!-- Blog -->
+<section class="blog bgwhite p-t-94 p-b-65">
+	<div class="container">
+		<div class="sec-title p-b-52">
+			<h3 class="m-text5 t-center">
+				Our Blog
+			</h3>
 		</div>
-	</section>
-	<div class="modal fade" id="modal-video-01" tabindex="-1" role="dialog" aria-hidden="true">
 
-		<div class="modal-dialog" role="document" data-dismiss="modal">
-			<div class="close-mo-video-01 trans-0-4" data-dismiss="modal" aria-label="Close">&times;</div>
+		<div class="row">
+			<div class="col-sm-10 col-md-4 p-b-30 m-l-r-auto">
+				<!-- Block3 -->
+				<div class="block3">
+					<a href="blog-detail.html" class="block3-img dis-block hov-img-zoom">
+						<img src="{{STATIC_URL}}shop/images/blog-01.jpg" alt="IMG-BLOG">
+					</a>
 
-			<div class="wrap-video-mo-01">
-				<div class="w-full wrap-pic-w op-0-0"><img src="{{STATIC_URL}}site/images/icons/video-16-9.jpg" alt="IMG"></div>
-				<div class="video-mo-01">
-					<iframe src="https://www.youtube.com/embed/Nt8ZrWY2Cmk?rel=0&amp;showinfo=0" allowfullscreen></iframe>
+					<div class="block3-txt p-t-14">
+						<h4 class="p-b-7">
+							<a href="blog-detail.html" class="m-text11">
+								Black Friday Guide: Best Sales & Discount Codes
+							</a>
+						</h4>
+
+						<span class="s-text6">By</span> <span class="s-text7">Nancy Ward</span>
+						<span class="s-text6">on</span> <span class="s-text7">July 22, 2017</span>
+
+						<p class="s-text8 p-t-16">
+							Duis ut velit gravida nibh bibendum commodo. Sus-pendisse pellentesque mattis augue id euismod. Inter-dum et malesuada fames
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-10 col-md-4 p-b-30 m-l-r-auto">
+				<!-- Block3 -->
+				<div class="block3">
+					<a href="blog-detail.html" class="block3-img dis-block hov-img-zoom">
+						<img src="{{STATIC_URL}}shop/images/blog-02.jpg" alt="IMG-BLOG">
+					</a>
+
+					<div class="block3-txt p-t-14">
+						<h4 class="p-b-7">
+							<a href="blog-detail.html" class="m-text11">
+								The White Sneakers Nearly Every Fashion Girls Own
+							</a>
+						</h4>
+
+						<span class="s-text6">By</span> <span class="s-text7">Nancy Ward</span>
+						<span class="s-text6">on</span> <span class="s-text7">July 18, 2017</span>
+
+						<p class="s-text8 p-t-16">
+							Nullam scelerisque, lacus sed consequat laoreet, dui enim iaculis leo, eu viverra ex nulla in tellus. Nullam nec ornare tellus, ac fringilla lacus. Ut sit ame
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-10 col-md-4 p-b-30 m-l-r-auto">
+				<!-- Block3 -->
+				<div class="block3">
+					<a href="blog-detail.html" class="block3-img dis-block hov-img-zoom">
+						<img src="{{STATIC_URL}}shop/images/blog-03.jpg" alt="IMG-BLOG">
+					</a>
+
+					<div class="block3-txt p-t-14">
+						<h4 class="p-b-7">
+							<a href="blog-detail.html" class="m-text11">
+								New York SS 2018 Street Style: Annina Mislin
+							</a>
+						</h4>
+
+						<span class="s-text6">By</span> <span class="s-text7">Nancy Ward</span>
+						<span class="s-text6">on</span> <span class="s-text7">July 2, 2017</span>
+
+						<p class="s-text8 p-t-16">
+							Proin nec vehicula lorem, a efficitur ex. Nam vehicula nulla vel erat tincidunt, sed hendrerit ligula porttitor. Fusce sit amet maximus nunc
+						</p>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	{% endif %}
-	{% endif %}
+</section>
 
-	<!-- Instagram -->
-	{% if store_instance %}
+<!-- Instagram -->
+<section class="instagram p-t-20">
+	<div class="sec-title p-b-52 p-l-15 p-r-15">
+		<h3 class="m-text5 t-center">
+			@ follow us on Instagram
+		</h3>
+	</div>
 
-	<section class="instagram p-t-40">
-		<div class="sec-title p-b-52 p-l-15 p-r-15">
-			<h3 class="m-text5 t-center">
-				@{{info.instagram}} SIGUENOS
-			</h3>
-		</div>
-		<script src="https://apps.elfsight.com/p/platform.js" defer></script>
-		<div class="elfsight-app-796cee4d-d951-4da3-9199-e879ff29c233"></div>
-		<!-- <rssapp-wall id="yp8CFIUzNzWXySnl"></rssapp-wall><script src="https://widget.rss.app/v1/wall.js" type="text/javascript" async></script> -->
-	</section>
-	<section class="instagram p-t-40">
-		<div class="sec-title p-b-52 p-l-15 p-r-15">
-			<h3 class="m-text5 t-center">
-				@ follow us on Instagram
-			</h3>
-		</div>
+	<div class="flex-w">
+		<!-- Block4 -->
+		<div class="block4 wrap-pic-w">
+			<img src="{{STATIC_URL}}shop/images/gallery-03.jpg" alt="IMG-INSTAGRAM">
 
-		<div class="flex-w">
-			<!-- Block4 -->
-			<div class="block4 wrap-pic-w">
-				<img src="{{STATIC_URL}}site/images/gallery-03.jpg" alt="IMG-INSTAGRAM">
+			<a href="#" class="block4-overlay sizefull ab-t-l trans-0-4">
+				<span class="block4-overlay-heart s-text9 flex-m trans-0-4 p-l-40 p-t-25">
+					<i class="icon_heart_alt fs-20 p-r-12" aria-hidden="true"></i>
+					<span class="p-t-2">39</span>
+				</span>
 
-				<a href="#" class="block4-overlay sizefull ab-t-l trans-0-4">
-					<span class="block4-overlay-heart s-text9 flex-m trans-0-4 p-l-40 p-t-25">
-						<i class="icon_heart_alt fs-20 p-r-12" aria-hidden="true"></i>
-						<span class="p-t-2">39</span>
+				<div class="block4-overlay-txt trans-0-4 p-l-40 p-r-25 p-b-30">
+					<p class="s-text10 m-b-15 h-size1 of-hidden">
+						Nullam scelerisque, lacus sed consequat laoreet, dui enim iaculis leo, eu viverra ex nulla in tellus. Nullam nec ornare tellus, ac fringilla lacus. Ut sit amet enim orci. Nam eget metus elit.
+					</p>
+
+					<span class="s-text9">
+						Photo by @nancyward
 					</span>
-
-					<div class="block4-overlay-txt trans-0-4 p-l-40 p-r-25 p-b-30">
-						<p class="s-text10 m-b-15 h-size1 of-hidden">
-							Nullam scelerisque, lacus sed consequat laoreet, dui enim iaculis leo, eu viverra ex nulla in tellus. Nullam nec ornare tellus, ac fringilla lacus. Ut sit amet enim orci. Nam eget metus elit.
-						</p>
-
-						<span class="s-text9">
-							Photo by @nancyward
-						</span>
-					</div>
-				</a>
-			</div>
-
-			<!-- Block4 -->
-			<div class="block4 wrap-pic-w">
-				<img src="{{STATIC_URL}}site/images/gallery-07.jpg" alt="IMG-INSTAGRAM">
-
-				<a href="#" class="block4-overlay sizefull ab-t-l trans-0-4">
-					<span class="block4-overlay-heart s-text9 flex-m trans-0-4 p-l-40 p-t-25">
-						<i class="icon_heart_alt fs-20 p-r-12" aria-hidden="true"></i>
-						<span class="p-t-2">39</span>
-					</span>
-
-					<div class="block4-overlay-txt trans-0-4 p-l-40 p-r-25 p-b-30">
-						<p class="s-text10 m-b-15 h-size1 of-hidden">
-							Nullam scelerisque, lacus sed consequat laoreet, dui enim iaculis leo, eu viverra ex nulla in tellus. Nullam nec ornare tellus, ac fringilla lacus. Ut sit amet enim orci. Nam eget metus elit.
-						</p>
-
-						<span class="s-text9">
-							Photo by @nancyward
-						</span>
-					</div>
-				</a>
-			</div>
-
-			<!-- Block4 -->
-			<div class="block4 wrap-pic-w">
-				<img src="{{STATIC_URL}}site/images/gallery-09.jpg" alt="IMG-INSTAGRAM">
-
-				<a href="#" class="block4-overlay sizefull ab-t-l trans-0-4">
-					<span class="block4-overlay-heart s-text9 flex-m trans-0-4 p-l-40 p-t-25">
-						<i class="icon_heart_alt fs-20 p-r-12" aria-hidden="true"></i>
-						<span class="p-t-2">39</span>
-					</span>
-
-					<div class="block4-overlay-txt trans-0-4 p-l-40 p-r-25 p-b-30">
-						<p class="s-text10 m-b-15 h-size1 of-hidden">
-							Nullam scelerisque, lacus sed consequat laoreet, dui enim iaculis leo, eu viverra ex nulla in tellus. Nullam nec ornare tellus, ac fringilla lacus. Ut sit amet enim orci. Nam eget metus elit.
-						</p>
-
-						<span class="s-text9">
-							Photo by @nancyward
-						</span>
-					</div>
-				</a>
-			</div>
-
-			<!-- Block4 -->
-			<div class="block4 wrap-pic-w">
-				<img src="{{STATIC_URL}}site/images/gallery-13.jpg" alt="IMG-INSTAGRAM">
-
-				<a href="#" class="block4-overlay sizefull ab-t-l trans-0-4">
-					<span class="block4-overlay-heart s-text9 flex-m trans-0-4 p-l-40 p-t-25">
-						<i class="icon_heart_alt fs-20 p-r-12" aria-hidden="true"></i>
-						<span class="p-t-2">39</span>
-					</span>
-
-					<div class="block4-overlay-txt trans-0-4 p-l-40 p-r-25 p-b-30">
-						<p class="s-text10 m-b-15 h-size1 of-hidden">
-							Nullam scelerisque, lacus sed consequat laoreet, dui enim iaculis leo, eu viverra ex nulla in tellus. Nullam nec ornare tellus, ac fringilla lacus. Ut sit amet enim orci. Nam eget metus elit.
-						</p>
-
-						<span class="s-text9">
-							Photo by @nancyward
-						</span>
-					</div>
-				</a>
-			</div>
-
-			<!-- Block4 -->
-			<div class="block4 wrap-pic-w">
-				<img src="{{STATIC_URL}}site/images/gallery-15.jpg" alt="IMG-INSTAGRAM">
-
-				<a href="#" class="block4-overlay sizefull ab-t-l trans-0-4">
-					<span class="block4-overlay-heart s-text9 flex-m trans-0-4 p-l-40 p-t-25">
-						<i class="icon_heart_alt fs-20 p-r-12" aria-hidden="true"></i>
-						<span class="p-t-2">39</span>
-					</span>
-
-					<div class="block4-overlay-txt trans-0-4 p-l-40 p-r-25 p-b-30">
-						<p class="s-text10 m-b-15 h-size1 of-hidden">
-							Nullam scelerisque, lacus sed consequat laoreet, dui enim iaculis leo, eu viverra ex nulla in tellus. Nullam nec ornare tellus, ac fringilla lacus. Ut sit amet enim orci. Nam eget metus elit.
-						</p>
-
-						<span class="s-text9">
-							Photo by @nancyward
-						</span>
-					</div>
-				</a>
-			</div>
-		</div>
-	</section>
-
-	{% else %}
-	<section class="instagram p-t-40">
-		<div class="sec-title p-b-52 p-l-15 p-r-15">
-			<h3 class="m-text5 t-center">
-				@ follow us on Instagram
-			</h3>
+				</div>
+			</a>
 		</div>
 
-		<div class="flex-w">
-			<!-- Block4 -->
-			<div class="block4 wrap-pic-w">
-				<img src="{{STATIC_URL}}site/images/gallery-03.jpg" alt="IMG-INSTAGRAM">
+		<!-- Block4 -->
+		<div class="block4 wrap-pic-w">
+			<img src="{{STATIC_URL}}shop/images/gallery-07.jpg" alt="IMG-INSTAGRAM">
 
-				<a href="#" class="block4-overlay sizefull ab-t-l trans-0-4">
-					<span class="block4-overlay-heart s-text9 flex-m trans-0-4 p-l-40 p-t-25">
-						<i class="icon_heart_alt fs-20 p-r-12" aria-hidden="true"></i>
-						<span class="p-t-2">39</span>
+			<a href="#" class="block4-overlay sizefull ab-t-l trans-0-4">
+				<span class="block4-overlay-heart s-text9 flex-m trans-0-4 p-l-40 p-t-25">
+					<i class="icon_heart_alt fs-20 p-r-12" aria-hidden="true"></i>
+					<span class="p-t-2">39</span>
+				</span>
+
+				<div class="block4-overlay-txt trans-0-4 p-l-40 p-r-25 p-b-30">
+					<p class="s-text10 m-b-15 h-size1 of-hidden">
+						Nullam scelerisque, lacus sed consequat laoreet, dui enim iaculis leo, eu viverra ex nulla in tellus. Nullam nec ornare tellus, ac fringilla lacus. Ut sit amet enim orci. Nam eget metus elit.
+					</p>
+
+					<span class="s-text9">
+						Photo by @nancyward
 					</span>
-
-					<div class="block4-overlay-txt trans-0-4 p-l-40 p-r-25 p-b-30">
-						<p class="s-text10 m-b-15 h-size1 of-hidden">
-							Nullam scelerisque, lacus sed consequat laoreet, dui enim iaculis leo, eu viverra ex nulla in tellus. Nullam nec ornare tellus, ac fringilla lacus. Ut sit amet enim orci. Nam eget metus elit.
-						</p>
-
-						<span class="s-text9">
-							Photo by @nancyward
-						</span>
-					</div>
-				</a>
-			</div>
-
-			<!-- Block4 -->
-			<div class="block4 wrap-pic-w">
-				<img src="{{STATIC_URL}}site/images/gallery-07.jpg" alt="IMG-INSTAGRAM">
-
-				<a href="#" class="block4-overlay sizefull ab-t-l trans-0-4">
-					<span class="block4-overlay-heart s-text9 flex-m trans-0-4 p-l-40 p-t-25">
-						<i class="icon_heart_alt fs-20 p-r-12" aria-hidden="true"></i>
-						<span class="p-t-2">39</span>
-					</span>
-
-					<div class="block4-overlay-txt trans-0-4 p-l-40 p-r-25 p-b-30">
-						<p class="s-text10 m-b-15 h-size1 of-hidden">
-							Nullam scelerisque, lacus sed consequat laoreet, dui enim iaculis leo, eu viverra ex nulla in tellus. Nullam nec ornare tellus, ac fringilla lacus. Ut sit amet enim orci. Nam eget metus elit.
-						</p>
-
-						<span class="s-text9">
-							Photo by @nancyward
-						</span>
-					</div>
-				</a>
-			</div>
-
-			<!-- Block4 -->
-			<div class="block4 wrap-pic-w">
-				<img src="{{STATIC_URL}}site/images/gallery-09.jpg" alt="IMG-INSTAGRAM">
-
-				<a href="#" class="block4-overlay sizefull ab-t-l trans-0-4">
-					<span class="block4-overlay-heart s-text9 flex-m trans-0-4 p-l-40 p-t-25">
-						<i class="icon_heart_alt fs-20 p-r-12" aria-hidden="true"></i>
-						<span class="p-t-2">39</span>
-					</span>
-
-					<div class="block4-overlay-txt trans-0-4 p-l-40 p-r-25 p-b-30">
-						<p class="s-text10 m-b-15 h-size1 of-hidden">
-							Nullam scelerisque, lacus sed consequat laoreet, dui enim iaculis leo, eu viverra ex nulla in tellus. Nullam nec ornare tellus, ac fringilla lacus. Ut sit amet enim orci. Nam eget metus elit.
-						</p>
-
-						<span class="s-text9">
-							Photo by @nancyward
-						</span>
-					</div>
-				</a>
-			</div>
-
-			<!-- Block4 -->
-			<div class="block4 wrap-pic-w">
-				<img src="{{STATIC_URL}}site/images/gallery-13.jpg" alt="IMG-INSTAGRAM">
-
-				<a href="#" class="block4-overlay sizefull ab-t-l trans-0-4">
-					<span class="block4-overlay-heart s-text9 flex-m trans-0-4 p-l-40 p-t-25">
-						<i class="icon_heart_alt fs-20 p-r-12" aria-hidden="true"></i>
-						<span class="p-t-2">39</span>
-					</span>
-
-					<div class="block4-overlay-txt trans-0-4 p-l-40 p-r-25 p-b-30">
-						<p class="s-text10 m-b-15 h-size1 of-hidden">
-							Nullam scelerisque, lacus sed consequat laoreet, dui enim iaculis leo, eu viverra ex nulla in tellus. Nullam nec ornare tellus, ac fringilla lacus. Ut sit amet enim orci. Nam eget metus elit.
-						</p>
-
-						<span class="s-text9">
-							Photo by @nancyward
-						</span>
-					</div>
-				</a>
-			</div>
-
-			<!-- Block4 -->
-			<div class="block4 wrap-pic-w">
-				<img src="{{STATIC_URL}}site/images/gallery-15.jpg" alt="IMG-INSTAGRAM">
-
-				<a href="#" class="block4-overlay sizefull ab-t-l trans-0-4">
-					<span class="block4-overlay-heart s-text9 flex-m trans-0-4 p-l-40 p-t-25">
-						<i class="icon_heart_alt fs-20 p-r-12" aria-hidden="true"></i>
-						<span class="p-t-2">39</span>
-					</span>
-
-					<div class="block4-overlay-txt trans-0-4 p-l-40 p-r-25 p-b-30">
-						<p class="s-text10 m-b-15 h-size1 of-hidden">
-							Nullam scelerisque, lacus sed consequat laoreet, dui enim iaculis leo, eu viverra ex nulla in tellus. Nullam nec ornare tellus, ac fringilla lacus. Ut sit amet enim orci. Nam eget metus elit.
-						</p>
-
-						<span class="s-text9">
-							Photo by @nancyward
-						</span>
-					</div>
-				</a>
-			</div>
+				</div>
+			</a>
 		</div>
-	</section>
-	{% endif %}
-	{% endcomment %}
 
+		<!-- Block4 -->
+		<div class="block4 wrap-pic-w">
+			<img src="{{STATIC_URL}}shop/images/gallery-09.jpg" alt="IMG-INSTAGRAM">
+
+			<a href="#" class="block4-overlay sizefull ab-t-l trans-0-4">
+				<span class="block4-overlay-heart s-text9 flex-m trans-0-4 p-l-40 p-t-25">
+					<i class="icon_heart_alt fs-20 p-r-12" aria-hidden="true"></i>
+					<span class="p-t-2">39</span>
+				</span>
+
+				<div class="block4-overlay-txt trans-0-4 p-l-40 p-r-25 p-b-30">
+					<p class="s-text10 m-b-15 h-size1 of-hidden">
+						Nullam scelerisque, lacus sed consequat laoreet, dui enim iaculis leo, eu viverra ex nulla in tellus. Nullam nec ornare tellus, ac fringilla lacus. Ut sit amet enim orci. Nam eget metus elit.
+					</p>
+
+					<span class="s-text9">
+						Photo by @nancyward
+					</span>
+				</div>
+			</a>
+		</div>
+
+		<!-- Block4 -->
+		<div class="block4 wrap-pic-w">
+			<img src="{{STATIC_URL}}shop/images/gallery-13.jpg" alt="IMG-INSTAGRAM">
+
+			<a href="#" class="block4-overlay sizefull ab-t-l trans-0-4">
+				<span class="block4-overlay-heart s-text9 flex-m trans-0-4 p-l-40 p-t-25">
+					<i class="icon_heart_alt fs-20 p-r-12" aria-hidden="true"></i>
+					<span class="p-t-2">39</span>
+				</span>
+
+				<div class="block4-overlay-txt trans-0-4 p-l-40 p-r-25 p-b-30">
+					<p class="s-text10 m-b-15 h-size1 of-hidden">
+						Nullam scelerisque, lacus sed consequat laoreet, dui enim iaculis leo, eu viverra ex nulla in tellus. Nullam nec ornare tellus, ac fringilla lacus. Ut sit amet enim orci. Nam eget metus elit.
+					</p>
+
+					<span class="s-text9">
+						Photo by @nancyward
+					</span>
+				</div>
+			</a>
+		</div>
+
+		<!-- Block4 -->
+		<div class="block4 wrap-pic-w">
+			<img src="{{STATIC_URL}}shop/images/gallery-15.jpg" alt="IMG-INSTAGRAM">
+
+			<a href="#" class="block4-overlay sizefull ab-t-l trans-0-4">
+				<span class="block4-overlay-heart s-text9 flex-m trans-0-4 p-l-40 p-t-25">
+					<i class="icon_heart_alt fs-20 p-r-12" aria-hidden="true"></i>
+					<span class="p-t-2">39</span>
+				</span>
+
+				<div class="block4-overlay-txt trans-0-4 p-l-40 p-r-25 p-b-30">
+					<p class="s-text10 m-b-15 h-size1 of-hidden">
+						Nullam scelerisque, lacus sed consequat laoreet, dui enim iaculis leo, eu viverra ex nulla in tellus. Nullam nec ornare tellus, ac fringilla lacus. Ut sit amet enim orci. Nam eget metus elit.
+					</p>
+
+					<span class="s-text9">
+						Photo by @nancyward
+					</span>
+				</div>
+			</a>
+		</div>
+	</div>
+</section>
+{% endcomment %}
 {% endblock content %} 
 
 {% block customjs %}

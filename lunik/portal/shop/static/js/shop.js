@@ -333,9 +333,11 @@ $(document).ready(function(){
         $(".dynamic-step").html(data.html_dynamic);
         $(".dynamic-footer").html(data.html_footer);
         $(".dynamic-detail").html(data.html_dynamic_detail);
+        $(".dynamic-breadcrumb").html(data.html_dynamic_breadcrumb);
         
       } else {
         data.errors.forEach(function (error) {
+          console.log(error)
           $('#id_'+error.field).toggleClass('is-invalid')
         })
         toastr.warning('Revisa tus datos de envio y vuelve a intentarlo');
@@ -362,6 +364,8 @@ $(document).ready(function(){
             $(".dynamic-step").html(data.html_dynamic);
             $(".dynamic-footer").html(data.html_footer);
             $(".dynamic-detail").html(data.html_dynamic_detail);
+            $(".dynamic-breadcrumb").html(data.html_dynamic_breadcrumb);
+
 
         }
     })

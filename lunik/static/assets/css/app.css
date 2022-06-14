@@ -1171,7 +1171,8 @@ footer{
 }
 #background img{
     position: absolute;
-    max-width: -webkit-fill-available;
+    max-width: 100%;
+    height: auto;
 }
 #auth{
     background:#6c757d;

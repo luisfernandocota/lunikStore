@@ -2,7 +2,7 @@
 {% load humanize %}
 {% load thumbnail %}
 {% load tags %}
-<table class="table table-hover my-shopping-cart-table">
+<table class="table my-shopping-cart-table">
 
     <tbody>
         {% if cart.get_quantity_products > 0 %}
@@ -12,7 +12,7 @@
 
             <th>
 
-                <div class="position-relative">
+                <div class="item">
                 {% with image=item.product.products_gallery.all.first.image %}
                       {% thumbnail image '100x100' crop='center' as img %}
 
@@ -28,9 +28,10 @@
 
             <td>
 
-                <div>
+                <div class="t-center">
 
-                    {{item.product.name}} {{item.product.model}}
+                    {{item.product.name}} {{item.product.model}} <br>
+                    <small>{% if key|is_gift:item %} Envoltura de regalo ($20.00) {% endif %} </small>
 
                 </div>
 
@@ -70,83 +71,58 @@
 
 
 </table>
+<div class="flex-w flex-sb-m p-b-12">
+    <span class="s-text18 w-size19 w-full-sm">
+        Subtotal:
+    </span>
 
-<div class="row">
+    <span class="m-text21 w-size20 w-full-sm" style="text-align: end;">
+        ${{cart.get_subtotal_products|intcomma}}
+    </span>
+</div>
+{% if cart.is_coupon_apply %}
+<div class="flex-w flex-sb-m p-b-12">
+    <span class="s-text18 w-size19 w-full-sm">
+        Cupon:
+    </span>
 
-    <div class="col-6">
+    <span class="m-text21 w-size20 w-full-sm" style="text-align: end;">
+        $39.00
+    </span>
+</div>
+{% endif %}
+<div class="flex-w flex-sb-m p-b-12">
+    <span class="s-text18 w-size19 w-full-sm">
+        Envio:
+    </span>
 
-        <p class="text-start">Subtotal</p>
-
-
-
-    </div>
-
-    <div class="col-6">
-
-        <p class="fw-bold text-end">$ {{cart.get_subtotal_products|intcomma}}</p>
-
-    </div>
-    {% if cart.is_coupon_apply %}
-
-    <div class="col-6">
-
-        <p class="text-start">Cupón <strong>{{cart.is_coupon_apply.code}}</strong></p>
-
-
-
-    </div>
-
-    <div class="col-6">
-
-        <p class="fw-bold text-end">- {% if cart.is_coupon_apply.discount_types == 'A'%}${{cart.is_coupon_apply.discount|intcomma}}{% elif cart.is_coupon_apply.discount_types == 'P'%}{{cart.is_coupon_apply.discount}}%{% endif %}</p>
-
-    </div>
-    {% endif %}
-
-    <div class="col-6">
-
-        <p class="text-start">Envío</p>
-
-
-
-    </div>
-
-    <div class="col-6">
-
-        <p class="fw-bold text-end">
-            {% if step == 'informacion' %}
-                Calculado en el siguiente paso
-            {% else %}
-                {% if cart.get_shipping_method %}
-                    {% if cart.get_shipping_cost > 0 %}
-                        ${{cart.get_shipping_cost|intcomma}}
-                    {% else %}
-                        ¡Gratis! <i class="bi bi-lightning" style="color:{{store_instance.store_meta.header_color}}"></i>
-                    {% endif %}
+    <span class="m-text21 w-size20 w-full-sm" style="text-align: end;">
+        {% if step == 'informacion' %}
+            Calculado en el siguiente paso
+        {% else %}
+            {% if cart.get_shipping_method %}
+                {% if cart.get_shipping_cost > 0 %}
+                    ${{cart.get_shipping_cost|intcomma}}
                 {% else %}
-                    Selecciona un metodo de envio <i class="bi bi-lightning" style="color: var(--main-bg-color-branding)"></i>
+                    ¡Gratis! <i class="bi bi-lightning" style="color:{{store_instance.store_meta.header_color}}"></i>
                 {% endif %}
+            {% else %}
+                Selecciona un método de envío <i class="bi bi-lightning" style="color: var(--main-bg-color-branding)"></i>
             {% endif %}
-        </p>
-
-    </div>
-
+        {% endif %}
+    </span>
 </div>
 
-<hr class="mt-0 mb-2">
-<div class="row">
+<hr class="m-t-0 m-b-2">
 
-    <div class="col-6">
+<div class="flex-w flex-sb-m p-b-12">
+    <span class="s-text18 w-size19 w-full-sm">
+        Total:
+    </span>
 
-        <p class="text-start">Total</p>
-
-
-
-    </div>
-
-    <div class="col-6">
+    <span class="m-text21 w-size20 w-full-sm m-t-20" style="text-align: end;">
         {% if cart.get_shipping_method and not step == 'informacion' %}
-        <h5 class="text-end">$ {{cart.get_total_products|intcomma}}</h5>
+        <h5>$ {{cart.get_total_products|intcomma}}</h5>
 
         {% else %}
         <div class="loader text-end">
@@ -155,8 +131,6 @@
             <span class="bar"></span>
         </div>
         {% endif %}
-
-    </div>
-
+    </span>
 </div>
 

@@ -109,6 +109,22 @@ $(document).ready(function() {
     return false;
   });
 
+  /* SENDMAIL SHOP MODAL CLICK*/
+  $(".table-responsive").on("click", ".js-send-shop", function () {
+    var btn = $(this);
+    $.ajax({
+      url: btn.attr('data-url'),
+      type: 'get',
+      dataType: 'json',
+      beforeSend: function () {
+        $("#inlineForm").modal("show");
+      },
+      success: function (data) {
+        $("#inlineForm .modal-content").html(data.html_sendmail_shop);
+      }
+    });
+  });
+
   $('#loading-campaigns').click(function () {
     btn = $(this);
     simpleLoad(btn, true)

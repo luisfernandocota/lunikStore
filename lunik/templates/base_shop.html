@@ -1,19 +1,11 @@
-
-
-
+{% load thumbnail %}
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
-    <meta charset="UTF-8">
-
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Karla Gálvez | {% block subtitle %}{% endblock subtitle %}</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{request.get_host}}">
@@ -39,891 +31,535 @@
     <meta name="msapplication-TileImage" content="{{STATIC_URL}}assets/images/icons/favicon/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css" />
-
-    <link rel="stylesheet" type="text/css" media="screen" href="{{STATIC_URL}}shop/css/owl.carousel.css" />
-
-    <link rel="stylesheet" type="text/css" media="screen" href="{{STATIC_URL}}shop/css/owl.theme.default.css" />
-
-    <link rel="stylesheet" type="text/css" media="screen" href="{{STATIC_URL}}shop/css/base.css" />
-
-    <link rel="stylesheet" type="text/css" media="screen" href="{{STATIC_URL}}shop/css/template/version.css" />
-
-    <link rel="stylesheet" type="text/css" media="screen" href="{{STATIC_URL}}shop/css/template/fonts.css" />
-
-    <link rel="stylesheet" type="text/css" media="screen" href="{{STATIC_URL}}shop/css/template/base-template.css" />
-
-    <!-- Floating Whatsapp CSS -->
+<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="{{STATIC_URL}}shop/images/icons/favicon.png"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}shop/vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}shop/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}shop/fonts/themify/themify-icons.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}shop/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}shop/fonts/elegant-font/html-css/style.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}shop/vendor/animate/animate.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}shop/vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}shop/vendor/animsition/css/animsition.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}shop/vendor/select2/select2.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}shop/vendor/daterangepicker/daterangepicker.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}shop/vendor/slick/slick.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}shop/vendor/lightbox2/css/lightbox.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}shop/css/util.css">
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}shop/css/main.css">
+<!--===============================================================================================-->
+<!-- Floating Whatsapp CSS -->
     <!-- <link rel="stylesheet" type="text/css" media="screen" href="{{STATIC_URL}}site/css/floating-wpp.min.css" -->
     <!-- Toastr style -->
     <link href="{{STATIC_URL}}assets/css/plugins/toastr/toastr.min.css" rel="stylesheet">
 
-<!-- Style con clases al final que faltaban -->
+    {% block customcss %}
+    {% endblock customcss %}
 
-<style>
-    :root {
-        --main-bg-color-branding: #da9fa6;
-        --main-bg-color-buy-button: #da9fa6;
-        --main-text-color-promotion-ribbon: white;
-        --main-text-color-carousel-item: white;
-        --main-text-color-category-item: white;
-        --main-background-color-template: white;
-        --main-text-color-template: black;
-        --main-bg-fourbutton-template: #da9fa6;
-        --main-bg-fourbutton-hover-template: white;
-    }
-</style>
-<style>
-    .dropdown-item.active, .dropdown-item:active {
-        color: #fff !important;
-        text-decoration: none;
-        background-color: var(--main-bg-color-branding) !important;
-    }
-    .counter-product-cart{
-        background-color: var(--main-bg-color-branding) !important;
-    }
-    .button-buy-product{
-        background-color: var(--main-bg-color-buy-button) !important;
-    }
-    body.custom{
-        background-color: var(--main-background-color-template) !important;
-    }
-    body.custom section.template{
-        background-color: var(--main-background-color-template) !important;
-    }
-
-    body.custom .color-text-carousel-item{
-        color: var(--main-text-color-carousel-item) !important;
-    }
-    body.custom .color-text-category-item{
-        color: var(--main-text-color-category-item) !important;
-    }
-    body.custom .mega-menu {
-        background: var(--main-background-color-template) !important;
-    }
-    body.custom .mega-menu a{
-        color: var(--main-text-color-template) !important;
-    }
-    body.custom .principal-menu-container{
-        background-color: var(--main-background-color-template) !important;
-        transition: .3s;
-    }
-    body.custom .principal-menu-container a{
-        color: var(--main-text-color-template) !important; 
-    }
-    body.custom .cart-bar,body.custom .mobile-menu, body.custom .mobile-user-menu {
-        background: var(--main-background-color-template) !important;
-    }
-    body.custom .mobile-menu *
-    {
-        color: var(--main-text-color-template) !important;
-    }
-    body.custom h1, body.custom h2, body.custom h3, body.custom h4, body.custom h5,body.custom h6,body.custom a,body.custom p, body.custom div{
-        color: var(--main-text-color-template) !important;
-    }
-    body.custom .btn-cart{
-        color: var(--main-text-color-template) !important;
-    }
-
-    body.custom .principal-menu-mobile *{
-        color: var(--main-text-color-template) !important;
-    }
-    body.custom .post-footer {
-        background-color: var(--main-background-color-template) !important;
-    }
-    body.custom .post-footer *{
-        color:var(--main-text-color-template) !important;
-    }
-    body.custom .cartBarToggle{
-        color: var(--main-text-color-template) !important;
-    }
-    body.custom .panelToggle{
-        color: var(--main-text-color-template) !important;
-    }
-    body.custom .card-body {
-        background: var(--main-background-color-template) !important;
-    }
-    body.custom .modal-content{
-        background: var(--main-background-color-template) !important;
-    }
-    body.custom .four-buttons{
-        background-color: var(--main-bg-fourbutton-template) !important;
-        border: 1px solid var(--main-bg-fourbutton-template) !important;
-        color: var(--main-bg-fourbutton-hover-template) !important;
-        transition: .5s;
-    }
-    body.custom .four-buttons:hover{
-        background-color: var(--main-bg-fourbutton-hover-template) !important;
-        border: 1px solid var(--main-bg-fourbutton-template) !important;
-        color: var(--main-bg-fourbutton-template) !important;
-        transition: .2s;
-    }
-    body.custom .brand-promotions-ribbon{
-        background-color: var(--main-bg-color-branding) !important;
-        font-size: 14px;
-        z-index: 1000;
-    }
-    body.custom .brand-promotions-ribbon a{
-        color: var(--main-text-color-promotion-ribbon) !important;
-    }
-    body.custom .brand-ribbon-text{
-        color: var(--main-text-color-promotion-ribbon) !important;
-    }
-    .param{
-        font-weight: bold;
-    }
-
-    {% block cssStyle %}
-    {% endblock cssStyle %}
-</style>
-
-    {% block customcss %}{% endblock customcss %}
-    <!-- Load Stripe.js on your website. -->
-    <script src="https://js.stripe.com/v3/"></script>
-
-    {% block google_ads %}{% endblock google_ads %}
-
-    <!--===============================================================================================-->
-
+	<!-- Load Stripe.js on your website. -->
+	<script src="https://js.stripe.com/v3/"></script>
 </head>
-
-<body class="custom">
-
-    <div class="container-fluid p-0 m-0 base_shop">
-
-        {% include 'includes/partial_mobile_user_menu.html' %}
-
-        {% include 'includes/partial_cart.html' %}
-
-        {% include 'includes/partial_mobile_menu.html' with segm=1 %}
-
-        <div class="content">
-
-            <nav id="promotions-ribbon" class="navbar navbar-expand-lg promotions-ribbon brand-promotions-ribbon">
-
-                <div class="container-fluid d-flex justify-content-between">
-
-                    <div class="social-medias-buttons">
-                        <button type="button" class="btn btn-link  animate__animated animate__bounce"><i
-
-                                class="bi bi-facebook"></i></button>
-
-                        <button type="button" class="btn btn-link  animate__animated animate__bounce"><i
-
-                                class="bi bi-instagram"></i></button>
-
-                        <!-- <button type="button" class="btn btn-link  animate__animated animate__bounce"><i
-
-                                class="bi bi-youtube"></i></button> -->
-                    </div>
-
-                    <div class="brand-ribbon-text brand-promotions-ribbon">
-                            ¡Sueña, planea, agendalo! 
-                    </div>
-
-                    <div class="my-accont-email">
-
-                        <a class="navbar-brand text-center brand-promotions-ribbon " href="#">hola@karlagalvez.com.mx</a>
-
-                    </div>
-
-                </div>
-
-            </nav>
-
-
-
-            <nav id="principal-menu-container"
-
-                class="navbar navbar-expand-lg d-flex justify-content-around principal-menu-container">
-
-                <div class="container-fluid principal-menu">
-
-                    <div>
-                        <a class="navbar-brand" href="{% url 'shop:shop_list' %}">
-                            
-                            <img src="{{STATIC_URL}}assets/images/icons/logoKGNegro.png" class="logo-brand-store md" alt="">
-
-                        </a>
-
-                    </div>
-
-                    <div>
-
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
-                            <li class="nav-item">
-
-                                <a class="nav-link principal-menu-option active" aria-current="page" href="{% url 'shop:shop_list' %}">Inicio</a>
-
-                            </li>
-
-                            <li class="nav-item">
-
-                                <a class="nav-link principal-menu-option active" aria-current="page" href="{% url 'shop:products_list' %}">Agendas</a>
-
-                            </li>
-
-                            <!-- <li class="nav-item position-relative mega-menu-trigger ">
-
-                                <a class="nav-link principal-menu-option">Productos <i class="bi bi-chevron-down"
-
-                                        style="font-size: 18px;"></i></a>
-
-                            </li> -->
-
-                            <!-- <li class="nav-item">
-
-                                <a class="nav-link principal-menu-option" href="#">Conócenos</a>
-
-                            </li>
-
-                            <li class="nav-item">
-
-                                <a class="nav-link principal-menu-option" href="#">Contacto</a>
-
-                            </li> -->
-
-                        </ul>
-
-                    </div>
-
-                    <div>
-
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
-                            {% if request.user.is_authenticated and request.user.is_customer %}
-
-                            <li class="nav-item position-relative">
-
-                                <a class="nav-link secondary-menu-option" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
-
-                                    Hola {{request.user.get_short_name}} <i class="bi bi-chevron-down" style="font-size: 18px;"></i>
-
-                                </a>
-
-                                <ul class="dropdown-menu" aria-labelledby="userMenu">
-
-                                    <li><a class="dropdown-item " href="{% url 'dashboard:profile' %}">Mi perfil</a></li>
-                                    <li><a class="dropdown-item " href="{% url 'dashboard:orders' %}">Mis pedidos</a></li>
-
-                                    <li><a class="dropdown-item " href="{% url 'register:logout' %}">Cerrar Sesión</a></li>
-
-                                </ul>
-
-                            </li>
-                            {% else %}
-
-                            <li class="nav-item">
-
-                                <div class="display-flex-center">
-
-                                    <a class="nav-link secondary-menu-option" href="{% url 'register:add' %}">Registro</a> / <a
-
-                                        class="nav-link secondary-menu-option" href="{% url 'register:login' %}">Entrar</a>
-
-                                </div>
-
-                            </li>
-                            {% endif %}
-
-                            <!-- <li class="nav-item">
-
-                                <a class="nav-link secondary-menu-option" data-bs-toggle="modal" data-bs-target="#searchProductsForm"><i class="bi bi-search"
-
-                                        style="font-size: 18px;"></i></a>
-
-                            </li> -->
-
-                            <li class="nav-item">
-
-                                <a class="nav-link secondary-menu-option cartBarToggle">
-
-                                    <div class="position-relative">
-
-                                        <i class="bi bi-handbag" style="font-size: 18px;"></i>
-                                        {% if cart.get_quantity_products >= 1 %}
-                                        <span class="badge rounded-pill counter-product-cart counter-shop-products">{{cart.get_quantity_products}}</span>
-                                        {% endif %}
-                                    </div>
-
-                                </a>
-
-                            </li>
-
-                        </ul>
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- For mobile -->
-                
-                {% include 'includes/partial_mobile_menu.html' with segm=2 %}
-
-                <!-- /// For mobile -->
-
-
-
-                <div id="mega-menu" class="mega-menu">
-
-                    <div class="content">
-
-                        <div class="row justify-content-center">
-
-                            <div class="col-12 col-md-2">
-
-                                <div id="carouselPromotionsProducts" class="carousel slide mw-100" data-bs-ride="carousel">
-
-                                    <div class="carousel-inner">
-                                        {% for product in products_list %}
-                                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
-
-                                            <img src="{{product.products_gallery.first.image.url}}" class="d-block mw-100" alt="{{product.name}}">
-
-                                            <h6 class="pt-2">{{product.name}}</h6>
-
-                                            <buttaon type="button" onclick="sendPage('{% url 'shop_cart:product_detail' product.slug %}');" class="four-buttons">Ver producto</button>
-
-                                        </div>
-                                        {% endfor %}
-
-
-                                        {% comment %} <div class="carousel-item">
-
-                                            <img src="{{STATIC_URL}}shop/resources/store/3-3.jpg" class="d-block mw-100" alt="...">
-
-                                            <h6 class="pt-2">Camisa Lancaster #23452</h6>
-
-                                            <a href="#">Ver producto</a>
-
-                                        </div>
-
-                                        <div class="carousel-item">
-
-                                            <img src="{{STATIC_URL}}shop/resources/store/8-1.jpg" class="d-block mw-100" alt="...">
-
-                                            <h6 class="pt-2">Camisa Lancaster #23452</h6>
-
-                                            <a href="#">Ver producto</a>
-
-                                        </div> {% endcomment %}
-
-                                    </div>
-
-                                </div>
-                                <hr>
-                                <button onclick="sendPage('{% url 'shop:products_list' %}');" type="button" class="four-buttons">Ver todos los productos</button>
-                            </div>
-                            {% for category in categories_list  %}
-                            <div class="col-12 col-md-2">
-
-                                <h6><a onclick="sendPage('{% url 'shop:products_list' %}?categoria={{category.slug}}')">{{category.name}}</a></h6>
-
-                                <ul class="list-group list-group-flush">
-                                    {% for subcategory in category.subcategories.all %}
-                                    <li class="list-group-item">
-
-                                        <a onclick="sendPage('{% url 'shop:products_list' %}?subcategoria={{subcategory.slug}}')">
-
-                                            {{subcategory.name}}
-
-                                        </a>
-
-                                    </li>
-                                    {% endfor %}
-
-                                </ul>
-
-                            </div>
-                            {% endfor %}
-
-
-                            <div class="col-12 col-md-2">
-
-                                <h6><a href="#">Mujer</a></h6>
-
-                                <ul class="list-group list-group-flush">
-
-                                    <li class="list-group-item">
-
-                                        <a href="#">
-
-                                            Calzado
-
-                                        </a>
-
-                                    </li>
-
-                                    <li class="list-group-item">
-
-                                        <a href="#">
-
-                                            Ropa
-
-                                        </a>
-
-                                    </li>
-
-                                    <li class="list-group-item">
-
-                                        <a href="#">
-
-                                            Entrenamiento
-
-                                        </a>
-
-                                    </li>
-
-                                    <li class="list-group-item">
-
-                                        <a href="#">
-
-                                            Accesorios
-
-                                        </a>
-
-                                    </li>
-
-                                    <li class="list-group-item">
-
-                                        <a href="#">
-
-                                            Calzado
-
-                                        </a>
-
-                                    </li>
-
-                                    <li class="list-group-item">
-
-                                        <a href="#">
-
-                                            Ropa
-
-                                        </a>
-
-                                    </li>
-
-                                    <li class="list-group-item">
-
-                                        <a href="#">
-
-                                            Entrenamiento
-
-                                        </a>
-
-                                    </li>
-
-                                </ul>
-
-                                <h6><a href="#">Mujer 2</a></h6>
-
-                                <ul class="list-group list-group-flush">
-
-                                    <li class="list-group-item">
-
-                                        <a href="#">
-
-                                            Calzado
-
-                                        </a>
-
-                                    </li>
-
-                                    <li class="list-group-item">
-
-                                        <a href="#">
-
-                                            Ropa
-
-                                        </a>
-
-                                    </li>
-
-                                    <li class="list-group-item">
-
-                                        <a href="#">
-
-                                            Entrenamiento
-
-                                        </a>
-
-                                    </li>
-
-                                </ul>
-
-                            </div>
-
-                            <div class="col-12 col-md-2">
-
-                                <h6><a href="#">Marcas</a></h6>
-
-                                <ul class="list-group list-group-flush">
-
-                                    <li class="list-group-item">
-
-                                        <a href="#">
-
-                                            Addidas
-
-                                        </a>
-
-                                    </li>
-
-                                    <li class="list-group-item">
-
-                                        <a href="#">
-
-                                            Nike
-
-                                        </a>
-
-                                    </li>
-
-                                    <li class="list-group-item">
-
-                                        <a href="#">
-
-                                            Runner
-
-                                        </a>
-
-                                    </li>
-
-                                    <li class="list-group-item">
-
-                                        <a href="#">
-
-                                            Charly
-
-                                        </a>
-
-                                    </li>
-
-                                </ul>
-
-                                <h6><a href="#">Marcas 2</a></h6>
-
-                                <ul class="list-group list-group-flush">
-
-                                    <li class="list-group-item">
-
-                                        <a href="#">
-
-                                            Addidas
-
-                                        </a>
-
-                                    </li>
-
-                                    <li class="list-group-item">
-
-                                        <a href="#">
-
-                                            Nike
-
-                                        </a>
-
-                                    </li>
-
-                                    <li class="list-group-item">
-
-                                        <a href="#">
-
-                                            Runner
-
-                                        </a>
-
-                                    </li>
-
-                                    <li class="list-group-item">
-
-                                        <a href="#">
-
-                                            Charly
-
-                                        </a>
-
-                                    </li>
-
-                                </ul>
-
-                            </div> 
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </nav>
-
-            {% block content %}
-            {% endblock content %}
-
-            <footer class="section-content small brand-promotions-ribbon">
-
-                <div class="row">
-
-                    <div class="col-12 col-md-3 col-lg-4">
-
-                        <small class=""><strong>Nuestra Tienda</strong></small>
-                        <img src="{{STATIC_URL}}assets/images/icons/LogoKGBlanco.png" class="logo-brand-store md d-block pt-2 pb-4" alt="">
-                        <p class="brand-ribbon-text">
-
-                            ¿Alguna pregunta? Llamanos al (668) 172 - 25 - 11 y con gusto te resolveremos tus dudas, o envianos un correo a hola@karlagalvez.com.mx
-
-                        </p>
-
-                    </div>
-
-                    <div class="col-6 col-md-3 col-lg-2">
-
-                        <h6><a href="#">Mapa del sitio</a></h6>
-
-                        <ul class="list-group list-group-flush">
-
-                            <li class="list-group-item clean">
-
-                                <a href="{% url 'shop:products_list' %}">
-
-                                    Productos
-
-                                </a>
-
-                            </li>
-
-                            <!-- <li class="list-group-item clean">
-
-                                <a href="#">
-
-                                    Sobre nosotros
-
-                                </a>
-
-                            </li>
-
-                            <li class="list-group-item clean">
-
-                                <a href="#">
-
-                                    Contacto
-
-                                </a>
-
-                            </li> -->
-
-                            <li class="list-group-item clean">
-
-                                <a href="{% url 'register:login' %}">
-
-                                    Iniciar sesión
-
-                                </a>
-
-                            </li>
-
-                            <li class="list-group-item clean">
-
-                                <a href="{% url 'register:add' %}">
-
-                                    Regístrate
-
-                                </a>
-
-                            </li>
-
-                        </ul>
-
-                    </div>
-                    {% comment %}
-                    <div class="col-6 col-md-3 col-lg-2">
-
-                        <h6><a href="{% url 'shop:categories_list' %}">Categorías</a></h6>
-
-                        <ul class="list-group list-group-flush">
-                            {% for category in categories_list %}
-
-
-                            <li class="list-group-item clean">
-
-                                <a onclick="sendPage('{% url 'shop:products_list' %}?categoria={{category.slug}}')">
-
-                                    {{category.name}}
-
-                                </a>
-
-                            </li>
-                            {% endfor %}
-
-                             <li class="list-group-item clean">
-
-                                <a href="#">
-
-                                    Mujer
-
-                                </a>
-
-                            </li>
-
-                            <li class="list-group-item clean">
-
-                                <a href="#">
-
-                                    Futbol
-
-                                </a>
-
-                            </li>
-
-                            <li class="list-group-item clean">
-
-                                <a href="#">
-
-                                    Casual
-
-                                </a>
-
-                            </li>
-
-                            <li class="list-group-item clean">
-
-                                <a href="#">
-
-                                    Bebisbol
-
-                                </a>
-
-                            </li> 
-
-                        </ul>
-
-                    </div>{% endcomment %}
-
-                    <div class="col-6 col-md-3 col-lg-2">
-
-                        <h6><a href="#">Enlaces</a></h6>
-
-                        <ul class="list-group list-group-flush">
-
-                            <li class="list-group-item clean">
-
-                                <a href="#">
-
-                                    Aviso de privacidad
-
-                                </a>
-
-                            </li>
-
-                            <li class="list-group-item clean">
-
-                                <a href="#">
-
-                                    Políticas de uso
-
-                                </a>
-
-                            </li>
-                            <li class="list-group-item clean">
-
-                                <a href="#">
-
-                                    Términos y condiciones
-
-                                </a>
-
-                            </li>
-
-                        </ul>
-
-                    </div>
-
-                </div>
-
-                
-
-            </footer>
-
-            <div class="w-100 post-footer">
-
-                <div>
-
-                    <p class="">Copyright © {% now 'Y' %} Todos los derechos reservados para Karla Gálvez</p>
-
-                </div>
-
-                <div class="d-flex">
-
-                    <img src="{{STATIC_URL}}shop/resources/visa.svg" alt="Visa" width="34" class="m-2">
-
-                    <img src="{{STATIC_URL}}shop/resources/mc.svg" alt="Visa" width="34" class="m-2">
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-
-
-
-
-
-    <!-- Modal -->
-
-<div class="modal fade" id="searchProductsForm" tabindex="1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-
-    <div class="modal-dialog modal-dialog-centered modal-xl">
-
-    <div class="modal-content">
-
-        <div class="modal-body">
-            <div class="form-floating">
-
-                <input type="text" class="form-control inputSearch" id="buscarModal" name="search" placeholder="¿Cuál será tu próxima compra?">
-
-                <label for="buscarModal">¿Cuál será tu próxima compra?</label>
-
-            </div>
-        </div>
-
-    </div>
-
-    </div>
-
-</div>
-
-
-
-</body>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
-
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <script type="text/javascript" src="{{STATIC_URL}}shop/js/owl.carousel.js"></script>
+<body class="animsition">
+
+	{% include 'includes/partial_cart.html' %}
+
+	<!-- Header -->
+	<header {% block showheader %}{% endblock showheader %} class="header1">
+		<!-- Header desktop -->
+		<div class="container-menu-header">
+			<div class="topbar">
+				<div class="topbar-social">
+					<a href="#" class="topbar-social-item fa fa-facebook"></a>
+					<a href="#" class="topbar-social-item fa fa-instagram"></a>
+				</div>
+
+				<span class="topbar-child1">
+					¡Envio gratis en compras mayores a $1499 🚚 🤩
+				</span>
+
+				<div class="topbar-child2">
+					<span class="topbar-email">
+						hola@karlagalvez.com.mx
+					</span>
+
+				</div>
+			</div>
+
+			<div class="wrap_header">
+				<!-- Logo -->
+				<a href="{% url 'shop:shop_list' %}" class="logo">
+					<img src="{{STATIC_URL}}assets/images/icons/logoKGNegro.png" alt="IMG-LOGO">
+				</a>
+
+				<!-- Menu -->
+				<div class="wrap_menu">
+					<nav class="menu">
+						<ul class="main_menu">
+							<li>
+								<a href="{% url 'shop:shop_list' %}">Inicio</a>
+							</li>
+
+							<li>
+								<a href="{% url 'shop:products_list' 'agendas'%}">Agendas</a>
+                                <ul class="sub_menu">
+									<li><a href="{% url 'shop:products_list' 'agendas' %}?subcategory=personalizadas">Personalizadas</a></li>
+									<li><a href="{% url 'shop:products_list' 'agendas' %}?subcategory=sinpersonalizar">Sin personalizar</a></li>
+									<li><a href="{% url 'shop:products_list' 'agendas' %}?subcategory=escolar">Escolares</a></li>
+								</ul>
+							</li>
+
+							<!-- <li class="sale-noti"> -->
+                            <li>
+								<a href="{% url 'shop:products_list' 'planners' %}">Planners</a>
+							</li>
+
+							<li>
+								<a href="{% url 'shop:products_list' 'libretas' %}">Libretas</a>
+							</li>
+
+							<li>
+								<a>Más</a>
+								<ul class="sub_menu">
+									<li><a href="{% url 'shop:products_list' 'recetarios' %}">Recetarios</a></li>
+									<li><a href="{% url 'shop:products_list' 'organizadores' %}?subcategory=embarazo">Pregnacy planner</a></li>
+									<li><a href="{% url 'shop:products_list' 'organizadores' %}?subcategory=boda">Wedding planner</a></li>
+								</ul>
+							</li>
+
+						</ul>
+					</nav>
+				</div>
+
+				<!-- Header Icon -->
+				<div class="header-icons">
+					{% if request.user.is_authenticated and request.user.is_customer %}
+					<div class="header-wrapicon2 dis-block flex-c-m size1 js-show-header-dropdown">
+						<img src="{{STATIC_URL}}shop/images/icons/icon-header-01.png" class="header-icon1 " alt="ICON">
+						<span class="m-l-9">{{request.user.get_full_name}}</span>
+						<div class="header-cart header-dropdown">
+							<div class="header-cart-buttons">
+								<div class="header-cart-wrapbtn">
+									<!-- Button -->
+									<a href="{% url 'dashboard:orders' %}" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+										Pedidos
+									</a>
+								</div>
+
+								<div class="header-cart-wrapbtn">
+									<!-- Button -->
+									<a href="{% url 'dashboard:profile' %}" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+										Perfil
+									</a>
+								</div>
+							</div>
+							<div class="header-cart-buttons m-t-10">
+								<div class="header-cart-wrapbtn">
+									<!-- Button -->
+									<a href="{% url 'dashboard:address' %}" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+										Direcciones
+									</a>
+								</div>
+
+								<div class="header-cart-wrapbtn">
+									<!-- Button -->
+									<a href="{% url 'register:logout' %}" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+										Cerrar sesión
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					{% else %}
+					<a href="{% url 'register:login' %}" class="header-wrapicon1 dis-block">
+						<img src="{{STATIC_URL}}shop/images/icons/icon-header-01.png" class="header-icon1" alt="ICON">
+					</a>
+					{% endif %}
+					<span class="linedivide1"></span>	
+					
+					<div class="header-wrapicon2">
+						<img src="{{STATIC_URL}}shop/images/icons/icon-header-02.png" class="header-icon1 js-show-header-dropdown cartBarToggle" alt="ICON">
+						<span class="header-icons-noti">{{cart.get_quantity_products}}</span>
+												
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Header Mobile -->
+		<div class="wrap_header_mobile">
+			<!-- Logo moblie -->
+			<a href="{% url 'shop:shop_list' %}" class="logo-mobile">
+				<img src="{{STATIC_URL}}shop/images/icons/logo.png" alt="IMG-LOGO">
+			</a>
+
+			<!-- Button show menu -->
+			<div class="btn-show-menu">
+				<!-- Header Icon mobile -->
+				<div class="header-icons-mobile">
+					<a href="#" class="header-wrapicon1 dis-block">
+						<img src="{{STATIC_URL}}shop/images/icons/icon-header-01.png" class="header-icon1" alt="ICON">
+					</a>
+
+					<span class="linedivide2"></span>
+
+					<div class="header-wrapicon2">
+						<img src="{{STATIC_URL}}shop/images/icons/icon-header-02.png" class="header-icon1 js-show-header-dropdown" alt="ICON">
+						<span class="header-icons-noti">0</span>
+
+						<!-- Header cart noti -->
+						<div class="header-cart header-dropdown">
+							<ul class="header-cart-wrapitem">
+								<li class="header-cart-item">
+									<div class="header-cart-item-img">
+										<img src="{{STATIC_URL}}shop/images/item-cart-01.jpg" alt="IMG">
+									</div>
+
+									<div class="header-cart-item-txt">
+										<a href="#" class="header-cart-item-name">
+											White Shirt With Pleat Detail Back
+										</a>
+
+										<span class="header-cart-item-info">
+											1 x $19.00
+										</span>
+									</div>
+								</li>
+
+								<li class="header-cart-item">
+									<div class="header-cart-item-img">
+										<img src="{{STATIC_URL}}shop/images/item-cart-02.jpg" alt="IMG">
+									</div>
+
+									<div class="header-cart-item-txt">
+										<a href="#" class="header-cart-item-name">
+											Converse All Star Hi Black Canvas
+										</a>
+
+										<span class="header-cart-item-info">
+											1 x $39.00
+										</span>
+									</div>
+								</li>
+
+								<li class="header-cart-item">
+									<div class="header-cart-item-img">
+										<img src="{{STATIC_URL}}shop/images/item-cart-03.jpg" alt="IMG">
+									</div>
+
+									<div class="header-cart-item-txt">
+										<a href="#" class="header-cart-item-name">
+											Nixon Porter Leather Watch In Tan
+										</a>
+
+										<span class="header-cart-item-info">
+											1 x $17.00
+										</span>
+									</div>
+								</li>
+							</ul>
+
+							<div class="header-cart-total">
+								Total: $75.00
+							</div>
+
+							<div class="header-cart-buttons">
+								<div class="header-cart-wrapbtn">
+									<!-- Button -->
+									<a href="cart.html" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+										View Cart
+									</a>
+								</div>
+
+								<div class="header-cart-wrapbtn">
+									<!-- Button -->
+									<a href="#" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+										Check Out
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="btn-show-menu-mobile hamburger hamburger--squeeze">
+					<span class="hamburger-box">
+						<span class="hamburger-inner"></span>
+					</span>
+				</div>
+			</div>
+		</div>
+
+		<!-- Menu Mobile -->
+		<div class="wrap-side-menu" >
+			<nav class="side-menu">
+				<ul class="main-menu">
+					<li class="item-topbar-mobile p-l-20 p-t-8 p-b-8">
+						<span class="topbar-child1">
+							Free shipping for standard order over $100
+						</span>
+					</li>
+
+					<li class="item-topbar-mobile p-l-20 p-t-8 p-b-8">
+						<div class="topbar-child2-mobile">
+							<span class="topbar-email">
+								fashe@example.com
+							</span>
+
+							<div class="topbar-language rs1-select2">
+								<select class="selection-1" name="time">
+									<option>USD</option>
+									<option>EUR</option>
+								</select>
+							</div>
+						</div>
+					</li>
+
+					<li class="item-topbar-mobile p-l-10">
+						<div class="topbar-social-mobile">
+							<a href="#" class="topbar-social-item fa fa-facebook"></a>
+							<a href="#" class="topbar-social-item fa fa-instagram"></a>
+							<a href="#" class="topbar-social-item fa fa-pinterest-p"></a>
+							<a href="#" class="topbar-social-item fa fa-snapchat-ghost"></a>
+							<a href="#" class="topbar-social-item fa fa-youtube-play"></a>
+						</div>
+					</li>
+
+					<li class="item-menu-mobile">
+						<a href="{% url 'shop:shop_list' %}">Home</a>
+						<ul class="sub-menu">
+							<li><a href="{% url 'shop:shop_list' %}">Homepage V1</a></li>
+							<li><a href="home-02.html">Homepage V2</a></li>
+							<li><a href="home-03.html">Homepage V3</a></li>
+						</ul>
+						<i class="arrow-main-menu fa fa-angle-right" aria-hidden="true"></i>
+					</li>
+
+					<li class="item-menu-mobile">
+						<a href="product.html">Shop</a>
+					</li>
+
+					<li class="item-menu-mobile">
+						<a href="product.html">Sale</a>
+					</li>
+
+					<li class="item-menu-mobile">
+						<a href="cart.html">Features</a>
+					</li>
+
+					<li class="item-menu-mobile">
+						<a href="blog.html">Blog</a>
+					</li>
+
+					<li class="item-menu-mobile">
+						<a href="about.html">About</a>
+					</li>
+
+					<li class="item-menu-mobile">
+						<a href="contact.html">Contact</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</header>
+
+	{% block headercheckout %}{% endblock headercheckout %}
+
+    {% block content %}
+    {% endblock content %}
+	<!-- Footer -->
+	<footer {% block showfooter %}{% endblock showfooter %} class="bg9 p-t-45 p-b-43 p-l-45 p-r-45">
+		<div class="flex-w p-b-90">
+			<div class="w-size6 p-t-30 p-l-15 p-r-15 respon3">
+				<h4 class="s-text12 p-b-30">
+				¿Necesitas ayuda?
+				</h4>
+
+				<div>
+					<p class="s-text7 w-size27">
+						Para cualquier comentario, duda o sugerencia puedes contactanos a través del correo <span style="color: black;">hola@karlagalvez.com.mx</span>
+                         o a través de nuestro Whatsapp al <span style="color: black;">(668) 172 2511.</span> Horario de atención de <span style="color: black;">Lunes</span> a <span style="color: black;">Viernes</span> de 10:00 am a 07:00 pm
+					</p>
+
+					<div class="flex-m p-t-30">
+						<a href="#" class="fs-18 color1 p-r-20 fa fa-facebook"></a>
+						<a href="#" class="fs-18 color1 p-r-20 fa fa-instagram"></a>
+					</div>
+				</div>
+			</div>
+
+			<div class="w-size7 p-t-30 p-l-15 p-r-15 respon4">
+				<h4 class="s-text12 p-b-30">
+					Agendas y más
+				</h4>
+
+				<ul>
+					<li class="p-b-9">
+						<a href="#" class="s-text7">
+							Agendas
+						</a>
+					</li>
+
+					<li class="p-b-9">
+						<a href="#" class="s-text7">
+							Planners
+						</a>
+					</li>
+
+					<li class="p-b-9">
+						<a href="#" class="s-text7">
+							Libretas
+						</a>
+					</li>
+				</ul>
+			</div>
+
+			<div class="w-size7 p-t-30 p-l-15 p-r-15 respon4">
+				<h4 class="s-text12 p-b-30">
+					Información
+				</h4>
+
+				<ul>
+					<li class="p-b-9">
+						<a href="#" class="s-text7">
+							Envios
+						</a>
+					</li>
+
+                    <li class="p-b-9">
+						<a href="#" class="s-text7">
+							Facturación
+						</a>
+					</li>
+
+					<li class="p-b-9">
+						<a href="#" class="s-text7">
+							Términos y Condiciones
+						</a>
+					</li>
+
+					<li class="p-b-9">
+						<a href="#" class="s-text7">
+							Aviso de privacidad
+						</a>
+					</li>
+
+					<li class="p-b-9">
+						<a href="#" class="s-text7">
+							FAQs
+						</a>
+					</li>
+				</ul>
+			</div>
+
+			<div class="w-size8 p-t-30 p-l-15 p-r-15 respon3">
+				<h4 class="s-text12 p-b-30">
+					Promociones
+				</h4>
+
+				<form>
+					<div class="effect1 w-size9">
+						<input class="s-text7 bg6 w-full p-b-5" type="text" name="email" placeholder="email@example.com">
+						<span class="effect1-line"></span>
+					</div>
+
+					<div class="w-size2 p-t-20">
+						<!-- Button -->
+						<button class="flex-c-m size2 bg4 bo-rad-23 hov1 m-text3 trans-0-4">
+							¡Suscribete!
+						</button>
+					</div>
+
+				</form>
+			</div>
+		</div>
+
+		<div class="t-center p-l-15 p-r-15">
+
+			<div class="t-center s-text8 p-t-20">
+				Copyright © {% now 'Y' %} Todos los derechos reservados
+			</div>
+		</div>
+	</footer>
+
+
+
+	<!-- Back to top -->
+	<div class="btn-back-to-top bg0-hov" id="myBtn">
+		<span class="symbol-btn-back-to-top">
+			<i class="fa fa-angle-double-up" aria-hidden="true"></i>
+		</span>
+	</div>
+
+	<!-- Container Selection1 -->
+	<div id="dropDownSelect1"></div>
+
+
+
+<!--===============================================================================================-->
+	<script type="text/javascript" src="{{STATIC_URL}}shop/vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<script type="text/javascript" src="{{STATIC_URL}}shop/vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+	<script type="text/javascript" src="{{STATIC_URL}}shop/vendor/bootstrap/js/popper.js"></script>
+	<script type="text/javascript" src="{{STATIC_URL}}shop/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script type="text/javascript" src="{{STATIC_URL}}shop/vendor/select2/select2.min.js"></script>
+	<script type="text/javascript">
+		$(".selection-1").select2({
+			minimumResultsForSearch: 20,
+			dropdownParent: $('#dropDownSelect1')
+		});
+	</script>
+<!--===============================================================================================-->
+	<script type="text/javascript" src="{{STATIC_URL}}shop/vendor/slick/slick.min.js"></script>
+	<script type="text/javascript" src="{{STATIC_URL}}shop/js/slick-custom.js"></script>
+<!--===============================================================================================-->
+	<script type="text/javascript" src="{{STATIC_URL}}shop/vendor/countdowntime/countdowntime.js"></script>
+<!--===============================================================================================-->
+	<script type="text/javascript" src="{{STATIC_URL}}shop/vendor/lightbox2/js/lightbox.min.js"></script>
+<!--===============================================================================================-->
+	<script type="text/javascript" src="{{STATIC_URL}}shop/vendor/sweetalert/sweetalert.min.js"></script>
+	<script type="text/javascript">
+		// $('.block2-btn-addcart').each(function(){
+		// 	var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
+		// 	$(this).on('click', function(){
+		// 		swal(nameProduct, "is added to cart !", "success");
+		// 	});
+		// });
+
+		// $('.block2-btn-addwishlist').each(function(){
+		// 	var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
+		// 	$(this).on('click', function(){
+		// 		swal(nameProduct, "is added to wishlist !", "success");
+		// 	});
+		// });
+	</script>
+
+<!--===============================================================================================-->
+	<script src="{{STATIC_URL}}shop/js/main.js"></script>
     
-    <script src="{{STATIC_URL}}js/shop.js"></script>
-
-    <!-- Floating Whatsapp js -->
+	<script src="{{STATIC_URL}}js/shop.js"></script>
+<!-- Floating Whatsapp js -->
     <!-- <script type="text/javascript" src="{{STATIC_URL}}site/js/floating-wpp.js"></script> -->
     <!-- Toastr -->
     <script src="{{STATIC_URL}}assets/js/plugins/toastr/toastr.min.js"></script>
-    <script type="text/javascript" src="{{STATIC_URL}}shop/js/template/main.js"></script>
 
     {% block customjs %}
     {% endblock customjs %}
+
     {% if info.whatsapp %}
     <script type="text/javascript">
         $(function () {
@@ -942,7 +578,10 @@
 
 	<script type="text/javascript">
     $(document).ready(function(){
-
+		$('.cartBarToggle').on('click', function(event) {
+			event.preventDefault();
+			$('.cart-bar').toggleClass('toggled');
+		})
 		{% include 'core/snippets/messages.html' %}
 
 		{% block docready %}
@@ -952,4 +591,6 @@
     })
 	</script>
 
+</body>
 </html>
+

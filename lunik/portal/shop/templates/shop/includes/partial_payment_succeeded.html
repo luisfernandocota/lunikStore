@@ -1,9 +1,10 @@
 
+
 <div class="container">
     <div class="row">
       <div class="col-md-4 p-b-30">
         <div class="hov-img-zoom">
-          <img src="{{STATIC_URL}}assets/images/icons/LogoRosa.png" class="logo-brand-store md" alt="">
+          <img src="{{STATIC_URL}}assets/images/icons/logoKGNegro.png" class="logo-brand-store md" alt="">
         </div>
       </div>
 
@@ -13,19 +14,16 @@
         </h3>
 
         <p class="p-b-28">
-          La hemos enviado un email con el detalle de su compra al correo: <span
-        style="color:#da9fa6">{{email}}</span>
+          La hemos enviado un correo: <span
+        style="color:#da9fa6">{{email}}</span> con el detalle de su compra
         </p>
 
         <div class="bo13 p-l-29 m-l-9 p-b-10">
           <h4>Folio de compra: <strong>{{folio}}</strong></h4>
           <p class="p-b-11">
-            Te estaremos avisando tu compra cuando haya sido enviada.
+            Te estaremos avisando tu pedido este siendo realizado, nos vemos pronto 🤩
           </p>
 
-          <span class="s-text7 aqui">
-            <span class="p-b-11">Si no ha te ha llegado ningún correo con el detalle de la compra, haz click </span><a class="js-send-shop"  style="color:#da9fa6">AQUÍ</a>
-          </span>
           <br><br>
           <a class="size2 m-text2 trans-0-4"
           href="{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'shop_cart:shop_list' %}" data-dismiss="

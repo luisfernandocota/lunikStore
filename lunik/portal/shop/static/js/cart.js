@@ -1,23 +1,24 @@
 
-function radioCheck(){
+function radioCheck(method){
     if(document.getElementById("default").checked){
         document.getElementById("p-default").style = "font-size:20px;";
         document.getElementById("p-local").style = "font-size:14px;";
         document.getElementById("p-nacional").style = "font-size:14px;";
-        shippingMethod(document.getElementById("default").value)
+
     } else if(document.getElementById("local").checked){
         document.getElementById("p-default").style = "font-size:14px;";
         document.getElementById("p-local").style = "font-size:20px;";
         document.getElementById("p-nacional").style = "font-size:14px;";
-        shippingMethod(document.getElementById("local").value)
+
 
     } else if(document.getElementById("nacional").checked){
         document.getElementById("p-default").style = "font-size:14px;";
         document.getElementById("p-local").style = "font-size:14px;";
         document.getElementById("p-nacional").style = "font-size:20px;";
-        shippingMethod(document.getElementById("nacional").value)
 
     } 
+    shippingMethod(method)
+
 }
 function simpleLoad(box, state) {
     if (state) {
@@ -44,6 +45,7 @@ function shippingMethod(method){
             $(".dynamic-step").html(data.html_dynamic);
             $(".dynamic-footer").html(data.html_footer);
             $(".dynamic-detail").html(data.html_dynamic_detail);
+            $(".dynamic-breadcrumb").html(data.html_dynamic_breadcrumb);
 
             $('#'+data.method).prop("checked", true);
             $('#p'+data.method).css("font-size", "20px");

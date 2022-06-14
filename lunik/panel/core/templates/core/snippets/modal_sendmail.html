@@ -1,15 +1,22 @@
-<form id="form_sendmail" method="post" action="{{url_post}}" class="js-sendmail-form">
+<form id="form_sendmail" method="post" action="{{url_post}}" class="confirm-form js-sendmail-form">
   {% csrf_token %}
-  <div class="modal-header">
-    <h6 class="modal-title">Confirmar</h6>
-    <button type="button" class="close" data-dismiss="modal">&times;</button>
+  <div class="modal-header bg-warning">
+    <h5 class="modal-title white" id="myModalLabel120">Reenviar</h5>
+    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+      <i data-feather="x"></i>
+    </button>
   </div>
   <div class="modal-body">
-    <h5>¿ Está seguro que desea enviar el correo de activación ?</h5>
-    <hr>
+    <h5>¿ Desea reenviar el correo de confirmación de compra al cliente ?</h5>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-link" data-dismiss="modal"><i class="icon-cross2 font-size-base mr-1"></i> Cancelar</button>
-    <button class="btn bg-primary" type="submit">Enviar <i class="icon-paperplane ml-2"></i></button>
+    <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+      <i class="bx bx-x d-block d-sm-none"></i>
+      <span class="d-none d-sm-block">Cerrar</span>
+    </button>
+    <button type="submit" class="btn btn-warning ml-1">
+      <i class="bx bx-check d-block d-sm-none"></i>
+      <span class="d-none d-sm-block">Aceptar</span>
+    </button>
   </div>
 </form>

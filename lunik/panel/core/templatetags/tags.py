@@ -116,21 +116,31 @@ register.filter('get_price_after_discount', get_price_after_discount)
 
 def get_total_cart(key,items):
     total = 0
-    # print(key, items)
-    # if items['coupon'] and items['coupon'] is not None and not items['coupon'].apply_all:
-    #     discount = items['coupon'].discount
-    #     price = items['totals'][key]
-    #     if items['coupon'].discount_types == 'P':
-    #         subtotal = (100 - Decimal(discount))/100 * Decimal(price)
-    #         total = subtotal - total
-    #     elif items['coupon'].discount_types == 'A':
-    #         dis = price - discount
-    #         if dis < 0:
-    #             total = 0
-    #         else:
-    #             total = dis
-    #     return total.__round__(2)
-    # else:
-    return items['totals'][key]
+
+    if items.get('coupon') and items.get('coupon') is not None and not items.get('coupon').apply_all:
+        discount = items['coupon'].discount
+        price = items['totals'][key]
+        if items['coupon'].discount_types == 'P':
+            subtotal = (100 - Decimal(discount))/100 * Decimal(price)
+            total = subtotal - total
+        elif items['coupon'].discount_types == 'A':
+            dis = price - discount
+            if dis < 0:
+                total = 0
+            else:
+                total = dis
+
+        return total.__round__(2)
+    else:
+
+        return items['totals'][key]
 
 register.filter('get_total_cart', get_total_cart)
+
+def is_gift(key, item):
+    if item['add_gift']:
+        return True
+    else:
+        return False
+
+register.filter('is_gift', is_gift)
