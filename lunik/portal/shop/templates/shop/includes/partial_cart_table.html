@@ -27,7 +27,7 @@
             </td>
             <td class="column-2 t-center">
                 {{item.product}}<br>
-                {% if item.product.subcategory == 'C' %}
+                {% if item.product.subcategory == 'C' or item.product.subcategory == 'S' %}
                     Nombre personalizado: "{{key|get_custom_name:item}}"
                 {% endif %}
             </td>
@@ -35,7 +35,9 @@
                 <small>{% if key|is_gift:item %} Envoltura regalo + $20.00 {% endif %}</small>
             </td>
             <td class="column-5 t-center">
-                {% if item.product.subcategory != 'C' %}
+                {% if item.product.subcategory == 'C' or item.product.subcategory == 'S' %}
+                <h4>{{key|get_quantity_cart:item}}</h4>
+                {% else %}
                 <div class="flex-w bo5 of-hidden w-size17">
                     <button class="btn-num-product-down color1 flex-c-m size7 bg8 eff2">
                         <i class="fs-12 fa fa-minus" aria-hidden="true"></i>
@@ -48,8 +50,6 @@
                     </button>
 
                 </div>
-                {% else %}
-                <h4>{{key|get_quantity_cart:item}}</h4>
                 {% endif %}
                 <!-- <button class="btn-num-product-up color1 flex-c-m size7 bg8 eff2" type="button" {% if key|get_custom_price_cart:item > 0 %}readonly=True{% else %}{% endif %}
                     data-url="{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'shop_cart:cart_update' %}"

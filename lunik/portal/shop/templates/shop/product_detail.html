@@ -101,7 +101,7 @@
 
                             </div>
                         </div>
-                        {% if product.subcategory == 'C' %}
+                        {% if product.subcategory == 'C' or product.subcategory == 'S' %}
 
                         <div class="flex-m flex-w">
                             <div class="s-text15 w-size15 t-center">
@@ -120,7 +120,10 @@
                             <small style="padding-top: 10px;">
 
                                 <strong style="font-weight: bolder;">Importante</strong>, escribe tu nombre exactamente como quieres que esté escrito en tu agenda. No olvides mayúsculas, minúsculas y acentos. No se realizarán cambios ni devoluciones a menos que la agenda tenga un error de fábrica.
-            
+								{% if product.subcategory == 'S' %}
+                                <p></p>
+								<strong style="font-weight: bolder;">Favor de especificar si es 'Maestra' o 'Directivo', Ej. Maestra Karla o Directora Karla</strong>
+								{% endif %}
                                 <br>
             
                             </small>
@@ -164,9 +167,9 @@
                                         <i class="fs-12 fa fa-plus" aria-hidden="true"></i>
                                     </button>
                                 </div>
-                                {% else %}
-                                {{form_product.quantity}}
-                                {% endif %}
+                            {% else %}
+                                Se agregara {{form_product.quantity}} al carrito
+                            {% endif %}
 
                                 <div class="btn-addcart-product-detail size12 trans-0-4 m-t-10 m-b-10">
                                     <!-- Button -->
@@ -187,7 +190,7 @@
 				<!--  -->
 				<div class="wrap-dropdown-content bo6 p-t-15 p-b-14 active-dropdown-content">
 					<h5 class="js-toggle-dropdown-content flex-sb-m cs-pointer m-text19 color0-hov trans-0-4">
-						Description
+						Descripción
 						<i class="down-mark fs-12 color1 fa fa-minus dis-none" aria-hidden="true"></i>
 						<i class="up-mark fs-12 color1 fa fa-plus" aria-hidden="true"></i>
 					</h5>
@@ -202,7 +205,7 @@
 
 				<div class="wrap-dropdown-content bo7 p-t-15 p-b-14">
 					<h5 class="js-toggle-dropdown-content flex-sb-m cs-pointer m-text19 color0-hov trans-0-4">
-						Additional information
+						Especificaciones
 						<i class="down-mark fs-12 color1 fa fa-minus dis-none" aria-hidden="true"></i>
 						<i class="up-mark fs-12 color1 fa fa-plus" aria-hidden="true"></i>
 					</h5>

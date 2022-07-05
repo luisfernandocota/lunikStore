@@ -4,7 +4,7 @@
 
   {% block title %}Karla Gálvez{% endblock title %}
 
-  {% block subtitle %} Compra: {{folio}} {% endblock subtitle %}
+  {% block subtitle %} Gracias por su compra {% endblock subtitle %}
 
   {% block showheader %}style="display:none;"{% endblock showheader %}
   {% block showfooter %}style="display:none;"{% endblock showfooter %}
@@ -20,7 +20,7 @@
               </div>
   
               <span class="topbar-child1">
-                  ¡ Gracias por tu compra ! 🥰
+                  ¡ Gracias por su compra ! 🥰
               </span>
   
               <div class="topbar-child2">
@@ -55,7 +55,6 @@
 {% block docready %}
 $(".aqui").on("click", ".js-send-shop", function () {
   var btn = $(this);
-  console.log(btn)
   $.ajax({
     url: btn.attr('data-url'),
     type: 'get',
