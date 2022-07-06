@@ -53,7 +53,8 @@ class OrderDelivery(TimeStampedModel):
 
         if request.is_ajax() and request.method == 'POST':
 
-            stripe.api_key = config('STRIPE_TEST_SECRET_KEY')
+            stripe.api_key = config('STRIPE_LIVE_SECRET_KEY',default='STRIPE_TEST_SECRET_KEY')
+
             paymentIntent = stripe.PaymentIntent.retrieve(instance.order_payment.payment_intent)
 
             context['order'] = instance

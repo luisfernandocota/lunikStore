@@ -164,6 +164,7 @@ def products_menu(request):
 
 def pk_stripe(request):
     context = {}
-    context['pk_stripe'] = config('STRIPE_TEST_PUBLIC_KEY',default='')
+    context['pk_stripe'] = config('STRIPE_LIVE_PUBLIC_KEY',default='STRIPE_TEST_PUBLIC_KEY')
+
 
     return context

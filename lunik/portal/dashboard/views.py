@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 import json
 import os
+
+from decouple import config
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
@@ -19,7 +22,7 @@ from portal.shop.forms import OrderCanceledForm
 from portal.dashboard.models import Address
 from portal.dashboard.forms import AddressForm
 
-stripe.api_key = 'sk_test_51H5LaSIKF8Hi9Jx6yW3RzsyKlJDSLAcxolhL6C7g4G1PqjXUTdRfuhmnPap94WJn0q908PqVauxGBh3EHWykv90t00UkIeOM2P'
+stripe.api_key = config('STRIPE_LIVE_SECRET_KEY',default='STRIPE_TEST_SECRET_KEY')
 
 # Create your views here.
 def profile(request):

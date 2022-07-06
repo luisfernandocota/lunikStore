@@ -32,7 +32,7 @@ from portal.dashboard.models import Address
 
 # Create your views here.
 
-stripe.api_key = config('STRIPE_TEST_SECRET_KEY',default='')
+stripe.api_key = config('STRIPE_LIVE_SECRET_KEY',default='STRIPE_TEST_SECRET_KEY')
 
 # Util view
 def filters_by_request(request):
