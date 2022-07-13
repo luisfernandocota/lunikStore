@@ -329,6 +329,35 @@ def cart_remove(request):
 		data['html_cart_charge'] = render_to_string('shop/includes/partial_cart_charge.html',context)
 		data['html_cart_table'] = render_to_string('shop/includes/partial_cart_table.html',context,request)
 		return JsonResponse(data)
+def cart_remove_gift(request):
+	data = {}
+	context = {}
+	if request.is_ajax() and request.method == 'GET':
+		product = get_object_or_404(Product, pk=request.GET.get('product'))
+		size = request.GET.get('size')
+
+		context['cart'] = Cart(request)
+		context['cart'].remove_gift(product, size)
+		data['form_is_valid'] = True
+		data['message'] = 'Se removio envoltura de regalo de %s' %(product.name)
+
+		data['html_cart_table'] = render_to_string('shop/includes/partial_cart_table.html',context,request)
+	return JsonResponse(data)
+
+def cart_add_gift(request):
+	data = {}
+	context = {}
+	if request.is_ajax() and request.method == 'GET':
+		product = get_object_or_404(Product, pk=request.GET.get('product'))
+		size = request.GET.get('size')
+
+		context['cart'] = Cart(request)
+		context['cart'].add_gift(product, size)
+		data['form_is_valid'] = True
+		data['message'] = 'Se agrega envoltura de regalo para %s' %(product.name)
+
+		data['html_cart_table'] = render_to_string('shop/includes/partial_cart_table.html',context,request)
+	return JsonResponse(data)
 
 def cart_address(request):
 	data = {}
