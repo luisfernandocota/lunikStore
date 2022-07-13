@@ -166,27 +166,24 @@ $(document).ready(function(){
         return false;
     });
 
-    /* REMOVE PRODUCT FROM CART */
-    $(".cart-bar").on("click",".remove-cart-item",function(e){
-        e.preventDefault();
-        var button = $(this);
-        $.ajax({
-            url: button.data('url'),
-            data: {'product':button.data('product'),'size':button.data('size'),'checkout':button.data('checkout')},
-            type: 'get',
-            dataType: 'json',
-            success: function (data) {
-              if (data.form_is_valid) {
-                if (data.checkout){
-                    $(".cart-bar").html(data.html_cart);
-                    toastr.warning("Producto removido del carrito");
+    /* ADD/REMOVE GIFT PRODUCT FROM CART */
+    $(".container-table-cart").on("click",".gift-item",function(e){
+      e.preventDefault();
+      var button = $(this);
+      $.ajax({
+          url: button.data('url'),
+          data: {'product':button.data('product'), 'size':button.data('size')},
+          type: 'get',
+          dataType: 'json',
+          success: function (data) {
+            if (data.form_is_valid) {
+              $(".container-table-cart").html(data.html_cart_table);
+              toastr.success(data.message);
 
-                }
-                window.location = window.location;
             }
-            }
-        });
-        return false;
+          }
+      });
+      return false;
     });
     /* REMOVE PRODUCT FROM CART DETAIL */
     $(".cart-table").on("click",".remove-cart-item",function(e){

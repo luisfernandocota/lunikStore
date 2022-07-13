@@ -32,6 +32,10 @@
 										$ {{item.product.products_properties.sell_price}}
 										{% endif %}
                                         </p>
+                                        <small>Tipo: {{key}}</small><br>
+                                        {% if item.product.subcategory == 'C' or item.product.subcategory == 'S' %}
+                                           <small> Nombre personalizado: "{{key|get_custom_name:item}}" </small>
+                                        {% endif %}
                                         <small>{% if key|is_gift:item %} Envoltura regalo + $20.00{% endif %}</small>
                                     </div>
                                     <div>

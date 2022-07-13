@@ -86,7 +86,11 @@ def get_custom_price_cart(key,items):
 register.filter('get_custom_price_cart', get_custom_price_cart)
 
 def get_custom_name(key,items):
-    return items['variants'][key]['name_personalization']
+    names = []
+    for key in items['variants'][key]['name_personalization'].keys():
+        names.append(key)
+    return ', '.join(names)
+    #return items['variants'][key]['name_personalization']
 
 register.filter('get_custom_name', get_custom_name)
 

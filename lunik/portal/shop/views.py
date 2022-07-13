@@ -76,7 +76,7 @@ def shop_list(request):
 	context['slides_list'] = Slide.objects.filter(status=True).order_by('-created')
 	context['products_list'] = Product.objects.prefetch_related('products_properties').filter(available=True, status=True, products_properties__sell_price__gte=1).order_by('-created')[:8]
 	
-	context['schedule'] = Product.objects.prefetch_related('products_gallery').filter(available=True, status=True, products_properties__sell_price__gte=1).filter(category='S').order_by('created')[:1]
+	context['schedule'] = Product.objects.prefetch_related('products_gallery').filter(available=True, status=True, products_properties__sell_price__gte=1).filter(category='S').order_by('-created')[:1]
 	context['notebook'] = Product.objects.prefetch_related('products_gallery').filter(available=True, status=True, products_properties__sell_price__gte=1).filter(category='N').order_by('-created')[:1]
 	context['planners'] = Product.objects.prefetch_related('products_gallery').filter(available=True, status=True, products_properties__sell_price__gte=1).filter(category='P').order_by('-created')[:1]
 	context['recipe'] = Product.objects.prefetch_related('products_gallery').filter(available=True, status=True, products_properties__sell_price__gte=1).filter(category='R').order_by('-created')[:1]
@@ -326,9 +326,10 @@ def cart_remove(request):
 		if request.GET.get('checkout') == '1':
 			data['checkout'] = True
 
-		data['html_cart_charge'] = render_to_string('shop/includes/partial_cart_charge.html',context)
 		data['html_cart_table'] = render_to_string('shop/includes/partial_cart_table.html',context,request)
-		return JsonResponse(data)
+		
+	return JsonResponse(data)
+
 
 def cart_address(request):
 	data = {}
@@ -363,6 +364,9 @@ def cart_address(request):
 
 def cart_detail(request):
 	context = {}
+
+	context['related_products'] = Product.objects.prefetch_related('products_gallery', 'products_properties').filter(available=True, status=True, products_properties__sell_price__gte=1)\
+		.order_by('-created')[:8]
 
 	return render(request,'shop/shop_cart.html',context)
 	

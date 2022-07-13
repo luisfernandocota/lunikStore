@@ -26,9 +26,11 @@
                 </div>
             </td>
             <td class="column-2 t-center">
-                {{item.product}}<br>
+                <a href="{% url 'shop:product_detail' item.product.slug %}">{{item.product}}</a>
+                <br>
+                <small>Tipo: {{key}}</small><br>
                 {% if item.product.subcategory == 'C' or item.product.subcategory == 'S' %}
-                    Nombre personalizado: "{{key|get_custom_name:item}}"
+                    <small> Nombre personalizado: "{{key|get_custom_name:item}}" </small>
                 {% endif %}
             </td>
             <td class="column-2 t-center">${{key|get_charge_price_cart:item|intcomma}} <br>

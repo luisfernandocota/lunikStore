@@ -42,11 +42,7 @@ SESSION_COOKIE_NAME = config('COOKIE_NAME',default='cookiesession')
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 SITE_ID = 1
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
 #DEBUG = config('DEBUG',default=True,cast=bool)
-ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 DJANGO_APPS = [

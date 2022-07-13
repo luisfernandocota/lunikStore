@@ -1,7 +1,6 @@
 #-*- coding: utf-8 -*-
 
 from decimal import Decimal
-from this import d
 from django.conf import settings
 import datetime
 
@@ -27,46 +26,62 @@ class Cart(object):
 	def add(self,product,size,quantity,custom=None, gift=None):
 		product_pk = str(product.pk)
 		product_size = str(size)
-		product_quantity = int(quantity)
 		if product_pk not in self.cart['shop']:
 			#self.cart['shop'][product_pk] = {'variants':{product_size:0},'price':str(design.product.price)}
 			if product.products_properties.is_sale:
 				self.cart['shop'][product_pk] = {'variants':{product_size:{}},'price':str(product.products_properties.sale_price)}
 			else:
 				self.cart['shop'][product_pk] = {'variants':{product_size:{}},'price':str(product.products_properties.sell_price)}
+			if custom:
+				self.cart['shop'][product_pk]['variants'][product_size]= {'name_personalization':{custom:{}}}
+				self.cart['shop'][product_pk]['variants'][product_size]['name_personalization'][custom] = custom
+			self.cart['shop'][product_pk]['variants'][product_size]['quantity'] = int(quantity)
+			if product.products_properties.shipping_min is not None:
+				self.cart['shop'][product_pk]['variants'][product_size]['shipping_limit'] = int(product.products_properties.shipping_min)
+			else:
+				self.cart['shop'][product_pk]['variants'][product_size]['shipping_limit'] = 0
+			if product.products_properties.shipping_price is not None:
+				self.cart['shop'][product_pk]['variants'][product_size]['shipping'] = Decimal(product.products_properties.shipping_price)
+			else:
+				self.cart['shop'][product_pk]['variants'][product_size]['shipping'] = 0
+			if gift:
+				self.cart['shop'][product_pk]['variants'][product_size]['gift'] = gift
 		else:
 			if product_size not in self.cart['shop'][product_pk]['variants']:
-
 				#self.cart['shop'][product_pk]['variants'].update({product_size:0})
-				self.cart['shop'][product_pk]['variants'].update({product_size:{}})
+				self.cart['shop'][product_pk]['variants'].update(
+						{product_size:{
+							'name_personalization':{custom:{custom}} if custom else None, 
+							'quantity':int(quantity),
+							'shipping_limit': int(product.products_properties.shipping_min),
+							'shipping': Decimal(product.products_properties.shipping_price),
 
+							}
+						}
+					)
+			else:
+				if custom:
+					if self.cart['shop'][product_pk]['variants'][product_size].get('name_personalization') != custom :
+						self.cart['shop'][product_pk]['variants'][product_size]['name_personalization'][custom] = {custom}
+						self.cart['shop'][product_pk]['variants'][product_size]['quantity'] += 1
+				else:
+					self.cart['shop'][product_pk]['variants'][product_size]['quantity'] += int(quantity)
+					# seq = int(self.cart['seq'].get('num','1'))
+
+					# self.cart['shop'][product_pk]['variants'].update(
+					# 	{'%s-%s'%(product_size,str(seq)):{
+					# 		'name_personalization':custom, 
+					# 		'quantity':int(quantity),
+					# 		'shipping_limit': int(product.products_properties.shipping_min),
+					# 		'shipping': Decimal(product.products_properties.shipping_price),
+
+					# 		}
+					# 	}
+					# )
+					# seq += 1
+					# self.cart['seq']['num'] = str(seq)
 		#self.cart['shop'][product_pk]['variants'][product_size] = int(product_quantity)
-		self.cart['shop'][product_pk]['variants'][product_size]['quantity'] = int(product_quantity)
-		if custom:
-			self.cart['shop'][product_pk]['variants'][product_size]['name_personalization'] = custom
-		if product.products_properties.shipping_min is not None:
-			self.cart['shop'][product_pk]['variants'][product_size]['shipping_limit'] = int(product.products_properties.shipping_min)
-		else:
-			self.cart['shop'][product_pk]['variants'][product_size]['shipping_limit'] = 0
-		if product.products_properties.shipping_price is not None:
-			self.cart['shop'][product_pk]['variants'][product_size]['shipping'] = Decimal(product.products_properties.shipping_price)
-		else:
-			self.cart['shop'][product_pk]['variants'][product_size]['shipping'] = 0
-		if gift:
-			self.cart['shop'][product_pk]['variants'][product_size]['gift'] = gift
-		# if self.is_coupon_apply():
-		# 	for p in self.cart['coupon'].products_coupons.all():
-		# 		cp.append(str(p.product.pk))
-		# 	for key in self.cart['shop'].keys():
-		# 		keys.append(key)
-		# 	check_all = all(item in cp for item in keys)
-		# 	check_any =  any(item in cp for item in keys)
-		# 	if check_all:
-		# 		if self.cart.get('check_any', False):
-		# 			del self.cart['check_any']
-		# 	elif check_any:
-		# 		if self.cart.get('check_all', False):
-		# 			del self.cart['check_all']
+		
 		self.save()
 
 	#-- Save cart session
@@ -169,9 +184,9 @@ class Cart(object):
 					else:
 
 						if item['variants'][key]['shipping'] > total:
-							total = Decimal(item['variants'][key]['shipping'])
+							total = item['variants'][key]['shipping']
 						else:
-							total = Decimal(item['variants'][key]['shipping'])
+							total = item['variants'][key]['shipping']
 							# self.cart['shipping']['total'] = Decimal(item['variants'][key]['shipping'])
 			# if self.cart.get('shipping'):
 			# 	if self.cart['shipping'].get('total'):
