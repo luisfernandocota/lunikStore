@@ -178,6 +178,7 @@ $(document).ready(function(){
           success: function (data) {
             if (data.form_is_valid) {
               $(".container-table-cart").html(data.html_cart_table);
+              $(".container-table-coupon").html(data.html_cart_coupon);
               toastr.success(data.message);
 
             }

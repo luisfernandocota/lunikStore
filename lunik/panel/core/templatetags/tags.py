@@ -75,6 +75,11 @@ def get_quantity_cart(key,items):
 
 register.filter('get_quantity_cart', get_quantity_cart)
 
+def get_charge_size(key,items):
+    if items['variants'][key].get('charge_size'):
+        return format_html('+${}',items['variants'][key]['charge_size'])
+register.filter('get_charge_size', get_charge_size)
+
 def get_charge_price_cart(key,items):
     return items['price_charge'][key]
 
@@ -84,6 +89,10 @@ def get_custom_price_cart(key,items):
     return items['price_custom'][key]
 
 register.filter('get_custom_price_cart', get_custom_price_cart)
+
+def get_charge_gift(key,items):
+    return format_html('${}', items['variants'][key]['gift'])
+register.filter('get_charge_gift', get_charge_gift)
 
 def get_custom_name(key,items):
     from collections import Counter
@@ -143,7 +152,7 @@ def get_total_cart(key,items):
 register.filter('get_total_cart', get_total_cart)
 
 def is_gift(key, item):
-    if item['add_gift']:
+    if item['variants'][key].get('gift'):
         return True
     else:
         return False

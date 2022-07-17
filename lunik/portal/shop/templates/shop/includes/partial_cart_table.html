@@ -28,14 +28,15 @@
             <td class="column-2 t-center">
                 <a href="{% url 'shop:product_detail' item.product.slug %}">{{item.product}}</a>
                 <br>
-                <small>Tipo: {{key}}</small><br>
+                <small>Tipo: {{key}}({{key|get_charge_size:item}})</small><br>
+                
                 {% if item.product.subcategory == 'C' or item.product.subcategory == 'S' %}
                     <small> Nombre personalizado: "{{key|get_custom_name:item}}" </small>
                 {% endif %}
             </td>
             <td class="column-2 t-center">${{key|get_charge_price_cart:item|intcomma}} <br>
                 {% if key|is_gift:item %}
-                <small> Envoltura regalo + $20.00 </small> 
+                <small> Envoltura regalo + {{key|get_charge_gift:item|intcomma}} </small> 
                 <button class="gift-item" 
                     data-url="{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'shop:cart_remove_gift' %}" 
                     data-product="{{item.product.pk}}" data-size="{{key|get_sizes_cart:item}}" style="cursor: pointer;">
