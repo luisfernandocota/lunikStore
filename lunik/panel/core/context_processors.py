@@ -6,6 +6,7 @@ from django.apps import apps
 from django.core import serializers
 from django.core.exceptions import ObjectDoesNotExist
 from decouple import config
+from django.conf import settings
 from django.shortcuts import get_object_or_404
 from panel.config.models import PanelAdmin
 from panel.config.models import ModuleItem
@@ -164,7 +165,6 @@ def products_menu(request):
 
 def pk_stripe(request):
     context = {}
-    context['pk_stripe'] = config('STRIPE_LIVE_PUBLIC_KEY',default='STRIPE_TEST_PUBLIC_KEY')
-
+    context['pk_stripe'] = settings.STRIPE_PUBLIC_KEY
 
     return context

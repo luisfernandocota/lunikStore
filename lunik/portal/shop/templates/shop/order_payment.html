@@ -9,6 +9,10 @@
   {% block showheader %}style="display:none;"{% endblock showheader %}
   {% block showfooter %}style="display:none;"{% endblock showfooter %}
 
+  {% block customcss %}
+  <link rel="stylesheet" href="{{STATIC_URL}}css/checkout.css" />
+  {% endblock customcss %}
+
   {% block headercheckout %}
   <header class="header1">
       <!-- Header desktop -->
@@ -35,15 +39,18 @@
   {% endblock headercheckout %}
 
 {% block content %}
-<section class="bg-title-page p-t-30 p-b-50 flex-col-c-m" style="text-align: center;">
+<section class="bg-title-page p-b-50 flex-col-c-m well" style="text-align: center;">
+  
   <h1 style="color: #da9fa6 !important">
     ¡ Muchas gracias por su compra !
+    <input type="hidden" value="{{pk_stripe}}" id="stripe_public_key">
   </h1>
+
+  <div class="section-payment bgwhite p-b-10 p-t-30 well" id="section-payment">
+    {% csrf_token %}
+  </div>
 </section>
-<!-- content page -->
-<section id="section-payment" class="bgwhite p-b-38 " style="margin: 30px 0 100px 0;">
-  {% csrf_token %}
-</section>
+
 {% endblock content %}
 {% block customjs %}
 <!-- Toastr -->
