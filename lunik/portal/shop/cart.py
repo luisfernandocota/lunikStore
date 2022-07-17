@@ -134,6 +134,23 @@ class Cart(object):
 					pass
 			self.save()
 		return self.get_quantity_products()
+	def remove_gift(self, product,size):
+		product_pk = str(product.pk)
+		del self.cart['shop'][product_pk]['add_gift'][size]['gift_price']
+		del self.cart['shop'][product_pk]['variants'][size]['gift']
+
+		self.save()
+
+	def add_gift(self, product, size):
+		product_pk = str(product.pk)
+		if not self.cart['shop'][product_pk]['add_gift'][size].get('gift_price', 0):
+			self.cart['shop'][product_pk]['add_gift'][size]['gift_price'] = 20
+		if not self.cart['shop'][product_pk]['variants'][size].get('gift'):
+			self.cart['shop'][product_pk]['variants'][size]['gift'] = 'on'
+
+		self.save()
+		#self.save()
+
 
 	#-- Iter products in cart session
 	def __iter__(self):
@@ -163,7 +180,7 @@ class Cart(object):
 			
 			for key in variants_keys:
 				if item['variants'][key].get('gift'):
-					item['add_gift']['gift_price'] = 20
+					print(item['add_gift'])
 				item['variants'][key] = item['variants'][key]
 				item['sizes'][key] = key
 				item['price_custom'][key] = item['variants'][key].get('charge_custom',0.00)

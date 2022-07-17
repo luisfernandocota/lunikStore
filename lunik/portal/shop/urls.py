@@ -30,6 +30,10 @@ urlpatterns = [
     # path('cart/shipping/', views.cart_shipping, name='cart_shipping'),
     #-- Remove product to cart
     path('cart/remove/', views.cart_remove, name='cart_remove'),
+    #-- Remove gift to product
+    path('cart/remove/gift', views.cart_remove_gift, name='cart_remove_gift'),
+    #-- Add gift to product
+    path('cart/add/gift', views.cart_add_gift, name='cart_add_gift'),
     #-- Apply coupon
     path('cart/apply_coupon/', views.apply_coupon, name='apply_coupon'),
     #-- Remove coupon to cart
