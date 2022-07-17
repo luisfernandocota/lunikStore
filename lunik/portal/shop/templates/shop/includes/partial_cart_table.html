@@ -34,7 +34,14 @@
                 {% endif %}
             </td>
             <td class="column-2 t-center">${{key|get_charge_price_cart:item|intcomma}} <br>
-                <small>{% if key|is_gift:item %} Envoltura regalo + $20.00 {% endif %}</small>
+                {% if key|is_gift:item %}
+                <small> Envoltura regalo + $20.00 </small> 
+                <button class="gift-item" 
+                    data-url="{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'shop:cart_remove_gift' %}" 
+                    data-product="{{item.product.pk}}" data-size="{{key|get_sizes_cart:item}}" style="cursor: pointer;">
+                    <i class="fa fa-times"></i>
+            </button>
+                {% endif %}
             </td>
             <td class="column-5 t-center">
                 {% if item.product.subcategory == 'C' or item.product.subcategory == 'S' %}
@@ -95,6 +102,14 @@
                                         data-checkout="1" style="text-align: center;">
                                     <i class="fa fa-trash" style="font-size: 18px;"></i>
                                 </button>
+                {% if not key|is_gift:item %}
+                <button class="btn-num-product-down color1 flex-c-s bg8 size7 eff2 gift-item"
+                            data-url="{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'shop:cart_add_gift' %}"
+                            data-product="{{item.product.pk}}"
+                            data-size="{{key|get_sizes_cart:item}}">
+                    <i class="fa fa-gift"></i>
+                </button>
+                {% endif %}
             </td>
         </tr>
         {% endfor %}
