@@ -1,6 +1,7 @@
 #-*- coding: utf-8 -*-
 
 from decimal import Decimal
+from this import s
 from django.conf import settings
 import datetime
 
@@ -35,6 +36,8 @@ class Cart(object):
 			if custom.get('name_personalization'):
 				self.cart['shop'][product_pk]['variants'][product_size]= {'name_personalization':{custom['name_personalization']:{}}}
 				self.cart['shop'][product_pk]['variants'][product_size]['name_personalization'][custom['name_personalization']] = {'quantity': 1}
+			if custom.get('charge_size'):
+				self.cart['shop'][product_pk]['variants'][product_size]['charge_size'] = custom['charge_size']
 			self.cart['shop'][product_pk]['variants'][product_size]['quantity'] = int(quantity)
 			if product.products_properties.shipping_min is not None:
 				self.cart['shop'][product_pk]['variants'][product_size]['shipping_limit'] = int(product.products_properties.shipping_min)
@@ -60,7 +63,7 @@ class Cart(object):
 						}
 					)
 			else:
-				if custom['name_personalization']:
+				if custom:
 					self.cart['shop'][product_pk]['variants'][product_size]['quantity'] += 1
 					if  custom['name_personalization'] not in self.cart['shop'][product_pk]['variants'][product_size]['name_personalization'].keys():
 						self.cart['shop'][product_pk]['variants'][product_size]['name_personalization'][custom['name_personalization']] = {'quantity': 1}
@@ -71,6 +74,9 @@ class Cart(object):
 							if custom['name_personalization'] == k:
 
 								self.cart['shop'][product_pk]['variants'][product_size]['name_personalization'][k]['quantity'] += 1
+
+				else:
+					self.cart['shop'][product_pk]['variants'][product_size]['quantity'] = int(quantity)
 					# seq = int(self.cart['seq'].get('num','1'))
 
 					# self.cart['shop'][product_pk]['variants'].update(
@@ -127,6 +133,7 @@ class Cart(object):
 				except KeyError:
 					pass
 			self.save()
+		return self.get_quantity_products()
 
 	#-- Iter products in cart session
 	def __iter__(self):

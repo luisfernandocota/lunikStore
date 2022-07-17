@@ -41,17 +41,27 @@
                 <h4>{{key|get_quantity_cart:item}}</h4>
                 {% else %}
                 <div class="flex-w bo5 of-hidden w-size17">
-                    <button class="btn-num-product-down color1 flex-c-m size7 bg8 eff2">
+                    <button class="btn-num-product-down color1 flex-c-m size7 bg8 eff2 btn-refresh" data-url="{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'shop_cart:cart_update' %}"
+                    data-product="{{item.product.pk}}"
+                    data-size="{{key|get_sizes_cart:item}}">
                         <i class="fs-12 fa fa-minus" aria-hidden="true"></i>
                     </button>
 
-                    <input class="size8 m-text18 t-center num-product" type="number" name="num-product1" value="1">
+                    <input class="size8 m-text18 t-center num-product" id="id_quantity" name="num-product1" value="{{key|get_quantity_cart:item}}" maxlength="2">
 
-                    <button class="btn-num-product-up color1 flex-c-m size7 bg8 eff2">
+                    <button class="btn-num-product-up color1 flex-c-m size7 bg8 eff2 btn-refresh" data-url="{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'shop_cart:cart_update' %}"
+                    data-product="{{item.product.pk}}"
+                    data-size="{{key|get_sizes_cart:item}}">
                         <i class="fs-12 fa fa-plus" aria-hidden="true"></i>
                     </button>
 
                 </div>
+                <!-- <button class="btn mb-3 btn-refresh" type="button" {% if key|get_custom_price_cart:item > 0 %}readonly=True{% else %}{% endif %}
+                    data-url="{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'shop_cart:cart_update' %}"
+                    data-product="{{item.product.pk}}"
+                    data-size="{{key|get_sizes_cart:item}}">
+                        <i class="fa fa-refresh"></i>
+                </button> -->
                 {% endif %}
                 <!-- <button class="btn-num-product-up color1 flex-c-m size7 bg8 eff2" type="button" {% if key|get_custom_price_cart:item > 0 %}readonly=True{% else %}{% endif %}
                     data-url="{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'shop_cart:cart_update' %}"
@@ -78,7 +88,7 @@
 
             </td>
             <td class="column-5 t-center">
-                <button class="btn-num-product-down color1 flex-c-m size7 bg8 eff2 remove-cart-item" 
+                <button class="color1 flex-c-m size7 bg8 eff2 remove-cart-item" 
                                         data-url="{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'shop:cart_remove' %}"
                                         data-product="{{item.product.pk}}" 
                                         data-size="{{key|get_sizes_cart:item}}"

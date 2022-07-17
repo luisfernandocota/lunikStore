@@ -88,7 +88,6 @@ register.filter('get_custom_price_cart', get_custom_price_cart)
 def get_custom_name(key,items):
     from collections import Counter
     names = []
-    print(items['variants'][key])
     for k in items['variants'][key]['name_personalization'].keys():
         names.append('%s(%s)'% (k, items['variants'][key]['name_personalization'][k]['quantity']))
     return ', '.join(names)
