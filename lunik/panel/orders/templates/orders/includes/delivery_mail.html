@@ -199,7 +199,7 @@
                                                                 width="90" height="90" alt=""
                                                                 data-proportionally-constrained="true"
                                                                 data-responsive="false"
-                                                                src="{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{{STATIC_URL}}assets/images/icons/logoKGNegro.png"
+                                                                src="{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}/static/assets/images/icons/logoKGNegro.png"
                                                                 height="40">
                                                             </td>
                                                           </tr>
@@ -340,7 +340,7 @@
                                                                 width="104" alt=""
                                                                 data-proportionally-constrained="true"
                                                                 data-responsive="false"
-                                                                src="{{item.product.products_gallery.all.first.image.url}}"
+                                                                src="{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}/{{item.product.products_gallery.all.first.image.url}}"
                                                                 height="104">
                                                             </td>
                                                           </tr>
