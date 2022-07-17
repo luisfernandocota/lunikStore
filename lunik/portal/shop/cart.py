@@ -48,7 +48,7 @@ class Cart(object):
 			else:
 				self.cart['shop'][product_pk]['variants'][product_size]['shipping'] = 0
 			if gift:
-				self.cart['shop'][product_pk]['variants'][product_size]['gift'] = gift
+				self.cart['shop'][product_pk]['variants'][product_size]['gift'] = (20 *  self.cart['shop'][product_pk]['variants'][product_size]['quantity'])
 		else:
 			if product_size not in self.cart['shop'][product_pk]['variants']:
 				#self.cart['shop'][product_pk]['variants'].update({product_size:0})
@@ -58,7 +58,6 @@ class Cart(object):
 							'quantity':int(quantity),
 							'shipping_limit': int(product.products_properties.shipping_min),
 							'shipping': Decimal(product.products_properties.shipping_price),
-
 							}
 						}
 					)
@@ -136,17 +135,14 @@ class Cart(object):
 		return self.get_quantity_products()
 	def remove_gift(self, product,size):
 		product_pk = str(product.pk)
-		del self.cart['shop'][product_pk]['add_gift'][size]['gift_price']
 		del self.cart['shop'][product_pk]['variants'][size]['gift']
 
 		self.save()
 
-	def add_gift(self, product, size):
+	def add_gift(self, product, product_size):
 		product_pk = str(product.pk)
-		if not self.cart['shop'][product_pk]['add_gift'][size].get('gift_price', 0):
-			self.cart['shop'][product_pk]['add_gift'][size]['gift_price'] = 20
-		if not self.cart['shop'][product_pk]['variants'][size].get('gift'):
-			self.cart['shop'][product_pk]['variants'][size]['gift'] = 'on'
+		if not self.cart['shop'][product_pk]['variants'][product_size].get('gift'):
+			self.cart['shop'][product_pk]['variants'][product_size]['gift'] = (20 *  self.cart['shop'][product_pk]['variants'][product_size]['quantity'])
 
 		self.save()
 		#self.save()
@@ -173,25 +169,22 @@ class Cart(object):
 			item['totals'] = {}
 			item['price_charge'] = {}
 			item['price_custom'] = {}
-			item['add_gift'] = {}
 			#item['coupon'] = self.is_product_in_coupon(item['product'].pk)
 
 			variants_keys = item['variants'].keys()
 			
 			for key in variants_keys:
-				if item['variants'][key].get('gift'):
-					print(item['add_gift'])
 				item['variants'][key] = item['variants'][key]
 				item['sizes'][key] = key
 				item['price_custom'][key] = item['variants'][key].get('charge_custom',0.00)
-				item['price_charge'][key] = (Decimal(item['temp_charge']) + Decimal(item['variants'][key].get('charge_size',0.00)))
+				item['price_charge'][key] = (Decimal(item['temp_charge']))
 				#item['totals'][key] = item['variants'][key] * Decimal(item['price'])
 				
 				item['totals'][key] = (
 										item['variants'][key]['quantity'] * Decimal(item['price']) +
 										Decimal(item['variants'][key].get('charge_custom',0.00)) +
 										item['variants'][key]['quantity'] * Decimal(item['variants'][key].get('charge_size',0.00)) +
-										Decimal(item['add_gift'].get('gift_price', 0.00))
+										Decimal(item['variants'][key].get('gift', 0.00) * item['variants'][key]['quantity'])
 									  )
 
 				if self.cart.get('shipping'):
@@ -342,7 +335,7 @@ class Cart(object):
 												item['variants'][key]['quantity'] * Decimal(item['product'].products_properties.sale_price) +
 												Decimal(item['variants'][key].get('charge_custom',0.00)) +
 												item['variants'][key]['quantity'] * Decimal(item['variants'][key].get('charge_size',0.00)) +
-												Decimal(item['add_gift'].get('gift_price', 0.00))
+												Decimal(item['variants'][key].get('gift', 0.00) * item['variants'][key]['quantity'])
 											)
 								# temp_total += product.sale_price
 							else:
@@ -350,7 +343,7 @@ class Cart(object):
 												item['variants'][key]['quantity'] * Decimal(item['price']) +
 												Decimal(item['variants'][key].get('charge_custom',0.00)) +
 												item['variants'][key]['quantity'] * Decimal(item['variants'][key].get('charge_size',0.00)) +
-												Decimal(item['add_gift'].get('gift_price', 0.00))
+												Decimal(item['variants'][key].get('gift', 0.00) * item['variants'][key]['quantity'])
 											)
 
 			if self.cart['coupon'].discount_types == 'P':
@@ -440,7 +433,7 @@ class Cart(object):
 								item['variants'][key]['quantity'] * Decimal(item['price']) +
 								Decimal(item['variants'][key].get('charge_custom',0.00)) +
 								item['variants'][key]['quantity'] * Decimal(item['variants'][key].get('charge_size',0.00)) +
-								Decimal(item['add_gift'].get('gift_price', 0.00))
+								Decimal(item['variants'][key].get('gift', 0.00) * item['variants'][key]['quantity'])
 							)
 
 		return total
