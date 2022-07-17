@@ -6,10 +6,10 @@ from decouple import config
 
 import stripe
 
-
 from django.http import JsonResponse
 from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
+from django.core.exceptions import ObjectDoesNotExist
 
 from django.conf import settings
 from django.utils import timezone
@@ -31,8 +31,6 @@ from .models import ShopOrder,ShopOrderProduct,ShopOrderPayment
 from portal.dashboard.models import Address
 
 # Create your views here.
-
-stripe.api_key = config('STRIPE_LIVE_SECRET_KEY',default='STRIPE_TEST_SECRET_KEY')
 
 # Util view
 def filters_by_request(request):
@@ -379,6 +377,7 @@ def cart_checkout(request):
 	context = {}
 	data = {}
 	context['step'] = request.GET.get('step')
+	stripe.api_key = settings.STRIPE_SECRET_KEY
 
 	context['cart'] = Cart(request)
 	if context['cart'].get_quantity_products() > 0:
@@ -461,61 +460,59 @@ def retrievePayment(request):
 	context = {}
 	cart = Cart(request)
 	body = json.loads(request.body)
+	try:
+		shopOrder = ShopOrder.objects.get(order_payment__payment_intent=body['paymentIntent']['id'])
+		context['folio'] = shopOrder.folio
+		context['email'] = shopOrder.email
+	except ObjectDoesNotExist:
+		if request.method == 'POST':
+			form_order = ShopOrderForm(data=cart.get_address_order(), initial=cart.get_address_order())
+			form_delivery = ShopOrderDeliveryForm(data=cart.get_address_delivery(), initial=cart.get_address_delivery())
+			if body['paymentIntent']['status'] == 'succeeded':
+				if form_order.is_valid() and form_delivery.is_valid():
+					#-- Save order in DB
+					order = form_order.save(commit=False)
+					if not request.user.is_superuser and not request.user.is_anonymous and request.user.is_customer:
+						order.customer = request.user
+					order.save()
+					delivery = form_delivery.save(commit=False)
+					delivery.order = order
+					delivery.save()
 
-	exists = ShopOrder.objects.filter(order_payment__payment_intent=body['paymentIntent']['id']).exists()
-		
-	if request.method == 'POST' and exists == False:
-		form_order = ShopOrderForm(data=cart.get_address_order(), initial=cart.get_address_order())
-		form_delivery = ShopOrderDeliveryForm(data=cart.get_address_delivery(), initial=cart.get_address_delivery())
-		if body['paymentIntent']['status'] == 'succeeded':
-			if form_order.is_valid() and form_delivery.is_valid():
-				#-- Save order in DB
-				order = form_order.save(commit=False)
-				if not request.user.is_superuser and not request.user.is_anonymous and request.user.is_customer:
-					order.customer = request.user
-				order.save()
-				delivery = form_delivery.save(commit=False)
-				delivery.order = order
-				delivery.save()
+					#-- Save products from order
+					order_products = ShopOrderProduct.products_save(cart,order)
+					ShopOrderProduct.objects.bulk_create(order_products)
+					#-- Create OrderDelivery objetc
+					OrderDelivery.objects.create(order=order)
+					#-- Save payment from order
+					payment = ShopOrderPayment(
+									order = order,
+									payment_intent = body['paymentIntent']['id'],
+									client_secret = body['paymentIntent']['client_secret'],
+									total = cart.get_subtotal_products(),
+									shipping = cart.get_shipping_cost(),
+									shipping_method = cart.get_shipping_method(),
+									payment_status = body['paymentIntent']['status']
+								)
+					if cart.is_coupon_apply():
+						coupon = Coupon.objects.get(pk=cart.is_coupon_apply().pk)
+						coupon.uses += 1
+						coupon.save()
+						payment.coupon = coupon
+							
+					payment.save()
+					
+					#--Purchase informarion
+					context['folio'] = order.folio
+					context['email'] = order.email
 
-				#-- Save products from order
-				order_products = ShopOrderProduct.products_save(cart,order)
-				ShopOrderProduct.objects.bulk_create(order_products)
-				#-- Create OrderDelivery objetc
-				OrderDelivery.objects.create(order=order)
-				#-- Save payment from order
-				payment = ShopOrderPayment(
-								order = order,
-								payment_intent = body['paymentIntent']['id'],
-								client_secret = body['paymentIntent']['client_secret'],
-								total = cart.get_subtotal_products(),
-								shipping = cart.get_shipping_cost(),
-								shipping_method = cart.get_shipping_method()
-							)
-				if cart.is_coupon_apply():
-					coupon = Coupon.objects.get(pk=cart.is_coupon_apply().pk)
-					coupon.uses += 1
-					coupon.save()
-					payment.coupon = coupon
-						
-				payment.save()
-				
-				#--Purchase informarion
-				context['folio'] = order.folio
-				context['email'] = order.email
+					data['html_succeeded'] = render_to_string('shop/includes/partial_payment_succeeded.html',context,request)
 
-				data['html_succeeded'] = render_to_string('shop/includes/partial_payment_succeeded.html',context,request)
+					ShopOrder.sendmail_order(request,order)
+					#-- Delete cart session
+					del request.session[settings.CART_COOKIE_NAME]
 
-				ShopOrder.sendmail_order(request,order)
-				#-- Delete cart session
-				del request.session[settings.CART_COOKIE_NAME]
-
-			
-		
-	else:
-
-		data['exists'] = True
-		data['url_redirect'] = '/'
+	data['html_succeeded'] = render_to_string('shop/includes/partial_payment_succeeded.html',context,request)
 	return JsonResponse(data)
 
 

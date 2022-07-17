@@ -48,7 +48,7 @@
             {% include 'shop/includes/partial_dynamic_breadcrumb.html' with step=step %}
 
         </div>
-        <div class="row well" id="panel_user" style="height: 750px;">
+        <div class="row well" id="panel_user">
             <div class="col-sm-12 col-md-6 col-lg-6 dynamic-step">
 
                 {% include 'shop/includes/partial_dynamic_checkout.html' with step=step %}
@@ -81,7 +81,7 @@
     const stripe = Stripe("{{pk_stripe}}");
 
 </script>
-<script src="{{STATIC_URL}}js/script.js" defer></script>
+
 
 {% endblock customjs %}
 

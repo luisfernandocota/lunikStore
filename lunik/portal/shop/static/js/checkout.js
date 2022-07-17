@@ -1,7 +1,13 @@
 //This is your test publishable API key.
-const stripe = Stripe("pk_test_51H5LaSIKF8Hi9Jx6Uetqcf1TSvBOFZBVTe69PKuV9Xir5fkMwC3O4bifcGS5cV41jDxQfdMJiTgjhAj5g0Mtf2Lo00WmU2jh8X");
+const stripe = Stripe($('#stripe_public_key').val());
 checkStatus();
-
+function simpleLoad(box, state) {
+  if (state) {
+      box.toggleClass('sk-loading');
+  } else {
+      box.toggleClass('sk-loading');
+      }
+  }
 async function checkStatus() {
  const clientSecret = new URLSearchParams(window.location.search).get(
    "payment_intent_client_secret"
@@ -15,6 +21,7 @@ async function checkStatus() {
  let csrftoken = $('input[name="csrfmiddlewaretoken"]').attr('value');
  switch (paymentIntent.status) {
    case "succeeded":
+    simpleLoad($('.payment-section'), true);
 
     $.ajax({
         url: '/carrito/checkout/retrievePayment/',
@@ -23,11 +30,9 @@ async function checkStatus() {
         dataType: 'json',
         headers: { "Content-Type": "application/json", "X-CSRFToken": csrftoken },
         success: function (data) {
-            if(data.exists){
-              return window.location = data.url_redirect
-            } else {
-              $("#section-payment").html(data.html_succeeded);
-            }
+            $("#section-payment").html(data.html_succeeded);
+            simpleLoad($('.payment-section'), false);
+            $('#pk-loader').remove();
         }
       });
      // showMessage("Payment succeeded!");
