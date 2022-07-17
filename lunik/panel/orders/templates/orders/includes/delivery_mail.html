@@ -1,5 +1,4 @@
 {% load humanize %}
-{% load i18n %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html data-editor-version="2" class="sg-campaigns" xmlns="http://www.w3.org/1999/xhtml">
 
@@ -25,7 +24,7 @@
     img {-ms-interpolation-mode: bicubic;}
   </style>
 <![endif]-->
-  <style type="text/css">
+<style type="text/css">
     body,
     p,
     div {
@@ -38,7 +37,7 @@
     }
 
     body a {
-      color:{{order.store.store_meta.header_color}};
+      color: #da9fa6;
       text-decoration: none;
     }
 
@@ -126,6 +125,7 @@
   </style>
   <!--user entered Head Start-->
   <link href="https://fonts.googleapis.com/css?family=Viga&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />  
   <style>
     body {
       font-family: 'Viga', sans-serif;
@@ -135,7 +135,7 @@
 </head>
 
 <body>
-  <center class="wrapper" data-link-color="{{order.store.store_meta.header_color}}"
+  <center class="wrapper" data-link-color="#da9fa6"
     data-body-style="font-size:14px; font-family:inherit; color:#000000; background-color:#f0f0f0;">
     <div class="webkit">
       <table cellpadding="0" cellspacing="0" border="0" width="100%" class="wrapper" bgcolor="#f0f0f0">
@@ -175,7 +175,7 @@
                                       </table>
                                       <table border="0" cellpadding="0" cellspacing="0" align="center" width="100%"
                                         role="module" data-type="columns" style="padding:30px 20px 40px 30px;"
-                                        bgcolor="{{order.store.store_meta.header_color}}">
+                                        bgcolor="#da9fa6">
                                         <tbody>
                                           <tr role="module-content">
                                             <td height="100%" valign="top">
@@ -194,23 +194,13 @@
                                                             <td
                                                               style="font-size:6px; line-height:10px; padding:0px 0px 0px 0px;"
                                                               valign="top" align="left">
-                                                              {% if order.store.store_meta.logo %}
-                                                              <img class="max-width" border="0"
-                                                                style="display:block; color:#000000; text-decoration:none; font-family:Helvetica, arial, sans-serif; font-size:16px;"
-                                                                width="90" height="90" alt=""
-                                                                data-proportionally-constrained="true"
-                                                                data-responsive="false"
-                                                                src="{{order.store.store_meta.logo.url}}"
-                                                                height="40">
-                                                                {% else %}
                                                                 <img class="max-width" border="0"
                                                                 style="display:block; color:#000000; text-decoration:none; font-family:Helvetica, arial, sans-serif; font-size:16px;"
                                                                 width="90" height="90" alt=""
                                                                 data-proportionally-constrained="true"
                                                                 data-responsive="false"
-                                                                src="{{AWS_S3_ENDPOINT_URL}}/static/site/images/icons/4shop.svg"
+                                                                src="{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{{STATIC_URL}}assets/images/icons/logoKGNegro.png"
                                                                 height="40">
-                                                                {% endif %}
                                                             </td>
                                                           </tr>
                                                         </tbody>
@@ -274,8 +264,8 @@
                                               style="padding:30px 20px 18px 30px; line-height:22px; text-align:inherit;"
                                               height="100%" valign="top" bgcolor="" role="module-content">
                                               <div>
-                                                <div style="font-family: inherit; text-align: inherit"><span
-                                                    style="color:{{order.store.store_meta.header_color}}; font-size: 24px">Enviado por {{company}}, #{{tracking}}</span></div>
+                                                <<div style="font-family: inherit; text-align: inherit"><span
+                                                  style="color:{{order.store.store_meta.header_color}}; font-size: 24px">Enviado por {{company}}, #{{tracking}}</span></div>
                                                 <div></div>
                                               </div>
                                             </td>
@@ -310,12 +300,12 @@
                                               style="padding:18px 20px 18px 30px; line-height:22px; text-align:inherit;"
                                               height="100%" valign="top" bgcolor="" role="module-content">
                                               <div>
-                                                <div style="font-family: inherit; text-align: inherit"></div>
+                                                <div style="font-family: inherit; text-align: inherit">Folio: {{order.folio}}</div>
                                                 <div style="font-family: inherit; text-align: inherit"><span
-                                                    style="color:{{order.store.store_meta.header_color}}"><strong>Dirección de envio</strong></span></div>
+                                                    style="color: #da9fa6"><strong>Realizado el: {{order.created|date:"d F Y"}}</strong></span></div>
                                                 <div style="font-family: inherit; text-align: inherit"><br></div>
                                                 <div style="font-family: inherit; text-align: inherit">Será entregado en:</div>
-                                                <div style="font-family: inherit; text-align: inherit">{{order.order_delivery.address}} #{{order.order_delivery.num_ext}}
+                                                <div style="font-family: inherit; text-align: inherit">{{order.order_delivery.address}} #{{order.order_delivery.num_ext}} {{order.order_delivery.suburb}}
 													{% if order.order_delivery.num_int %}#{{order.order_delivery.num_int}}{% endif %} &nbsp;</div>
                                                 <div></div>
                                               </div>
@@ -350,7 +340,7 @@
                                                                 width="104" alt=""
                                                                 data-proportionally-constrained="true"
                                                                 data-responsive="false"
-                                                                src="{{item.product.product.products_gallery.all.first.image.url}}"
+                                                                src="{{item.product.products_gallery.all.first.image.url}}"
                                                                 height="104">
                                                             </td>
                                                           </tr>
@@ -378,11 +368,13 @@
                                                               role="module-content">
                                                               <div>
                                                                 <div style="font-family: inherit; text-align: inherit">
-																	{{item.product.product}}</div>
+																	                                  {{item.product}}</div>
                                                                 <div style="font-family: inherit; text-align: inherit">
                                                                   <br></div>
                                                                 <div style="font-family: inherit; text-align: inherit">
-                                                                  <span style="color:{{order.store.store_meta.header_color}}">{{item.quantity}} x ${{item.price}}&nbsp;</span></div>
+                                                                  <span style="color: #da9fa6">{{item.quantity}} x ${{item.price}}&nbsp;</span> <br>
+                                                                  {% if item.gift %}<small>Envoltura regalo + $20.00</small>{% endif %}
+                                                                </div>
                                                                 <div></div>
                                                               </div>
                                                             </td>
@@ -439,6 +431,58 @@
                                       </table>
                                       <table class="module" role="module" data-type="text" border="0" cellpadding="0"
                                         cellspacing="0" width="100%" style="table-layout: fixed;"
+                                        data-muid="8b5181ed-0827-471c-972b-74c77e326e3d">
+                                        <tbody>
+                                          <tr>
+                                            <td
+                                              style="padding:30px 20px 18px 30px; line-height:22px; text-align:inherit;"
+                                              height="100%" valign="top" bgcolor="" role="module-content">
+                                              <div>
+                                                <div style="font-family: inherit; text-align: inherit"><span
+                                                    style="color: #da9fa6; font-size: 24px">Metodo de pago</span></div>
+                                                <div></div>
+                                              </div>
+                                            </td>
+                                          </tr>
+                                        </tbody>
+                                      </table>
+                                      <table class="module" role="module" data-type="text" border="0" cellpadding="0"
+                                        cellspacing="0" width="100%" style="table-layout: fixed;"
+                                        data-muid="264ee24b-c2b0-457c-a9c1-d465879f9935">
+                                        <tbody>
+                                          <tr>
+                                            <td
+                                              style="padding:18px 20px 18px 30px; line-height:22px; text-align:inherit;"
+                                              height="100%" valign="top" bgcolor="" role="module-content">
+                                              <div>
+                                                <div style="font-family: inherit; text-align: inherit">Tarjeta: •••• •••• •••• {{order.order_payment.last4}} | <span style="text-transform: uppercase;">{{order.order_payment.brand_card}}</span></div>
+                                                <div></div>
+                                              </div>
+                                            </td>
+                                          </tr>
+                                        </tbody>
+									                    </table>
+                                      <table class="module" role="module" data-type="divider" border="0" cellpadding="0"
+                                        cellspacing="0" width="100%" style="table-layout: fixed;"
+                                        data-muid="f7373f10-9ba4-4ca7-9a2e-1a2ba700deb9.1">
+                                        <tbody>
+                                          <tr>
+                                            <td style="padding:20px 30px 0px 30px;" role="module-content" height="100%"
+                                              valign="top" bgcolor="">
+                                              <table border="0" cellpadding="0" cellspacing="0" align="center"
+                                                width="100%" height="3px" style="line-height:3px; font-size:3px;">
+                                                <tbody>
+                                                  <tr>
+                                                    <td style="padding:0px 0px 3px 0px;" bgcolor="E7E7E7"></td>
+                                                  </tr>
+                                                </tbody>
+                                              </table>
+                                            </td>
+                                          </tr>
+                                        </tbody>
+                                      </table>
+                                      <table class="module" role="module" data-type="text" border="0" cellpadding="0"
+                                        cellspacing="0" width="100%" style="table-layout: fixed;"
                                         data-muid="264ee24b-c2b0-457c-a9c1-d465879f9935.1">
                                         <tbody>
                                           <tr>
@@ -448,16 +492,22 @@
                                               <div>
                                                 <div style="font-family: inherit; text-align: inherit">Subtotal - ${{order.subtotal_shopping|intcomma}}
                                                 </div>
+                                                {% if order.order_payment.coupon %}
+                                                <div style="font-family: inherit; text-align: inherit">Cupón - {{order.order_payment.coupon.code}} - {% if order.order_payment.coupon.discount_types == 'A'%} - $<strong>{{order.order_payment.coupon.discount|intcomma}}</strong>{% elif order.order_payment.coupon.discount_types == 'P'%}<strong>{{order.order_payment.coupon.discount}}</strong>%{% endif %}
+                                                </div>
+                                                {% endif %}
                                                 <div style="font-family: inherit; text-align: inherit">Envio
-                                                {% if order.order_payment.shipping == 0 %}
-                                                  ¡Gratis! <i class="fa fa-bolt" style="color:{{order.store.store_meta.header_color}}"></i>
+                                                {% if order.order_payment.shipping == 0 or order.order_payment.shipping_method == 'default' %}
+                                                  ¡Gratis! <i class="fa fa-bolt" style="color:#da9fa6"></i>
                                                 {% else %}
                                                 - ${{order.order_payment.shipping|intcomma}}
                                                 {% endif %}
                                                   </div>
+                                                <div style="font-family: inherit; text-align: inherit"><br>
+                                                  Total&nbsp;</div>
                                                 <div style="font-family: inherit; text-align: inherit"><br></div>
                                                 <div style="font-family: inherit; text-align: inherit"><span
-                                                    style="color:{{order.store.store_meta.header_color}}; font-size: 32px; font-family: inherit">${{order.total_shopping|intcomma}}</span>
+                                                    style="color: #da9fa6; font-size: 32px; font-family: inherit">${{order.total_shopping|intcomma}}</span>
                                                 </div>
                                                 <div></div>
                                               </div>
@@ -465,7 +515,7 @@
                                           </tr>
                                         </tbody>
                                       </table>
-                                      <table border="0" cellpadding="0" cellspacing="0" align="center" width="100%"
+                                    <table border="0" cellpadding="0" cellspacing="0" align="center" width="100%"
                                       role="module" data-type="columns" style="padding:0px 20px 0px 20px;"
                                       bgcolor="f0f0f0">
                                       <tbody>
@@ -491,35 +541,6 @@
                                                   <div style="font-family: inherit; text-align: center"><a
                                                     href="{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}"><span
                                                     style="color: #000000">Tienda</span></a></div>
-                                                  <div></div>
-                                                </div>
-                                                </td>
-                                              </tr>
-                                              </tbody>
-                                            </table>
-                                            </td>
-                                          </tr>
-                                          </tbody>
-                                        </table>
-                                        <table class="column" width="140"
-                                          style="width:140px; border-spacing:0; border-collapse:collapse; margin:0px 0px 0px 0px;"
-                                          cellpadding="0" cellspacing="0" align="left" border="0" bgcolor="">
-                                          <tbody>
-                                          <tr>
-                                            <td style="padding:0px;margin:0px;border-spacing:0;">
-                                            <table class="module" role="module" data-type="text" border="0"
-                                              cellpadding="0" cellspacing="0" width="100%"
-                                              style="table-layout: fixed;"
-                                              data-muid="9d43ffa1-8e24-438b-9484-db553cf5b092.1">
-                                              <tbody>
-                                              <tr>
-                                                <td
-                                                style="padding:18px 0px 18px 0px; line-height:22px; text-align:inherit;"
-                                                height="100%" valign="top" bgcolor=""
-                                                role="module-content">
-                                                <div>
-                                                  <div style="font-family: inherit; text-align: center"><a
-                                                    href="{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}/conocenos/"><span style="color: #000">Conocenos</span></a></div>
                                                   <div></div>
                                                 </div>
                                                 </td>
@@ -576,7 +597,7 @@
                                                     <td align="center" bgcolor="#f0f0f0" class="inner-td" style="padding-top: 20px;">
                                                       <p style="font-size:10px; line-height:20px;"><span
                                                         class="Unsubscribe--senderAddress">Todos
-                                                        los derechos reservados para {{order.store.name}} {% now 'Y' %} &copy;<br></span></p>
+                                                        los derechos reservados para Karla Galvéz {% now 'Y' %} &copy;<br></span></p>
                                                     </td>
 
                                                   </tr>
@@ -610,8 +631,8 @@
       </table>
     </div>
   </center>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/js/all.min.js" integrity="sha512-6PM0qYu5KExuNcKt5bURAoT6KCThUmHRewN3zUFNaoI6Di7XJPTMoT6K0nsagZKk2OB4L7E3q1uQKHNHd4stIQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 </body>
 
-</html>
+</html

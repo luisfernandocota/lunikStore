@@ -130,7 +130,7 @@ class ShopOrder(TimeStampedModel):
         context['last4'] = paymentIntent['charges']['data'][0]['payment_method_details']['card']['last4']
 
         order_payment = get_object_or_404(ShopOrderPayment, order=order, payment_intent=order.order_payment.payment_intent)
-        order_payment.brand = context['brand']
+        order_payment.brand_card = context['brand']
         order_payment.last4 = context['last4']
         order_payment.save()
 
@@ -189,8 +189,6 @@ class ShopOrderProduct(models.Model):
     quantity = models.PositiveSmallIntegerField(verbose_name='Quantity')
     name_personalization = models.CharField(max_length=120, verbose_name='Name Personalization', null=True)
     size = models.CharField(max_length=50,verbose_name='Size')
-    name = models.CharField(max_length=250,verbose_name='Name',blank=True)
-    number = models.PositiveSmallIntegerField(verbose_name='Number',blank=True,null=True)
     gift = models.BooleanField(default=False, verbose_name='Gift')
 
     class Meta:
@@ -204,10 +202,15 @@ class ShopOrderProduct(models.Model):
     def products_save(cart,order):
 
         products_list = []
-
+        names_list = []
+        
         for item in cart:
             variants_keys = item['variants'].keys()
+            
             for key in variants_keys:
+                for k in item['variants'][key]['name_personalization'].keys():
+                    names_list.append('%s(%s)'% (k, item['variants'][key]['name_personalization'][k]['quantity']))
+                names = ', '.join(names_list)
                 #-- Save products
                 products_list.append(
                     ShopOrderProduct(
@@ -219,12 +222,11 @@ class ShopOrderProduct(models.Model):
                         quantity=item['variants'][key]['quantity'],
                         #quantity=item['variants'][key],
                         size=item['sizes'][key],
-                        name_personalization=item['variants'][key].get('name_personalization',''),
-                        name=item['variants'][key].get('name',''),
-                        number=item['variants'][key].get('number'),
+                        name_personalization=names,
                         gift = True if item['variants'][key].get('gift') else False
                     )
                 )
+                names_list.clear()
 
         return products_list
 

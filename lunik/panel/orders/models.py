@@ -62,7 +62,7 @@ class OrderDelivery(TimeStampedModel):
             context['brand'] = paymentIntent['charges']['data'][0]['payment_method_details']['card']['brand']
             context['last4'] = paymentIntent['charges']['data'][0]['payment_method_details']['card']['last4']
             message = render_to_string('shop/includes/order_payment_email.html',context, request=request)
-            sendmail('%s | Detalle de tu pedido %s 😍' % ('Karla Galvéz', instance.folio), message, settings.DEFAULT_FROM_EMAIL,instance.email)
+            sendmail('%s | Detalle de tu pedido %s 😍' % ('by Karla Galvéz', instance.folio), message, settings.DEFAULT_FROM_EMAIL,instance.email)
 
             messages.success(request, 'Reenvio de correo enviado satisfactoriamente')
 

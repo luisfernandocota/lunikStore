@@ -179,7 +179,7 @@
           <img class="card-img img-fluid" src="{{item.product.products_gallery.first.image.url}}" alt="Card image">
           <div class="card-img-overlay overlay-dark bg-overlay d-flex justify-content-between flex-column">
             <div class="overlay-content">
-              <h4 class="card-title mb-50">{% if item.product.products_properties.has_personalization %}<i
+              <h4 class="card-title mb-50">{% if item.product.subcategory == 'C' or item.product.subcategory == 'S' %}<i
                   data-feather="aperture" data-toggle="tooltip" data-placement="top"
                   title="Este producto será personalizado"></i>{% endif %}{{item.product}} ({{item.quantity}})</h4>
               <p class="card-text text-ellipsis">
@@ -190,7 +190,7 @@
                 <small><b>Envoltura regalo</b></small><br>
               </p>
               {% endif %}
-              {% if item.product.products_properties.has_personalization and item.name_personalization %}
+              {% if item.name_personalization %}
               <p class="card-text text-ellipsis">
                 <small><b>Nombre personalizado: {{item.name_personalization}}</b></small><br>
               </p>
@@ -354,12 +354,9 @@
               <h4 class="product-name">{{item.product.product.name}}</h4>
               <div class="m-t-xs">
                 <small class="text-muted">Talla: <b>{{item.size}}</b></small><br>
-                {% if item.name %}
-                <small class="text-muted">Nombre: <b>{{item.name}}</b></small><br>
-                {% endif %}
-                {% if item.number %}
-                <small class="text-muted">Número: <b>{{item.number}}</b></small><br>
-                {% endif %}
+
+                <small class="text-muted">Nombre: <b>{{item.name_personalization}}</b></small><br>
+
               </div>
             </div>
           </div>
