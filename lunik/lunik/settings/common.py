@@ -237,9 +237,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-STRIPE_PUBLIC_KEY = config('STRIPE_LIVE_PUBLIC_KEY') if not config('STRIPE_PUBLIC_KEY') else config('STRIPE_PUBLIC_KEY')
-STRIPE_SECRET_KEY = config('STRIPE_LIVE_SECRET_KEY') if not config('STRIPE_SECRET_KEY') else config('STRIPE_SECRET_KEY')
-
+STRIPE_PUBLIC_KEY = config('STRIPE_LIVE_PUBLIC_KEY', default=None) if not config('STRIPE_PUBLIC_KEY', default=None) else config('STRIPE_PUBLIC_KEY', default=None)
+STRIPE_SECRET_KEY = config('STRIPE_LIVE_SECRET_KEY', default=None) if not config('STRIPE_SECRET_KEY', default=None) else config('STRIPE_SECRET_KEY', default=None)
 #-- Sendmail Configuration
 EMAIL_BACKEND = config('EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
 EMAIL_HOST = config('EMAIL_HOST',default='')
