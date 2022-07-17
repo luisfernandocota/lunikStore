@@ -308,6 +308,11 @@
 
 {% block customjs %}
 <script type="text/javascript">
+
+	{% if product.subcategory == 'C' or product.subcategory == 'S' %}
+		$('#id_quantity').prop('readonly', true);
+	{% endif %}
+
     $(".selection-1").select2({
         minimumResultsForSearch: 20,
         dropdownParent: $('#dropDownSelect1')

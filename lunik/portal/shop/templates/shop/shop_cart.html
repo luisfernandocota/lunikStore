@@ -6,7 +6,7 @@
 {% block title %}Karla Gálvez{% endblock title %}
 
 {% block subtitle %} Carrito {% endblock subtitle %}
-
+{% block displaycartheader %}style="display: none;"{% endblock displaycartheader %}
 {% block customcss %}
 <style>
 	.cart-empty{
@@ -26,8 +26,10 @@
 			<div class="container-table-cart pos-relative">
         {% include 'shop/includes/partial_cart_table.html' %}
 			</div>
+			<div class="container-table-coupon">
+				{% include 'shop/includes/partial_cart_coupon.html' %}
 
-      {% include 'shop/includes/partial_cart_coupon.html' %}
+			</div>
 
 			<!-- Total -->
 			<div class="bo9 w-size18 p-l-40 p-r-40 p-t-30 p-b-38 m-t-30 m-r-0 m-l-auto p-lr-15-sm">

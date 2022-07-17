@@ -73,8 +73,9 @@
 	<script src="https://js.stripe.com/v3/"></script>
 </head>
 <body class="animsition">
-
-	{% include 'includes/partial_cart.html' %}
+	<div class="header-table-cart">
+		{% include 'includes/partial_cart.html' %}
+	</div>
 
 	<!-- Header -->
 	<header {% block showheader %}{% endblock showheader %} class="header1">
@@ -87,7 +88,7 @@
 				</div>
 
 				<span class="topbar-child1">
-					¡Envio gratis en compras mayores a $1499 🚚 🤩
+					¡Envio gratis en compras mayores a $1999 🚚 🤩
 				</span>
 
 				<div class="topbar-child2">
@@ -189,9 +190,9 @@
 					{% endif %}
 					<span class="linedivide1"></span>	
 					
-					<div class="header-wrapicon2">
-						<img src="{{STATIC_URL}}shop/images/icons/icon-header-02.png" class="header-icon1 js-show-header-dropdown cartBarToggle" alt="ICON">
-						<span class="header-icons-noti">{{cart.get_quantity_products}}</span>
+					<div class="header-wrapicon2" {% block displaycartheader %}{% endblock displaycartheader %}>
+						<img src="{{STATIC_URL}}shop/images/icons/icon-header-02.png" id="cartHeaderToggle" class="header-icon1 js-show-header-dropdown cartBarToggle" alt="ICON">
+						<span id="quantity_cart" class="header-icons-noti">{{cart.get_quantity_products}}</span>
 												
 					</div>
 				</div>
@@ -578,7 +579,11 @@
 
 	<script type="text/javascript">
     $(document).ready(function(){
-		$('.cartBarToggle').on('click', function(event) {
+		$('.header-table-cart').on('click', '.cartBarToggle', function(event) {
+			event.preventDefault();
+			$('.cart-bar').toggleClass('toggled');
+		})
+		$('#cartHeaderToggle').on('click', function(event) {
 			event.preventDefault();
 			$('.cart-bar').toggleClass('toggled');
 		})

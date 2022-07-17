@@ -233,7 +233,7 @@ def product_detail(request, slug):
 				custom['charge_size'] = context['form_product'].cleaned_data['sizes'].charge
 			# design = get_object_or_404(StoreGallery, pk=context['form_product'].cleaned_data['design'])
 			cart.add(context['product'],context['form_product'].cleaned_data['sizes'],context['form_product'].cleaned_data['quantity'],\
-						context['form_product'].cleaned_data['name_personalization'], request.POST.get('gift'))
+						custom, request.POST.get('gift'))
 			return redirect('shop:product_detail', slug)
 
 	else:
@@ -252,10 +252,10 @@ def cart_update(request):
 		context['cart'] = Cart(request)
 
 		product = get_object_or_404(Product, pk=request.GET.get('product_pk'))
-		context['cart'].add(product,request.GET.get('size'),request.GET.get('quantity'),request.GET.get('total_quantity'))
+		context['cart'].add(product,request.GET.get('size'),request.GET.get('quantity'))
 
 		data['form_is_valid'] = True
-		data['html_cart_charge'] = render_to_string('shop/includes/partial_cart_charge.html',context)
+		data['html_cart_coupon'] = render_to_string('shop/includes/partial_cart_coupon.html', context, request)
 		data['html_cart_table'] = render_to_string('shop/includes/partial_cart_table.html',context,request)
 	return JsonResponse(data)
 
@@ -320,13 +320,17 @@ def cart_remove(request):
 		size = request.GET.get('size')
 
 		context['cart'] = Cart(request)
-		context['cart'].remove(product,size)
+		data['new_quantity'] = context['cart'].remove(product,size)
 		data['form_is_valid'] = True
 
 		if request.GET.get('checkout') == '1':
 			data['checkout'] = True
+			data['html_cart_table'] = render_to_string('shop/includes/partial_cart_table.html',context,request)
+			data['html_cart_coupon'] = render_to_string('shop/includes/partial_cart_coupon.html', context, request)
+		else:
+			data['checkout'] = False
+			data['html_cart_table'] = render_to_string('includes/partial_cart.html',context,request)
 
-		data['html_cart_table'] = render_to_string('shop/includes/partial_cart_table.html',context,request)
 		
 	return JsonResponse(data)
 
