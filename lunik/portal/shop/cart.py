@@ -32,7 +32,7 @@ class Cart(object):
 				self.cart['shop'][product_pk] = {'variants':{product_size:{}},'price':str(product.products_properties.sale_price)}
 			else:
 				self.cart['shop'][product_pk] = {'variants':{product_size:{}},'price':str(product.products_properties.sell_price)}
-			if custom['name_personalization']:
+			if custom.get('name_personalization'):
 				self.cart['shop'][product_pk]['variants'][product_size]= {'name_personalization':{custom['name_personalization']:{}}}
 				self.cart['shop'][product_pk]['variants'][product_size]['name_personalization'][custom['name_personalization']] = {'quantity': 1}
 			self.cart['shop'][product_pk]['variants'][product_size]['quantity'] = int(quantity)
