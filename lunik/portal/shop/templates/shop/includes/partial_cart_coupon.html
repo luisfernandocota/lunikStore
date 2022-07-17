@@ -1,7 +1,8 @@
 {% load humanize %}
+<div class="flex-w flex-sb-m p-t-25 p-b-25 bo8 p-l-35 p-r-60 p-lr-15-sm">
+
 {% if not cart.is_coupon_apply %}
 
-<div class="flex-w flex-sb-m p-t-25 p-b-25 bo8 p-l-35 p-r-60 p-lr-15-sm">
     <div class="flex-w flex-m w-full-sm">
         <div class="size11 bo4 m-r-10">
             <input type="text"  id="coupon" name="coupon" class="sizefull s-text7 p-l-22 p-r-22 apply-coupon" placeholder="">
@@ -19,9 +20,9 @@
         <!-- <button type="button" data-url="{% url 'shop:apply_coupon' %}" class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4apply-coupon">Aplicar cupón</button> -->
 
     </div>
-</div>
+
 {% else %}
-<div class="flex-w flex-sb-m p-t-25 p-b-25 bo8 p-l-35 p-r-60 p-lr-15-sm">
+
     <div class="flex-w flex-m w-full-sm">
         <div class="size11 bo4 m-r-10">
             <input type="text"  id="coupon" name="coupon" class="sizefull s-text7 p-l-22 p-r-22 apply-coupon" placeholder="">
@@ -39,7 +40,15 @@
         {{cart.is_coupon_apply.code}} - Descuento {% if cart.is_coupon_apply.discount_types == 'A'%}$<strong>{{cart.is_coupon_apply.discount|intcomma}}</strong>{% elif cart.is_coupon_apply.discount_types == 'P'%}<strong>{{cart.is_coupon_apply.discount}}</strong>%{% endif %}
 
     </div>
-</div>
 {% endif %}
-
+    <div class="dis-inline w-full-sm">
+        <span class="s-text18 w-size19 w-full-sm">
+            Subtotal:
+        </span>
+    
+        <span class="m-text21 w-size20 w-full-sm" style="text-align: end;">
+            ${{cart.get_subtotal_products|intcomma}}
+        </span>
+    </div>
+</div>
 

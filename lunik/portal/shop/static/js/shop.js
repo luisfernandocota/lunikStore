@@ -83,10 +83,10 @@ $(document).ready(function(){
     // }).change();
 
     /* UPDATE PRODUCT FROM CART */
-    $(".cart-table").on("input", ".update-cart-item",function () {
+    $(".container-table-cart").on("input", ".update-cart-item",function () {
         this.value = this.value.replace(/[^0-9]/g,"");
     });
-    $(".cart-table").on("click", ".btn-refresh", function () {
+    $(".container-table-cart").on("click", ".btn-refresh", function () {
         var btn = $(this);
         var quantity = $("#id_quantity");
         if (quantity.val() > 0 || quantity.val() != ""){
@@ -97,8 +97,8 @@ $(document).ready(function(){
                 type: 'get',
                 dataType: 'json',
                 success: function (data) {
-                  $('.cart-table').html(data.html_cart_table);
-                  $(".div-total").html(data.html_cart_charge);
+                  $('.container-table-cart').html(data.html_cart_table);
+                  $(".container-table-coupon").html(data.html_cart_coupon);
                 }
             });
             return false;
@@ -186,7 +186,7 @@ $(document).ready(function(){
       return false;
     });
     /* REMOVE PRODUCT FROM CART DETAIL */
-    $(".cart-table").on("click",".remove-cart-item",function(e){
+    $(".container-table-cart").on("click",".remove-cart-item",function(e){
         e.preventDefault();
         var button = $(this);
         $.ajax({
@@ -196,11 +196,21 @@ $(document).ready(function(){
             dataType: 'json',
             success: function (data) {
                 if (data.form_is_valid) {
-                    toastr.warning("Producto removido del carrito");
-                    
-                    $(".div-total").html(data.html_cart_charge);
-                    $('.cart-table').html(data.html_cart_table);
-
+                  $('.container-table-cart').html(data.html_cart_table);
+                  if(data.checkout){
+                    if(data.new_quantity == 0){
+                      location.reload();
+                    } else{
+                      toastr.warning("Producto removido del carrito");
+                      $(".container-table-coupon").html(data.html_cart_coupon);
+                    }
+                  } else {
+                    if(data.new_quantity == 0){
+                      location.reload();
+                    } 
+                    $('#id-cart-bar').toggleClass('toggled')
+                  }
+                  $('#quantity_cart').html(data.new_quantity)
                 }
             }
         });

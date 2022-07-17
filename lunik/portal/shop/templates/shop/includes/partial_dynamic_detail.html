@@ -31,6 +31,10 @@
                 <div class="t-center">
 
                     {{item.product.name}} {{item.product.model}} <br>
+                    <small>Tipo: {{key}}</small><br>
+                    {% if item.product.subcategory == 'C' or item.product.subcategory == 'S' %}
+                        <small> Nombre personalizado: "{{key|get_custom_name:item}}" </small>
+                    {% endif %}
                     <small>{% if key|is_gift:item %} Envoltura de regalo ($20.00) {% endif %} </small>
 
                 </div>

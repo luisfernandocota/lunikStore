@@ -160,13 +160,13 @@
 
     /*[ +/- num product ]
     ===========================================================*/
-    $('.btn-num-product-down').on('click', function(e){
+    $('.container-table-cart').on('click', '.btn-num-product-down', function(e){
         e.preventDefault();
         var numProduct = Number($(this).next().val());
         if(numProduct > 1) $(this).next().val(numProduct - 1);
     });
 
-    $('.btn-num-product-up').on('click', function(e){
+    $('.container-table-cart').on('click','.btn-num-product-up',function(e){
         e.preventDefault();
         var numProduct = Number($(this).prev().val());
         $(this).prev().val(numProduct + 1);
