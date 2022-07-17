@@ -233,7 +233,7 @@ def product_detail(request, slug):
 				custom['charge_size'] = context['form_product'].cleaned_data['sizes'].charge
 			# design = get_object_or_404(StoreGallery, pk=context['form_product'].cleaned_data['design'])
 			cart.add(context['product'],context['form_product'].cleaned_data['sizes'],context['form_product'].cleaned_data['quantity'],\
-						context['form_product'].cleaned_data['name_personalization'], request.POST.get('gift'))
+						custom, request.POST.get('gift'))
 			return redirect('shop:product_detail', slug)
 
 	else:

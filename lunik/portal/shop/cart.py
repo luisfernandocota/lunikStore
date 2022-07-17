@@ -32,9 +32,9 @@ class Cart(object):
 				self.cart['shop'][product_pk] = {'variants':{product_size:{}},'price':str(product.products_properties.sale_price)}
 			else:
 				self.cart['shop'][product_pk] = {'variants':{product_size:{}},'price':str(product.products_properties.sell_price)}
-			if custom:
-				self.cart['shop'][product_pk]['variants'][product_size]= {'name_personalization':{custom:{}}}
-				self.cart['shop'][product_pk]['variants'][product_size]['name_personalization'][custom] = custom
+			if custom['name_personalization']:
+				self.cart['shop'][product_pk]['variants'][product_size]= {'name_personalization':{custom['name_personalization']:{}}}
+				self.cart['shop'][product_pk]['variants'][product_size]['name_personalization'][custom['name_personalization']] = {'quantity': 1}
 			self.cart['shop'][product_pk]['variants'][product_size]['quantity'] = int(quantity)
 			if product.products_properties.shipping_min is not None:
 				self.cart['shop'][product_pk]['variants'][product_size]['shipping_limit'] = int(product.products_properties.shipping_min)
@@ -51,7 +51,7 @@ class Cart(object):
 				#self.cart['shop'][product_pk]['variants'].update({product_size:0})
 				self.cart['shop'][product_pk]['variants'].update(
 						{product_size:{
-							'name_personalization':{custom:{custom}} if custom else None, 
+							'name_personalization':{custom['name_personalization']:{'quantity': 1}} if custom else None, 
 							'quantity':int(quantity),
 							'shipping_limit': int(product.products_properties.shipping_min),
 							'shipping': Decimal(product.products_properties.shipping_price),
@@ -60,12 +60,17 @@ class Cart(object):
 						}
 					)
 			else:
-				if custom:
-					if self.cart['shop'][product_pk]['variants'][product_size].get('name_personalization') != custom :
-						self.cart['shop'][product_pk]['variants'][product_size]['name_personalization'][custom] = {custom}
-						self.cart['shop'][product_pk]['variants'][product_size]['quantity'] += 1
-				else:
-					self.cart['shop'][product_pk]['variants'][product_size]['quantity'] += int(quantity)
+				if custom['name_personalization']:
+					self.cart['shop'][product_pk]['variants'][product_size]['quantity'] += 1
+					if  custom['name_personalization'] not in self.cart['shop'][product_pk]['variants'][product_size]['name_personalization'].keys():
+						self.cart['shop'][product_pk]['variants'][product_size]['name_personalization'][custom['name_personalization']] = {'quantity': 1}
+
+					else:
+						for k in self.cart['shop'][product_pk]['variants'][product_size]['name_personalization'].keys():
+
+							if custom['name_personalization'] == k:
+
+								self.cart['shop'][product_pk]['variants'][product_size]['name_personalization'][k]['quantity'] += 1
 					# seq = int(self.cart['seq'].get('num','1'))
 
 					# self.cart['shop'][product_pk]['variants'].update(
