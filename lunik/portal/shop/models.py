@@ -118,17 +118,28 @@ class ShopOrder(TimeStampedModel):
 
     @staticmethod
     def sendmail_order(request, order):
+        import stripe
         context = {}
         context['order'] = order
         context['request'] = request
         mail_list = ['karlag.galvez@gmail.com', 'ing.fernandocota@gmail.com']
 
-            #-- Sendmail to Client 4shop
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+        paymentIntent = stripe.PaymentIntent.retrieve(order.order_payment.payment_intent)
+        context['brand'] = paymentIntent['charges']['data'][0]['payment_method_details']['card']['brand']
+        context['last4'] = paymentIntent['charges']['data'][0]['payment_method_details']['card']['last4']
+
+        order_payment = get_object_or_404(ShopOrderPayment, order=order, payment_intent=order.order_payment.payment_intent)
+        order_payment.brand = context['brand']
+        order_payment.last4 = context['last4']
+        order_payment.save()
+
+        #-- Sendmail to Client 4shop
         message2 = render_to_string('shop/includes/order_review_email.html',context)
-        sendmail('%s | Compra de productos' % ('Karla Galvéz'), message2, settings.DEFAULT_FROM_EMAIL, mail_list)
+        sendmail('%s | Compra de productos' % ('by Karla Galvéz'), message2, settings.DEFAULT_FROM_EMAIL, mail_list)
         #-- Sendmail order to customer (From,to)
         message = render_to_string('shop/includes/order_payment_email.html',context)
-        sendmail('%s | Detalle de tu pedido %s 😍' % ('Karla Galvéz', order.folio), message, settings.DEFAULT_FROM_EMAIL,order.email)
+        sendmail('%s | Detalle de tu pedido %s 😍' % ('by Karla Galvéz', order.folio), message, settings.DEFAULT_FROM_EMAIL,order.email)
 
         return True
 
@@ -228,7 +239,10 @@ class ShopOrderPayment(models.Model):
     shipping = models.DecimalField(max_digits=8,decimal_places=2,verbose_name='Shipping',blank=True)
     shipping_method = models.CharField(max_length=10, verbose_name='Shipping method')
     date_payment = models.DateField(verbose_name='Payment date',auto_now_add=True)
+    last4 = models.CharField(verbose_name='last 4 digits', max_length=4)
+    brand_card = models.CharField(verbose_name='Brand card',  max_length=15)
     coupon = models.ForeignKey(Coupon, related_name='order_payment', null=True, on_delete=models.CASCADE)
+    payment_status = models.CharField(verbose_name='Payment status', max_length=50)
     status = models.CharField(max_length=2, choices=SHIPPING_STATUS , default='PE')
 
     class Meta:
