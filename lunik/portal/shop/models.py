@@ -222,7 +222,7 @@ class ShopOrderProduct(models.Model):
                         name_personalization=item['variants'][key].get('name_personalization',''),
                         name=item['variants'][key].get('name',''),
                         number=item['variants'][key].get('number'),
-                        gift = True if item['add_gift'] else False
+                        gift = True if item['variants'][key].get('gift') else False
                     )
                 )
 
