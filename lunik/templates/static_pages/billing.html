@@ -1,0 +1,40 @@
+{% extends 'base_shop.html' %}
+{% block subtitle %} Facturación {% endblock subtitle %}
+{% block content %}
+<article class="acercade p-5 ">
+    <section class="container mb-5">
+        <div class="item d-flex justify-content-center flex-column align-items-center">
+            <h1 class="textAcerca mb-4">Solicitar factura</h1>
+        </div>
+        <div class="row ">
+            <div class="col-lg-12 col-md-12 col-sm-12 mt-3 ">
+                <p class=" descAcerca">Si necesitas factura, solicítala durante el mes de tu compra 
+                    enviando tus datos fiscales y tu número de orden a 
+                    <span style="color: black;">hola@karlagalvez.com.mx</span> con asunto: <span style="color: black;">'FACTURACIÓN'</span></p>
+                <div class="item d-flex justify-content-center flex-column align-items-center">
+                    <h4 class="mb-4">Datos:</h4>
+                    <ul class="listStylee mb-4 ">
+                        <li class="d-flex"> <i class="fa fa-circle mr-3 fa-lg" style="color: var(--main-bg-color-branding)"></i> <p class="text-justify textViñeta ">No. de orden</p> </li>
+                        <li class="d-flex"> <i class="fa fa-circle mr-3 fa-lg" style="color: var(--main-bg-color-branding)"></i> <p class="text-justify textViñeta ">Nombre/ Razón social</p> </li>
+                        <li class="d-flex"> <i class="fa fa-circle mr-3 fa-lg" style="color: var(--main-bg-color-branding)"></i> <p class="text-justify textViñeta ">RFC</p> </li>
+                        <li class="d-flex"> <i class="fa fa-circle mr-3 fa-lg" style="color: var(--main-bg-color-branding)"></i> <p class="text-justify textViñeta ">Método de pago (Débito / Crédito)</p> </li>
+                        <li class="d-flex"> <i class="fa fa-circle mr-3 fa-lg" style="color: var(--main-bg-color-branding)"></i> <p class="text-justify textViñeta ">Dirección completa </p> </li>
+                        <li class="d-flex"> <i class="fa fa-circle mr-3 fa-lg" style="color: var(--main-bg-color-branding)"></i> <p class="text-justify textViñeta ">Ciudad y Estado</p> </li>
+                        <li class="d-flex"> <i class="fa fa-circle mr-3 fa-lg" style="color: var(--main-bg-color-branding)"></i> <p class="text-justify textViñeta ">Teléfono</p> </li>
+                        <li class="d-flex"> <i class="fa fa-circle mr-3 fa-lg" style="color: var(--main-bg-color-branding)"></i> <p class="text-justify textViñeta ">Correo electrónico</p> </li>
+    
+    
+    
+                    </ul>
+                </div>
+                
+                <p class=" descAcerca mt-4 mb-4"><span style="color: black;">IMPORTANTE:</span> Solo se realizarán facturas solicitadas
+                    en el mismo mes en el que se realizó la compra.</p><br>
+
+            </div>
+        </div>
+        
+    </section>
+</article>
+
+{% endblock content %}

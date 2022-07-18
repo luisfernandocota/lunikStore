@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path,include,reverse_lazy
 from django.conf import settings
 from django.conf.urls.static import static
-from django.views.generic import RedirectView
+from django.views.generic import TemplateView, RedirectView
 
 
 urlpatterns = [
@@ -42,10 +42,15 @@ urlpatterns = [
     path('summernote/', include('django_summernote.urls')),
 
     #-- Shop urls
-
     path('', include(('portal.shop.urls','shop'), namespace='shop_cart')),
     path('cuenta/', include(('portal.register.urls','register'), namespace='register')),
     path('dashboard/', include(('portal.dashboard.urls','dashboard'), namespace='dashboard')),
+
+    # STATIC PAGES
+    path('politicas/envios/',TemplateView.as_view(template_name='static_pages/shipping.html')),
+    path('politicas/terminos-condiciones/',TemplateView.as_view(template_name='static_pages/terms.html')),
+    path('politicas/aviso-privacidad/',TemplateView.as_view(template_name='static_pages/privacity.html')),
+    path('facturacion/',TemplateView.as_view(template_name='static_pages/billing.html')),
 
 ]
 #-- Static files * ONLY IN DEVELOP *

@@ -1,0 +1,103 @@
+{% extends 'base_shop.html' %}
+{% block subtitle %} Política de envios {% endblock subtitle %}
+{% block content %}
+<article class="acercade p-5">
+    <section class="container mb-5">
+        <div class="item d-flex justify-content-center flex-column align-items-center">
+            <h1 class="textAcerca mb-4">Política de envío</h1>
+            <h4 class="mb-4">Información general</h4>
+            <p class=" descAcerca">El tiempo de envío es de <span style="color: black;">3 a 5 días hábiles</span>, aunque en temporada alta este sube de <span style="color: black;">5 a 7 días hábiles</span>, sin considerar sábados, domingos y días festivos. Estos tiempos son para considerar el envío y no tiempos de elaboración. Tu pedido será enviado al día hábil posterior a la elaboración del mismo. Si tu pedido cuenta con <span style="color: black;">agenda personalizada</span> debes de tomar en cuenta el tiempo de elaboracíon (1 semana) + el tiempo de envío.</p>
+        </div>
+        <div class="row mt-5">
+            <div class="col-lg-12 col-md-12 col-sm-12 mt-3">
+                <h4 class="mb-3">Costos de envío</h4> <br>
+                <ul class="listStylee mb-4" style="list-style: none;">
+                    <li class="d-flex"> <i class="fa fa-circle mr-3 fa-lg" style="color: var(--main-bg-color-branding)"></i> <p class="text-justify textViñeta ">Para envíos <span style="color: black;">Locales </span>- Los Mochis, Sinaloa : <span style="color: black;">$40</span></p> </li>
+                    <li class="d-flex"> <i class="fa fa-circle mr-3 fa-lg" style="color: var(--main-bg-color-branding)"></i> <p class="text-justify textViñeta ">Para envíos <span style="color: black;">Nacionales </span>- Todo México : <span style="color: black;">$150</span></p> </li>
+
+                </ul>
+                <p class=" descAcerca">* Si vives en una zona extendida nos estaremos poniendo en contacto contigo para saber si prefieres recoger tu pedido en la sucursal más cercana o pagar un <span style="color: black;">costo adicional</span> para enviarte tu pedido hasta tu domiciio.</p>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-lg-12 col-md-12 col-sm-12 mt-3">
+                <h4 class="mb-3">Rastrea tu pedido</h4> <br>
+                <ul class="listStylee" style="list-style: none;">
+                    <li class="d-flex mb-4"> <i class="fa fa-circle mr-3 mt-1 fa-lg" style="color: var(--main-bg-color-branding)"></i> <p class="text-justify textViñeta ">Una vez que tu pedido sea realizado y este sea enviado por la paqueteria te estaremos haciendo llegar un correo con los datos para que puedas rastrearlo.</p></li>
+                    <li class="d-flex mb-4"> <i class="fa fa-circle mr-3 mt-1 fa-lg" style="color: var(--main-bg-color-branding)"></i> <p class="text-justify textViñeta ">Es importante que te asegures que tus datos de envío esten correctos para que no tengas ningún inconveniente en que puedan ubicar tu domicilio, asi como también estar rastreando tu pedido para obtener cualquier información al respecto a este. Suele pasar que las paqueterías no siempre te contactarán por si hay información faltante.</p></li>
+                </ul>
+                <p class=" descAcerca mb-4"><span style="color: black;">IMPORTANTE:</span> KarlaGalvez es una empresa ajena a cualquier empresa de paquetería, por ende no tenemos control sobre tu pedido una vez que sale de nuestras instalaciones. Si presentas algún inconveniente ponte en contacto con nosotros para ver como te podemos apoyar.</p><br>
+                <p class=" descAcerca">Para cualquier comentario, duda o sugerencia puedes ponerte en contacto con nosotros a través del correo <span style="color: black;">hola@karlagalvez.com.mx</span>
+                    o a través de nuestro Whatsapp al <span style="color: black;">(668) 172 2511.</span> Horario de atención de <span style="color: black;">Lunes</span> a <span style="color: black;">Viernes</span> de <span style="color: black;">10:00 am</span> a <span style="color: black;">07:00 pm</span></p>
+
+
+            </div>
+        </div>
+        
+    </section>
+</article>
+<article class="map mt-5" id="lugar">
+        <div id="mapid"></div>
+</article>
+
+{% endblock content %}
+
+{% block customjs %}
+    <!-- Mapa-->
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+    integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin="">
+    </script>
+{% endblock customjs %}
+
+{% block customscripts %}
+<script>
+    jQuery(document).ready(function($) {
+        var  tb = $('.scrollcolor');
+        tbs = "change-nav";
+        $(window).scroll(function() {
+        if($(this).scrollTop()) {
+            tb.addClass(tbs);
+            $('.menu.fixed-top').css('background-color','#d81c47');
+            $('.menu.fixed-top').css('border-top','0px solid transparent');
+            $('.img-top').css('display','block');
+
+        } else {
+            tb.removeClass(tbs);
+            $('.menu.fixed-top').css('background-color','transparent');
+            $('.menu.fixed-top').css('border-top','');
+            $('.img-top').css('display','none');
+
+        }
+        });
+    });
+</script>
+
+<script>
+    window.onload = function(){
+    var map = L.map('mapid').setView([25.785681, -108.993949], 16);
+    var TitleStreets = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+        attribution: 'Map data',
+        maxZoom: 19,
+        minZoom:  10,
+        id: 'mapbox.streets',
+        accessToken: 'pk.eyJ1IjoicGF1bHNvdCIsImEiOiJjazZ0eWptd3cwNGNwM21wbmxjMXBnYmswIn0.2shi8UpIgxOx-U31RJme_g'
+    });
+    TitleStreets.addTo(map);
+    
+    var greenIcon = L.icon({
+        iconUrl:  'favicon/android-chrome-512x512.png',
+        iconSize: [50, 50],
+        iconAnchor: [35, 94],
+        popupAnchor: [-3, -76],
+        shadowSize: [68, 95],
+        shadowAnchor: [25, 94]
+    });
+
+    var marker = L.marker([25.785681, -108.993949], {icon: greenIcon}).addTo(map);
+    marker.bindPopup("<b>Ecommerce | Tienda</b><br>Rosendo G Castro<br># 185 Col. Centro<br> Los Mochis, Sinaloa, México.").openPopup();
+    var popup = L.popup();
+
+}
+</script>
+{% endblock customscripts %} 
