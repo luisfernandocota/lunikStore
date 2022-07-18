@@ -1,31 +1,31 @@
 {% if step == 'informacion' %}
-<div>
+<div class="p-b-30">
 
-    <a  class="text-primary" onclick="sendPage('{% url 'shop:cart_detail' %}');">Ir al carrito</a>
+    <button class="btn-light" onclick="sendPage('{% url 'shop:cart_detail' %}');"><i class="fa fa-arrow-left" aria-hidden="true"></i> Ir al carrito</button>
 
 </div>
 
-<div>
+<div class="m-t-10 p-b-30">
 
-    <button class="four-buttons" onclick="sendFormData();">Continuar al envio</button>
+    <button class="four-buttons" onclick="sendFormData();">Continuar al envio <i class="fa fa-truck" aria-hidden="true"></i></button>
 
 </div>
 {% elif step == 'envio' %}
-<div>
+<div class="p-b-30">
 
-    <a  class="text-primary" data-url="{% url 'shop:cart_checkout' %}?step=informacion" onclick="goStep($(this));">Regresar</a>
+    <button class="btn-light" data-url="{% url 'shop:cart_checkout' %}?step=informacion" onclick="goStep($(this));"><i class="fa fa-arrow-left" aria-hidden="true"></i> Regresar</a>
 
 </div>
 
-<div>
+<div class="m-t-10 p-b-30">
     {% if cart.get_shipping_method %}
-    <button class="four-buttons" data-url="{% url 'shop:cart_checkout' %}?step=pago&method={{cart.get_shipping_method}}" onclick="goStep($(this));">Continuar al pago</button>
+    <button class="four-buttons" data-url="{% url 'shop:cart_checkout' %}?step=pago&method={{cart.get_shipping_method}}" onclick="goStep($(this));">Continuar al pago <i class="fa fa-dollar" aria-hidden="true"></i></button>
     {% endif %}
 </div>
 {% elif step == 'pago' %}
-<div>
+<div class="p-b-30">
 
-    <a  class="text-primary" data-url="{% url 'shop:cart_checkout' %}?step=envio&method={{cart.get_shipping_method}}" onclick="goStep($(this));">Regresar</a>
+    <button class="btn-light" data-url="{% url 'shop:cart_checkout' %}?step=envio&method={{cart.get_shipping_method}}" onclick="goStep($(this));"><i class="fa fa-arrow-left" aria-hidden="true"></i> Regresar</a>
 
 </div>
 {% endif %}
