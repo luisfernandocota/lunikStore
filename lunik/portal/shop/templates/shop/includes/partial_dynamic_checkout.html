@@ -18,37 +18,12 @@
 
         </p>
 
-
-        {% comment %} <form action="">
-
-            <div class="form-floating mb-3">
-
-                <input type="text" class="form-control" id="email_or_phone" placeholder="Email o número de teléfono">
-
-                <label for="email_or_phone">Email o número de teléfono</label>
-
-            </div>
-
-            <div class="form-check">
-
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-
-                <label class="form-check-label" for="flexCheckDefault">
-
-                    Mantenerme informado para recibir increibles y exclusivas ofertas
-
-                </label>
-
-            </div>
-
-        </form> {% endcomment %}
-
     </div>
     {% endif %}
 
-    <div class="p-r-40">
+    <div class="m-t-10">
 
-        <form rol="form" method='POST' action="{% url 'shop:cart_address' %}" id="form-info" class="js-form-info" style="height: 750px;">
+        <form rol="form" method='POST' action="{% url 'shop:cart_address' %}" id="form-info" class="js-form-info" style="min-height: 800px; min-width: fit-content;">
             <h4 class="m-text14 p-b-32">
 
                 Ingresa tus datos de envío
@@ -562,7 +537,7 @@
         <div class="row flex-c p-t-30" >
 
             <div id="payment-div" class="t-center well">
-                <form id="payment-form" style="width: 45vw !important; border-radius: 10px;">
+                <form id="payment-form" style="min-width: 45vw !important; border-radius: 10px;">
                     {% csrf_token %}
                     <div id="payment-element" >
                       <!--Stripe.js injects the Payment Element-->

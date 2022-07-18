@@ -21,7 +21,7 @@
                                 MI PERFIL
                             </h2>
                             <a href="{% url 'dashboard:edit_profile' %}"
-                                class="flex-c-m size1 bg1 bo-rad-23 hov1 m-text3 trans-0-4 w-25 four-buttons mt-0 text-center">
+                                class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text13 trans-0-4 w-50 mr-2">
                                 EDITAR PERFIL
                             </a>
                         </div>
@@ -95,13 +95,13 @@
                                                 MIS DIRECCIONES
                                             </h2>
                                             <a href="{% url 'dashboard:add_address' %}"
-                                                class="flex-c-m size1 bg1 bo-rad-23 hov1 m-text3 trans-0-4 w-25 four-buttons mt-0">
+                                                class="flex-c-m size1 bg1 bo-rad-23 hov1 s-text14 trans-0-4 w-25 four-buttons mt-0 text-center">
                                                 AGREGAR DIRECCIÓN
                                             </a>
                     
                                             {% if addresses.count > 3 %}
                                             <a href="{% url 'dashboard:address' %}"
-                                                class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4 w-25 buttonMovil mt-0"  style="background-color: var(--main-bg-color-branding);">
+                                                class="flex-c-m size2 bg1 bo-rad-23 hov1 s-text14 trans-0-4 w-25 buttonMovil mt-0 text-center"  style="background-color: var(--main-bg-color-branding);">
                                                 VER TODOS
                                             </a>
                                             {% endif %}
@@ -154,7 +154,7 @@
                                     </h2>
                                     {% if count_orders.count > 3 %}
                                     <a href="{% url 'dashboard:orders' %}"
-                                        class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4 w-25 buttonMovil mt-0">
+                                        class="flex-c-m size2 bg1 bo-rad-23 hov1 s-text14 trans-0-4 w-25 buttonMovil mt-0 text-center">
                                         VER TODOS
                                     </a>
                                     {% endif %}
@@ -187,7 +187,7 @@
                                         </div>
                                         <div class="item d-flex w-100 justify-content-start mt-3 pt-4 "
                                             style="border-top: 1px solid #eaeaea;">
-                                            <a href="{% url 'dashboard:order_detail' order.pk %}" class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4 w-50 mr-2"
+                                            <a href="{% url 'dashboard:order_detail' order.pk %}" class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text13 trans-0-4 w-50 mr-2"
                                                 style="height: 30px;font-size: 12px;">Ver Detalles</a>
                                         </div>
                                     </div>
