@@ -14,33 +14,42 @@
 			<i class="fa fa-angle-right m-l-8 m-r-9" aria-hidden="true"></i>
 		</a>
 
-		<a href="product.html" class="s-text16">
             {% if product.category == 'S'%}
+			<a href="{% url 'shop:products_list' 'agendas'%}">
 			Agendas
             {% elif product.category == 'N' %}
+			<a href="{% url 'shop:products_list' 'libretas'%}">
             Libretas
             {% elif product.category == 'P' %}
+			<a href="{% url 'shop:products_list' 'planners'%}">
             Planners
             {% elif product.category == 'O' %}
+			<a href="#">
             Organizadores
             {% elif product.category == 'R' %}
+			<a href="{% url 'shop:products_list' 'recetarios'%}">
             Recetarios
             {% endif %}
 			<i class="fa fa-angle-right m-l-8 m-r-9" aria-hidden="true"></i>
 		</a>
 
-		<a href="#" class="s-text16">
 			{% if product.subcategory == 'C'%}
+			<a href="{% url 'shop:products_list' 'agendas' %}?subcategory=personalizadas">
             Personalizadas
             {% elif product.subcategory == 'N' %}
+			<a href="{% url 'shop:products_list' 'agendas' %}?subcategory=sinpersonalizar">
             Sin personalizar
             {% elif product.subcategory == 'S' %}
+			<a href="{% url 'shop:products_list' 'agendas' %}?subcategory=escolar">
             Escolares
             {% elif product.subcategory == 'D' %}
+			<a href="#">
             Diarias
             {% elif product.subcategory == 'W' %}
+			<a href="{% url 'shop:products_list' 'organizadores' %}?subcategory=boda">
             Boda
             {% elif product.subcategory == 'P' %}
+			<a href="{% url 'shop:products_list' 'organizadores' %}?subcategory=embarazo">
             Embarazo
             {% endif %}
 			<i class="fa fa-angle-right m-l-8 m-r-9" aria-hidden="true"></i>
