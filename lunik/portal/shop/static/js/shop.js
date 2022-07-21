@@ -198,18 +198,11 @@ $(document).ready(function(){
             success: function (data) {
                 if (data.form_is_valid) {
                   $('.container-table-cart').html(data.html_cart_table);
-                  if(data.checkout){
-                    if(data.new_quantity == 0){
-                      location.reload();
-                    } else{
-                      toastr.warning("Producto removido del carrito");
-                      $(".container-table-coupon").html(data.html_cart_coupon);
-                    }
-                  } else {
-                    if(data.new_quantity == 0){
-                      location.reload();
-                    } 
-                    $('#id-cart-bar').toggleClass('toggled')
+                  if(data.new_quantity == 0){
+                    location.reload();
+                  } else{
+                    toastr.warning("Producto removido del carrito");
+                    $(".container-table-coupon").html(data.html_cart_coupon);
                   }
                   $('#quantity_cart').html(data.new_quantity)
                 }
@@ -217,6 +210,27 @@ $(document).ready(function(){
         });
         return false;
     });
+    /* REMOVE PRODUCT FROM CART SLIDE */
+    $(".header-table-cart").on("click",".remove-cart-item",function(e){
+      e.preventDefault();
+      var button = $(this);
+      $.ajax({
+          url: button.data('url'),
+          data: {'product':button.data('product'),'size':button.data('size'),'checkout':button.data('checkout')},
+          type: 'get',
+          dataType: 'json',
+          success: function (data) {
+              if (data.form_is_valid) {
+                $('.header-table-cart').html(data.html_cart_table);
+                $('#id-cart-bar').toggleClass('toggled')
+                toastr.warning("Producto removido del carrito");
+                $('#quantity_cart').html(data.new_quantity)
+              }
+          }
+      });
+      return false;
+  });
+    
     /* PICK A DESIGN */
     $(".modal-content").on("click",".pick-design",function(){
         _value = $(this).data("design-selected");
